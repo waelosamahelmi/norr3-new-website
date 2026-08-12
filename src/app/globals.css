@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-host-grotesk), "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  /* NØRR3 brand palette — Docs/BRAND_GUIDELINES.md §2 */
+  --color-offwhite: #f9f8f6;
+  --color-white: #ffffff;
+  --color-purple: #7a06d3;
+  --color-violet: #5517a7;
+  --color-light-purple: #e4d2fc;
+  --color-pastel-purple: #d8cde3;
+  --color-grey: #ede9f1;
+  --color-yellow: #f6ff4f;
+  --color-lime: #daeb45;
+  --color-accent-pink: #ff97e8;
+  --color-accent-magenta: #f20ab2;
+  --color-accent-red: #ff7437;
+  --color-accent-orange: #ffbd00;
+  --color-accent-green: #a5ff37;
+  --color-accent-blue: #46a8ff;
+  --color-ink: #000000;
+
+  /* Component tokens — BRAND_GUIDELINES.md §5 */
+  --radius-card: 25px;
+  --spacing-card-pad: 36px;
+  --spacing-card-gap: 26px;
+
+  /* Type scale — BRAND_GUIDELINES.md §3 */
+  --text-display: 120px;
+  --text-stat: 110px;
+  --text-h3: 40px;
+  --text-h4: 26px;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+::selection {
+  background: var(--color-purple);
+  color: var(--color-white);
+}
+
+@keyframes caret-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.caret-blink {
+  animation: caret-blink 0.55s steps(1) 5;
+}
+
+/* Seamless marquee: track holds two copies of the same content */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+
+.marquee-paused:hover .marquee-track,
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Pixel-dissolve corner art (Figma's stair-step motif) as layered squares */
+.pixel-steps {
+  background-image:
+    linear-gradient(to right, currentColor 0 100%),
+    linear-gradient(to right, currentColor 0 100%);
+  background-repeat: no-repeat;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret-blink {
+    animation: none;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
