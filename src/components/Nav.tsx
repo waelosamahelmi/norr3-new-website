@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "./Logo";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
@@ -67,7 +67,7 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           <button
             aria-label="Menu"
             onClick={() => setOpen((v) => !v)}
-            className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 lg:hidden"
+            className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
           >
             <span className={`h-[1.5px] w-5 bg-ink transition-transform ${open ? "translate-y-[3.5px] rotate-45" : ""}`} />
             <span className={`h-[1.5px] w-5 bg-ink transition-transform ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`} />
@@ -75,25 +75,29 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
         </div>
       </motion.div>
 
-      {open && (
-        <motion.nav
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          className="flex flex-col gap-1 border-t border-black/5 px-6 py-4 lg:hidden"
-        >
-          {items.map((item) => (
-            <Link
-              key={item.key}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-2 py-2.5 text-base text-ink"
-            >
-              {isActive(item.href) && <span className="h-2 w-2 rounded-full bg-purple" />}
-              {item.label}
-            </Link>
-          ))}
-        </motion.nav>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col gap-1 overflow-hidden border-t border-black/5 px-6 py-4 lg:hidden"
+          >
+            {items.map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 py-2.5 text-base text-ink"
+              >
+                {isActive(item.href) && <span className="h-2 w-2 rounded-full bg-purple" />}
+                {item.label}
+              </Link>
+            ))}
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

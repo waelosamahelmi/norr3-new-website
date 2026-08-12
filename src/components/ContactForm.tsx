@@ -41,7 +41,7 @@ export function ContactForm({ dict }: { dict: Dictionary["contact"] }) {
               <input
                 required
                 type="text"
-                className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple"
+                className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40"
               />
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
@@ -50,14 +50,14 @@ export function ContactForm({ dict }: { dict: Dictionary["contact"] }) {
                 <input
                   required
                   type="email"
-                  className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple"
+                  className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40"
                 />
               </div>
               <div>
                 <label className="text-sm font-medium text-ink/70">{dict.formCompany}</label>
                 <input
                   type="text"
-                  className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple"
+                  className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40"
                 />
               </div>
             </div>
@@ -66,7 +66,7 @@ export function ContactForm({ dict }: { dict: Dictionary["contact"] }) {
               <textarea
                 required
                 rows={4}
-                className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple"
+                className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40"
               />
             </div>
             <button
