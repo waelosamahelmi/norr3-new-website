@@ -22,7 +22,7 @@ export function BlogCard({
         {post.image ? (
           <img
             src={post.image}
-            alt=""
+            alt={content.title}
             className="h-full w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
             loading="lazy"
           />

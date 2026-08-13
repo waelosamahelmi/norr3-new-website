@@ -107,7 +107,7 @@ export function TeamMarquee({ locale }: { locale: Locale }) {
           >
             <img
               src={member.photo}
-              alt=""
+              alt={copy === 0 ? member.name : ""}
               className={`h-full w-full object-cover transition-all duration-500 ${
                 isActive ? "scale-105 grayscale-0" : "grayscale-[0.2]"
               }`}

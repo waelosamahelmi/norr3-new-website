@@ -12,15 +12,17 @@ export function PhotoInterstitial({
   image,
   caption,
   pills,
+  alt = "",
 }: {
   image: string;
   caption?: string;
   pills: { id: string; icon: string; label: string }[];
+  alt?: string;
 }) {
   return (
     <Reveal className="relative">
       <div className="relative max-h-[560px] overflow-hidden">
-        <ParallaxImage src={image} className="max-h-[560px]" />
+        <ParallaxImage src={image} alt={alt} className="max-h-[560px]" />
         {caption && (
           <p className="absolute bottom-24 left-1/2 w-[90%] -translate-x-1/2 text-center text-sm text-white [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]">
             {caption}

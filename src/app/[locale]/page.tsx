@@ -16,6 +16,7 @@ import { PhotoInterstitial } from "@/components/PhotoInterstitial";
 import { ContactBanner } from "@/components/ContactBanner";
 import { DashboardMock } from "@/components/DashboardMock";
 import { StatGrid } from "@/components/StatGrid";
+import { TeamMarquee } from "@/components/TeamMarquee";
 import { serviceCards, valuePills } from "@/content/services";
 import { cases } from "@/content/cases";
 import { insights } from "@/content/insights";
@@ -24,6 +25,15 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dict = getDictionary(locale);
+
+  const humanAlt =
+    locale === "fi"
+      ? "Kaksi NØRR3:n kollegaa nauramassa kahvin ääressä läppärillä Helsingin studiolla"
+      : "Two NØRR3 colleagues laughing over coffee at a laptop in the Helsinki studio";
+  const dataAlt =
+    locale === "fi"
+      ? "NØRR3:n tiimi tarkastelee kampanjadataa yhdessä näytöltä"
+      : "NØRR3 team reviewing campaign data together on screen";
 
   const featuredCases = [
     cases.find((c) => c.slug === "flow-festival")!,
@@ -40,15 +50,54 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
     { value: 11, suffix: " M€", label: locale === "fi" ? "Liikevaihtomme 2024" : "Our revenue 2024" },
   ];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://norr3.fi/#organization",
+        name: "NØRR3",
+        alternateName: "NORR3 Oy",
+        url: "https://norr3.fi",
+        logo: "https://norr3.fi/wp-content/uploads/2025/02/Logo-01.png",
+        description: dict.meta.description,
+        foundingDate: "2019",
+        email: "info@norr3.fi",
+        telephone: "+358 46 8100 118",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Pursimiehenkatu 26 C",
+          postalCode: "00150",
+          addressLocality: "Helsinki",
+          addressCountry: "FI",
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://norr3.fi/#website",
+        url: "https://norr3.fi",
+        name: "NØRR3",
+        description: dict.meta.description,
+        publisher: { "@id": "https://norr3.fi/#organization" },
+        inLanguage: ["fi", "en"],
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* Hero — "A New Way to [collage] _Grow" on one visual line, like the design */}
       <Container className="pb-14 pt-10 lg:pt-16">
         <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-between">
           <h1 className="flex w-full flex-wrap items-center justify-between gap-6 font-medium leading-none tracking-tight text-ink lg:flex-nowrap">
             <span className="block whitespace-nowrap text-[10vw] lg:text-[6.5vw]">{dict.home.heroLeft}</span>
             <span className="order-3 block w-full lg:order-none lg:w-auto lg:min-w-0 lg:flex-1">
-              <HeroCollage />
+              <HeroCollage humanAlt={humanAlt} dataAlt={dataAlt} />
             </span>
             <span className="block whitespace-nowrap text-[10vw] lg:text-[6.5vw]">
               <span aria-hidden className="caret-blink">_</span>
@@ -93,7 +142,12 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       {/* Values photo with pill overlay */}
       <Container className="pb-20">
         <PhotoInterstitial
-          image="/images/office/office-07.jpg"
+          image="/images/brand/space-lounge.webp"
+          alt={
+            locale === "fi"
+              ? "NØRR3:n studiolounge Helsingissä — avoin, valoisa ja rento"
+              : "The NØRR3 studio lounge in Helsinki — open, bright and relaxed"
+          }
           caption={dict.home.valuesCaption}
           pills={valuePills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }))}
         />
@@ -132,9 +186,28 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             cta={dict.common.accessDemo}
             ctaHref={`/${locale}/engine`}
           />
-          <Reveal delay={0.1} className="mx-auto mt-12 max-w-4xl">
-            <DashboardMock locale={locale} />
-          </Reveal>
+          <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-2">
+            <Reveal delay={0.05} className="flex flex-col">
+              <div className="overflow-hidden rounded-[25px]">
+                <img
+                  src="/images/brand/engine-team.webp"
+                  width={1500}
+                  height={1000}
+                  alt={
+                    locale === "fi"
+                      ? "NØRR3:n asiantuntijat työskentelevät yhdessä läppärin ääressä"
+                      : "NØRR3 specialists collaborating around a laptop"
+                  }
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-ink/70">{dict.home.engine.photoCaption}</p>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <DashboardMock locale={locale} />
+            </Reveal>
+          </div>
         </Container>
       </section>
 
@@ -159,8 +232,12 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             <div className="flex flex-col">
               <div className="aspect-[4/3] overflow-hidden">
                 <img
-                  src="/images/office/office-02.jpg"
-                  alt=""
+                  src="/images/brand/team-energy.webp"
+                  alt={
+                    locale === "fi"
+                      ? "NØRR3:n tiimi juhlii kädet ilmassa studion NORR3-kirjainten alla"
+                      : "The NØRR3 team celebrating with arms raised under the studio's NORR3 letters"
+                  }
                   className="h-full w-full object-cover"
                   loading="lazy"
                 />
@@ -175,8 +252,12 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               <div className="flex flex-col">
                 <div className="aspect-[4/3] overflow-hidden">
                   <img
-                    src="/images/office/office-05.jpg"
-                    alt=""
+                    src="/images/brand/team-couch.webp"
+                    alt={
+                      locale === "fi"
+                        ? "NØRR3:n tiimi nauramassa yhdessä studion sohvalla"
+                        : "The NØRR3 team laughing together on the studio sofa"
+                    }
                     className="h-full w-full object-cover"
                     loading="lazy"
                   />
@@ -190,8 +271,12 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               <div className="flex flex-col">
                 <div className="aspect-[4/3] overflow-hidden">
                   <img
-                    src="/images/office/office-06.jpg"
-                    alt=""
+                    src="/images/brand/award.webp"
+                    alt={
+                      locale === "fi"
+                        ? "NØRR3:n tiimi alan palkinnon kanssa studion loungessa"
+                        : "The NØRR3 team with an industry award in the studio lounge"
+                    }
                     className="h-full w-full object-cover"
                     loading="lazy"
                   />
@@ -202,6 +287,17 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                   {dict.common.readMore}
                 </PillButton>
               </div>
+            </div>
+          </div>
+
+          <div className="mt-20">
+            <Reveal className="mx-auto mb-8 flex max-w-3xl flex-col items-center gap-4 text-center">
+              <h3 className="text-3xl font-medium tracking-tight text-ink lg:text-4xl">{dict.home.people.heading}</h3>
+              <p className="text-sm leading-relaxed text-ink/70">{dict.home.people.body}</p>
+            </Reveal>
+            <TeamMarquee locale={locale} />
+            <div className="mt-6 flex justify-center">
+              <PillButton href={`/${locale}/team`} variant="secondary">{dict.common.meetTeam}</PillButton>
             </div>
           </div>
 

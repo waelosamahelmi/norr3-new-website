@@ -23,6 +23,7 @@ const fi = {
     accessDemo: "Access demo",
     readMore: "Read more",
     viewAll: "View all",
+    meetTeam: "Tutustu tiimiin",
     openJobs: "Open jobs",
     linkedin: "LinkedIn",
     email: "Email",
@@ -46,7 +47,8 @@ const fi = {
     },
     engine: {
       heading: "NØRR3 Marketing Engine",
-      body: "Intelligent marketing automation that connects data, AI, and multi-channel delivery into one unified platform.",
+      body: "Älykäs markkinoinnin automaatio, joka yhdistää datan, tekoälyn ja monikanavaisen toteutuksen yhdeksi alustaksi.",
+      photoCaption: "Enginen takana oleva tiimi — rakennettu talon sisällä, ei lisensoitu.",
     },
     about: {
       heading: "About Us",
@@ -60,6 +62,10 @@ const fi = {
       agencyTitle: "The Agency of the Year",
       agencyBody:
         "Vuoden Toimisto 2023 -tutkimuksessa asiakkaamme arvostivat meitä yli toimialan keskiarvon mm. seuraavilla osa-alueilla: asiakkaan liiketoiminnan tuntemus, digitaalinen osaaminen, toimiston sitoutuneisuus, hallinnolliset rutiinit ja käytännöt, toimitusvarmuus ja hinta-laatu-suhde.",
+    },
+    people: {
+      heading: "Numeroiden takana on ihmisiä",
+      body: "Neljätoista vakituista asiantuntijaa, lähes kaikki partnereita — ihmiset, jotka suunnittelevat, ostavat ja todentavat jokaisen mediaeurosi.",
     },
     blog: {
       heading: "Blog",
@@ -284,6 +290,7 @@ const en: Dictionary = {
     accessDemo: "Access demo",
     readMore: "Read more",
     viewAll: "View all",
+    meetTeam: "Meet the team",
     openJobs: "Open jobs",
     linkedin: "LinkedIn",
     email: "Email",
@@ -308,6 +315,7 @@ const en: Dictionary = {
     engine: {
       heading: "NØRR3 Marketing Engine",
       body: "Intelligent marketing automation that connects data, AI, and multi-channel delivery into one unified platform.",
+      photoCaption: "The team behind the Engine — built in-house, not licensed.",
     },
     about: {
       heading: "About Us",
@@ -321,6 +329,10 @@ const en: Dictionary = {
       agencyTitle: "The Agency of the Year",
       agencyBody:
         "In the Agency of the Year 2023 study, our clients rated us above the industry average in areas including: understanding the client's business, digital expertise, agency commitment, administrative routines and practices, delivery reliability and price-quality ratio.",
+    },
+    people: {
+      heading: "Meet the humans behind the numbers",
+      body: "Fourteen permanent specialists, nearly all partners — the people who plan, buy and prove every euro of your media.",
     },
     blog: {
       heading: "Blog",

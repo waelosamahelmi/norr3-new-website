@@ -16,7 +16,40 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = getDictionary(locale);
-  return { title: dict.meta.title, description: dict.meta.description };
+  return {
+    title: dict.meta.title,
+    description: dict.meta.description,
+    alternates: {
+      canonical: `/${locale}`,
+      languages: { "fi-FI": "/fi", "en-US": "/en" },
+    },
+    openGraph: {
+      // Metadata is merged shallowly, so this object replaces the root
+      // layout's openGraph — type/siteName/images must be repeated here.
+      type: "website" as const,
+      siteName: "NØRR3",
+      url: `https://norr3.fi/${locale}`,
+      locale: locale === "fi" ? "fi_FI" : "en_US",
+      title: dict.meta.title,
+      description: dict.meta.description,
+      images: [
+        {
+          url: "/images/brand/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: "The NØRR3 team in the Helsinki studio",
+        },
+      ],
+    },
+    twitter: {
+      // Shallow-merged like openGraph — repeat the card + image and localize
+      // title/description so /fi doesn't inherit the root's English strings.
+      card: "summary_large_image" as const,
+      title: dict.meta.title,
+      description: dict.meta.description,
+      images: ["/images/brand/og-image.jpg"],
+    },
+  };
 }
 
 export default async function LocaleLayout({

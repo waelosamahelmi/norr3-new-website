@@ -13,7 +13,7 @@ export const insights: Insight[] = [
   {
     slug: "tre-kronor-media",
     date: "25.8.2026",
-    image: "/images/office/office-10.jpg",
+    image: "/images/brand/space-arch.webp",
     fi: {
       title: "Tre Kronor Media laajentuu Suomeen NØRR3:n kanssa",
       excerpt: "Pohjoismainen palkittu mediatoimisto Tre Kronor Media laajentuu Suomeen yhdessä NØRR3:n kanssa.",
@@ -59,7 +59,7 @@ export const insights: Insight[] = [
   {
     slug: "voittava-mediamix-2026",
     date: "25.7.2026",
-    image: "/images/office/office-12.jpg",
+    image: "/images/brand/data-desk.webp",
     fi: {
       title: "Voittava mediamix vuodelle 2026",
       excerpt: "Kirjoituksessa pohditaan voittavan mediamixin rakentamista vuodelle 2026 ja mitä siinä voisi huomioida.",
