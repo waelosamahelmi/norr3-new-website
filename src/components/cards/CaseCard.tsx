@@ -19,7 +19,7 @@ export function CaseCard({
       <div className={`overflow-hidden ${large ? "aspect-[4/3]" : "aspect-[4/3]"}`}>
         <img
           src={study.image}
-          alt={study.client}
+          alt={`${study.client} — ${study.tagline[locale]}`}
           className="h-full w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
           loading="lazy"
         />

@@ -14,12 +14,32 @@ import { cases } from "@/content/cases";
 import { insights } from "@/content/insights";
 
 const collageTiles = [
-  { src: "/images/office/office-05.jpg", w: "w-24 sm:w-32", stat: "+47%" },
-  { src: "/images/office/office-03.jpg", w: "w-32 sm:w-44" },
-  { src: "/images/office/office-06.jpg", w: "w-40 sm:w-56" },
-  { src: "/images/office/office-09.jpg", w: "w-36 sm:w-52" },
-  { src: "/images/office/office-13.jpg", w: "w-32 sm:w-44" },
+  { src: "/images/cases/flow-festival.webp", w: "w-40 sm:w-56", client: "Flow Festival" },
+  { src: "/images/cases/terveystalo.webp", w: "w-36 sm:w-52", stat: "#1", client: "Terveystalo" },
+  { src: "/images/cases/kokkola.webp", w: "w-32 sm:w-44", client: "Kokkola" },
+  { src: "/images/cases/st1.webp", w: "w-36 sm:w-52", client: "ST1" },
 ];
+
+export async function generateMetadata({ params }: PageProps<"/[locale]/cases">) {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const dict = getDictionary(locale);
+  return {
+    title: dict.seo.cases.title,
+    description: dict.seo.cases.description,
+    alternates: { canonical: `/${locale}/cases`, languages: { "fi-FI": "/fi/cases", "en-US": "/en/cases" } },
+    openGraph: {
+      type: "website" as const,
+      siteName: "NØRR3",
+      url: `https://norr3.fi/${locale}/cases`,
+      locale: locale === "fi" ? "fi_FI" : "en_US",
+      title: dict.seo.cases.title,
+      description: dict.seo.cases.description,
+      images: [{ url: "/images/cases/flow-festival.webp", width: 1600, height: 1066, alt: "NØRR3 case work" }],
+    },
+    twitter: { card: "summary_large_image" as const, title: dict.seo.cases.title, description: dict.seo.cases.description, images: ["/images/cases/flow-festival.webp"] },
+  };
+}
 
 export default async function CasesPage({ params }: PageProps<"/[locale]/cases">) {
   const { locale } = await params;
@@ -42,17 +62,20 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
             {c.heroHeadline}
           </h1>
         </Reveal>
-        {/* Photo collage strip */}
+        {/* Photo collage strip — real case photography */}
         <div className="mt-8 flex items-end gap-3 overflow-hidden">
           {collageTiles.map((tile, i) => (
             <Reveal key={tile.src} delay={0.15 + i * 0.08} className={`relative shrink-0 ${tile.w}`}>
               <img
                 src={tile.src}
-                alt=""
+                alt={tile.client}
+                width={1600}
+                height={1066}
                 className="h-40 w-full object-cover sm:h-56"
+                loading="lazy"
               />
               {tile.stat && (
-                <span className="absolute inset-0 flex items-center justify-center bg-purple text-lg font-medium text-white">
+                <span className="absolute inset-0 flex items-center justify-center bg-purple/90 text-2xl font-medium text-white">
                   {tile.stat}
                 </span>
               )}

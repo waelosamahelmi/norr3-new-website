@@ -12,6 +12,11 @@ export type TeamMember = {
   selectedShot: string;
   role?: { fi: string; en: string };
   bio: { fi: string; en: string };
+  /** Optional per-person links. Left undefined until real URLs/addresses are
+   *  supplied — the card falls back to the company LinkedIn + info@norr3.fi
+   *  rather than fabricating personal contacts. */
+  linkedin?: string;
+  email?: string;
 };
 
 // Roster from the photo-shoot schedule. Portrait photos are placeholders until

@@ -17,6 +17,27 @@ import { Icon } from "@/components/Icon";
 import { valuePills } from "@/content/services";
 import { team, openRoles } from "@/content/team";
 
+export async function generateMetadata({ params }: PageProps<"/[locale]/team">) {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const dict = getDictionary(locale);
+  return {
+    title: dict.seo.team.title,
+    description: dict.seo.team.description,
+    alternates: { canonical: `/${locale}/team`, languages: { "fi-FI": "/fi/team", "en-US": "/en/team" } },
+    openGraph: {
+      type: "website" as const,
+      siteName: "NØRR3",
+      url: `https://norr3.fi/${locale}/team`,
+      locale: locale === "fi" ? "fi_FI" : "en_US",
+      title: dict.seo.team.title,
+      description: dict.seo.team.description,
+      images: [{ url: "/images/brand/group.webp", width: 2000, height: 1333, alt: "The NØRR3 team in the Helsinki studio" }],
+    },
+    twitter: { card: "summary_large_image" as const, title: dict.seo.team.title, description: dict.seo.team.description, images: ["/images/brand/group.webp"] },
+  };
+}
+
 export default async function TeamPage({ params }: PageProps<"/[locale]/team">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
@@ -31,6 +52,18 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
     { value: 800, suffix: "+", label: locale === "fi" ? "Ammattilaista tukena ympäri maailmaa" : "Professionals supporting us worldwide" },
     { value: 11, suffix: " M€", label: locale === "fi" ? "Liikevaihtomme 2024" : "Our revenue 2024" },
   ];
+
+  const pillarAlts = locale === "fi"
+    ? [
+        "NØRR3:n kollegat vilkkaassa keskustelussa neuvotteluhuoneessa Helsingin studiolla",
+        "Kaksi NØRR3:n asiantuntijaa analysoi kampanjadataa iMacilla yhdessä",
+        "NØRR3:n tiimi nauramassa yhdessä studion loungen sohvalla",
+      ]
+    : [
+        "NØRR3 colleagues in a lively meeting-room discussion in the Helsinki studio",
+        "Two NØRR3 specialists analysing campaign data on an iMac together",
+        "NØRR3 team laughing together on the studio lounge sofa",
+      ];
 
   return (
     <>
@@ -64,8 +97,8 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
               <Reveal key={pillar.title} className="grid items-start gap-10 lg:grid-cols-2">
                 <div className={`aspect-[4/3] overflow-hidden ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                   <img
-                    src={["/images/office/office-09.jpg", "/images/office/office-01.jpg", "/images/office/office-13.jpg"][i]}
-                    alt=""
+                    src={["/images/brand/team-attitude.webp", "/images/brand/team-technology.webp", "/images/brand/team-talent.webp"][i]}
+                    alt={pillarAlts[i]}
                     className="h-full w-full object-cover"
                     loading="lazy"
                   />
@@ -114,7 +147,8 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
 
       <Container className="pb-20">
         <PhotoInterstitial
-          image="/images/office/office-04.jpg"
+          image="/images/brand/team-space.webp"
+          alt={locale === "fi" ? "NØRR3:n studion avoin lounge pehmeässä iltavalossa" : "The NØRR3 studio open lounge in soft evening light"}
           caption={t.valuesCaption}
           pills={valuePills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }))}
         />
@@ -125,7 +159,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
         <Container>
           <SectionHeader heading={t.management.heading} body={t.management.body} />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-            {team.slice(0, 5).map((m) => (
+            {team.map((m) => (
               <TeamMemberCard
                 key={m.id}
                 member={m}

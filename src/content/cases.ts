@@ -19,18 +19,16 @@ export type CaseStudy = {
   methods: { icon: string; fi: { title: string; body: string }; en: { title: string; body: string } }[];
   results: { fi: string; en: string };
   metrics: CaseMetric[];
-  detailImages: { objectives: string; solution: string; results: string };
 };
 
-// Placeholder photography (picsum seeds) — swap for real case imagery later.
-const img = (seed: string, w = 1200, h = 900) =>
-  `https://picsum.photos/seed/${seed}/${w}/${h}`;
-
+// Case imagery: real NØRR3 studio photography (the team behind each engagement).
+// The 2026 shoot has no client-campaign shots, so we lead with authentic
+// candids rather than misleading stock — a distinct shot per case.
 export const cases: CaseStudy[] = [
   {
     slug: "flow-festival",
     client: "Flow Festival",
-    image: img("norr3-flow", 1400, 1000),
+    image: "/images/cases/flow-festival.webp",
     size: "large",
     summary: {
       fi: "Flow Festivalin kansainvälinen kahden kuukauden mittainen kampanja keräsi yhteensä 27,5 miljoonaa mainosnäyttöä eri kanavissa. Display-mainonnan avulla tavoitettiin 5,5 miljoonaa potentiaalista festivaalikävijää ympäri Eurooppaa.",
@@ -66,16 +64,11 @@ export const cases: CaseStudy[] = [
       { value: 5.5, decimals: 1, label: { fi: "Miljoonaa tavoitettua festivaalikävijää", en: "Million festival-goers reached" } },
       { value: 0, suffix: " %", label: { fi: "Budjetin kasvua edellisvuoteen", en: "Budget growth year-over-year" } },
     ],
-    detailImages: {
-      objectives: img("norr3-flow-obj", 1000, 750),
-      solution: img("norr3-flow-sol", 1000, 750),
-      results: img("norr3-flow-res", 1000, 750),
-    },
   },
   {
     slug: "terveystalo",
     client: "Terveystalo",
-    image: img("norr3-terveystalo", 1200, 900),
+    image: "/images/cases/terveystalo.webp",
     size: "small",
     summary: {
       fi: "Terveystalo markkinaykköseksi strategisella otteella. Top-of-mind, mainonnan muistaminen ja preferenssi nousuun datalla johdetulla mediastrategialla.",
@@ -112,16 +105,11 @@ export const cases: CaseStudy[] = [
       { value: 10, suffix: " %", label: { fi: "Mainonnan muistaminen nousi vuodessa", en: "Ad recall lift in one year" } },
       { value: 1, label: { fi: "Sija mielikuvamittareissa H1/2023", en: "Rank in brand metrics H1/2023" } },
     ],
-    detailImages: {
-      objectives: img("norr3-tt-obj", 1000, 750),
-      solution: img("norr3-tt-sol", 1000, 750),
-      results: img("norr3-tt-res", 1000, 750),
-    },
   },
   {
     slug: "kokkola",
     client: "Kokkola",
-    image: img("norr3-kokkola", 1200, 900),
+    image: "/images/cases/kokkola.webp",
     size: "small",
     summary: {
       fi: "Tutkittuun markkinointiin ja dataan NØRR3 rakensi vuoden kestoisen mediasuunnitelman kolmella pääkohdalla ja välikoilla tapahtuvalla jatkuvalla mainonnalla.",
@@ -154,16 +142,11 @@ export const cases: CaseStudy[] = [
       { value: 12, label: { fi: "Kuukautta jatkuvaa näkyvyyttä", en: "Months of continuous visibility" } },
       { value: 1, label: { fi: "Yhtenäinen suunnitelma kaikille kanaville", en: "Unified plan across all channels" } },
     ],
-    detailImages: {
-      objectives: img("norr3-kok-obj", 1000, 750),
-      solution: img("norr3-kok-sol", 1000, 750),
-      results: img("norr3-kok-res", 1000, 750),
-    },
   },
   {
     slug: "st1",
     client: "ST1",
-    image: img("norr3-st1", 1200, 900),
+    image: "/images/cases/st1.webp",
     size: "small",
     summary: {
       fi: "St1-brändin 360-mediastrategia, suunnittelu ja ostaminen kaikissa kanavissa. Yhteistyö laajeni entisestään loppuvuodesta 2022, kun St1-brändin lisäksi mukaan tulivat myös HelmiSimpukka, Shell ja Perfect Autopesu.",
@@ -196,11 +179,6 @@ export const cases: CaseStudy[] = [
       { value: 360, suffix: "°", label: { fi: "Mediastrategia kaikissa kanavissa", en: "Media strategy across all channels" } },
       { value: 2022, label: { fi: "Yhteistyön laajenemisvuosi", en: "Year the partnership expanded" } },
     ],
-    detailImages: {
-      objectives: img("norr3-st1-obj", 1000, 750),
-      solution: img("norr3-st1-sol", 1000, 750),
-      results: img("norr3-st1-res", 1000, 750),
-    },
   },
 ];
 

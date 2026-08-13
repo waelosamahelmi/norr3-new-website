@@ -13,8 +13,30 @@ import { DashboardMock } from "@/components/DashboardMock";
 import { ContactBanner } from "@/components/ContactBanner";
 import { CaseCard } from "@/components/cards/CaseCard";
 import { StaggerGrid } from "@/components/StaggerGrid";
+import { Icon } from "@/components/Icon";
 import { mediaPills } from "@/content/services";
 import { cases } from "@/content/cases";
+
+export async function generateMetadata({ params }: PageProps<"/[locale]/engine">) {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const dict = getDictionary(locale);
+  return {
+    title: dict.seo.engine.title,
+    description: dict.seo.engine.description,
+    alternates: { canonical: `/${locale}/engine`, languages: { "fi-FI": "/fi/engine", "en-US": "/en/engine" } },
+    openGraph: {
+      type: "website" as const,
+      siteName: "NØRR3",
+      url: `https://norr3.fi/${locale}/engine`,
+      locale: locale === "fi" ? "fi_FI" : "en_US",
+      title: dict.seo.engine.title,
+      description: dict.seo.engine.description,
+      images: [{ url: "/images/brand/engine-team.webp", width: 1500, height: 1000, alt: "The team behind the NØRR3 Marketing Engine" }],
+    },
+    twitter: { card: "summary_large_image" as const, title: dict.seo.engine.title, description: dict.seo.engine.description, images: ["/images/brand/engine-team.webp"] },
+  };
+}
 
 export default async function EnginePage({ params }: PageProps<"/[locale]/engine">) {
   const { locale } = await params;
@@ -53,6 +75,41 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         </Reveal>
       </Container>
 
+      {/* Product intro — people + feature list */}
+      <section className="py-20">
+        <Container>
+          <div className="grid items-center gap-10 lg:grid-cols-2">
+            <Reveal className="overflow-hidden rounded-[25px]">
+              <img
+                src="/images/brand/engine-workflow.webp"
+                width={1600}
+                height={1066}
+                alt={locale === "fi" ? "NØRR3:n asiantuntija työskentelee Marketing Enginessä läppärillä" : "A NØRR3 specialist working in the Marketing Engine on a laptop"}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </Reveal>
+            <div>
+              <h2 className="text-3xl font-medium tracking-tight text-ink lg:text-4xl">{e.product.heading}</h2>
+              <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink/70">{e.product.body}</p>
+              <div className="mt-8 divide-y divide-black/10">
+                {e.product.features.map((f, i) => (
+                  <Reveal key={f.title} delay={i * 0.05} className="flex gap-5 py-5">
+                    <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-[5px] bg-violet text-white">
+                      <Icon name={f.icon} style={{ fontSize: "24px" }} />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-medium text-ink">{f.title}</h3>
+                      <p className="mt-1 text-sm leading-relaxed text-ink/60">{f.body}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
       {/* Product screenshot */}
       <section className="bg-pastel-purple/40 py-20">
         <Container>
@@ -60,6 +117,27 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
           <Reveal delay={0.1} className="mx-auto mt-12 max-w-4xl">
             <DashboardMock locale={locale} />
           </Reveal>
+        </Container>
+      </section>
+
+      {/* How Engine works — 3 steps */}
+      <section className="pb-20">
+        <Container>
+          <SectionHeader heading={e.workflow.heading} />
+          <StaggerGrid className="mt-12 grid gap-5 sm:grid-cols-3">
+            {e.workflow.steps.map((step, i) => (
+              <div key={step.title} className="flex h-full flex-col gap-4 rounded-[5px] bg-pastel-purple/40 p-8">
+                <div className="flex items-center justify-between">
+                  <div className="flex h-[56px] w-[56px] items-center justify-center rounded-[5px] bg-ink text-white">
+                    <Icon name={step.icon} style={{ fontSize: "26px" }} />
+                  </div>
+                  <span className="text-2xl font-medium text-yellow [text-shadow:0_0_1px_rgba(0,0,0,0.25)]">{String(i + 1).padStart(2, "0")}</span>
+                </div>
+                <h3 className="text-lg font-medium text-ink">{step.title}</h3>
+                <p className="text-sm leading-relaxed text-ink/60">{step.body}</p>
+              </div>
+            ))}
+          </StaggerGrid>
         </Container>
       </section>
 
@@ -80,6 +158,17 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
             <p className="text-3xl font-medium leading-tight tracking-tight sm:text-5xl">{e.quote.stat}</p>
             <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-white/80">{e.quote.body}</p>
             <p className="mt-6 text-xs font-medium uppercase tracking-[0.14em] text-yellow">{e.quote.client}</p>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* Book a demo — conversion band */}
+      <section className="py-20">
+        <Container>
+          <Reveal className="flex flex-col items-center gap-6 rounded-[25px] bg-violet px-8 py-16 text-center text-white sm:px-16">
+            <h2 className="max-w-2xl text-3xl font-medium tracking-tight sm:text-4xl">{e.bookDemo.heading}</h2>
+            <p className="max-w-xl text-sm leading-relaxed text-white/80">{e.bookDemo.body}</p>
+            <PillButton href={`/${locale}/contact`} variant="lavender">{dict.common.bookDemo}</PillButton>
           </Reveal>
         </Container>
       </section>

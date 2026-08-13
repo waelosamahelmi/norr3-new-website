@@ -1,7 +1,7 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
-import { Container, HeroPill } from "@/components/Container";
+import { Container } from "@/components/Container";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
@@ -16,6 +16,33 @@ export function generateStaticParams() {
   return cases.map((c) => ({ slug: c.slug }));
 }
 
+export async function generateMetadata({ params }: PageProps<"/[locale]/cases/[slug]">) {
+  const { locale, slug } = await params;
+  if (!isLocale(locale)) return {};
+  const study = getCase(slug);
+  if (!study) return {};
+  const title = locale === "fi" ? `${study.client} — NØRR3-case` : `${study.client} — NØRR3 case`;
+  const description = study.tagline[locale];
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/${locale}/cases/${slug}`,
+      languages: { "fi-FI": `/fi/cases/${slug}`, "en-US": `/en/cases/${slug}` },
+    },
+    openGraph: {
+      type: "article" as const,
+      siteName: "NØRR3",
+      url: `https://norr3.fi/${locale}/cases/${slug}`,
+      locale: locale === "fi" ? "fi_FI" : "en_US",
+      title,
+      description,
+      images: [{ url: study.image, width: 1600, height: 1066, alt: `${study.client} — ${study.tagline[locale]}` }],
+    },
+    twitter: { card: "summary_large_image" as const, title, description, images: [study.image] },
+  };
+}
+
 export default async function CaseDetailPage({ params }: PageProps<"/[locale]/cases/[slug]">) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
@@ -28,49 +55,73 @@ export default async function CaseDetailPage({ params }: PageProps<"/[locale]/ca
 
   return (
     <>
-      {/* Hero — Terveystalo-detail pattern: plain title, short sub, CTA */}
-      <Container className="pb-14 pt-10 lg:pt-16">
-        <Reveal>
-          <HeroPill>{dict.cases.pill}</HeroPill>
-        </Reveal>
-        <Reveal delay={0.05}>
-          <h1 className="mt-5 text-[10vw] font-medium leading-none tracking-tight text-ink lg:text-[6.5rem]">
-            {study.client}
-          </h1>
-        </Reveal>
-        <Reveal delay={0.15} className="mt-8 flex flex-col items-start gap-6">
-          <p className="max-w-sm text-sm leading-relaxed text-ink/80">{study.tagline[locale]}</p>
-          <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
-        </Reveal>
-      </Container>
+      {/* Editorial hero — magazine opener */}
+      <section className="relative">
+        <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/10] lg:aspect-[16/7]">
+          <img
+            src={study.image}
+            alt={`${study.client} — ${study.tagline[locale]}`}
+            width={1600}
+            height={1066}
+            fetchPriority="high"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/5" />
+          <Container className="absolute inset-x-0 bottom-0 pb-10 lg:pb-14">
+            <Reveal>
+              <span className="inline-flex items-center rounded-full border border-white/40 px-4 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+                {dict.cases.pill}
+              </span>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <h1 className="mt-5 text-[13vw] font-medium leading-[0.92] tracking-tight text-white lg:text-[7rem]">
+                {study.client}
+              </h1>
+            </Reveal>
+            <Reveal delay={0.12} className="mt-5 flex flex-col items-start gap-6">
+              <p className="max-w-xl text-base leading-relaxed text-white/85 lg:text-lg">{study.tagline[locale]}</p>
+              <PillButton href={`/${locale}/contact`} variant="lavender">
+                {dict.common.contactUs}
+              </PillButton>
+            </Reveal>
+          </Container>
+        </div>
+      </section>
 
-      {/* Intro */}
+      {/* Intro lead */}
       <section className="border-t border-black/5 py-16">
         <Container>
-          <SectionHeader heading={study.tagline[locale]} body={study.intro[locale]} />
+          <Reveal className="max-w-3xl">
+            <p className="text-xl font-medium leading-snug tracking-tight text-ink lg:text-2xl">
+              {study.intro[locale]}
+            </p>
+          </Reveal>
         </Container>
       </section>
 
-      {/* 1. Objectives / 2. Solution — alternating photo + numbered text */}
-      <Container className="space-y-20 pb-20">
-        <Reveal className="grid items-center gap-10 lg:grid-cols-2">
-          <div className="aspect-[4/3] overflow-hidden">
-            <img src={study.detailImages.objectives} alt="" className="h-full w-full object-cover" loading="lazy" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-medium text-ink">{d.objectives}</h2>
-            <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink/70">{study.objectives[locale]}</p>
-          </div>
+      {/* Editorial pull-quote — the case's own thesis line */}
+      <Container className="pb-16">
+        <Reveal className="rounded-[25px] bg-purple px-8 py-16 text-center text-white sm:px-16 lg:py-20">
+          <span aria-hidden className="block text-6xl leading-none text-yellow">
+            “
+          </span>
+          <p className="mx-auto mt-2 max-w-3xl text-3xl font-medium leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+            {study.tagline[locale]}
+          </p>
+          <p className="mt-6 text-xs font-medium uppercase tracking-[0.14em] text-yellow">{study.client}</p>
+        </Reveal>
+      </Container>
+
+      {/* 1. Objectives / 2. Solution — editorial text blocks */}
+      <Container className="space-y-14 pb-20">
+        <Reveal className="border-l-2 border-purple/40 pl-6">
+          <h2 className="text-2xl font-medium text-ink">{d.objectives}</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70">{study.objectives[locale]}</p>
         </Reveal>
 
-        <Reveal className="grid items-center gap-10 lg:grid-cols-2">
-          <div className="aspect-[4/3] overflow-hidden lg:order-2">
-            <img src={study.detailImages.solution} alt="" className="h-full w-full object-cover" loading="lazy" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-medium text-ink">{d.solution}</h2>
-            <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink/70">{study.solution[locale]}</p>
-          </div>
+        <Reveal className="border-l-2 border-purple/40 pl-6">
+          <h2 className="text-2xl font-medium text-ink">{d.solution}</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70">{study.solution[locale]}</p>
         </Reveal>
       </Container>
 
@@ -96,14 +147,21 @@ export default async function CaseDetailPage({ params }: PageProps<"/[locale]/ca
 
       {/* 3. Results */}
       <Container className="pb-20">
-        <Reveal className="grid items-center gap-10 lg:grid-cols-2">
-          <div className="aspect-[4/3] overflow-hidden">
-            <img src={study.detailImages.results} alt="" className="h-full w-full object-cover" loading="lazy" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-medium text-ink">{d.results}</h2>
-            <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink/70">{study.results[locale]}</p>
-          </div>
+        {/* Photo echo — same shot, wider crop, as a visual breather before results */}
+        <div className="mb-16 aspect-[16/6] w-full overflow-hidden rounded-[25px]">
+          <img
+            src={study.image}
+            alt=""
+            width={1600}
+            height={600}
+            loading="lazy"
+            className="h-full w-full object-cover object-[center_30%]"
+          />
+        </div>
+
+        <Reveal className="border-l-2 border-purple/40 pl-6">
+          <h2 className="text-2xl font-medium text-ink">{d.results}</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70">{study.results[locale]}</p>
         </Reveal>
 
         <div className="mt-16">

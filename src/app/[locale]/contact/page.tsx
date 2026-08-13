@@ -5,6 +5,43 @@ import { Container, HeroPill } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { ContactForm } from "@/components/ContactForm";
 import { LogoStrip } from "@/components/marquee/LogoStrip";
+import { Icon } from "@/components/Icon";
+
+export async function generateMetadata({ params }: PageProps<"/[locale]/contact">) {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const dict = getDictionary(locale);
+  return {
+    title: dict.seo.contact.title,
+    description: dict.seo.contact.description,
+    alternates: {
+      canonical: `/${locale}/contact`,
+      languages: { "fi-FI": "/fi/contact", "en-US": "/en/contact" },
+    },
+    openGraph: {
+      type: "website" as const,
+      siteName: "NØRR3",
+      url: `https://norr3.fi/${locale}/contact`,
+      locale: locale === "fi" ? "fi_FI" : "en_US",
+      title: dict.seo.contact.title,
+      description: dict.seo.contact.description,
+      images: [
+        {
+          url: "/images/brand/contact-portrait.webp",
+          width: 1200,
+          height: 800,
+          alt: dict.contact.photoAlt,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image" as const,
+      title: dict.seo.contact.title,
+      description: dict.seo.contact.description,
+      images: ["/images/brand/contact-portrait.webp"],
+    },
+  };
+}
 
 export default async function ContactPage({ params }: PageProps<"/[locale]/contact">) {
   const { locale } = await params;
@@ -33,6 +70,17 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
       <Container className="py-16">
         <div className="grid gap-16 lg:grid-cols-[1fr_1.1fr] lg:items-start">
           <Reveal>
+            {/* Human face before the details — dims reserved so nothing shifts */}
+            <div className="mb-8 aspect-[3/2] w-full overflow-hidden rounded-[25px]">
+              <img
+                src="/images/brand/contact-portrait.webp"
+                alt={dict.contact.photoAlt}
+                width={1200}
+                height={800}
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </div>
             <p className="text-xs font-medium uppercase tracking-[0.14em] text-ink/50">
               {dict.contact.directHeading}
             </p>
@@ -51,10 +99,31 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
                 <p key={line}>{line}</p>
               ))}
             </div>
+
+            {/* Static office card — no map embed, so no third-party keys or layout shift */}
+            <div className="mt-8 rounded-[25px] bg-light-purple p-7">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 items-center justify-center rounded-[5px] bg-violet text-white">
+                  <Icon name="location_on" style={{ fontSize: "22px" }} />
+                </span>
+                <p className="text-sm font-medium uppercase tracking-[0.12em] text-ink/70">
+                  {dict.contact.locationHeading}
+                </p>
+              </div>
+              <div className="mt-4 space-y-1 text-[15px] text-ink/80">
+                {dict.footer.addressLines.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
+            </div>
           </Reveal>
 
           <Reveal delay={0.1}>
             <ContactForm dict={dict.contact} />
+            <p className="mt-4 flex items-center gap-2 text-xs text-ink/55">
+              <Icon name="schedule" style={{ fontSize: "16px" }} />
+              {dict.contact.responseTime}
+            </p>
           </Reveal>
         </div>
       </Container>

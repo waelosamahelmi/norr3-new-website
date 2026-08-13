@@ -11,6 +11,7 @@ import { PillMarquee } from "@/components/marquee/PillMarquee";
 import { LogoStrip } from "@/components/marquee/LogoStrip";
 import { HighlightsBand } from "@/components/marquee/HighlightsBand";
 import { BenefitCard } from "@/components/cards/BenefitCard";
+import { ServiceCard } from "@/components/cards/ServiceCard";
 import { CaseCard } from "@/components/cards/CaseCard";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { PhotoInterstitial } from "@/components/PhotoInterstitial";
@@ -19,9 +20,30 @@ import { AudienceChart } from "@/components/AudienceChart";
 import { StatGrid } from "@/components/StatGrid";
 import { Icon } from "@/components/Icon";
 import { PixelArt } from "@/components/PixelArt";
-import { mediaPills } from "@/content/services";
+import { serviceCards, mediaPills } from "@/content/services";
 import { cases } from "@/content/cases";
 import { insights } from "@/content/insights";
+
+export async function generateMetadata({ params }: PageProps<"/[locale]/services">) {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const dict = getDictionary(locale);
+  return {
+    title: dict.seo.services.title,
+    description: dict.seo.services.description,
+    alternates: { canonical: `/${locale}/services`, languages: { "fi-FI": "/fi/services", "en-US": "/en/services" } },
+    openGraph: {
+      type: "website" as const,
+      siteName: "NØRR3",
+      url: `https://norr3.fi/${locale}/services`,
+      locale: locale === "fi" ? "fi_FI" : "en_US",
+      title: dict.seo.services.title,
+      description: dict.seo.services.description,
+      images: [{ url: "/images/brand/services-planning.webp", width: 1600, height: 1066, alt: "NØRR3 planners reviewing a media plan" }],
+    },
+    twitter: { card: "summary_large_image" as const, title: dict.seo.services.title, description: dict.seo.services.description, images: ["/images/brand/services-planning.webp"] },
+  };
+}
 
 export default async function ServicesPage({ params }: PageProps<"/[locale]/services">) {
   const { locale } = await params;
@@ -55,6 +77,27 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
         </Reveal>
       </Container>
 
+      {/* Six service areas — the numbered brand service cards */}
+      <section className="pb-8 pt-4">
+        <Container>
+          <SectionHeader heading={s.areas.heading} body={s.areas.body} />
+          <StaggerGrid className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {serviceCards.map((card) => (
+              <ServiceCard
+                key={card.number}
+                number={card.number}
+                icon={card.icon}
+                title={card[locale].title}
+                body={card[locale].body}
+                readMoreLabel={dict.common.readMore}
+                highlighted={card.highlighted}
+                href={`/${locale}/contact`}
+              />
+            ))}
+          </StaggerGrid>
+        </Container>
+      </section>
+
       {/* NØRR3 Media Insights — black band */}
       <section className="bg-ink py-20">
         <Container>
@@ -84,7 +127,22 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       {/* Why choose Media Insights */}
       <section className="py-20">
         <Container>
-          <SectionHeader heading={s.why.heading} body={s.why.body} />
+          <div className="grid items-center gap-10 lg:grid-cols-2">
+            <Reveal className="overflow-hidden rounded-[25px]">
+              <img
+                src="/images/brand/services-collab.webp"
+                width={1600}
+                height={1066}
+                alt={locale === "fi" ? "Kaksi NØRR3:n kollegaa jakaa kampanjan tuloksen hymyillen" : "Two NØRR3 colleagues sharing a campaign result with a smile"}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </Reveal>
+            <Reveal className="flex flex-col items-start gap-5">
+              <h2 className="text-4xl font-medium tracking-tight text-ink lg:text-5xl">{s.why.heading}</h2>
+              <p className="text-sm leading-relaxed text-ink/70 lg:text-[15px]">{s.why.body}</p>
+            </Reveal>
+          </div>
           <StaggerGrid className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {s.why.benefits.map((b) => (
               <BenefitCard key={b.title} icon={b.icon} title={b.title} body={b.body} />
@@ -95,7 +153,8 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
 
       <Container className="pb-20">
         <PhotoInterstitial
-          image="/images/office/office-11.jpg"
+          image="/images/brand/services-planning.webp"
+          alt={locale === "fi" ? "NØRR3:n suunnittelijat tarkastelevat mediasuunnitelmaa läppäriltä valoisassa neuvotteluhuoneessa" : "NØRR3 planners reviewing a media plan on a laptop in a bright meeting room"}
           caption={s.photoCaption}
           pills={pills}
         />

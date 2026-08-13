@@ -6,6 +6,38 @@ const fi = {
     description:
       "NØRR3 on pohjoismainen mediatoimisto, joka muuttaa mediainvestoinnit kasvuksi ja kilpailueduksi.",
   },
+  seo: {
+    team: {
+      title: "Tiimi — NØRR3",
+      description:
+        "Tutustu NØRR3:n senioritiimiin — lähes kaikki partnereita, jotka suunnittelevat, ostavat ja todentavat jokaisen mediaeurosi.",
+    },
+    services: {
+      title: "Palvelut — NØRR3",
+      description:
+        "Insightistä ja strategiasta dataan ja maksettuun mediaan kaikissa kanavissa. Kuusi palvelualuetta, jotka muuttavat median kasvuksi.",
+    },
+    engine: {
+      title: "Marketing Engine — NØRR3",
+      description:
+        "NØRR3:n Marketing Engine yhdistää datan, tekoälyn ja monikanavaisen toteutuksen yhdeksi alustaksi — briiffistä mediaan ja tuloksiin.",
+    },
+    cases: {
+      title: "Caset — NØRR3",
+      description:
+        "Aitoja tuloksia: Flow Festival, Terveystalo, Kokkola, ST1 ja muut — näin NØRR3 muuttaa median kasvun moottoriksi.",
+    },
+    insights: {
+      title: "Insights — NØRR3",
+      description:
+        "NØRR3:n ajatuksia mediasta, datasta ja kasvusta — ilman turhaa jargonia.",
+    },
+    contact: {
+      title: "Yhteystiedot — NØRR3",
+      description:
+        "Ota yhteyttä NØRR3:een. Olipa asiasi pieni tai iso, meidät tunnetaan nopeasta ja ammattitaitoisesta palvelusta.",
+    },
+  },
   nav: {
     services: "Services",
     engine: "Engine",
@@ -24,6 +56,8 @@ const fi = {
     readMore: "Read more",
     viewAll: "View all",
     meetTeam: "Tutustu tiimiin",
+    bookDemo: "Varaa demo",
+    viewProfile: "Katso profiili",
     openJobs: "Open jobs",
     linkedin: "LinkedIn",
     email: "Email",
@@ -78,6 +112,10 @@ const fi = {
     heroAccent: "Strategy",
     heroBody:
       "Määrittelemme miten ja mitkä mediat kuljettavat oikeat viestit perille oikeaan aikaan ja oikealle yleisölle vaikuttavasti, jotta kohderyhmän ajattelussa tai käytöksessä saadaan aikaan haluttu muutos.",
+    areas: {
+      heading: "Mitä teemme",
+      body: "Kuusi palvelualuetta, yksi tiimi — insightistä ja strategiasta dataan, maksettuun mediaan, mittaamiseen ja luovaan. Räätälöimme niistä yrityksellesi sopivan mallin.",
+    },
     insights: {
       heading: "NØRR3 Media Insights",
       body: "Tämän työkalun avulla tiedät tarkalleen, miten B2C- tai B2B-yleisösi käyttää mediaa. Lopeta rahan haaskaaminen ja ala parantaa ROMI:a.",
@@ -150,6 +188,29 @@ const fi = {
       client: "Kiinteistömaailma",
       body: "Yksi keskitetty brändi- ja kampanjalogiikka generoi paikallisen markkinoinnin joka toimistolle automaattisesti — yksi alusta korvasi kymmenet erilliset prosessit.",
     },
+    product: {
+      heading: "Yksi alusta, rakennettu talon sisällä",
+      body: "Engine ei ole lisensoitu ohjelmisto — rakensimme sen itse, joten se taipuu sinun mediaasi, ei toisin päin.",
+      features: [
+        { icon: "bolt", title: "Reaaliaikainen optimointi", body: "Budjetti siirtyy sinne, mikä toimii, jo kampanjan ollessa käynnissä." },
+        { icon: "hub", title: "Yksi yhtenäinen alusta", body: "Briiffi, suunnittelu, ostaminen ja todentaminen — kaikki kanavat yhdessä paikassa kymmenen työkalun sijaan." },
+        { icon: "neurology", title: "Tekoälyavusteinen suunnittelu", body: "Mallit jakavat panostukset uudelleen kesken lennon tutkitun yleisödatan, ei mutun, perusteella." },
+        { icon: "verified", title: "Todentaminen sisäänrakennettuna", body: "Jokainen euro mitataan ja raportoidaan — tulokset näytetään, ei väitetä." },
+      ],
+    },
+    workflow: {
+      heading: "Näin Engine toimii",
+      caption: "Enginen takana oleva tiimi — rakennettu talon sisällä, ei lisensoitu.",
+      steps: [
+        { icon: "description", title: "Briiffi", body: "Tavoitteesi ja yleisösi sisään; tutkittu data raamittaa suunnitelman." },
+        { icon: "tune", title: "Suunnittele & osta", body: "Engine rakentaa mediamixin ja operoi kaikki kanavat yhdestä paikasta." },
+        { icon: "insights", title: "Todenna", body: "Live-dashboardit näyttävät tavoittavuuden, hinnan ja konversiot reaaliajassa." },
+      ],
+    },
+    bookDemo: {
+      heading: "Näe Engine omalla mediallasi",
+      body: "Varaa 30 minuutin demo, niin ajamme kanavasi alustan läpi livenä.",
+    },
   },
   team: {
     pill: "TEAM",
@@ -196,7 +257,7 @@ const fi = {
     valuesCaption: "Arvomme näkyvät joka briiffissä ja joka palaverissa.",
     management: {
       heading: "Management Team",
-      body: "Management team isommalla.",
+      body: "Ihmiset, jotka suunnittelevat, ostavat ja todentavat mediasi — lähes kaikki talon partnereita. Tutustu koko NØRR3:n tiimiin.",
       viewAllTitle: "View all",
       viewAllBody: "Katso koko tiimi LinkedInissä",
     },
@@ -231,6 +292,8 @@ const fi = {
     pill: "INSIGHTS",
     heading: "Blog",
     body: "Ajatuksia mediasta, datasta ja kasvusta — ilman turhaa jargonia.",
+    minRead: "min lukuaika",
+    featuredLabel: "Nostettu",
   },
   contact: {
     pill: "CONTACT",
@@ -243,6 +306,9 @@ const fi = {
     formSubmit: "Lähetä",
     formSuccess: "Kiitos — palaamme asiaan nopeasti.",
     directHeading: "Tai suoraan meille",
+    responseTime: "Vastaamme yleensä yhden arkipäivän sisällä.",
+    locationHeading: "Löydät meidät",
+    photoAlt: "Ystävällinen NØRR3:n kollega valmiina auttamaan Helsingin studiolla",
   },
   banner: {
     heading: "Contact Us",
@@ -273,6 +339,38 @@ const en: Dictionary = {
     description:
       "NØRR3 is a Nordic media agency turning media investments into growth and competitive advantage.",
   },
+  seo: {
+    team: {
+      title: "Team — NØRR3",
+      description:
+        "Meet the senior in-house specialists behind NØRR3 — nearly all partners, planning, buying and proving every euro of your media.",
+    },
+    services: {
+      title: "Services — NØRR3",
+      description:
+        "Insight, strategy, data and paid media across every channel. Six service areas that turn media investment into measurable growth.",
+    },
+    engine: {
+      title: "Marketing Engine — NØRR3",
+      description:
+        "NØRR3's Marketing Engine connects data, AI and multi-channel delivery into one platform — from brief to media to proven results.",
+    },
+    cases: {
+      title: "Cases — NØRR3",
+      description:
+        "Real results for Flow Festival, Terveystalo, Kokkola, ST1 and more — how NØRR3 turns media into a growth engine.",
+    },
+    insights: {
+      title: "Insights — NØRR3",
+      description:
+        "Thinking on media, data and growth from the NØRR3 team — without the jargon.",
+    },
+    contact: {
+      title: "Contact — NØRR3",
+      description:
+        "Get in touch with NØRR3. Whether your matter is small or large, we're known for fast, professional service.",
+    },
+  },
   nav: {
     services: "Services",
     engine: "Engine",
@@ -291,6 +389,8 @@ const en: Dictionary = {
     readMore: "Read more",
     viewAll: "View all",
     meetTeam: "Meet the team",
+    bookDemo: "Book a demo",
+    viewProfile: "View profile",
     openJobs: "Open jobs",
     linkedin: "LinkedIn",
     email: "Email",
@@ -345,6 +445,10 @@ const en: Dictionary = {
     heroAccent: "Strategy",
     heroBody:
       "We define how and which media deliver the right messages at the right time to the right audience — effectively enough to change how the target group thinks or acts.",
+    areas: {
+      heading: "What we do",
+      body: "Six service areas, one team — from insight and strategy to data, paid media, measurement and creative. We tailor them into a model that fits your business.",
+    },
     insights: {
       heading: "NØRR3 Media Insights",
       body: "With this tool you know exactly how your B2C or B2B audience uses media. Stop wasting money and start improving ROMI.",
@@ -417,6 +521,29 @@ const en: Dictionary = {
       client: "Kiinteistömaailma",
       body: "One centralized brand and campaign logic generates local marketing for every office automatically — one platform replaced dozens of separate processes.",
     },
+    product: {
+      heading: "One platform, built in-house",
+      body: "Engine isn't licensed software — we built it ourselves, so it bends to your media, not the other way around.",
+      features: [
+        { icon: "bolt", title: "Real-time optimisation", body: "Budget shifts toward whatever is working while the campaign is still live." },
+        { icon: "hub", title: "One unified platform", body: "Brief, plan, buy and prove — every channel in a single place instead of a dozen tools." },
+        { icon: "neurology", title: "AI-assisted planning", body: "Models reallocate spend mid-flight on researched audience data, not gut feel." },
+        { icon: "verified", title: "Proof built in", body: "Every euro is measured and reported, so results are shown — not claimed." },
+      ],
+    },
+    workflow: {
+      heading: "How Engine works",
+      caption: "The team behind the Engine — built in-house, not licensed.",
+      steps: [
+        { icon: "description", title: "Brief", body: "Your goal and audience go in; researched data frames the plan." },
+        { icon: "tune", title: "Plan & buy", body: "Engine builds the media mix and operates every channel from one place." },
+        { icon: "insights", title: "Prove", body: "Live dashboards show reach, cost and conversions as they happen." },
+      ],
+    },
+    bookDemo: {
+      heading: "See Engine on your own media",
+      body: "Book a 30-minute demo and we'll run your channels through the platform live.",
+    },
   },
   team: {
     pill: "TEAM",
@@ -463,7 +590,7 @@ const en: Dictionary = {
     valuesCaption: "Our values show up in every brief and every meeting.",
     management: {
       heading: "Management Team",
-      body: "The management team, up close.",
+      body: "The people who plan, buy and prove your media — nearly all of them partners in the company. Meet the full NØRR3 team.",
       viewAllTitle: "View all",
       viewAllBody: "See the whole team on LinkedIn",
     },
@@ -498,6 +625,8 @@ const en: Dictionary = {
     pill: "INSIGHTS",
     heading: "Blog",
     body: "Thinking on media, data and growth — without the jargon.",
+    minRead: "min read",
+    featuredLabel: "Featured",
   },
   contact: {
     pill: "CONTACT",
@@ -510,6 +639,9 @@ const en: Dictionary = {
     formSubmit: "Send",
     formSuccess: "Thanks — we'll get back to you quickly.",
     directHeading: "Or reach us directly",
+    responseTime: "We usually reply within one business day.",
+    locationHeading: "Find us",
+    photoAlt: "A friendly NØRR3 colleague ready to help, in the Helsinki studio",
   },
   banner: {
     heading: "Contact Us",
