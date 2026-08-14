@@ -7,15 +7,22 @@ import type { ReactNode } from "react";
  * The Figma hero device: left words and a right "_Accent" word spread to the
  * page edges, all black, with room for a collage or pill row in/below the gap.
  * The underscore blinks like a caret before the accent word settles.
+ *
+ * `middle` is the decorative graphic slot in the gap between the words —
+ * mirroring how the home hero fills its middle with the rotating photo stack.
+ * On lg+ it flexes between the words (shrinking before it would ever wrap);
+ * below lg it drops under the headline as its own centred row, like home.
  */
 export function SplitHeadline({
   left,
   accent,
+  middle,
   className = "",
   children,
 }: {
   left: string;
   accent: string;
+  middle?: ReactNode;
   className?: string;
   children?: ReactNode;
 }) {
@@ -30,6 +37,14 @@ export function SplitHeadline({
         >
           {left}
         </motion.span>
+        {middle && (
+          <span
+            aria-hidden
+            className="order-3 mt-8 flex w-full justify-center lg:order-none lg:mt-0 lg:min-w-0 lg:flex-1"
+          >
+            {middle}
+          </span>
+        )}
         <motion.span
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}

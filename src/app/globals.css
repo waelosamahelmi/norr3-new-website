@@ -116,6 +116,13 @@ html {
   background-repeat: no-repeat;
 }
 
+/* Services hero: the chess queen's hop arc — horizontal travel is driven by
+   framer-motion; this supplies the vertical rise-and-settle per hop. */
+@keyframes queen-hop {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-16px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .caret-blink {
     animation: none;
