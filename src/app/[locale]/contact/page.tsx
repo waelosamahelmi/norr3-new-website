@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
       description: dict.seo.contact.description,
       images: [
         {
-          url: "/images/brand/contact-portrait.webp",
+          url: "/images/brand/group.webp",
           width: 1200,
           height: 800,
           alt: dict.contact.photoAlt,
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
       card: "summary_large_image" as const,
       title: dict.seo.contact.title,
       description: dict.seo.contact.description,
-      images: ["/images/brand/contact-portrait.webp"],
+      images: ["/images/brand/group.webp"],
     },
   };
 }
@@ -81,7 +81,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
             {/* Human face before the details — dims reserved so nothing shifts */}
             <div className="aspect-[3/2] w-full overflow-hidden rounded-card">
               <img
-                src="/images/brand/contact-portrait.webp"
+                src="/images/brand/group.webp"
                 alt={dict.contact.photoAlt}
                 width={1200}
                 height={800}

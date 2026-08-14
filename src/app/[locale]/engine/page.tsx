@@ -8,6 +8,7 @@ import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { TriadLine } from "@/components/TriadLine";
+import { ParallaxImage } from "@/components/ParallaxImage";
 import { PillMarquee } from "@/components/marquee/PillMarquee";
 import { LogoStrip } from "@/components/marquee/LogoStrip";
 import { MediaMixSimulator } from "@/components/simulator/MediaMixSimulator";
@@ -222,10 +223,16 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         </Container>
       </section>
 
-      {/* Book a demo — the page's conversion close */}
-      <section className="pb-24 lg:pb-32">
-        <Container>
-          <Reveal className="flex flex-col items-center gap-7 rounded-card bg-violet px-8 py-16 text-center text-white sm:px-16 lg:py-20">
+      {/* Book a demo — the page's conversion close, with parallax bg image */}
+      <section className="relative overflow-hidden pb-24 lg:pb-32">
+        <ParallaxImage
+          src="/images/brand/engine-team.webp"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-violet/85" />
+        <Container className="relative z-10">
+          <Reveal className="flex flex-col items-center gap-7 rounded-card bg-violet/90 px-8 py-16 text-center text-white ring-1 ring-white/10 backdrop-blur-sm sm:px-16 lg:py-20">
             <h2 className="max-w-2xl text-4xl font-medium leading-[1.1] tracking-tight lg:text-5xl">
               {e.bookDemo.heading}
             </h2>

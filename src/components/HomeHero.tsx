@@ -223,7 +223,7 @@ export function HomeHero({
       <span aria-hidden className="order-3 mt-10 block w-full lg:order-none lg:mt-0 lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
           ref={stageRef}
-          className="relative mx-auto h-[320px] max-h-[42svh] w-[min(300px,80vw)] select-none [--card:210px] [--spread:0.72] sm:h-[480px] sm:w-full sm:max-w-md sm:[--card:340px] sm:[--spread:0.85] lg:mx-0 lg:h-[380px] lg:max-h-[52svh] lg:w-[360px] lg:[--card:360px] lg:[--spread:1]"
+          className="relative mx-auto h-[320px] max-h-[42svh] w-[min(300px,80vw)] select-none [--card:210px] [--spread:0.72] sm:h-[480px] sm:w-full sm:max-w-md sm:[--card:340px] sm:[--spread:0.85] lg:mx-4 lg:h-[380px] lg:max-h-[52svh] lg:w-[360px] lg:[--card:360px] lg:[--spread:1]"
         >
           {CARDS.map((card, index) => {
             const slotIndex = slotOf[index];

@@ -175,8 +175,8 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
 
       <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
-          image="/images/brand/team-space.webp"
-          alt={locale === "fi" ? "NØRR3:n studion avoin lounge pehmeässä iltavalossa" : "The NØRR3 studio open lounge in soft evening light"}
+          image="/images/brand/team-energy.webp"
+          alt={locale === "fi" ? "NØRR3-tiimi juhlii yhteistä saavutusta" : "The NØRR3 team celebrating a shared achievement"}
           caption={t.valuesCaption}
           pills={valuePills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }))}
         />

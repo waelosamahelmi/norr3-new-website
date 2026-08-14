@@ -10,28 +10,25 @@ const LETTERS = ["N", "Ø", "R", "R", "3"];
 export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <footer className="bg-purple text-white">
-      {/* Giant black stencil wordmark, letters rising in on scroll. Purely
-          decorative — the brand name is real text in the column below, so the
-          whole strip is hidden from AT (a per-letter split would leak a bare
-          "N" to screen readers). */}
-      <div
+      {/* Giant logo wordmark — uses the real NØRR3 animated SVG so the
+          wordmark matches the brand exactly (incl. the 3→Δ morph). The SVG
+          is black-on-purple (the footer bg), same as the nav logo on white.
+          Letters rise in on scroll for the reveal. */}
+      <motion.div
         aria-hidden
-        className="mx-auto flex max-w-[1600px] items-end justify-between overflow-hidden px-6 pt-16 lg:px-14"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className="mx-auto flex max-w-[1600px] items-end justify-center overflow-hidden px-6 pt-16 lg:px-14"
       >
-        {LETTERS.map((letter, i) => (
-          <motion.span
-            key={i}
-            initial={{ y: "60%", opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-            className="select-none font-medium leading-[0.8] text-black"
-            style={{ fontSize: "clamp(5rem, 17vw, 21rem)" }}
-          >
-            {letter}
-          </motion.span>
-        ))}
-      </div>
+        <img
+          src="/logo-animated.svg"
+          alt=""
+          className="h-auto w-full max-w-[1400px] select-none"
+          style={{ filter: "brightness(0)" }}
+        />
+      </motion.div>
 
       <div className="mx-auto grid max-w-[1600px] gap-12 px-6 pb-16 pt-24 sm:grid-cols-2 lg:grid-cols-4 lg:px-14 lg:pt-36">
         <div>
