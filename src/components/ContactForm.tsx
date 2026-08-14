@@ -15,7 +15,7 @@ export function ContactForm({ dict }: { dict: Dictionary["contact"] }) {
   }
 
   return (
-    <div className="relative rounded-[25px] bg-white p-8 ring-1 ring-black/5 sm:p-10">
+    <div className="relative rounded-[25px] bg-white p-8 ring-1 ring-black/5 sm:p-10 dark:bg-white/[0.04] dark:ring-white/10">
       <AnimatePresence mode="wait">
         {sent ? (
           <motion.div
@@ -25,7 +25,7 @@ export function ContactForm({ dict }: { dict: Dictionary["contact"] }) {
             className="flex min-h-[320px] flex-col items-center justify-center text-center"
           >
             <span className="material-symbols-outlined text-5xl text-purple">check_circle</span>
-            <p className="mt-4 text-lg font-medium text-ink">{dict.formSuccess}</p>
+            <p className="mt-4 text-lg font-medium text-ink dark:text-white">{dict.formSuccess}</p>
           </motion.div>
         ) : (
           <motion.form
@@ -37,41 +37,41 @@ export function ContactForm({ dict }: { dict: Dictionary["contact"] }) {
             className="flex flex-col gap-5"
           >
             <div>
-              <label className="text-sm font-medium text-ink/70">{dict.formName}</label>
+              <label className="text-sm font-medium text-ink/70 dark:text-white/80">{dict.formName}</label>
               <input
                 required
                 type="text"
-                className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40"
+                className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-purple"
               />
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <label className="text-sm font-medium text-ink/70">{dict.formEmail}</label>
+                <label className="text-sm font-medium text-ink/70 dark:text-white/80">{dict.formEmail}</label>
                 <input
                   required
                   type="email"
-                  className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40"
+                  className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-purple"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-ink/70">{dict.formCompany}</label>
+                <label className="text-sm font-medium text-ink/70 dark:text-white/80">{dict.formCompany}</label>
                 <input
                   type="text"
-                  className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40"
+                  className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-purple"
                 />
               </div>
             </div>
             <div>
-              <label className="text-sm font-medium text-ink/70">{dict.formMessage}</label>
+              <label className="text-sm font-medium text-ink/70 dark:text-white/80">{dict.formMessage}</label>
               <textarea
                 required
                 rows={4}
-                className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40"
+                className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-purple"
               />
             </div>
             <button
               type="submit"
-              className="mt-2 self-start rounded-full bg-ink px-7 py-3.5 text-sm font-medium uppercase tracking-wide text-white transition-transform duration-200 active:scale-[0.97] hover:bg-purple"
+              className="mt-2 self-start rounded-full bg-ink px-7 py-3.5 text-sm font-medium uppercase tracking-wide text-white transition-transform duration-200 active:scale-[0.97] hover:bg-purple dark:bg-purple dark:hover:bg-violet"
             >
               {dict.formSubmit}
             </button>

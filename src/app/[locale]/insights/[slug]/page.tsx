@@ -73,17 +73,17 @@ export default async function InsightArticlePage({
         <Reveal className="mx-auto max-w-3xl text-center">
           <Link
             href={`/${locale}/insights`}
-            className="text-xs font-medium text-ink/50 transition-colors hover:text-ink"
+            className="text-xs font-medium text-ink/50 transition-colors hover:text-ink dark:text-white/50 dark:hover:text-white"
           >
             ← {dict.insights.heading}
           </Link>
           <div className="mt-6 flex justify-center">
             <HeroPill>{dict.insights.pill}</HeroPill>
           </div>
-          <h1 className="mt-5 text-3xl font-medium leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl">
+          <h1 className="mt-5 text-3xl font-medium leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl dark:text-white">
             {content.title}
           </h1>
-          <p className="mt-4 text-xs uppercase tracking-[0.14em] text-ink/50">
+          <p className="mt-4 text-xs uppercase tracking-[0.14em] text-ink/50 dark:text-white/50">
             {post.date} · {minutes} {dict.insights.minRead}
           </p>
         </Reveal>
@@ -105,7 +105,7 @@ export default async function InsightArticlePage({
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center bg-pastel-purple/70">
+                <div className="flex h-full w-full items-center justify-center bg-pastel-purple/70 dark:bg-white/[0.06]">
                   <span className="select-none text-8xl font-medium text-white/80 lg:text-9xl">
                     {post.ghost}
                   </span>
@@ -124,8 +124,10 @@ export default async function InsightArticlePage({
               key={i}
               className={
                 i === 0
-                  ? "text-xl font-medium leading-relaxed tracking-tight text-ink"
-                  : "mt-6 text-[17px] leading-[1.75] text-ink/80"
+                  ? "text-xl font-medium leading-relaxed tracking-tight text-ink dark:text-white"
+                  : // Long-form body sits a notch brighter than the site's /80 body
+                    // copy — at 17px/1.75 over a full article, /85 keeps it comfortable.
+                    "mt-6 text-[17px] leading-[1.75] text-ink/80 dark:text-white/85"
               }
             >
               {paragraph}
@@ -134,9 +136,9 @@ export default async function InsightArticlePage({
         </Reveal>
       </Container>
 
-      <section className="border-t border-black/5 py-16">
+      <section className="border-t border-black/5 py-16 dark:border-white/10">
         <Container>
-          <h2 className="text-center text-2xl font-medium text-ink">{dict.services.relatedPosts}</h2>
+          <h2 className="text-center text-2xl font-medium text-ink dark:text-white">{dict.services.relatedPosts}</h2>
           <StaggerGrid className="mt-10 grid gap-x-6 gap-y-12 sm:grid-cols-3">
             {others.map((p) => (
               <BlogCard key={p.slug} post={p} locale={locale} readMoreLabel={dict.common.readMore} />

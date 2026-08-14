@@ -21,7 +21,7 @@ export function SplitHeadline({
 }) {
   return (
     <div className={className}>
-      <h1 className="flex flex-wrap items-baseline justify-between gap-x-8 font-medium leading-[1.05] tracking-tight text-ink">
+      <h1 className="flex flex-wrap items-baseline justify-between gap-x-8 font-medium leading-[1.05] tracking-tight text-ink dark:text-white">
         <motion.span
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}

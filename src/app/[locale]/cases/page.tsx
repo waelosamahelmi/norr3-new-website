@@ -58,7 +58,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
           <HeroPill>{c.pill}</HeroPill>
         </Reveal>
         <Reveal delay={0.05}>
-          <h1 className="mt-5 max-w-5xl text-[8vw] font-medium leading-[1.02] tracking-tight text-ink lg:text-[5.5rem]">
+          <h1 className="mt-5 max-w-5xl text-[8vw] font-medium leading-[1.02] tracking-tight text-ink lg:text-[5.5rem] dark:text-white">
             {c.heroHeadline}
           </h1>
         </Reveal>
@@ -83,7 +83,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
           ))}
         </div>
         <Reveal delay={0.25} className="mt-10 flex flex-col items-start gap-6 pb-14">
-          <p className="max-w-sm text-sm leading-relaxed text-ink/80">{c.heroBody}</p>
+          <p className="max-w-sm text-sm leading-relaxed text-ink/80 dark:text-white/80">{c.heroBody}</p>
           <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
         </Reveal>
       </Container>

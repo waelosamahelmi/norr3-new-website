@@ -207,18 +207,20 @@ export function HomeHero({
   return (
     <h1
       aria-label={`${left} ${accent}`}
-      className="flex w-full flex-wrap items-center justify-start gap-x-1.5 gap-y-1 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:gap-2 dark:text-white"
+      className="flex w-full flex-wrap items-center justify-center gap-x-1 gap-y-1 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:justify-start lg:gap-2 dark:text-white"
       onPointerMove={parallax ? handlePointerMove : undefined}
       onPointerLeave={parallax ? handlePointerLeave : undefined}
     >
-      {/* Left word — types itself in, with the blinking caret trailing it. */}
+      {/* Left word — types itself in, with the blinking caret trailing it.
+          When not typing the caret collapses to zero width so it doesn't add a
+          phantom gap before the accent word on mobile. */}
       <span aria-hidden className="block whitespace-nowrap text-[7.5vw] lg:text-[6.5vw]">
         {motion ? left.slice(0, typed) : left}
-        <span className={typing ? "caret-blink" : "opacity-0"}>_</span>
+        <span className={typing ? "caret-blink" : "inline-block w-0 overflow-hidden opacity-0"}>_</span>
       </span>
 
       {/* The rotating portrait stack. */}
-      <span aria-hidden className="order-3 mt-5 block w-full lg:order-none lg:mt-0 lg:w-auto lg:min-w-0 lg:shrink-0">
+      <span aria-hidden className="order-3 mt-10 block w-full lg:order-none lg:mt-0 lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
           ref={stageRef}
           className="relative mx-auto h-[320px] max-h-[42svh] w-[min(300px,80vw)] select-none [--card:210px] [--spread:0.72] sm:h-[480px] sm:w-full sm:max-w-md sm:[--card:340px] sm:[--spread:0.85] lg:mx-0 lg:h-[380px] lg:max-h-[52svh] lg:w-[360px] lg:[--card:360px] lg:[--spread:1]"
@@ -298,7 +300,7 @@ export function HomeHero({
       >
         <span className="inline-grid justify-items-start">
           {[accent, ...CARDS.map((card) => card.word)].map((word) => (
-            <span key={`ghost-${word}`} className="invisible col-start-1 row-start-1" aria-hidden>
+            <span key={`ghost-${word}`} className="invisible col-start-1 row-start-1 hidden lg:block" aria-hidden>
               <span className="text-ink dark:text-white">_</span>
               {word}
             </span>

@@ -40,23 +40,23 @@ export function TeamMemberCard({
             className="pointer-events-none absolute inset-0 rounded-[5px] ring-0 ring-inset ring-purple/0 transition-all duration-500 group-hover/member:ring-2 group-hover/member:ring-purple/70"
           />
         </div>
-        <h3 className="mt-4 text-xl font-medium text-ink">{member.name}</h3>
-        {member.role && <p className="mt-0.5 text-sm text-ink/60">{member.role[locale]}</p>}
-        <p className="mt-3 text-[13px] leading-relaxed text-ink/60">{member.bio[locale]}</p>
-        <div className="mt-auto flex gap-5 border-t border-black/20 pt-3 text-xs font-medium text-ink">
+        <h3 className="mt-4 text-xl font-medium text-ink dark:text-white">{member.name}</h3>
+        {member.role && <p className="mt-0.5 text-sm text-ink/60 dark:text-white/60">{member.role[locale]}</p>}
+        <p className="mt-3 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{member.bio[locale]}</p>
+        <div className="mt-auto flex gap-5 border-t border-black/20 pt-3 text-xs font-medium text-ink dark:border-white/20 dark:text-white">
           <a
             href={linkedinHref}
             target="_blank"
             rel="noreferrer"
             aria-label={`${member.name} — LinkedIn`}
-            className="inline-flex items-center gap-1 transition-colors hover:text-purple"
+            className="inline-flex items-center gap-1 transition-colors hover:text-purple dark:hover:text-light-purple"
           >
             {linkedinLabel} <span aria-hidden>→</span>
           </a>
           <a
             href={emailHref}
             aria-label={`${emailLabel} ${member.name}`}
-            className="inline-flex items-center gap-1 transition-colors hover:text-purple"
+            className="inline-flex items-center gap-1 transition-colors hover:text-purple dark:hover:text-light-purple"
           >
             {emailLabel} <span aria-hidden>→</span>
           </a>

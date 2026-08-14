@@ -73,7 +73,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
           <HeroPill>{t.pill}</HeroPill>
         </Reveal>
         <Reveal delay={0.05}>
-          <h1 className="mt-5 text-[8vw] font-medium leading-none tracking-tight text-ink lg:text-[5.5rem]">
+          <h1 className="mt-5 text-[8vw] font-medium leading-none tracking-tight text-ink lg:text-[5.5rem] dark:text-white">
             {t.heroHeadline}
           </h1>
         </Reveal>
@@ -83,13 +83,13 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
       </div>
       <Container className="pb-16 pt-10">
         <Reveal className="flex flex-col items-start gap-6">
-          <p className="max-w-sm whitespace-pre-line text-sm leading-relaxed text-ink/80">{t.heroBody}</p>
+          <p className="max-w-sm whitespace-pre-line text-sm leading-relaxed text-ink/80 dark:text-white/80">{t.heroBody}</p>
           <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
         </Reveal>
       </Container>
 
       {/* Intro + pillars */}
-      <section className="border-t border-black/5 py-20">
+      <section className="border-t border-black/5 py-20 dark:border-white/10">
         <Container>
           <SectionHeader heading={t.intro.heading} body={t.intro.body} />
           <div className="mt-16 space-y-20">
@@ -104,15 +104,15 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
                   />
                 </div>
                 <div className="flex h-full flex-col">
-                  <h3 className="text-3xl font-medium tracking-tight text-ink lg:text-4xl">{pillar.title}</h3>
-                  <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink/70">{pillar.body}</p>
+                  <h3 className="text-3xl font-medium tracking-tight text-ink lg:text-4xl dark:text-white">{pillar.title}</h3>
+                  <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink/70 dark:text-white/70">{pillar.body}</p>
                   <div className={`mt-auto grid gap-8 pt-10 ${pillar.stats.length > 2 ? "grid-cols-3" : "grid-cols-2"}`}>
                     {pillar.stats.map((s) => (
-                      <div key={s.label} className="border-t border-black/20 pt-2">
-                        <p className="text-3xl font-medium tracking-tight text-ink lg:text-4xl">
+                      <div key={s.label} className="border-t border-black/20 pt-2 dark:border-white/20">
+                        <p className="text-3xl font-medium tracking-tight text-ink lg:text-4xl dark:text-white">
                           <CountUpStat value={s.value} suffix={"suffix" in s ? s.suffix : undefined} locale={locale} />
                         </p>
-                        <p className="mt-1 text-[11px] text-ink/60">{s.label}</p>
+                        <p className="mt-1 text-[11px] text-ink/60 dark:text-white/60">{s.label}</p>
                       </div>
                     ))}
                   </div>

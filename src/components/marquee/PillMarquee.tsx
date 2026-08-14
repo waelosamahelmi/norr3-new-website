@@ -18,7 +18,9 @@ const CHIP_TONES = [
   "bg-pastel-purple text-ink",
   "bg-white text-ink ring-1 ring-black/10",
   "bg-purple text-white",
-  "bg-ink text-white",
+  // The black chip is the one tone that disappears against the dark base, so
+  // it takes the same black-pill → purple treatment as the buttons.
+  "bg-ink text-white dark:bg-purple",
 ];
 
 export function PillMarquee({

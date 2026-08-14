@@ -54,7 +54,8 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
       <section className="bg-yellow">
         <Container className="py-16 lg:py-20">
           <Reveal>
-            <HeroPill>{dict.contact.pill}</HeroPill>
+            {/* The hero band stays yellow in dark mode, so the pill keeps its purple ink. */}
+            <HeroPill onLight>{dict.contact.pill}</HeroPill>
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="mt-5 text-[10vw] font-medium leading-none tracking-tight text-ink lg:text-[6.5rem]">
@@ -81,17 +82,17 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
                 className="h-full w-full object-cover"
               />
             </div>
-            <p className="text-xs font-medium uppercase tracking-[0.14em] text-ink/50">
+            <p className="text-xs font-medium uppercase tracking-[0.14em] text-ink/50 dark:text-white/50">
               {dict.contact.directHeading}
             </p>
             <a
               href="mailto:info@norr3.fi"
-              className="mt-4 block text-2xl font-medium text-purple hover:underline"
+              className="mt-4 block text-2xl font-medium text-purple hover:underline dark:text-light-purple"
             >
               info(at)norr3.fi
             </a>
-            <p className="mt-1 text-lg text-ink/80">{dict.footer.phone}</p>
-            <div className="mt-8 space-y-1 text-sm text-ink/60">
+            <p className="mt-1 text-lg text-ink/80 dark:text-white/80">{dict.footer.phone}</p>
+            <div className="mt-8 space-y-1 text-sm text-ink/60 dark:text-white/60">
               {dict.footer.addressLines.map((line) => (
                 <p key={line}>{line}</p>
               ))}
@@ -101,16 +102,16 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
             </div>
 
             {/* Static office card — no map embed, so no third-party keys or layout shift */}
-            <div className="mt-8 rounded-[25px] bg-light-purple p-7">
+            <div className="mt-8 rounded-[25px] bg-light-purple p-7 dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
               <div className="flex items-center gap-3">
                 <span className="flex h-11 w-11 items-center justify-center rounded-[5px] bg-violet text-white">
                   <Icon name="location_on" style={{ fontSize: "22px" }} />
                 </span>
-                <p className="text-sm font-medium uppercase tracking-[0.12em] text-ink/70">
+                <p className="text-sm font-medium uppercase tracking-[0.12em] text-ink/70 dark:text-white/70">
                   {dict.contact.locationHeading}
                 </p>
               </div>
-              <div className="mt-4 space-y-1 text-[15px] text-ink/80">
+              <div className="mt-4 space-y-1 text-[15px] text-ink/80 dark:text-white/80">
                 {dict.footer.addressLines.map((line) => (
                   <p key={line}>{line}</p>
                 ))}
@@ -120,7 +121,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
 
           <Reveal delay={0.1}>
             <ContactForm dict={dict.contact} />
-            <p className="mt-4 flex items-center gap-2 text-xs text-ink/55">
+            <p className="mt-4 flex items-center gap-2 text-xs text-ink/55 dark:text-white/55">
               <Icon name="schedule" style={{ fontSize: "16px" }} />
               {dict.contact.responseTime}
             </p>

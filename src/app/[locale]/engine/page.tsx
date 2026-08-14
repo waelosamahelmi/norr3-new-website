@@ -65,7 +65,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
       </div>
       <Container className="pb-16 pt-12">
         <Reveal className="flex flex-col items-start gap-6">
-          <p className="max-w-sm text-sm leading-relaxed text-ink/80">{e.heroBody}</p>
+          <p className="max-w-sm text-sm leading-relaxed text-ink/80 dark:text-white/80">{e.heroBody}</p>
           <div className="flex flex-wrap gap-3">
             <PillButton href="#simulator">{dict.common.accessDemo}</PillButton>
             <PillButton href={`/${locale}/contact`} variant="secondary">
@@ -90,17 +90,17 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
               />
             </Reveal>
             <div>
-              <h2 className="text-3xl font-medium tracking-tight text-ink lg:text-4xl">{e.product.heading}</h2>
-              <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink/70">{e.product.body}</p>
-              <div className="mt-8 divide-y divide-black/10">
+              <h2 className="text-3xl font-medium tracking-tight text-ink lg:text-4xl dark:text-white">{e.product.heading}</h2>
+              <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink/70 dark:text-white/70">{e.product.body}</p>
+              <div className="mt-8 divide-y divide-black/10 dark:divide-white/10">
                 {e.product.features.map((f, i) => (
                   <Reveal key={f.title} delay={i * 0.05} className="flex gap-5 py-5">
                     <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-[5px] bg-violet text-white">
                       <Icon name={f.icon} style={{ fontSize: "24px" }} />
                     </div>
                     <div>
-                      <h3 className="text-base font-medium text-ink">{f.title}</h3>
-                      <p className="mt-1 text-sm leading-relaxed text-ink/60">{f.body}</p>
+                      <h3 className="text-base font-medium text-ink dark:text-white">{f.title}</h3>
+                      <p className="mt-1 text-sm leading-relaxed text-ink/60 dark:text-white/60">{f.body}</p>
                     </div>
                   </Reveal>
                 ))}
@@ -111,7 +111,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
       </section>
 
       {/* Product screenshot */}
-      <section className="bg-pastel-purple/40 py-20">
+      <section className="bg-pastel-purple/40 py-20 dark:bg-white/[0.04]">
         <Container>
           <SectionHeader heading={e.demo.heading} body={e.demo.body} />
           <Reveal delay={0.1} className="mx-auto mt-12 max-w-4xl">
@@ -126,15 +126,15 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
           <SectionHeader heading={e.workflow.heading} />
           <StaggerGrid className="mt-12 grid gap-5 sm:grid-cols-3">
             {e.workflow.steps.map((step, i) => (
-              <div key={step.title} className="flex h-full flex-col gap-4 rounded-[5px] bg-pastel-purple/40 p-8">
+              <div key={step.title} className="flex h-full flex-col gap-4 rounded-[5px] bg-pastel-purple/40 p-8 dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-[56px] w-[56px] items-center justify-center rounded-[5px] bg-ink text-white">
+                  <div className="flex h-[56px] w-[56px] items-center justify-center rounded-[5px] bg-ink text-white dark:bg-purple">
                     <Icon name={step.icon} style={{ fontSize: "26px" }} />
                   </div>
                   <span className="text-2xl font-medium text-yellow [text-shadow:0_0_1px_rgba(0,0,0,0.25)]">{String(i + 1).padStart(2, "0")}</span>
                 </div>
-                <h3 className="text-lg font-medium text-ink">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-ink/60">{step.body}</p>
+                <h3 className="text-lg font-medium text-ink dark:text-white">{step.title}</h3>
+                <p className="text-sm leading-relaxed text-ink/60 dark:text-white/60">{step.body}</p>
               </div>
             ))}
           </StaggerGrid>

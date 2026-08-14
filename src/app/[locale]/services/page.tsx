@@ -72,7 +72,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       </div>
       <Container className="pb-16 pt-12">
         <Reveal className="flex flex-col items-start gap-6">
-          <p className="max-w-sm text-sm leading-relaxed text-ink/80">{s.heroBody}</p>
+          <p className="max-w-sm text-sm leading-relaxed text-ink/80 dark:text-white/80">{s.heroBody}</p>
           <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
         </Reveal>
       </Container>
@@ -139,8 +139,8 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
               />
             </Reveal>
             <Reveal className="flex flex-col items-start gap-5">
-              <h2 className="text-4xl font-medium tracking-tight text-ink lg:text-5xl">{s.why.heading}</h2>
-              <p className="text-sm leading-relaxed text-ink/70 lg:text-[15px]">{s.why.body}</p>
+              <h2 className="text-4xl font-medium tracking-tight text-ink lg:text-5xl dark:text-white">{s.why.heading}</h2>
+              <p className="text-sm leading-relaxed text-ink/70 lg:text-[15px] dark:text-white/70">{s.why.body}</p>
             </Reveal>
           </div>
           <StaggerGrid className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -169,7 +169,9 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
               <div
                 key={card.title}
                 className={`relative flex h-full flex-col items-center gap-4 overflow-hidden rounded-[5px] px-8 pb-9 pt-20 text-center ${
-                  i === 0 ? "bg-purple text-white" : "bg-pastel-purple/60 text-ink"
+                  i === 0
+                    ? "bg-purple text-white"
+                    : "bg-pastel-purple/60 text-ink dark:bg-white/[0.04] dark:text-white dark:ring-1 dark:ring-white/10"
                 }`}
               >
                 {i === 0 && (
@@ -177,16 +179,16 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
                 )}
                 <div
                   className={`relative flex h-[64px] w-[64px] items-center justify-center rounded-[5px] ${
-                    i === 0 ? "bg-yellow text-ink" : "bg-ink text-white"
+                    i === 0 ? "bg-yellow text-ink" : "bg-ink text-white dark:bg-purple"
                   }`}
                 >
                   <Icon name={card.icon} style={{ fontSize: "28px" }} />
                 </div>
-                <span className={`relative text-xl font-medium ${i === 0 ? "text-yellow" : "text-ink/40"}`}>
+                <span className={`relative text-xl font-medium ${i === 0 ? "text-yellow" : "text-ink/40 dark:text-white/40"}`}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="relative text-base font-medium">{card.title}</h3>
-                <p className={`relative text-sm leading-relaxed ${i === 0 ? "text-white/80" : "text-ink/60"}`}>
+                <p className={`relative text-sm leading-relaxed ${i === 0 ? "text-white/80" : "text-ink/60 dark:text-white/60"}`}>
                   {card.body}
                 </p>
               </div>
@@ -227,15 +229,15 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
                 </div>
               </div>
             </Reveal>
-            <div className="divide-y divide-black/10">
+            <div className="divide-y divide-black/10 dark:divide-white/10">
               {s.features.items.map((f, i) => (
                 <Reveal key={f.title} delay={i * 0.05} className="flex gap-6 py-7">
-                  <div className="flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-[5px] bg-grey text-ink/70">
+                  <div className="flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-[5px] bg-grey text-ink/70 dark:bg-white/10 dark:text-white/70">
                     <Icon name={f.icon} style={{ fontSize: "24px" }} />
                   </div>
                   <div>
-                    <h3 className="text-base font-medium text-ink">{f.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-ink/60">{f.body}</p>
+                    <h3 className="text-base font-medium text-ink dark:text-white">{f.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-ink/60 dark:text-white/60">{f.body}</p>
                   </div>
                 </Reveal>
               ))}

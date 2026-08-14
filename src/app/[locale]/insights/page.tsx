@@ -57,12 +57,12 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
           <HeroPill>{dict.insights.pill}</HeroPill>
         </Reveal>
         <Reveal delay={0.05}>
-          <h1 className="mt-5 text-[10vw] font-medium leading-none tracking-tight text-ink lg:text-[6.5rem]">
+          <h1 className="mt-5 text-[10vw] font-medium leading-none tracking-tight text-ink lg:text-[6.5rem] dark:text-white">
             {dict.insights.heading}
           </h1>
         </Reveal>
         <Reveal delay={0.15}>
-          <p className="mt-6 max-w-sm text-sm leading-relaxed text-ink/80">{dict.insights.body}</p>
+          <p className="mt-6 max-w-sm text-sm leading-relaxed text-ink/80 dark:text-white/80">{dict.insights.body}</p>
         </Reveal>
       </Container>
 
@@ -83,7 +83,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
                   className="h-full w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center bg-pastel-purple/70">
+                <div className="flex h-full w-full items-center justify-center bg-pastel-purple/70 dark:bg-white/[0.06]">
                   <span className="select-none text-8xl font-medium text-white/80">{featured.ghost}</span>
                 </div>
               )}
@@ -93,15 +93,15 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
                 <span className="inline-flex items-center rounded-full bg-yellow px-3 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-ink">
                   {dict.insights.featuredLabel}
                 </span>
-                <span className="text-xs text-ink/50">
+                <span className="text-xs text-ink/50 dark:text-white/50">
                   {featured.date} · {featuredMinutes} {dict.insights.minRead}
                 </span>
               </div>
-              <h2 className="mt-5 text-3xl font-medium leading-tight tracking-tight text-ink lg:text-5xl">
+              <h2 className="mt-5 text-3xl font-medium leading-tight tracking-tight text-ink lg:text-5xl dark:text-white">
                 {fc.title}
               </h2>
-              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-ink/70">{fc.excerpt}</p>
-              <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-ink transition-transform group-hover:translate-x-0.5">
+              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-ink/70 dark:text-white/70">{fc.excerpt}</p>
+              <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-ink transition-transform group-hover:translate-x-0.5 dark:text-white">
                 {dict.common.readMore} <span aria-hidden>→</span>
               </span>
             </div>

@@ -89,10 +89,10 @@ export default async function CaseDetailPage({ params }: PageProps<"/[locale]/ca
       </section>
 
       {/* Intro lead */}
-      <section className="border-t border-black/5 py-16">
+      <section className="border-t border-black/5 py-16 dark:border-white/10">
         <Container>
           <Reveal className="max-w-3xl">
-            <p className="text-xl font-medium leading-snug tracking-tight text-ink lg:text-2xl">
+            <p className="text-xl font-medium leading-snug tracking-tight text-ink lg:text-2xl dark:text-white">
               {study.intro[locale]}
             </p>
           </Reveal>
@@ -115,13 +115,13 @@ export default async function CaseDetailPage({ params }: PageProps<"/[locale]/ca
       {/* 1. Objectives / 2. Solution — editorial text blocks */}
       <Container className="space-y-14 pb-20">
         <Reveal className="border-l-2 border-purple/40 pl-6">
-          <h2 className="text-2xl font-medium text-ink">{d.objectives}</h2>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70">{study.objectives[locale]}</p>
+          <h2 className="text-2xl font-medium text-ink dark:text-white">{d.objectives}</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70 dark:text-white/70">{study.objectives[locale]}</p>
         </Reveal>
 
         <Reveal className="border-l-2 border-purple/40 pl-6">
-          <h2 className="text-2xl font-medium text-ink">{d.solution}</h2>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70">{study.solution[locale]}</p>
+          <h2 className="text-2xl font-medium text-ink dark:text-white">{d.solution}</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70 dark:text-white/70">{study.solution[locale]}</p>
         </Reveal>
       </Container>
 
@@ -129,16 +129,16 @@ export default async function CaseDetailPage({ params }: PageProps<"/[locale]/ca
       <section className="pb-20">
         <Container>
           <Reveal>
-            <h2 className="text-2xl font-medium text-ink">{d.methods}</h2>
+            <h2 className="text-2xl font-medium text-ink dark:text-white">{d.methods}</h2>
           </Reveal>
           <StaggerGrid className="mt-8 grid gap-5 sm:grid-cols-3">
             {study.methods.map((m) => (
-              <div key={m[locale].title} className="flex h-full flex-col gap-4 bg-grey/60 p-7">
+              <div key={m[locale].title} className="flex h-full flex-col gap-4 bg-grey/60 p-7 dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
                 <div className="flex h-[56px] w-[56px] items-center justify-center rounded-[5px] bg-yellow text-ink">
                   <Icon name={m.icon} style={{ fontSize: "26px" }} />
                 </div>
-                <h3 className="text-base font-medium text-ink">{m[locale].title}</h3>
-                <p className="text-sm leading-relaxed text-ink/60">{m[locale].body}</p>
+                <h3 className="text-base font-medium text-ink dark:text-white">{m[locale].title}</h3>
+                <p className="text-sm leading-relaxed text-ink/60 dark:text-white/60">{m[locale].body}</p>
               </div>
             ))}
           </StaggerGrid>
@@ -160,8 +160,8 @@ export default async function CaseDetailPage({ params }: PageProps<"/[locale]/ca
         </div>
 
         <Reveal className="border-l-2 border-purple/40 pl-6">
-          <h2 className="text-2xl font-medium text-ink">{d.results}</h2>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70">{study.results[locale]}</p>
+          <h2 className="text-2xl font-medium text-ink dark:text-white">{d.results}</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70 dark:text-white/70">{study.results[locale]}</p>
         </Reveal>
 
         <div className="mt-16">
