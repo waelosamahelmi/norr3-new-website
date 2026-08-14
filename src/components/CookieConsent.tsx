@@ -41,7 +41,7 @@ export function CookieConsent({ dict }: { dict: Dictionary["cookies"] }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 16 }}
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed bottom-4 right-4 z-50 w-[calc(100vw-2rem)] max-w-[360px] rounded-[25px] border border-ink/10 bg-white p-6 shadow-xl sm:bottom-6 sm:right-6"
+          className="fixed bottom-4 right-4 z-50 w-[calc(100vw-2rem)] max-w-[360px] rounded-[25px] border border-white/40 bg-white/60 p-6 shadow-xl backdrop-blur-xl sm:bottom-6 sm:right-6"
         >
           <p className="flex items-center gap-2 font-medium">
             <Icon name="cookie" className="text-[20px] text-ink" />
@@ -51,7 +51,7 @@ export function CookieConsent({ dict }: { dict: Dictionary["cookies"] }) {
             {dict.body}{" "}
             <Link
               href="#"
-              className="text-purple underline underline-offset-2 hover:text-violet"
+              className="text-ink underline underline-offset-2 hover:text-ink/70"
             >
               {dict.privacyLink}
             </Link>
