@@ -221,7 +221,7 @@ export function HomeHero({
       <span aria-hidden className="order-3 block w-full lg:order-none lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
           ref={stageRef}
-          className="relative mx-auto h-[380px] max-h-[52svh] w-full max-w-lg select-none [--card:300px] sm:h-[500px] sm:[--card:360px] lg:mx-0 lg:w-[360px]"
+          className="relative mx-auto h-[360px] max-h-[46svh] w-[min(340px,88vw)] select-none [--card:250px] [--spread:0.72] sm:h-[480px] sm:w-full sm:max-w-md sm:[--card:340px] sm:[--spread:0.85] lg:mx-0 lg:h-[380px] lg:max-h-[52svh] lg:w-[360px] lg:[--card:360px] lg:[--spread:1]"
         >
           {CARDS.map((card, index) => {
             const slotIndex = slotOf[index];
@@ -236,7 +236,7 @@ export function HomeHero({
                 data-depth={slot.depth}
                 className="absolute inset-0"
                 style={{
-                  transform: `translate(${slot.x}, ${slot.y}) translate(var(--px, 0px), var(--py, 0px))`,
+                  transform: `translate(calc(${slot.x} * var(--spread, 1)), ${slot.y}) translate(var(--px, 0px), var(--py, 0px))`,
                   transition: motion ? `transform .8s ${EASE}` : undefined,
                   zIndex: slot.z,
                 }}
