@@ -105,7 +105,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           <Container className="relative z-10 py-8">
             <HomeHero left={dict.home.heroLeft} accent={dict.home.heroAccent} alts={heroAlts} />
             <Reveal delay={0.3} className="mt-6 flex flex-col items-start gap-4">
-              <p className="max-w-sm text-sm leading-relaxed text-ink/80">{dict.home.heroBody}</p>
+              <p className="max-w-sm text-sm leading-relaxed text-ink/80 dark:text-white/80">{dict.home.heroBody}</p>
               <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
             </Reveal>
           </Container>
@@ -180,7 +180,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <LogoStrip />
 
       {/* Marketing Engine */}
-      <section className="bg-pastel-purple/40 py-20 lg:py-24">
+      <section className="bg-pastel-purple/40 py-20 lg:py-24 dark:bg-white/[0.04]">
         <Container>
           <SectionHeader
             heading={dict.home.engine.heading}
@@ -204,7 +204,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                   loading="lazy"
                 />
               </div>
-              <p className="mt-3 text-sm leading-relaxed text-ink/70">{dict.home.engine.photoCaption}</p>
+              <p className="mt-3 text-sm leading-relaxed text-ink/70 dark:text-white/70">{dict.home.engine.photoCaption}</p>
             </Reveal>
             <Reveal delay={0.15}>
               <DashboardMock locale={locale} />
@@ -244,8 +244,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                   loading="lazy"
                 />
               </div>
-              <h3 className="mt-4 text-xl font-medium text-ink">{dict.home.about.joinTitle}</h3>
-              <p className="mt-2 text-[13px] leading-relaxed text-ink/60">{dict.home.about.joinBody}</p>
+              <h3 className="mt-4 text-xl font-medium text-ink dark:text-white">{dict.home.about.joinTitle}</h3>
+              <p className="mt-2 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{dict.home.about.joinBody}</p>
               <PillButton href={`/${locale}/team`} variant="secondary" className="mt-4 w-fit">
                 {dict.common.openJobs}
               </PillButton>
@@ -264,8 +264,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                     loading="lazy"
                   />
                 </div>
-                <h3 className="mt-4 text-base font-medium text-ink">{dict.home.about.teamTitle}</h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-ink/60">{dict.home.about.teamBody}</p>
+                <h3 className="mt-4 text-base font-medium text-ink dark:text-white">{dict.home.about.teamTitle}</h3>
+                <p className="mt-2 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{dict.home.about.teamBody}</p>
                 <PillButton href={`/${locale}/team`} variant="secondary" className="mt-4 w-fit">
                   {dict.common.readMore}
                 </PillButton>
@@ -283,8 +283,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                     loading="lazy"
                   />
                 </div>
-                <h3 className="mt-4 text-base font-medium text-ink">{dict.home.about.agencyTitle}</h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-ink/60">{dict.home.about.agencyBody}</p>
+                <h3 className="mt-4 text-base font-medium text-ink dark:text-white">{dict.home.about.agencyTitle}</h3>
+                <p className="mt-2 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{dict.home.about.agencyBody}</p>
                 <PillButton href={`/${locale}/team`} variant="secondary" className="mt-4 w-fit">
                   {dict.common.readMore}
                 </PillButton>
@@ -294,8 +294,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
           <div className="mt-20">
             <Reveal className="mx-auto mb-8 flex max-w-3xl flex-col items-center gap-4 text-center">
-              <h3 className="text-3xl font-medium tracking-tight text-ink lg:text-4xl">{dict.home.people.heading}</h3>
-              <p className="text-sm leading-relaxed text-ink/70">{dict.home.people.body}</p>
+              <h3 className="text-3xl font-medium tracking-tight text-ink lg:text-4xl dark:text-white">{dict.home.people.heading}</h3>
+              <p className="text-sm leading-relaxed text-ink/70 dark:text-white/70">{dict.home.people.body}</p>
             </Reveal>
             <TeamMarquee locale={locale} />
             <div className="mt-6 flex justify-center">

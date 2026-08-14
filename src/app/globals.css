@@ -1,8 +1,21 @@
 @import "tailwindcss";
 
+/* Class-based dark mode (Tailwind v4 is CSS-first — no darkMode config file). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #000000;
+}
+
+/*
+ * House dark theme — BRAND_GUIDELINES.md §8: near-black base with a faint
+ * violet tint, off-white text. The accent tokens (purple/violet/yellow/lime)
+ * are deliberately NOT overridden — they are designed to pop on dark.
+ */
+.dark {
+  --background: #0e0b16;
+  --foreground: #f9f8f6;
 }
 
 @theme inline {

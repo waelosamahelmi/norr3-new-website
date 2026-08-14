@@ -38,6 +38,10 @@ const fi = {
         "Ota yhteyttä NØRR3:een. Olipa asiasi pieni tai iso, meidät tunnetaan nopeasta ja ammattitaitoisesta palvelusta.",
     },
   },
+  announcement: {
+    message: "Marketing Engine 2.0 on pian täällä!",
+    dismiss: "Sulje ilmoitus",
+  },
   nav: {
     services: "Palvelut",
     engine: "Engine",
@@ -47,6 +51,7 @@ const fi = {
     contact: "Yhteystiedot",
   },
   common: {
+    toggleTheme: "Vaihda vaaleaan tai tummaan teemaan",
     contactUs: "Ota yhteyttä",
     allServices: "Kaikki palvelut",
     allCases: "Kaikki caset",
@@ -378,6 +383,10 @@ const en: Dictionary = {
         "Get in touch with NØRR3. Whether your matter is small or large, we're known for fast, professional service.",
     },
   },
+  announcement: {
+    message: "Marketing Engine 2.0 is coming soon!",
+    dismiss: "Dismiss announcement",
+  },
   nav: {
     services: "Services",
     engine: "Engine",
@@ -387,6 +396,7 @@ const en: Dictionary = {
     contact: "Contact",
   },
   common: {
+    toggleTheme: "Toggle light or dark theme",
     contactUs: "Contact us",
     allServices: "All services",
     allCases: "All cases",

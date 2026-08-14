@@ -19,7 +19,7 @@ export function ContactBanner({
   tone?: "yellow" | "lavender";
 }) {
   return (
-    <section className={tone === "yellow" ? "bg-yellow" : "bg-pastel-purple/60"}>
+    <section className={tone === "yellow" ? "bg-yellow" : "bg-pastel-purple/60 dark:bg-pastel-purple"}>
       <Reveal className="mx-auto flex max-w-[1600px] flex-col gap-6 px-6 py-12 lg:flex-row lg:items-start lg:justify-between lg:px-14">
         <h2 className="text-2xl font-medium tracking-tight text-ink lg:text-3xl">{heading}</h2>
         <div className="max-w-md">

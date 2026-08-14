@@ -24,11 +24,11 @@ export function CaseCard({
           loading="lazy"
         />
       </div>
-      <h3 className={`mt-4 font-medium text-ink ${large ? "text-xl" : "text-base"}`}>{study.client}</h3>
-      <p className="mt-2 line-clamp-4 text-[13px] leading-relaxed text-ink/60">
+      <h3 className={`mt-4 font-medium text-ink dark:text-white ${large ? "text-xl" : "text-base"}`}>{study.client}</h3>
+      <p className="mt-2 line-clamp-4 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">
         {study.summary[locale]}
       </p>
-      <span className="mt-4 inline-flex w-fit items-center rounded-full border border-ink/40 px-4 py-1.5 text-[10px] font-medium uppercase tracking-[0.08em] text-ink transition-colors group-hover:bg-ink group-hover:text-white">
+      <span className="mt-4 inline-flex w-fit items-center rounded-full border border-ink/40 px-4 py-1.5 text-[10px] font-medium uppercase tracking-[0.08em] text-ink transition-colors group-hover:bg-ink group-hover:text-white dark:border-white/40 dark:text-white dark:group-hover:bg-white dark:group-hover:text-ink">
         {readMoreLabel}
       </span>
     </Link>

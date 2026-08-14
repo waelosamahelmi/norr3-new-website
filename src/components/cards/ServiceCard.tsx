@@ -34,7 +34,9 @@ export function ServiceCard({
       <Link
         href={href}
         className={`group relative flex h-full flex-col items-center gap-4 overflow-hidden rounded-[5px] px-8 pb-9 pt-24 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple ${
-          highlighted ? "bg-purple text-white" : "bg-pastel-purple/60 text-ink"
+          highlighted
+            ? "bg-purple text-white"
+            : "bg-pastel-purple/60 text-ink dark:bg-white/[0.04] dark:text-white dark:ring-1 dark:ring-white/10"
         }`}
       >
         {highlighted && (
@@ -47,14 +49,14 @@ export function ServiceCard({
           {number}
         </span>
         <h3 className="relative text-lg font-medium">{title}</h3>
-        <p className={`relative text-sm leading-relaxed ${highlighted ? "text-white/80" : "text-ink/60"}`}>
+        <p className={`relative text-sm leading-relaxed ${highlighted ? "text-white/80" : "text-ink/60 dark:text-white/60"}`}>
           {body}
         </p>
         <span
           className={`relative mt-auto inline-flex items-center rounded-full border px-5 py-2 text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
             highlighted
               ? "border-white/50 text-white group-hover:bg-white group-hover:text-ink"
-              : "border-ink/40 text-ink group-hover:bg-ink group-hover:text-white"
+              : "border-ink/40 text-ink group-hover:bg-ink group-hover:text-white dark:border-white/40 dark:text-white dark:group-hover:bg-white dark:group-hover:text-ink"
           }`}
         >
           {readMoreLabel}

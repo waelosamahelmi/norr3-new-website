@@ -27,17 +27,17 @@ export function BlogCard({
             loading="lazy"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-pastel-purple/70">
+          <div className="flex h-full w-full items-center justify-center bg-pastel-purple/70 dark:bg-white/[0.06]">
             <span className="select-none text-7xl font-medium text-white/80 lg:text-8xl">
               {post.ghost}
             </span>
           </div>
         )}
       </div>
-      <p className="mt-4 text-xs text-ink/50">{post.date}</p>
-      <h3 className="mt-1.5 text-base font-medium leading-snug text-ink">{content.title}</h3>
-      <p className="mt-2 line-clamp-3 text-[13px] leading-relaxed text-ink/60">{content.excerpt}</p>
-      <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-ink transition-transform group-hover:translate-x-0.5">
+      <p className="mt-4 text-xs text-ink/50 dark:text-white/50">{post.date}</p>
+      <h3 className="mt-1.5 text-base font-medium leading-snug text-ink dark:text-white">{content.title}</h3>
+      <p className="mt-2 line-clamp-3 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{content.excerpt}</p>
+      <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-ink transition-transform group-hover:translate-x-0.5 dark:text-white">
         {readMoreLabel} <span aria-hidden>→</span>
       </span>
     </Link>

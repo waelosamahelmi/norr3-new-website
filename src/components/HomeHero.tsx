@@ -207,7 +207,7 @@ export function HomeHero({
   return (
     <h1
       aria-label={`${left} ${accent}`}
-      className="flex w-full flex-wrap items-center justify-center gap-2 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:justify-start lg:gap-2"
+      className="flex w-full flex-wrap items-center justify-center gap-2 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:justify-start lg:gap-2 dark:text-white"
       onPointerMove={parallax ? handlePointerMove : undefined}
       onPointerLeave={parallax ? handlePointerLeave : undefined}
     >
@@ -299,12 +299,12 @@ export function HomeHero({
         <span className="inline-grid justify-items-start">
           {[accent, ...CARDS.map((card) => card.word)].map((word) => (
             <span key={`ghost-${word}`} className="invisible col-start-1 row-start-1" aria-hidden>
-              <span className="text-purple">_</span>
+              <span className="text-ink dark:text-white">_</span>
               {word}
             </span>
           ))}
           <span className="col-start-1 row-start-1">
-            <span className="text-purple">_</span>
+            <span className="text-ink dark:text-white">_</span>
             <span key={accentWord} className={motion && !typing ? "accent-swap inline-block" : undefined}>
               {accentWord}
             </span>

@@ -41,17 +41,17 @@ export function CookieConsent({ dict }: { dict: Dictionary["cookies"] }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 16 }}
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed bottom-4 right-4 z-50 w-[calc(100vw-2rem)] max-w-[360px] rounded-[25px] border border-white/40 bg-white/60 p-6 shadow-xl backdrop-blur-xl sm:bottom-6 sm:right-6"
+          className="fixed bottom-8 right-4 z-50 w-[calc(100vw-2rem)] max-w-[360px] rounded-[25px] border border-white/40 bg-white/60 p-6 shadow-xl backdrop-blur-xl sm:bottom-10 sm:right-6 dark:border-white/15 dark:bg-white/10 dark:text-white"
         >
           <p className="flex items-center gap-2 font-medium">
-            <Icon name="cookie" className="text-[20px] text-ink" />
+            <Icon name="cookie" className="text-[20px] text-ink dark:text-white" />
             {dict.title}
           </p>
-          <p className="mt-2 text-sm leading-relaxed text-ink/70">
+          <p className="mt-2 text-sm leading-relaxed text-ink/70 dark:text-white/70">
             {dict.body}{" "}
             <Link
               href="#"
-              className="text-ink underline underline-offset-2 hover:text-ink/70"
+              className="text-ink underline underline-offset-2 hover:text-ink/70 dark:text-white dark:hover:text-white/70"
             >
               {dict.privacyLink}
             </Link>
@@ -60,14 +60,14 @@ export function CookieConsent({ dict }: { dict: Dictionary["cookies"] }) {
             <button
               type="button"
               onClick={() => choose("declined")}
-              className="px-3 py-2.5 text-sm font-medium text-ink/70 transition-colors hover:text-ink"
+              className="px-3 py-2.5 text-sm font-medium text-ink/70 transition-colors hover:text-ink dark:text-white/70 dark:hover:text-white"
             >
               {dict.decline}
             </button>
             <button
               type="button"
               onClick={() => choose("accepted")}
-              className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-ink/90"
+              className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-ink/90 dark:bg-purple dark:hover:bg-violet"
             >
               {dict.accept}
             </button>

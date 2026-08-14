@@ -8,6 +8,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { RouteWipe } from "@/components/RouteWipe";
 import { HtmlLangSync } from "@/components/HtmlLangSync";
 import { CookieConsent } from "@/components/CookieConsent";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -64,6 +65,8 @@ export default async function LocaleLayout({
 
   return (
     <MotionConfig reducedMotion="user">
+      {/* Sits in normal flow above the sticky nav, so it scrolls away. */}
+      <AnnouncementBar locale={locale} dict={dict.announcement} />
       <HtmlLangSync locale={locale} />
       <SmoothScroll />
       <RouteWipe />
