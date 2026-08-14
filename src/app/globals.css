@@ -68,6 +68,16 @@ html {
   animation: caret-blink 0.55s steps(1) 5;
 }
 
+/* Home hero: the accent word swapping in under the rotating portrait stack */
+@keyframes accent-swap {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.accent-swap {
+  animation: accent-swap 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Seamless marquee: track holds two copies of the same content */
 @keyframes marquee {
   from { transform: translateX(0); }

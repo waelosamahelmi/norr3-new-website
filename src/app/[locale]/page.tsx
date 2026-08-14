@@ -2,7 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
 import { Container } from "@/components/Container";
-import { HeroCollage } from "@/components/HeroCollage";
+import { HomeHero } from "@/components/HomeHero";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
@@ -26,14 +26,19 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   if (!isLocale(locale)) notFound();
   const dict = getDictionary(locale);
 
-  const humanAlt =
+  // Alt text for the hero's three rotating cards: 01 Plan / 02 Execute / 03 Grow.
+  const heroAlts: [string, string, string] =
     locale === "fi"
-      ? "Kaksi NØRR3:n kollegaa nauramassa kahvin ääressä läppärillä Helsingin studiolla"
-      : "Two NØRR3 colleagues laughing over coffee at a laptop in the Helsinki studio";
-  const dataAlt =
-    locale === "fi"
-      ? "NØRR3:n tiimi tarkastelee kampanjadataa yhdessä näytöltä"
-      : "NØRR3 team reviewing campaign data together on screen";
+      ? [
+          "NØRR3:n asiantuntijat suunnittelevat kampanjaa yhdessä",
+          "NØRR3:n tiimi toteuttaa mainontaa Helsingin studiolla",
+          "NØRR3:n tiimi juhlii kasvua kädet ilmassa studiolla",
+        ]
+      : [
+          "NØRR3 specialists planning a campaign together",
+          "NØRR3 creative execution in the Helsinki studio",
+          "The NØRR3 team celebrating growth with arms raised",
+        ];
 
   const featuredCases = [
     cases.find((c) => c.slug === "flow-festival")!,
@@ -91,20 +96,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Hero — "A New Way to [collage] _Grow" on one visual line, like the design */}
+      {/* Hero — "A New Way to [rotating stack] _Grow" on one visual line */}
       <Container className="pb-14 pt-10 lg:pt-16">
-        <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-between">
-          <h1 className="flex w-full flex-wrap items-center justify-between gap-6 font-medium leading-none tracking-tight text-ink lg:flex-nowrap">
-            <span className="block whitespace-nowrap text-[10vw] lg:text-[6.5vw]">{dict.home.heroLeft}</span>
-            <span className="order-3 block w-full lg:order-none lg:w-auto lg:min-w-0 lg:flex-1">
-              <HeroCollage humanAlt={humanAlt} dataAlt={dataAlt} />
-            </span>
-            <span className="block whitespace-nowrap text-[10vw] lg:text-[6.5vw]">
-              <span aria-hidden className="caret-blink">_</span>
-              {dict.home.heroAccent}
-            </span>
-          </h1>
-        </div>
+        <HomeHero left={dict.home.heroLeft} accent={dict.home.heroAccent} alts={heroAlts} />
         <Reveal delay={0.3} className="mt-10 flex flex-col items-start gap-6">
           <p className="max-w-xs text-sm leading-relaxed text-ink/80">{dict.home.heroBody}</p>
           <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
