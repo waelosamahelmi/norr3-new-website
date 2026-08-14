@@ -233,6 +233,8 @@ const fi = {
       dividerLabel: "Säädä osuutta nuolinäppäimillä",
       resetLabel: "Palauta oletukset",
       note: "Havainnollistava laskelma NØRR3:n mediadatan tyypillisistä suhteista — ei takuu tietylle kampanjalle.",
+      creativesLabel: "Enginen automaatio",
+      creativesBody: "Engine tuottaa mainosluovat eri muodoissa ja kokoissa automaattisesti yhdestä master-suunnittelusta — Meta, Display ja DOOH mukaan lukien.",
     },
     quote: {
       // Kiinteistömaailman triadi lauseina, jotta jokainen isku voi paljastua omassa tahdissaan.
@@ -795,6 +797,8 @@ const en: Dictionary = {
       dividerLabel: "Adjust the share with the arrow keys",
       resetLabel: "Reset to defaults",
       note: "An illustrative model based on typical ratios in NØRR3's media data — not a guarantee for any specific campaign.",
+      creativesLabel: "Engine automation",
+      creativesBody: "Engine generates ad creatives in multiple formats and sizes automatically from one master design — including Meta, Display and DOOH.",
     },
     quote: {
       // The Kiinteistömaailma triad as clauses, so each beat can land on its own.

@@ -15,6 +15,14 @@ const DEFAULT_BUDGET = 50000;
 /** One arrow-key press moves this many percentage points across a divider. */
 const KEY_STEP = 2;
 
+/** Creative formats the Engine auto-generates from one master design. */
+const CREATIVE_FORMATS = [
+  { id: "meta-square", label: "Meta 1:1", dimensions: "1080×1080", ratio: "1 / 1", previewWidth: "60px", icon: "grid_view" },
+  { id: "meta-story", label: "Meta Story", dimensions: "1080×1920", ratio: "9 / 16", previewWidth: "34px", icon: "mobile_friendly" },
+  { id: "display", label: "Display", dimensions: "300×250", ratio: "6 / 5", previewWidth: "60px", icon: "monitor" },
+  { id: "pdooh", label: "DOOH", dimensions: "1920×1080", ratio: "16 / 9", previewWidth: "80px", icon: "tv" },
+] as const;
+
 function evenSplit(ids: string[]): Record<string, number> {
   const share = 100 / ids.length;
   return Object.fromEntries(ids.map((id) => [id, share]));
@@ -338,6 +346,38 @@ export function MediaMixSimulator({
               />
             </PieChart>
           </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Creative automation — Engine auto-generates creatives in multiple sizes */}
+      <div className="mt-10 border-t border-white/10 pt-8">
+        <div className="flex items-center gap-2">
+          <Icon name="auto_awesome" className="text-[18px] text-yellow" />
+          <p className={eyebrow}>{labels.creativesLabel}</p>
+        </div>
+        <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/60">
+          {labels.creativesBody}
+        </p>
+        <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {CREATIVE_FORMATS.map((fmt) => (
+            <div
+              key={fmt.id}
+              className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] p-4 transition-colors hover:border-white/25"
+            >
+              <div
+                className="mx-auto mb-3 flex items-center justify-center rounded-lg bg-gradient-to-br from-purple/30 to-violet/20"
+                style={{ aspectRatio: fmt.ratio, width: fmt.previewWidth }}
+              >
+                <span className="material-symbols-outlined text-[20px] text-white/40">
+                  {fmt.icon}
+                </span>
+              </div>
+              <p className="text-center text-xs font-medium text-white/80">{fmt.label}</p>
+              <p className="mt-0.5 text-center text-[10px] tabular-nums text-white/40">
+                {fmt.dimensions}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
 
