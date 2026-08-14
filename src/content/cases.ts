@@ -19,6 +19,12 @@ export type CaseStudy = {
   methods: { icon: string; fi: { title: string; body: string }; en: { title: string; body: string } }[];
   results: { fi: string; en: string };
   metrics: CaseMetric[];
+  /**
+   * The one headline figure the case card and the detail pull-quote lead with.
+   * Always a restatement of one of `metrics` in badge-length form — never a new
+   * claim — so the card, the quote and the results grid can never disagree.
+   */
+  kpi: CaseMetric;
 };
 
 // Case imagery: real NØRR3 studio photography (the team behind each engagement).
@@ -64,6 +70,7 @@ export const cases: CaseStudy[] = [
       { value: 5.5, decimals: 1, label: { fi: "Miljoonaa tavoitettua festivaalikävijää", en: "Million festival-goers reached" } },
       { value: 0, suffix: " %", label: { fi: "Budjetin kasvua edellisvuoteen", en: "Budget growth year-over-year" } },
     ],
+    kpi: { value: 27.5, decimals: 1, suffix: " M", label: { fi: "mainosnäyttöä", en: "ad impressions" } },
   },
   {
     slug: "terveystalo",
@@ -105,6 +112,7 @@ export const cases: CaseStudy[] = [
       { value: 10, suffix: " %", label: { fi: "Mainonnan muistaminen nousi vuodessa", en: "Ad recall lift in one year" } },
       { value: 1, label: { fi: "Sija mielikuvamittareissa H1/2023", en: "Rank in brand metrics H1/2023" } },
     ],
+    kpi: { value: 1, prefix: "#", label: { fi: "mielikuvamittareissa H1/2023", en: "in brand metrics H1/2023" } },
   },
   {
     slug: "kokkola",
@@ -142,6 +150,7 @@ export const cases: CaseStudy[] = [
       { value: 12, label: { fi: "Kuukautta jatkuvaa näkyvyyttä", en: "Months of continuous visibility" } },
       { value: 1, label: { fi: "Yhtenäinen suunnitelma kaikille kanaville", en: "Unified plan across all channels" } },
     ],
+    kpi: { value: 12, label: { fi: "kk jatkuvaa näkyvyyttä", en: "months of continuous visibility" } },
   },
   {
     slug: "st1",
@@ -179,6 +188,7 @@ export const cases: CaseStudy[] = [
       { value: 360, suffix: "°", label: { fi: "Mediastrategia kaikissa kanavissa", en: "Media strategy across all channels" } },
       { value: 2022, label: { fi: "Yhteistyön laajenemisvuosi", en: "Year the partnership expanded" } },
     ],
+    kpi: { value: 4, label: { fi: "brändiä yhdellä tiimillä", en: "brands, one team" } },
   },
 ];
 

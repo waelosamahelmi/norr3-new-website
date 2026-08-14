@@ -219,7 +219,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               <p className="mt-3 text-sm leading-relaxed text-ink/70 dark:text-white/70">{dict.home.engine.photoCaption}</p>
             </Reveal>
             <Reveal delay={0.15}>
-              <DashboardMock locale={locale} />
+              <DashboardMock locale={locale} labels={dict.engine.dashboard} />
             </Reveal>
           </div>
         </Container>

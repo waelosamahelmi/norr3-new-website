@@ -69,6 +69,7 @@ const fi = {
     allAboutUs: "Tutustu meihin",
     accessDemo: "Katso demo",
     readMore: "Lue lisää",
+    readCase: "Lue case",
     viewAll: "Katso kaikki",
     meetTeam: "Tutustu tiimiin",
     bookDemo: "Varaa demo",
@@ -187,9 +188,36 @@ const fi = {
     heroAccent: "Deliver",
     heroBody:
       "Engine yhdistää datan, tekoälyn ja monikanavaisen toteutuksen yhdeksi alustaksi — briiffistä mediaan ja tuloksiin asti.",
+    // Brändin numeerinen triadi (PROMPT §2.2) — kolme lyhyttä lausetta, terävin viimeisenä.
+    triad: ["Yksi alusta.", "200+ kanavaa.", "Nolla turhaa klikkiä."],
     demo: {
       heading: "NØRR3 Marketing Engine",
       body: "Älykäs markkinoinnin automaatio, joka yhdistää datan, tekoälyn ja monikanavaisen toteutuksen yhdeksi alustaksi.",
+      note: "Havainnekuva Enginen näkymästä — esimerkkidataa, ei asiakasdataa.",
+    },
+    dashboard: {
+      alt: "Havainnekuva Enginen kampanjanäkymästä: viisi KPI-korttia, aktiivisten kampanjoiden edistymispalkit, CTR-kehityksen pylväskaavio ja AI-havaintojen kortti.",
+      title: "Kampanjanäkymä",
+      subtitle: "Reaaliaikainen suorituskyky · päivitetty 2 min sitten",
+      newCampaign: "+ Uusi kampanja",
+      kpi: {
+        campaigns: "Aktiiviset kampanjat",
+        impressions: "Mainosnäytöt",
+        ctr: "Keskimääräinen CTR",
+        conversions: "Konversiot",
+        spend: "Mediapanostus",
+      },
+      campaignsTitle: "Aktiiviset kampanjat",
+      trendTitle: "CTR-kehitys (7 vrk)",
+      campaigns: [
+        "Helsinki, keskusta — Premium",
+        "Espoo, Tapiola — uudiskohteet",
+        "Vantaa, Tikkurila — avoimet ovet",
+        "Kallio — kaupunkiasuminen",
+      ],
+      aiTitle: "AI-havainnot",
+      aiBody:
+        "Espoon kampanja +23 % keskitason yli — harkitse viikkobudjetin nostoa. PDOOH-inventaari on huipussaan klo 16.",
     },
     simulator: {
       heading: "Rakenna mediamix, katso tulos heti",
@@ -198,10 +226,15 @@ const fi = {
       reachLabel: "Arvioitu tavoittavuus",
       cpmLabel: "Painotettu keski-CPM",
       channelsLabel: "Kanavat",
+      splitLabel: "Budjetin jakauma",
+      spendLabel: "Panostus per kanava",
+      dividerLabel: "Säädä osuutta nuolinäppäimillä",
+      resetLabel: "Palauta oletukset",
       note: "Havainnollistava laskelma NØRR3:n mediadatan tyypillisistä suhteista — ei takuu tietylle kampanjalle.",
     },
     quote: {
-      stat: "150 toimistoa. 1 brändi. 0 manuaalia.",
+      // Kiinteistömaailman triadi lauseina, jotta jokainen isku voi paljastua omassa tahdissaan.
+      clauses: ["150 toimistoa.", "1 brändi.", "0 manuaalia."],
       client: "Kiinteistömaailma",
       body: "Yksi keskitetty brändi- ja kampanjalogiikka generoi paikallisen markkinoinnin joka toimistolle automaattisesti — yksi alusta korvasi kymmenet erilliset prosessit.",
     },
@@ -227,6 +260,11 @@ const fi = {
     bookDemo: {
       heading: "Näe Engine omalla mediallasi",
       body: "Varaa 30 minuutin demo, niin ajamme kanavasi alustan läpi livenä.",
+      points: [
+        { icon: "schedule", label: "30 minuuttia, ei myyntiputkea" },
+        { icon: "insights", label: "Oma mediasi alustan läpi ajettuna" },
+        { icon: "verified", label: "Kerromme myös, jos et tarvitse meitä" },
+      ],
     },
   },
   team: {
@@ -289,6 +327,8 @@ const fi = {
     heroHeadline: "Making Media a Growth Engine",
     heroBody:
       "Autamme pohjoismaisia edelläkävijäyrityksiä muuttamaan mediainvestoinnit kasvuksi ja kilpailueduksi.",
+    featuredLabel: "Nostettu case",
+    resultLabel: "Tulos",
     heading: "Caset",
     body: "Palveluportfoliomme kattaa markkinoinnin strategisen työn lisäksi kaikkien maksetun mainonnan kanavien operoinnin ja optimoinnin. Räätälöimme palveluistamme yrityksellesi sopivan mallin.",
     banner: {
@@ -579,6 +619,7 @@ const en: Dictionary = {
     allAboutUs: "All about us",
     accessDemo: "Access demo",
     readMore: "Read more",
+    readCase: "Read the case",
     viewAll: "View all",
     meetTeam: "Meet the team",
     bookDemo: "Book a demo",
@@ -697,9 +738,36 @@ const en: Dictionary = {
     heroAccent: "Deliver",
     heroBody:
       "Engine connects data, AI and multi-channel delivery into one platform — from brief to media to results.",
+    // The brand's numeric triad (PROMPT §2.2) — three short clauses, sharpest last.
+    triad: ["One platform.", "200+ channels.", "Zero wasted clicks."],
     demo: {
       heading: "NØRR3 Marketing Engine",
       body: "Intelligent marketing automation that connects data, AI, and multi-channel delivery into one unified platform.",
+      note: "An illustrative view of the Engine dashboard — sample data, not client data.",
+    },
+    dashboard: {
+      alt: "An illustrative view of the Engine campaign dashboard: five KPI cards, progress bars for active campaigns, a CTR trend bar chart and an AI insights card.",
+      title: "Campaign Dashboard",
+      subtitle: "Real-time performance · updated 2 min ago",
+      newCampaign: "+ New campaign",
+      kpi: {
+        campaigns: "Active campaigns",
+        impressions: "Total impressions",
+        ctr: "Average CTR",
+        conversions: "Conversions",
+        spend: "Media spend",
+      },
+      campaignsTitle: "Active campaigns",
+      trendTitle: "CTR trend (7d)",
+      campaigns: [
+        "Helsinki centre — Premium",
+        "Espoo Tapiola — new apartments",
+        "Vantaa Tikkurila — open house",
+        "Kallio — urban living",
+      ],
+      aiTitle: "AI insights",
+      aiBody:
+        "Espoo campaign is +23% above average — consider raising the weekly budget. PDOOH inventory peaks at 16:00.",
     },
     simulator: {
       heading: "Build a media mix, see the result instantly",
@@ -708,10 +776,15 @@ const en: Dictionary = {
       reachLabel: "Estimated reach",
       cpmLabel: "Weighted average CPM",
       channelsLabel: "Channels",
+      splitLabel: "Budget split",
+      spendLabel: "Spend per channel",
+      dividerLabel: "Adjust the share with the arrow keys",
+      resetLabel: "Reset to defaults",
       note: "An illustrative model based on typical ratios in NØRR3's media data — not a guarantee for any specific campaign.",
     },
     quote: {
-      stat: "150 offices. 1 brand. 0 manual work.",
+      // The Kiinteistömaailma triad as clauses, so each beat can land on its own.
+      clauses: ["150 offices.", "1 brand.", "0 manual work."],
       client: "Kiinteistömaailma",
       body: "One centralized brand and campaign logic generates local marketing for every office automatically — one platform replaced dozens of separate processes.",
     },
@@ -737,6 +810,11 @@ const en: Dictionary = {
     bookDemo: {
       heading: "See Engine on your own media",
       body: "Book a 30-minute demo and we'll run your channels through the platform live.",
+      points: [
+        { icon: "schedule", label: "30 minutes, no sales funnel" },
+        { icon: "insights", label: "Your own media run through the platform" },
+        { icon: "verified", label: "We'll also say if you don't need us" },
+      ],
     },
   },
   team: {
@@ -799,6 +877,8 @@ const en: Dictionary = {
     heroHeadline: "Making Media a Growth Engine",
     heroBody:
       "We help progressive Nordic companies turn media investments into growth and competitive advantage.",
+    featuredLabel: "Featured case",
+    resultLabel: "Result",
     heading: "Cases",
     body: "Beyond strategic marketing work, our portfolio covers the operation and optimization of every paid advertising channel. We tailor our services into a model that fits your company.",
     banner: {

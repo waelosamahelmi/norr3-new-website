@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 /**
  * The editorial photo card the site uses wherever a picture leads into a link:
@@ -6,6 +7,10 @@ import Link from "next/link";
  * link, the photo eases in on hover, and the pill inverts — so the card reads
  * as interactive before the click. `CaseCard` and the home page's About Us
  * blocks both render through this so the two grids stay pixel-identical.
+ *
+ * `stat` is the optional yellow result badge over the photo — the Figma case
+ * card carries its headline number, so a case grid reads as proof at a glance
+ * instead of as four summaries.
  */
 export function PhotoLinkCard({
   href,
@@ -14,6 +19,7 @@ export function PhotoLinkCard({
   title,
   body,
   ctaLabel,
+  stat,
   large = false,
   clampBody = false,
 }: {
@@ -23,6 +29,7 @@ export function PhotoLinkCard({
   title: string;
   body: string;
   ctaLabel: string;
+  stat?: ReactNode;
   large?: boolean;
   clampBody?: boolean;
 }) {
@@ -31,13 +38,18 @@ export function PhotoLinkCard({
       href={href}
       className="group flex h-full flex-col rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple"
     >
-      <div className="aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-[4/3] overflow-hidden">
         <img
           src={image}
           alt={alt}
           className="h-full w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
           loading="lazy"
         />
+        {stat && (
+          <span className="absolute bottom-3 left-3 inline-flex items-baseline gap-1.5 rounded-full bg-yellow px-3.5 py-1.5 text-ink">
+            {stat}
+          </span>
+        )}
       </div>
       <h3
         className={`mt-4 font-medium text-ink transition-colors group-hover:text-purple dark:text-white dark:group-hover:text-light-purple ${

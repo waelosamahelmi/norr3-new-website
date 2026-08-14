@@ -1,14 +1,8 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { motion, useReducedMotion } from "framer-motion";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { Icon } from "@/components/Icon";
 import { LiveNumber } from "@/components/LiveNumber";
 import { channels } from "@/content/channels";
@@ -17,12 +11,25 @@ import type { Dictionary } from "@/content/dictionary";
 
 const DEFAULT_ACTIVE = ["social", "streaming", "display", "pdooh"];
 const MIN_SHARE = 4;
+const DEFAULT_BUDGET = 50000;
+/** One arrow-key press moves this many percentage points across a divider. */
+const KEY_STEP = 2;
 
 function evenSplit(ids: string[]): Record<string, number> {
   const share = 100 / ids.length;
   return Object.fromEntries(ids.map((id) => [id, share]));
 }
 
+/**
+ * The site's signature interaction (PROMPT §4): the visitor does, in miniature,
+ * what the Engine does — set a budget, pick channels, drag the split, watch
+ * reach and CPM re-solve live.
+ *
+ * The split bar is operable by pointer *and* keyboard: each divider is a real
+ * `role="slider"` with arrow-key control, so the one moment on the site that
+ * proves the Technology pillar isn't mouse-only. Every figure is duplicated as
+ * text in the spend legend, which is why the donut itself is `aria-hidden`.
+ */
 export function MediaMixSimulator({
   locale,
   labels,
@@ -30,36 +37,50 @@ export function MediaMixSimulator({
   locale: Locale;
   labels: Dictionary["engine"]["simulator"];
 }) {
-  const [budget, setBudget] = useState(50000);
+  const [budget, setBudget] = useState(DEFAULT_BUDGET);
   const [activeIds, setActiveIds] = useState<string[]>(DEFAULT_ACTIVE);
   const [allocations, setAllocations] = useState<Record<string, number>>(
     evenSplit(DEFAULT_ACTIVE)
   );
   const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReduced = useReducedMotion();
 
   const activeChannels = useMemo(
     () => channels.filter((c) => activeIds.includes(c.id)),
     [activeIds]
   );
 
+  const nf = (value: number, decimals = 0) =>
+    value.toLocaleString(locale === "fi" ? "fi-FI" : "en-US", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+
   function toggleChannel(id: string) {
     setActiveIds((prev) => {
       const next = prev.includes(id)
         ? prev.filter((x) => x !== id)
         : [...prev, id];
+      // Never leave the mix empty — the last active channel stays on.
       if (next.length === 0) return prev;
       setAllocations(evenSplit(next));
       return next;
     });
   }
 
-  function handleDividerDrag(index: number, deltaX: number) {
-    const width = containerRef.current?.offsetWidth ?? 1;
-    const deltaPercent = (deltaX / width) * 100;
+  function reset() {
+    setBudget(DEFAULT_BUDGET);
+    setActiveIds(DEFAULT_ACTIVE);
+    setAllocations(evenSplit(DEFAULT_ACTIVE));
+  }
+
+  /** Move `deltaPercent` of budget across the divider between index and index+1. */
+  function shiftShare(index: number, deltaPercent: number) {
     setAllocations((prev) => {
       const a = { ...prev };
-      const idA = activeChannels[index].id;
-      const idB = activeChannels[index + 1].id;
+      const idA = activeChannels[index]?.id;
+      const idB = activeChannels[index + 1]?.id;
+      if (!idA || !idB) return prev;
       let newA = a[idA] + deltaPercent;
       let newB = a[idB] - deltaPercent;
       if (newA < MIN_SHARE) {
@@ -76,6 +97,23 @@ export function MediaMixSimulator({
     });
   }
 
+  function handleDividerDrag(index: number, deltaX: number) {
+    const width = containerRef.current?.offsetWidth ?? 1;
+    shiftShare(index, (deltaX / width) * 100);
+  }
+
+  function handleDividerKey(index: number, e: React.KeyboardEvent) {
+    const step =
+      e.key === "ArrowLeft" || e.key === "ArrowDown"
+        ? -KEY_STEP
+        : e.key === "ArrowRight" || e.key === "ArrowUp"
+          ? KEY_STEP
+          : 0;
+    if (step === 0) return;
+    e.preventDefault();
+    shiftShare(index, step);
+  }
+
   const boundaries = useMemo(() => {
     const cumulative: number[] = [];
     let running = 0;
@@ -86,33 +124,54 @@ export function MediaMixSimulator({
     return cumulative;
   }, [activeChannels, allocations]);
 
-  const { totalReach, weightedCpm, pieData } = useMemo(() => {
+  // One derived dataset feeds both the donut and the spend legend, so the two
+  // can never disagree.
+  const { totalReach, weightedCpm, data } = useMemo(() => {
     const data = activeChannels.map((c) => {
-      const spend = budget * ((allocations[c.id] ?? 0) / 100);
+      const share = allocations[c.id] ?? 0;
+      const spend = budget * (share / 100);
       const channelImpressions = (spend / c.cpm) * 1000;
-      return { name: c[locale], value: Math.round(channelImpressions), color: c.color };
+      return {
+        id: c.id,
+        name: c[locale],
+        share,
+        spend,
+        value: Math.round(channelImpressions),
+        color: c.color,
+      };
     });
     const impressions = data.reduce((sum, d) => sum + d.value, 0);
     return {
       totalReach: impressions,
       weightedCpm: impressions > 0 ? (budget / impressions) * 1000 : 0,
-      pieData: data,
+      data,
     };
   }, [activeChannels, allocations, budget, locale]);
 
+  const eyebrow = "text-[11px] font-medium uppercase tracking-[0.14em] text-white/50";
+  const focusRing =
+    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-light-purple";
+
   return (
-    <div className="rounded-[25px] bg-black p-6 text-white sm:p-10">
+    <div className="rounded-card bg-ink p-6 text-white ring-1 ring-white/10 sm:p-10">
       {/* Budget control */}
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <label htmlFor="budget" className="text-sm text-white/60">
-          {labels.budgetLabel}
-        </label>
-        <LiveNumber
-          value={budget}
-          locale={locale}
-          prefix="€"
-          className="text-2xl font-medium"
-        />
+      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+        <div>
+          <label htmlFor="budget" className={eyebrow}>
+            {labels.budgetLabel}
+          </label>
+          <p className="mt-1.5 text-3xl font-medium tabular-nums tracking-tight sm:text-4xl">
+            <LiveNumber value={budget} locale={locale} prefix="€" />
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={reset}
+          className={`inline-flex items-center gap-1.5 rounded-full border border-white/25 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-white/70 transition-colors hover:border-white hover:text-white ${focusRing}`}
+        >
+          <Icon name="restart_alt" className="text-[16px]" />
+          {labels.resetLabel}
+        </button>
       </div>
       <input
         id="budget"
@@ -121,59 +180,78 @@ export function MediaMixSimulator({
         max={300000}
         step={1000}
         value={budget}
+        aria-valuetext={`${nf(budget)} €`}
         onChange={(e) => setBudget(Number(e.target.value))}
-        className="mt-4 w-full accent-purple"
+        className={`mt-5 w-full accent-light-purple ${focusRing}`}
       />
+      <div className="mt-1.5 flex justify-between text-[10px] tabular-nums text-white/40">
+        <span>€{nf(5000)}</span>
+        <span>€{nf(300000)}</span>
+      </div>
 
       {/* Channel toggles */}
-      <div className="mt-8 flex flex-wrap gap-2">
-        {channels.map((c) => {
-          const isActive = activeIds.includes(c.id);
-          return (
-            <button
-              key={c.id}
-              onClick={() => toggleChannel(c.id)}
-              className={`flex items-center gap-1.5 rounded-full border px-4 py-2 text-xs font-medium transition-colors ${
-                isActive
-                  ? "border-white bg-white text-ink"
-                  : "border-white/20 text-white/60 hover:border-white/50 hover:text-white"
-              }`}
-            >
-              <Icon name={c.icon} className="text-[16px]" />
-              {c[locale]}
-            </button>
-          );
-        })}
+      <div className="mt-9">
+        <p className={eyebrow}>{labels.channelsLabel}</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {channels.map((c) => {
+            const isActive = activeIds.includes(c.id);
+            return (
+              <button
+                key={c.id}
+                type="button"
+                aria-pressed={isActive}
+                onClick={() => toggleChannel(c.id)}
+                className={`flex items-center gap-1.5 rounded-full border px-4 py-2 text-xs font-medium transition-colors ${focusRing} ${
+                  isActive
+                    ? "border-white bg-white text-ink"
+                    : "border-white/20 text-white/60 hover:border-white/50 hover:text-white"
+                }`}
+              >
+                <Icon name={c.icon} className="text-[16px]" />
+                {c[locale]}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Drag-to-resize allocation bar */}
-      <div className="mt-8">
-        <p className="mb-2 text-xs text-white/50">{labels.channelsLabel}</p>
+      <div className="mt-9">
+        <p className={eyebrow}>{labels.splitLabel}</p>
         <div
           ref={containerRef}
-          className="relative h-16 w-full overflow-hidden rounded-2xl select-none"
+          className="relative mt-3 h-16 w-full select-none overflow-hidden rounded-2xl"
         >
           <div className="flex h-full w-full">
             {activeChannels.map((c) => (
               <div
                 key={c.id}
-                className="flex items-center justify-center text-xs font-semibold text-white transition-[width] duration-150"
+                className="flex items-center justify-center text-xs font-semibold tabular-nums text-white transition-[width] duration-150"
                 style={{ width: `${allocations[c.id]}%`, backgroundColor: c.color }}
               >
-                {Math.round(allocations[c.id])}%
+                {Math.round(allocations[c.id])} %
               </div>
             ))}
           </div>
 
-          {/* Divider handles, overlaid above the segments so they're never covered by a sibling */}
+          {/* Divider handles, overlaid above the segments so they're never covered
+              by a sibling. Each is a real slider: draggable and arrow-key operable. */}
           {boundaries.map((leftPercent, i) => (
             <motion.div
-              key={i}
+              key={activeChannels[i].id}
+              role="slider"
+              tabIndex={0}
+              aria-label={`${activeChannels[i][locale]} / ${activeChannels[i + 1][locale]} — ${labels.dividerLabel}`}
+              aria-valuemin={MIN_SHARE}
+              aria-valuemax={100 - MIN_SHARE}
+              aria-valuenow={Math.round(leftPercent)}
+              aria-valuetext={`${Math.round(allocations[activeChannels[i].id])} % / ${Math.round(allocations[activeChannels[i + 1].id])} %`}
               onPan={(_, info) => handleDividerDrag(i, info.delta.x)}
+              onKeyDown={(e) => handleDividerKey(i, e)}
               whileDrag={{ scaleY: 1.05 }}
               whileTap={{ scaleY: 1.05 }}
               style={{ left: `${leftPercent}%` }}
-              className="absolute top-0 z-20 -ml-2.5 h-full w-5 cursor-col-resize touch-none"
+              className={`absolute top-0 z-20 -ml-2.5 h-full w-5 cursor-col-resize touch-none rounded-full ${focusRing}`}
             >
               <span className="absolute left-1/2 top-1/2 h-8 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70" />
             </motion.div>
@@ -182,48 +260,81 @@ export function MediaMixSimulator({
       </div>
 
       {/* Live output */}
-      <div className="mt-10 grid gap-8 sm:grid-cols-[1fr_auto]">
-        <div className="grid grid-cols-2 gap-6">
-          <div>
-            <p className="text-xs text-white/50">{labels.reachLabel}</p>
-            <p className="mt-1 text-3xl font-medium sm:text-4xl">
-              <LiveNumber value={totalReach} locale={locale} decimals={0} />
-            </p>
+      <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_auto]">
+        <div className="flex flex-col gap-8">
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <p className={eyebrow}>{labels.reachLabel}</p>
+              <p className="mt-1.5 text-3xl font-medium tabular-nums tracking-tight sm:text-5xl">
+                <LiveNumber value={totalReach} locale={locale} decimals={0} />
+              </p>
+            </div>
+            <div>
+              <p className={eyebrow}>{labels.cpmLabel}</p>
+              <p className="mt-1.5 text-3xl font-medium tabular-nums tracking-tight sm:text-5xl">
+                <LiveNumber value={weightedCpm} locale={locale} decimals={2} prefix="€" />
+              </p>
+            </div>
           </div>
+
+          {/* Spend legend — also the text equivalent of the donut */}
           <div>
-            <p className="text-xs text-white/50">{labels.cpmLabel}</p>
-            <p className="mt-1 text-3xl font-medium sm:text-4xl">
-              <LiveNumber value={weightedCpm} locale={locale} decimals={2} prefix="€" />
-            </p>
+            <p className={eyebrow}>{labels.spendLabel}</p>
+            <ul className="mt-3 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+              {data.map((d) => (
+                <li key={d.id} className="flex items-center gap-2.5 border-t border-white/10 pt-2">
+                  <span
+                    aria-hidden
+                    className="h-2.5 w-2.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: d.color }}
+                  />
+                  <span className="min-w-0 flex-1 truncate text-xs text-white/70">{d.name}</span>
+                  <span className="shrink-0 text-xs tabular-nums text-white/50">
+                    {Math.round(d.share)} %
+                  </span>
+                  <span className="shrink-0 text-xs font-medium tabular-nums text-white">
+                    €{nf(d.spend)}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-        <div className="h-40 w-40 justify-self-center">
+
+        {/* The donut repeats the legend visually, so it stays out of the a11y tree. */}
+        <div aria-hidden className="h-44 w-44 justify-self-center lg:h-52 lg:w-52">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
-                data={pieData}
+                data={data}
                 dataKey="value"
                 nameKey="name"
-                innerRadius={45}
-                outerRadius={70}
+                innerRadius="62%"
+                outerRadius="100%"
                 paddingAngle={2}
-                isAnimationActive
+                isAnimationActive={!prefersReduced}
                 animationDuration={400}
               >
-                {pieData.map((d, i) => (
-                  <Cell key={i} fill={d.color} stroke="none" />
+                {data.map((d) => (
+                  <Cell key={d.id} fill={d.color} stroke="none" />
                 ))}
               </Pie>
               <Tooltip
-                contentStyle={{ background: "#000", border: "none", borderRadius: 8, fontSize: 12 }}
-                formatter={(value, name) => [Math.round(Number(value)).toLocaleString(), String(name)]}
+                contentStyle={{
+                  background: "var(--color-ink)",
+                  border: "1px solid rgb(255 255 255 / 0.15)",
+                  borderRadius: 8,
+                  fontSize: 12,
+                }}
+                itemStyle={{ color: "var(--color-white)" }}
+                formatter={(value, name) => [nf(Number(value)), String(name)]}
               />
             </PieChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      <p className="mt-8 text-xs text-white/40">{labels.note}</p>
+      <p className="mt-10 max-w-2xl text-xs leading-relaxed text-white/40">{labels.note}</p>
     </div>
   );
 }
