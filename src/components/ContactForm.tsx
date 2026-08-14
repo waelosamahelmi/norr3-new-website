@@ -4,6 +4,11 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Dictionary } from "@/content/dictionary";
 
+/** Shared field styling — one source of truth for every input/textarea. */
+const fieldClass =
+  "mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-purple";
+const labelClass = "text-sm font-medium text-ink/70 dark:text-white/80";
+
 export function ContactForm({ dict }: { dict: Dictionary["contact"] }) {
   const [sent, setSent] = useState(false);
 
@@ -37,37 +42,22 @@ export function ContactForm({ dict }: { dict: Dictionary["contact"] }) {
             className="flex flex-col gap-5"
           >
             <div>
-              <label className="text-sm font-medium text-ink/70 dark:text-white/80">{dict.formName}</label>
-              <input
-                required
-                type="text"
-                className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-purple"
-              />
+              <label className={labelClass}>{dict.formName}</label>
+              <input required type="text" className={fieldClass} />
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <label className="text-sm font-medium text-ink/70 dark:text-white/80">{dict.formEmail}</label>
-                <input
-                  required
-                  type="email"
-                  className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-purple"
-                />
+                <label className={labelClass}>{dict.formEmail}</label>
+                <input required type="email" className={fieldClass} />
               </div>
               <div>
-                <label className="text-sm font-medium text-ink/70 dark:text-white/80">{dict.formCompany}</label>
-                <input
-                  type="text"
-                  className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-purple"
-                />
+                <label className={labelClass}>{dict.formCompany}</label>
+                <input type="text" className={fieldClass} />
               </div>
             </div>
             <div>
-              <label className="text-sm font-medium text-ink/70 dark:text-white/80">{dict.formMessage}</label>
-              <textarea
-                required
-                rows={4}
-                className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-purple"
-              />
+              <label className={labelClass}>{dict.formMessage}</label>
+              <textarea required rows={4} className={fieldClass} />
             </div>
             <button
               type="submit"
