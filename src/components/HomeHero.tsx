@@ -44,9 +44,9 @@ function useParallaxAllowed() {
  * -150px, -40px, +96px); `y` stays in px. `depth` scales the pointer parallax.
  */
 const SLOTS = [
-  { x: "-26.04%", y: "34px", scale: 0.66, opacity: 0.9, z: 1, depth: 0.3, front: false },
-  { x: "-6.94%", y: "8px", scale: 0.82, opacity: 0.97, z: 2, depth: 0.6, front: false },
-  { x: "16.67%", y: "-20px", scale: 1, opacity: 1, z: 3, depth: 1, front: true },
+  { x: "-32%", y: "34px", scale: 0.66, opacity: 0.9, z: 1, depth: 0.3, front: false },
+  { x: "-13%", y: "8px", scale: 0.82, opacity: 0.97, z: 2, depth: 0.6, front: false },
+  { x: "10%", y: "-20px", scale: 1, opacity: 1, z: 3, depth: 1, front: true },
 ] as const;
 
 type HeroCard = {
@@ -262,15 +262,29 @@ export function HomeHero({
         </div>
       </span>
 
-      {/* Accent word — cycles in sync with whichever card holds the front slot. */}
+      {/* Accent word — cycles in sync with whichever card holds the front slot.
+          An inline-grid stacks invisible ghosts of every candidate word so the
+          box always reserves the widest word's width ("Execute") — the collage
+          never reflows as the word swaps — and right-aligns the visible word so
+          it stays pinned to the row's right edge. */}
       <span
         aria-hidden
         className="block whitespace-nowrap text-[10vw] transition-opacity duration-[400ms] lg:text-[6.5vw]"
         style={{ opacity: typing ? 0 : 1 }}
       >
-        <span className="text-purple">_</span>
-        <span key={accentWord} className={motion && !typing ? "accent-swap inline-block" : undefined}>
-          {accentWord}
+        <span className="inline-grid justify-items-end">
+          {[accent, ...CARDS.map((card) => card.word)].map((word) => (
+            <span key={`ghost-${word}`} className="invisible col-start-1 row-start-1" aria-hidden>
+              <span className="text-purple">_</span>
+              {word}
+            </span>
+          ))}
+          <span className="col-start-1 row-start-1">
+            <span className="text-purple">_</span>
+            <span key={accentWord} className={motion && !typing ? "accent-swap inline-block" : undefined}>
+              {accentWord}
+            </span>
+          </span>
         </span>
       </span>
     </h1>
