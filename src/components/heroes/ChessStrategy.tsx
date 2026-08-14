@@ -28,17 +28,21 @@ const FADE_MS = 450;
  * The minimal queen, recreated from the user's draft (crown balls, three-point
  * crown, collar, skirt, plinth), centred over the first square. The plinth
  * bottom sits exactly on BOARD_Y so the piece stands on the rank.
+ * All y-coords are offset by (BOARD_Y + SQ_H - 58) so the piece shifts down
+ * to match the thinner, lower board.
  */
+const Q_Y = 22; // BOARD_Y - original plinth bottom (80 - 58)
+
 function Queen() {
   return (
     <>
-      <circle cx={19} cy={5.6} r={2.6} />
-      <circle cx={32} cy={2.6} r={2.6} />
-      <circle cx={45} cy={5.6} r={2.6} />
-      <path d="M23,22 L19,9 L27,15.5 L32,4.5 L37,15.5 L45,9 L41,22 Z" />
-      <rect x={22.5} y={22} width={19} height={5} />
-      <path d="M25.5,27 H38.5 L47,48 H17 Z" />
-      <rect x={14} y={48} width={36} height={10} />
+      <circle cx={19} cy={5.6 + Q_Y} r={2.6} />
+      <circle cx={32} cy={2.6 + Q_Y} r={2.6} />
+      <circle cx={45} cy={5.6 + Q_Y} r={2.6} />
+      <path d={`M23,${22 + Q_Y} L19,${9 + Q_Y} L27,${15.5 + Q_Y} L32,${4.5 + Q_Y} L37,${15.5 + Q_Y} L45,${9 + Q_Y} L41,${22 + Q_Y} Z`} />
+      <rect x={22.5} y={22 + Q_Y} width={19} height={5} />
+      <path d={`M25.5,${27 + Q_Y} H38.5 L47,${48 + Q_Y} H17 Z`} />
+      <rect x={14} y={48 + Q_Y} width={36} height={10} />
     </>
   );
 }
