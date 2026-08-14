@@ -25,11 +25,13 @@ export type CaseStudy = {
    * claim — so the card, the quote and the results grid can never disagree.
    */
   kpi: CaseMetric;
+  /** When true, the case-detail hero image uses the parallax scroll effect. */
+  parallax?: boolean;
 };
 
-// Case imagery: real NØRR3 studio photography (the team behind each engagement).
-// The 2026 shoot has no client-campaign shots, so we lead with authentic
-// candids rather than misleading stock — a distinct shot per case.
+// Case imagery: real campaign photography from norr3.fi — each case leads with
+// an authentic client-campaign shot, not stock. (Kiinteistömaailma gets the
+// parallax treatment on its detail page via the `parallax` flag.)
 export const cases: CaseStudy[] = [
   {
     slug: "flow-festival",
@@ -189,6 +191,48 @@ export const cases: CaseStudy[] = [
       { value: 2022, label: { fi: "Yhteistyön laajenemisvuosi", en: "Year the partnership expanded" } },
     ],
     kpi: { value: 4, label: { fi: "brändiä yhdellä tiimillä", en: "brands, one team" } },
+  },
+  {
+    slug: "kiinteistomaailma",
+    client: "Kiinteistömaailma",
+    image: "/images/cases/kiinteistomaailma.webp",
+    size: "small",
+    parallax: true,
+    summary: {
+      fi: "Kiinteistömaailman some-näkyvyyttä kasvatettiin visuaalisella ja tunnistettavalla kampanjalla, joka teki brändistä erottuvan kilpailijoiden joukossa.",
+      en: "Kiinteistömaailma's social-media visibility was grown with a visual, recognisable campaign that made the brand stand out from competitors.",
+    },
+    tagline: {
+      fi: "Some-näkyvyys, joka erottuu joukosta",
+      en: "Social visibility that stands out from the crowd",
+    },
+    intro: {
+      fi: "Kiinteistömaailma halusi kasvattaa some-näkyvyyttään ja erottua kilpailijoiden joukosta visuaalisesti tunnistettavalla kampanjalla.",
+      en: "Kiinteistömaailma wanted to grow its social-media visibility and stand out from competitors with a visually recognisable campaign.",
+    },
+    objectives: {
+      fi: "Kiinteistömaailman tavoitteena oli kasvattaa brändin tunnettuutta ja some-aktiivisuutta sekä vahvistaa visuaalista identiteettiä kilpailijoiden joukossa.",
+      en: "Kiinteistömaailma's objective was to grow brand awareness and social-media activity, and strengthen its visual identity among competitors.",
+    },
+    solution: {
+      fi: "Rakensivat visuaalisen some-kampanjan, joka hyödynsi Kiinteistömaailman brändivärejä ja tunnistettavaa tyyliä johdonmukaisesti kaikissa kanavissa.",
+      en: "They built a visual social campaign that leveraged Kiinteistömaailma's brand colours and recognisable style consistently across all channels.",
+    },
+    methods: [
+      { icon: "palette", fi: { title: "Visuaalinen suunnittelu", body: "Brändivärit ja tyyli mukautettiin some-formaatteihin tunnistettavasti." }, en: { title: "Visual design", body: "Brand colours and style adapted recognisably for social formats." } },
+      { icon: "share", fi: { title: "Some-jakelu", body: "Kampanja rullattiin kanavakohtaisesti optimoiden julkaisuajat ja formaatit." }, en: { title: "Social distribution", body: "The campaign rolled out per channel with optimised timing and formats." } },
+      { icon: "analytics", fi: { title: "Mittaus ja optimointi", body: "Näkyvyyttä ja vuorovaikutusta seurattiin ja optimoitiin lennossa." }, en: { title: "Measurement & optimization", body: "Visibility and engagement tracked and optimized in flight." } },
+    ],
+    results: {
+      fi: "Kiinteistömaailman some-näkyvyys ja vuorovaikutus kasvoivat kampanjan aikana, ja brändi erottui kilpailijoiden joukosta johdonmukaisella visuaalisella linjalla.",
+      en: "Kiinteistömaailma's social visibility and engagement grew during the campaign, and the brand stood out from competitors with a consistent visual line.",
+    },
+    metrics: [
+      { value: 1080, suffix: "px", label: { fi: "Some-julkaisut formaatissa", en: "Social posts in format" } },
+      { value: 2024, label: { fi: "Kampanjavuosi", en: "Campaign year" } },
+      { value: 100, suffix: " %", label: { fi: "Brändivärien mukaiset julkaisut", en: "Brand-consistent posts" } },
+    ],
+    kpi: { value: 2024, label: { fi: "some-kampanja käynnissä", en: "social campaign live" } },
   },
 ];
 

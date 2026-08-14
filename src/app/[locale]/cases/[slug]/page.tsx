@@ -68,14 +68,22 @@ export default async function CaseDetailPage({ params }: PageProps<"/[locale]/ca
       {/* Editorial hero — magazine opener */}
       <section className="relative">
         <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/10] lg:aspect-[16/7]">
-          <img
-            src={study.image}
-            alt={`${study.client} — ${study.tagline[locale]}`}
-            width={1600}
-            height={1066}
-            fetchPriority="high"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
+          {study.parallax ? (
+            <ParallaxImage
+              src={study.image}
+              alt={`${study.client} — ${study.tagline[locale]}`}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : (
+            <img
+              src={study.image}
+              alt={`${study.client} — ${study.tagline[locale]}`}
+              width={1600}
+              height={1066}
+              fetchPriority="high"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/5" />
           <Container className="absolute inset-x-0 bottom-0 pb-10 lg:pb-14">
             <Reveal>
