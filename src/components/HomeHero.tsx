@@ -204,7 +204,7 @@ export function HomeHero({
       <span aria-hidden className="order-3 block w-full lg:order-none lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
           ref={stageRef}
-          className="relative mx-auto h-[420px] w-full max-w-lg select-none [--card:300px] sm:h-[500px] sm:[--card:360px] lg:mx-0 lg:w-[437px]"
+          className="relative mx-auto h-[420px] w-full max-w-lg select-none [--card:300px] sm:h-[500px] sm:[--card:360px] lg:mx-0 lg:w-[360px]"
         >
           {CARDS.map((card, index) => {
             const slot = SLOTS[slotOf[index]];
@@ -223,8 +223,8 @@ export function HomeHero({
                   className="absolute left-1/2 top-1/2 aspect-[3/4] overflow-hidden rounded-md shadow-[0_14px_34px_rgba(0,0,0,0.22)]"
                   style={{
                     // Card width as a share of the stage (percentage-based) so
-                    // it scales cleanly at every breakpoint; front card = 60%.
-                    width: `calc(${slot.scale} * 60%)`,
+                    // it scales cleanly at every breakpoint; front card = 72%.
+                    width: `calc(${slot.scale} * 72%)`,
                     opacity: slot.opacity,
                     transform: "translate(-50%, -50%)",
                     outline: "2.5px solid transparent",
