@@ -97,19 +97,23 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Hero — "A New Way to [rotating stack] _Grow" on one visual line */}
-      <section className="relative overflow-hidden">
-        <DotGrid />
-        <Container className="relative z-10 pb-14 pt-10 lg:pt-16">
-          <HomeHero left={dict.home.heroLeft} accent={dict.home.heroAccent} alts={heroAlts} />
-          <Reveal delay={0.3} className="mt-10 flex flex-col items-start gap-6">
-            <p className="max-w-xs text-sm leading-relaxed text-ink/80">{dict.home.heroBody}</p>
-            <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
-          </Reveal>
-        </Container>
+      {/* Hero — screen-height: headline + rotating stack, body/CTA, and the
+          client-logo strip all fit within one viewport (minus the sticky nav). */}
+      <section className="relative flex min-h-[calc(100svh-4.25rem)] flex-col overflow-hidden">
+        <div className="relative flex flex-1 flex-col justify-center overflow-hidden">
+          <DotGrid />
+          <Container className="relative z-10 py-8">
+            <HomeHero left={dict.home.heroLeft} accent={dict.home.heroAccent} alts={heroAlts} />
+            <Reveal delay={0.3} className="mt-6 flex flex-col items-start gap-4">
+              <p className="max-w-sm text-sm leading-relaxed text-ink/80">{dict.home.heroBody}</p>
+              <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
+            </Reveal>
+          </Container>
+        </div>
+        <div className="relative z-10">
+          <LogoStrip />
+        </div>
       </section>
-
-      <LogoStrip />
 
       {/* Services */}
       <section className="py-20 lg:py-24">
