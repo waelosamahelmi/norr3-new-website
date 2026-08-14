@@ -5,10 +5,11 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Icon } from "@/components/Icon";
 import type { Dictionary } from "@/content/dictionary";
+import type { Locale } from "@/i18n/config";
 
 const STORAGE_KEY = "norr3-cookie-consent";
 
-export function CookieConsent({ dict }: { dict: Dictionary["cookies"] }) {
+export function CookieConsent({ dict, locale }: { dict: Dictionary["cookies"]; locale: Locale }) {
   // Starts false so the server render and the first client render both emit
   // nothing — the choice lives in localStorage, which only exists after mount.
   const [visible, setVisible] = useState(false);
@@ -50,8 +51,8 @@ export function CookieConsent({ dict }: { dict: Dictionary["cookies"] }) {
           <p className="mt-2 text-sm leading-relaxed text-ink/70 dark:text-white/70">
             {dict.body}{" "}
             <Link
-              href="#"
-              className="text-ink underline underline-offset-2 hover:text-ink/70 dark:text-white dark:hover:text-white/70"
+              href={`/${locale}/privacy`}
+              className="rounded-sm text-ink underline underline-offset-2 hover:text-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-white dark:hover:text-light-purple"
             >
               {dict.privacyLink}
             </Link>

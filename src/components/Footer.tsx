@@ -78,14 +78,23 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
         </div>
       </div>
 
+      {/* Legal row: real routes now exist, so these are no longer href="#". */}
       <div className="mx-auto flex max-w-[1600px] flex-col gap-2 px-6 pb-8 text-xs text-white/70 sm:flex-row sm:items-center sm:justify-between lg:px-14">
         <p>{dict.footer.copyright}</p>
-        <Link href="#" className="hover:text-white">
-          {dict.footer.privacy}
-        </Link>
-        <Link href="#" className="hover:text-white">
-          {dict.footer.terms}
-        </Link>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <Link
+            href={`/${locale}/privacy`}
+            className="rounded-sm underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            {dict.footer.privacy}
+          </Link>
+          <Link
+            href={`/${locale}/terms`}
+            className="rounded-sm underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            {dict.footer.terms}
+          </Link>
+        </div>
       </div>
     </footer>
   );

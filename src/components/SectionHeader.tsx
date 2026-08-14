@@ -17,14 +17,15 @@ export function SectionHeader({
   tone?: "dark" | "light";
 }) {
   return (
-    <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
+    <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
       <h2
-        className={`text-4xl font-medium tracking-tight lg:text-5xl ${tone === "light" ? "text-white" : "text-ink dark:text-white"}`}
+        className={`text-4xl font-medium leading-[1.1] tracking-tight lg:text-5xl ${tone === "light" ? "text-white" : "text-ink dark:text-white"}`}
       >
         {heading}
       </h2>
+      {/* Body sits at the brand body size (15/16px) — 14px read as fine print. */}
       {body && (
-        <p className={`text-sm leading-relaxed lg:text-[15px] ${tone === "light" ? "text-white/80" : "text-ink/70 dark:text-white/70"}`}>
+        <p className={`text-[15px] leading-relaxed lg:text-base ${tone === "light" ? "text-white/80" : "text-ink/70 dark:text-white/70"}`}>
           {body}
         </p>
       )}

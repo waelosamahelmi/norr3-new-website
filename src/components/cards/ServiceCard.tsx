@@ -33,23 +33,25 @@ export function ServiceCard({
     <HoverLift className="h-full">
       <Link
         href={href}
-        className={`group relative flex h-full flex-col items-center gap-4 overflow-hidden rounded-[5px] px-8 pb-9 pt-24 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple ${
+        className={`group relative flex h-full flex-col items-center gap-4 overflow-hidden rounded-card px-card-pad pb-card-pad pt-20 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple ${
           highlighted
             ? "bg-purple text-white"
             : "bg-pastel-purple/60 text-ink dark:bg-white/[0.04] dark:text-white dark:ring-1 dark:ring-white/10"
         }`}
       >
         {highlighted && (
-          <PixelArt color="#000000" className="pointer-events-none absolute -left-4 -top-4 w-2/3 opacity-90" />
+          <PixelArt className="pointer-events-none absolute -left-4 -top-4 w-2/3 opacity-90" />
         )}
-        <div className="relative flex h-[72px] w-[72px] items-center justify-center rounded-[5px] bg-yellow text-ink">
-          <Icon name={icon} style={{ fontSize: "32px" }} />
+        {/* 100×100 tile, 5px radius, yellow ground + black icon — the marketing
+            service card treatment from BRAND_GUIDELINES §5. */}
+        <div className="relative flex h-[100px] w-[100px] items-center justify-center rounded-[5px] bg-yellow text-ink">
+          <Icon name={icon} style={{ fontSize: "40px" }} />
         </div>
         <span className="relative text-2xl font-medium text-yellow [text-shadow:0_0_1px_rgba(0,0,0,0.15)]">
           {number}
         </span>
-        <h3 className="relative text-lg font-medium">{title}</h3>
-        <p className={`relative text-sm leading-relaxed ${highlighted ? "text-white/80" : "text-ink/60 dark:text-white/60"}`}>
+        <h3 className="relative text-xl font-medium leading-snug">{title}</h3>
+        <p className={`relative text-sm leading-relaxed ${highlighted ? "text-white/85" : "text-ink/65 dark:text-white/65"}`}>
           {body}
         </p>
         <span

@@ -30,15 +30,21 @@ export function StatGrid({
 }) {
   return (
     <div>
-      {label && <p className="mb-4 text-xs font-medium text-ink/60 dark:text-white/60">{label}</p>}
+      {label && (
+        <p className="mb-5 text-xs font-medium uppercase tracking-[0.14em] text-ink/50 dark:text-white/50">
+          {label}
+        </p>
+      )}
       <div className={`grid gap-x-14 ${columns === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
         {stats.map((s, i) => (
           <Reveal key={i} delay={i * 0.06} className="border-t border-black/20 pb-8 pt-3 dark:border-white/20">
+            {/* tabular-nums keeps the figure from reflowing while it counts up.
+                Sizes/tracking follow the brand type scale (stat 110px / -6%). */}
             <p
-              className={`font-medium tracking-tight text-ink dark:text-white ${
-                size === "large" ? "text-6xl lg:text-8xl" : "text-4xl lg:text-6xl"
+              className={`font-medium leading-[1.15] tabular-nums text-ink dark:text-white ${
+                size === "large" ? "text-6xl lg:text-stat" : "text-4xl lg:text-6xl"
               }`}
-              style={{ letterSpacing: "-0.04em" }}
+              style={{ letterSpacing: "-0.06em" }}
             >
               <CountUpStat
                 value={s.value}
@@ -49,7 +55,9 @@ export function StatGrid({
                 grouping={s.grouping}
               />
             </p>
-            <p className="mt-2 text-xs text-ink/60 dark:text-white/60">{s.label}</p>
+            <p className="mt-3 max-w-[36ch] text-[13px] leading-relaxed text-ink/65 dark:text-white/65">
+              {s.label}
+            </p>
           </Reveal>
         ))}
       </div>

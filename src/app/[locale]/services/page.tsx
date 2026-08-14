@@ -56,32 +56,40 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
 
   return (
     <>
+      {/*
+        Same section rhythm as the home page: a run of base-background sections
+        opens with `pt-24 lg:pt-32` and every member closes with `pb-24 lg:pb-32`,
+        so interior pages read as one family. Bands reset the run.
+      */}
+
       {/* Hero */}
-      <Container className="pt-10 lg:pt-16">
+      <Container className="pt-12 lg:pt-20">
         <Reveal>
           <HeroPill>{s.pill}</HeroPill>
         </Reveal>
         <SplitHeadline
           left={s.heroLeft}
           accent={s.heroAccent}
-          className="mt-5 text-[9vw] leading-none lg:text-[6.5rem]"
+          className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
         />
       </Container>
-      <div className="mt-8">
+      <div className="mt-10 lg:mt-12">
         <PillMarquee items={pills} />
       </div>
-      <Container className="pb-16 pt-12">
+      <Container className="pb-24 pt-12 lg:pb-32">
         <Reveal className="flex flex-col items-start gap-6">
-          <p className="max-w-sm text-sm leading-relaxed text-ink/80 dark:text-white/80">{s.heroBody}</p>
+          <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
+            {s.heroBody}
+          </p>
           <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
         </Reveal>
       </Container>
 
       {/* Six service areas — the numbered brand service cards */}
-      <section className="pb-8 pt-4">
+      <section className="pb-24 lg:pb-32">
         <Container>
           <SectionHeader heading={s.areas.heading} body={s.areas.body} />
-          <StaggerGrid className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {serviceCards.map((card) => (
               <ServiceCard
                 key={card.number}
@@ -99,7 +107,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       </section>
 
       {/* NØRR3 Media Insights — black band */}
-      <section className="bg-ink py-20">
+      <section className="bg-ink py-24 lg:py-32">
         <Container>
           <SectionHeader
             heading={s.insights.heading}
@@ -108,8 +116,12 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             ctaHref={`/${locale}/contact`}
             tone="light"
           />
-          <Reveal delay={0.1} className="mx-auto mt-12 max-w-4xl">
-            <AudienceChart legendMen={s.insights.legendMen} legendWomen={s.insights.legendWomen} />
+          <Reveal delay={0.1} className="mx-auto mt-14 max-w-4xl lg:mt-16">
+            <AudienceChart
+              legendMen={s.insights.legendMen}
+              legendWomen={s.insights.legendWomen}
+              description={s.insights.chartAlt}
+            />
           </Reveal>
         </Container>
       </section>
@@ -125,10 +137,10 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       <LogoStrip />
 
       {/* Why choose Media Insights */}
-      <section className="py-20">
+      <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
         <Container>
-          <div className="grid items-center gap-10 lg:grid-cols-2">
-            <Reveal className="overflow-hidden rounded-[25px]">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            <Reveal className="overflow-hidden rounded-card">
               <img
                 src="/images/brand/services-collab.webp"
                 width={1600}
@@ -138,12 +150,14 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
                 loading="lazy"
               />
             </Reveal>
-            <Reveal className="flex flex-col items-start gap-5">
-              <h2 className="text-4xl font-medium tracking-tight text-ink lg:text-5xl dark:text-white">{s.why.heading}</h2>
-              <p className="text-sm leading-relaxed text-ink/70 lg:text-[15px] dark:text-white/70">{s.why.body}</p>
+            <Reveal className="flex flex-col items-start gap-6">
+              <h2 className="text-4xl font-medium leading-[1.1] tracking-tight text-ink lg:text-5xl dark:text-white">
+                {s.why.heading}
+              </h2>
+              <p className="text-[15px] leading-relaxed text-ink/70 lg:text-base dark:text-white/70">{s.why.body}</p>
             </Reveal>
           </div>
-          <StaggerGrid className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <StaggerGrid className="mt-16 grid gap-card-gap sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
             {s.why.benefits.map((b) => (
               <BenefitCard key={b.title} icon={b.icon} title={b.title} body={b.body} />
             ))}
@@ -151,7 +165,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
         </Container>
       </section>
 
-      <Container className="pb-20">
+      <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
           image="/images/brand/services-planning.webp"
           alt={locale === "fi" ? "NØRR3:n suunnittelijat tarkastelevat mediasuunnitelmaa läppäriltä valoisassa neuvotteluhuoneessa" : "NØRR3 planners reviewing a media plan on a laptop in a bright meeting room"}
@@ -160,42 +174,49 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
         />
       </Container>
 
-      {/* Reliable data */}
-      <section className="pb-20">
+      {/* Reliable data — a three-step explainer, so the index numbers take the
+          primary purple rather than the yellow reserved for the numbered
+          service cards above (yellow on a pastel ground reads poorly anyway).
+          Card radius/padding follow BRAND_GUIDELINES §5. */}
+      <section className="pb-24 lg:pb-32">
         <Container>
           <SectionHeader heading={s.data.heading} body={s.data.body} />
-          <StaggerGrid className="mt-14 grid gap-5 lg:grid-cols-3">
+          <StaggerGrid className="mt-14 grid gap-card-gap lg:mt-16 lg:grid-cols-3">
             {s.data.cards.map((card, i) => (
               <div
                 key={card.title}
-                className={`relative flex h-full flex-col items-center gap-4 overflow-hidden rounded-[5px] px-8 pb-9 pt-20 text-center ${
+                className={`relative flex h-full flex-col items-center gap-4 overflow-hidden rounded-card px-card-pad pb-card-pad pt-16 text-center ${
                   i === 0
                     ? "bg-purple text-white"
                     : "bg-pastel-purple/60 text-ink dark:bg-white/[0.04] dark:text-white dark:ring-1 dark:ring-white/10"
                 }`}
               >
                 {i === 0 && (
-                  <PixelArt color="#000000" className="pointer-events-none absolute -left-4 -top-4 w-2/3 opacity-90" />
+                  <PixelArt className="pointer-events-none absolute -left-4 -top-4 w-2/3 opacity-90" />
                 )}
                 <div
                   className={`relative flex h-[64px] w-[64px] items-center justify-center rounded-[5px] ${
-                    i === 0 ? "bg-yellow text-ink" : "bg-ink text-white dark:bg-purple"
+                    i === 0 ? "bg-yellow text-ink" : "bg-violet text-white"
                   }`}
                 >
                   <Icon name={card.icon} style={{ fontSize: "28px" }} />
                 </div>
-                <span className={`relative text-xl font-medium ${i === 0 ? "text-yellow" : "text-ink/40 dark:text-white/40"}`}>
+                <span
+                  className={`relative text-xl font-medium tabular-nums ${
+                    i === 0 ? "text-yellow" : "text-purple dark:text-light-purple"
+                  }`}
+                >
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="relative text-base font-medium">{card.title}</h3>
-                <p className={`relative text-sm leading-relaxed ${i === 0 ? "text-white/80" : "text-ink/60 dark:text-white/60"}`}>
+                <h3 className="relative text-lg font-medium">{card.title}</h3>
+                <p className={`relative text-sm leading-relaxed ${i === 0 ? "text-white/85" : "text-ink/65 dark:text-white/65"}`}>
                   {card.body}
                 </p>
               </div>
             ))}
           </StaggerGrid>
 
-          <div className="mt-16">
+          <div className="mt-20 lg:mt-24">
             <StatGrid
               stats={s.data.stats.map((st) => ({ ...st }))}
               locale={locale}
@@ -207,12 +228,14 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       </section>
 
       {/* Features */}
-      <section className="pb-20">
+      <section className="pb-24 lg:pb-32">
         <Container>
           <SectionHeader heading={s.features.heading} body={s.features.body} />
-          <div className="mt-14 grid items-start gap-10 lg:grid-cols-2">
-            <Reveal className="rounded-[5px] bg-ink p-10 lg:sticky lg:top-28">
-              <div className="mx-auto max-w-xs rounded-md bg-white p-6">
+          <div className="mt-14 grid items-start gap-12 lg:mt-16 lg:grid-cols-2 lg:gap-16">
+            {/* Decorative product visual — purely illustrative, so it is hidden
+                from assistive tech; the real chart above carries a description. */}
+            <Reveal className="rounded-card bg-ink p-10 lg:sticky lg:top-28">
+              <div aria-hidden className="mx-auto max-w-xs rounded-[16px] bg-white p-6">
                 <div className="flex h-40 items-end gap-2">
                   {[30, 55, 40, 75, 50, 85].map((h, i) => (
                     <div key={i} className="flex h-full w-full flex-col justify-end gap-[2px]">
@@ -229,25 +252,27 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
                 </div>
               </div>
             </Reveal>
-            <div className="divide-y divide-black/10 dark:divide-white/10">
+            <ul className="divide-y divide-black/10 dark:divide-white/10">
               {s.features.items.map((f, i) => (
-                <Reveal key={f.title} delay={i * 0.05} className="flex gap-6 py-7">
-                  <div className="flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-[5px] bg-grey text-ink/70 dark:bg-white/10 dark:text-white/70">
+                <Reveal key={f.title} as="li" delay={i * 0.05} className="flex gap-6 py-8 first:pt-0">
+                  {/* Violet tile + white icon — the brand icon-tile treatment,
+                      identical in both themes instead of a grey/white split. */}
+                  <div className="flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-[5px] bg-violet text-white">
                     <Icon name={f.icon} style={{ fontSize: "24px" }} />
                   </div>
                   <div>
-                    <h3 className="text-base font-medium text-ink dark:text-white">{f.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-ink/60 dark:text-white/60">{f.body}</p>
+                    <h3 className="text-lg font-medium text-ink dark:text-white">{f.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-ink/65 dark:text-white/65">{f.body}</p>
                   </div>
                 </Reveal>
               ))}
-            </div>
+            </ul>
           </div>
         </Container>
       </section>
 
       {/* Related cases */}
-      <section className="pb-16">
+      <section className="pb-24 lg:pb-32">
         <Container>
           <SectionHeader
             heading={s.relatedCases}
@@ -255,7 +280,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             cta={dict.common.allCases}
             ctaHref={`/${locale}/cases`}
           />
-          <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {relatedCases.map((c) => (
               <CaseCard key={c.slug} study={c} locale={locale} readMoreLabel={dict.common.readMore} />
             ))}
@@ -265,11 +290,17 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
 
       <HighlightsBand label={dict.common.highlights} />
 
-      {/* Related posts */}
-      <section className="py-20">
+      {/* Related posts — now has the same "all insights" exit as every other
+          card grid on the site, instead of dead-ending. */}
+      <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
         <Container>
-          <SectionHeader heading={s.relatedPosts} body={dict.home.blog.body} />
-          <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          <SectionHeader
+            heading={s.relatedPosts}
+            body={dict.home.blog.body}
+            cta={dict.common.allInsights}
+            ctaHref={`/${locale}/insights`}
+          />
+          <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
             {insights.map((post) => (
               <BlogCard key={post.slug} post={post} locale={locale} readMoreLabel={dict.common.readMore} />
             ))}

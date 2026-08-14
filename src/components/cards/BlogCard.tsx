@@ -17,7 +17,10 @@ export function BlogCard({
 }) {
   const content = post[locale];
   return (
-    <Link href={`/${locale}/insights/${post.slug}`} className="group flex h-full flex-col">
+    <Link
+      href={`/${locale}/insights/${post.slug}`}
+      className="group flex h-full flex-col rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple"
+    >
       <div className="aspect-[5/4] overflow-hidden">
         {post.image ? (
           <img
@@ -35,9 +38,11 @@ export function BlogCard({
         )}
       </div>
       <p className="mt-4 text-xs text-ink/50 dark:text-white/50">{post.date}</p>
-      <h3 className="mt-1.5 text-base font-medium leading-snug text-ink dark:text-white">{content.title}</h3>
-      <p className="mt-2 line-clamp-3 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{content.excerpt}</p>
-      <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-ink transition-transform group-hover:translate-x-0.5 dark:text-white">
+      <h3 className="mt-1.5 text-base font-medium leading-snug text-ink transition-colors group-hover:text-purple dark:text-white dark:group-hover:text-light-purple">
+        {content.title}
+      </h3>
+      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-ink/65 dark:text-white/65">{content.excerpt}</p>
+      <span className="mt-auto inline-flex items-center gap-1 pt-4 text-xs font-medium text-ink transition-transform group-hover:translate-x-0.5 dark:text-white">
         {readMoreLabel} <span aria-hidden>→</span>
       </span>
     </Link>

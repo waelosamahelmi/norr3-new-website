@@ -13,6 +13,7 @@ import { HighlightsBand } from "@/components/marquee/HighlightsBand";
 import { ServiceCard } from "@/components/cards/ServiceCard";
 import { CaseCard } from "@/components/cards/CaseCard";
 import { BlogCard } from "@/components/cards/BlogCard";
+import { PhotoLinkCard } from "@/components/cards/PhotoLinkCard";
 import { PhotoInterstitial } from "@/components/PhotoInterstitial";
 import { ContactBanner } from "@/components/ContactBanner";
 import { DashboardMock } from "@/components/DashboardMock";
@@ -104,8 +105,12 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           <DotGrid />
           <Container className="relative z-10 py-8">
             <HomeHero left={dict.home.heroLeft} accent={dict.home.heroAccent} alts={heroAlts} />
-            <Reveal delay={0.3} className="mt-6 flex flex-col items-start gap-4">
-              <p className="max-w-sm text-sm leading-relaxed text-ink/80 dark:text-white/80">{dict.home.heroBody}</p>
+            {/* Hero promise + primary CTA. Body sits at brand body size (15/16px)
+                rather than 14px — it is the first sentence a visitor reads. */}
+            <Reveal delay={0.3} className="mt-7 flex flex-col items-start gap-5 lg:mt-8">
+              <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
+                {dict.home.heroBody}
+              </p>
               <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
             </Reveal>
           </Container>
@@ -115,8 +120,15 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </div>
       </section>
 
+      {/*
+        Section rhythm on this page: a run of base-background sections opens with
+        `pt-24 lg:pt-32` and every member closes with `pb-24 lg:pb-32`, so the gap
+        between two of them is exactly one unit. Full-width bands (Highlights,
+        Engine, ContactBanner) bring their own padding and reset the run.
+      */}
+
       {/* Services */}
-      <section className="py-20 lg:py-24">
+      <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
         <Container>
           <SectionHeader
             heading={dict.home.services.heading}
@@ -124,7 +136,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             cta={dict.common.allServices}
             ctaHref={`/${locale}/services`}
           />
-          <StaggerGrid className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {serviceCards.map((card) => (
               <ServiceCard
                 key={card.number}
@@ -142,7 +154,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       </section>
 
       {/* Values photo with pill overlay */}
-      <Container className="pb-20">
+      <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
           image="/images/brand/space-lounge.webp"
           alt={
@@ -156,7 +168,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       </Container>
 
       {/* Cases */}
-      <section className="pb-16">
+      <section className="pb-24 lg:pb-32">
         <Container>
           <SectionHeader
             heading={dict.home.cases.heading}
@@ -164,7 +176,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             cta={dict.common.allCases}
             ctaHref={`/${locale}/cases`}
           />
-          <div className="mt-14 grid gap-x-6 gap-y-12 lg:grid-cols-2">
+          <div className="mt-14 grid gap-x-6 gap-y-12 lg:mt-16 lg:grid-cols-2">
             <CaseCard study={featuredCases[0]} locale={locale} readMoreLabel={dict.common.readMore} large />
             <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2">
               {featuredCases.slice(1).map((c) => (
@@ -180,7 +192,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <LogoStrip />
 
       {/* Marketing Engine */}
-      <section className="bg-pastel-purple/40 py-20 lg:py-24 dark:bg-white/[0.04]">
+      <section className="bg-pastel-purple/40 py-24 lg:py-32 dark:bg-white/[0.04]">
         <Container>
           <SectionHeader
             heading={dict.home.engine.heading}
@@ -188,7 +200,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             cta={dict.common.accessDemo}
             ctaHref={`/${locale}/engine`}
           />
-          <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-2">
+          <div className="mt-14 grid items-stretch gap-card-gap lg:mt-16 lg:grid-cols-2">
             <Reveal delay={0.05} className="flex flex-col">
               <div className="overflow-hidden rounded-[25px]">
                 <img
@@ -221,8 +233,10 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         tone="yellow"
       />
 
-      {/* About Us */}
-      <section className="py-20 lg:py-24">
+      {/* About Us — the three blocks are now the same PhotoLinkCard the Cases
+          grid above uses, so both grids share one photo/title/pill rhythm and
+          the whole card (not just a small pill) is the click target. */}
+      <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
         <Container>
           <SectionHeader
             heading={dict.home.about.heading}
@@ -230,87 +244,71 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             cta={dict.common.allAboutUs}
             ctaHref={`/${locale}/team`}
           />
-          <div className="mt-14 grid gap-x-6 gap-y-12 lg:grid-cols-2">
-            <div className="flex flex-col">
-              <div className="aspect-[4/3] overflow-hidden">
-                <img
-                  src="/images/brand/team-energy.webp"
-                  alt={
-                    locale === "fi"
-                      ? "NØRR3:n tiimi juhlii kädet ilmassa studion NORR3-kirjainten alla"
-                      : "The NØRR3 team celebrating with arms raised under the studio's NORR3 letters"
-                  }
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <h3 className="mt-4 text-xl font-medium text-ink dark:text-white">{dict.home.about.joinTitle}</h3>
-              <p className="mt-2 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{dict.home.about.joinBody}</p>
-              <PillButton href={`/${locale}/team`} variant="secondary" className="mt-4 w-fit">
-                {dict.common.openJobs}
-              </PillButton>
-            </div>
+          <div className="mt-14 grid gap-x-6 gap-y-12 lg:mt-16 lg:grid-cols-2">
+            <PhotoLinkCard
+              href={`/${locale}/team`}
+              image="/images/brand/team-energy.webp"
+              alt={
+                locale === "fi"
+                  ? "NØRR3:n tiimi juhlii kädet ilmassa studion NORR3-kirjainten alla"
+                  : "The NØRR3 team celebrating with arms raised under the studio's NORR3 letters"
+              }
+              title={dict.home.about.joinTitle}
+              body={dict.home.about.joinBody}
+              ctaLabel={dict.common.openJobs}
+              large
+            />
             <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2">
-              <div className="flex flex-col">
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img
-                    src="/images/brand/team-couch.webp"
-                    alt={
-                      locale === "fi"
-                        ? "NØRR3:n tiimi nauramassa yhdessä studion sohvalla"
-                        : "The NØRR3 team laughing together on the studio sofa"
-                    }
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <h3 className="mt-4 text-base font-medium text-ink dark:text-white">{dict.home.about.teamTitle}</h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{dict.home.about.teamBody}</p>
-                <PillButton href={`/${locale}/team`} variant="secondary" className="mt-4 w-fit">
-                  {dict.common.readMore}
-                </PillButton>
-              </div>
-              <div className="flex flex-col">
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img
-                    src="/images/brand/award.webp"
-                    alt={
-                      locale === "fi"
-                        ? "NØRR3:n tiimi alan palkinnon kanssa studion loungessa"
-                        : "The NØRR3 team with an industry award in the studio lounge"
-                    }
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <h3 className="mt-4 text-base font-medium text-ink dark:text-white">{dict.home.about.agencyTitle}</h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{dict.home.about.agencyBody}</p>
-                <PillButton href={`/${locale}/team`} variant="secondary" className="mt-4 w-fit">
-                  {dict.common.readMore}
-                </PillButton>
-              </div>
+              <PhotoLinkCard
+                href={`/${locale}/team`}
+                image="/images/brand/team-couch.webp"
+                alt={
+                  locale === "fi"
+                    ? "NØRR3:n tiimi nauramassa yhdessä studion sohvalla"
+                    : "The NØRR3 team laughing together on the studio sofa"
+                }
+                title={dict.home.about.teamTitle}
+                body={dict.home.about.teamBody}
+                ctaLabel={dict.common.readMore}
+              />
+              <PhotoLinkCard
+                href={`/${locale}/team`}
+                image="/images/brand/award.webp"
+                alt={
+                  locale === "fi"
+                    ? "NØRR3:n tiimi alan palkinnon kanssa studion loungessa"
+                    : "The NØRR3 team with an industry award in the studio lounge"
+                }
+                title={dict.home.about.agencyTitle}
+                body={dict.home.about.agencyBody}
+                ctaLabel={dict.common.readMore}
+              />
             </div>
           </div>
 
-          <div className="mt-20">
-            <Reveal className="mx-auto mb-8 flex max-w-3xl flex-col items-center gap-4 text-center">
-              <h3 className="text-3xl font-medium tracking-tight text-ink lg:text-4xl dark:text-white">{dict.home.people.heading}</h3>
-              <p className="text-sm leading-relaxed text-ink/70 dark:text-white/70">{dict.home.people.body}</p>
+          <div className="mt-24 lg:mt-28">
+            <Reveal className="mx-auto mb-10 flex max-w-3xl flex-col items-center gap-4 text-center">
+              {/* Sub-section head: brand h3 (40px / 125% / -1.5%), one step below
+                  the SectionHeader h2 above it. */}
+              <h3 className="text-3xl font-medium leading-[1.25] tracking-[-0.015em] text-ink lg:text-h3 dark:text-white">
+                {dict.home.people.heading}
+              </h3>
+              <p className="text-[15px] leading-relaxed text-ink/70 dark:text-white/70">{dict.home.people.body}</p>
             </Reveal>
             <TeamMarquee locale={locale} />
-            <div className="mt-6 flex justify-center">
+            <div className="mt-8 flex justify-center">
               <PillButton href={`/${locale}/team`} variant="secondary">{dict.common.meetTeam}</PillButton>
             </div>
           </div>
 
-          <div className="mt-20">
+          <div className="mt-24 lg:mt-28">
             <StatGrid stats={inNumbers} locale={locale} label={dict.common.inNumbers} />
           </div>
         </Container>
       </section>
 
       {/* Blog */}
-      <section className="pb-20">
+      <section className="pb-24 lg:pb-32">
         <Container>
           <SectionHeader
             heading={dict.home.blog.heading}
@@ -318,7 +316,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             cta={dict.common.allInsights}
             ctaHref={`/${locale}/insights`}
           />
-          <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
             {insights.map((post) => (
               <BlogCard key={post.slug} post={post} locale={locale} readMoreLabel={dict.common.readMore} />
             ))}

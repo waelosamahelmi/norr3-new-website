@@ -32,8 +32,12 @@ export function HighlightsBand({ label }: { label: string }) {
   );
 
   return (
-    <section className="bg-ink py-10">
-      <p className="mb-6 text-center text-sm text-white/80">{label}</p>
+    <section className="bg-ink py-12">
+      {/* Same uppercase eyebrow treatment as the StatGrid label, so every
+          small section label on the site reads as one system. */}
+      <p className="mb-8 text-center text-xs font-medium uppercase tracking-[0.14em] text-white/60">
+        {label}
+      </p>
       <div className="marquee-paused overflow-hidden" style={{ ["--marquee-duration" as string]: "45s" }}>
         <div className="marquee-track items-center">
           {row}

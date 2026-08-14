@@ -25,9 +25,22 @@ const CHANNELS: { name: string; men: number; women: number }[] = [
   { name: "Threads", men: 9, women: 11 },
 ];
 
-export function AudienceChart({ legendMen, legendWomen }: { legendMen: string; legendWomen: string }) {
+export function AudienceChart({
+  legendMen,
+  legendWomen,
+  description,
+}: {
+  legendMen: string;
+  legendWomen: string;
+  /** Text alternative — the bars carry no accessible content on their own. */
+  description: string;
+}) {
   return (
-    <div className="rounded-md bg-white p-5 sm:p-8">
+    <figure
+      role="img"
+      aria-label={description}
+      className="rounded-card bg-white p-5 sm:p-8"
+    >
       <div className="mb-6 flex items-center justify-center gap-6 text-[11px] text-ink/70">
         <span className="flex items-center gap-1.5">
           <span className="h-2.5 w-4 bg-purple" /> {legendMen}
@@ -62,6 +75,6 @@ export function AudienceChart({ legendMen, legendWomen }: { legendMen: string; l
         ))}
       </div>
       <div className="h-6" />
-    </div>
+    </figure>
   );
 }

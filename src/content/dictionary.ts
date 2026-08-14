@@ -37,6 +37,16 @@ const fi = {
       description:
         "Ota yhteyttä NØRR3:een. Olipa asiasi pieni tai iso, meidät tunnetaan nopeasta ja ammattitaitoisesta palvelusta.",
     },
+    privacy: {
+      title: "Tietosuojaseloste — NØRR3",
+      description:
+        "Näin NORR3 Oy käsittelee henkilötietoja: mitä keräämme, miksi, kuinka kauan säilytämme ja mitä oikeuksia sinulla on.",
+    },
+    terms: {
+      title: "Käyttöehdot — NØRR3",
+      description:
+        "norr3.fi-sivuston käyttöehdot: sisältö ja immateriaalioikeudet, vastuunrajoitus sekä sovellettava laki.",
+    },
   },
   announcement: {
     message: "Marketing Engine 2.0 on pian täällä!",
@@ -127,6 +137,8 @@ const fi = {
       cta: "Varaa ilmainen 30 min demo",
       legendMen: "Miehet (15–29)",
       legendWomen: "Naiset (15–29)",
+      chartAlt:
+        "Pylväskaavio 15–29-vuotiaiden mediankäytöstä kanavittain: Instagram, Snapchat ja YouTube tavoittavat laajimmin, ja naisten tavoittavuus on useimmissa sosiaalisen median kanavissa selvästi miehiä korkeampi.",
     },
     why: {
       heading: "Miksi valita NØRR3 Media Insights?",
@@ -315,6 +327,159 @@ const fi = {
     locationHeading: "Löydät meidät",
     photoAlt: "Ystävällinen NØRR3:n kollega valmiina auttamaan Helsingin studiolla",
   },
+  /*
+   * LEGAL TEMPLATE — reviewed by NØRR3, not yet by counsel.
+   * The wording below is a professionally structured placeholder for a Finnish
+   * marketing agency and must be checked by legal before launch.
+   */
+  legal: {
+    updatedLabel: "Päivitetty",
+    tocLabel: "Sisältö",
+    relatedLabel: "Katso myös",
+    reviewNote:
+      "Tämä on mallipohja, joka on tarkistettava juridisesti ennen julkaisua.",
+    privacy: {
+      pill: "TIETOSUOJA",
+      heading: "Tietosuojaseloste",
+      intro:
+        "Tämä seloste kertoo, mitä henkilötietoja käsittelemme norr3.fi-sivustolla ja asiakastyössämme, miksi käsittelemme niitä ja mitä oikeuksia sinulla on. Käsittelemme henkilötietoja EU:n yleisen tietosuoja-asetuksen (GDPR) ja Suomen tietosuojalain mukaisesti.",
+      updated: "14.8.2026",
+      sections: [
+        {
+          title: "Rekisterinpitäjä",
+          body: [
+            "NORR3 Oy (Y-tunnus 2962074-8), Pursimiehenkatu 26 C, 3. krs., FI-00150 Helsinki.",
+            "Tietosuojaa koskevissa asioissa voit olla meihin yhteydessä sähköpostilla info(at)norr3.fi tai puhelimitse +358 46 8100 118.",
+          ],
+        },
+        {
+          title: "Mitä tietoja keräämme",
+          body: [
+            "Yhteydenottolomakkeen tiedot: nimi, sähköpostiosoite, yritys ja viestin sisältö.",
+            "Asiakas- ja yhteyshenkilötiedot: nimi, rooli, työsähköposti ja -puhelinnumero sekä toimeksiantoon liittyvä viestintä.",
+            "Tekniset tiedot: IP-osoite, selain- ja laitetiedot, sivuston käyttöä koskevat tapahtumat sekä evästeillä kerätty analytiikkatieto.",
+          ],
+        },
+        {
+          title: "Käsittelyn tarkoitus ja peruste",
+          body: [
+            "Käsittelemme tietoja yhteydenottoihin vastaamiseen, asiakassuhteen hoitamiseen, palveluidemme toimittamiseen ja kehittämiseen sekä viestintään ja markkinointiin.",
+            "Käsittelyn oikeusperusteina ovat sopimus tai sen valmistelu, oikeutettu etu (asiakas- ja sidosryhmäviestintä sekä sivuston kehittäminen), lakisääteiset velvoitteet sekä suostumus silloin, kun kyse on ei-välttämättömistä evästeistä.",
+          ],
+        },
+        {
+          title: "Evästeet",
+          body: [
+            "Sivusto käyttää välttämättömiä evästeitä toimintansa varmistamiseen sekä analytiikkaevästeitä sivuston käytön ymmärtämiseen. Ei-välttämättömät evästeet asetetaan vain suostumuksellasi.",
+            "Voit muuttaa tai peruuttaa suostumuksesi milloin tahansa selaimesi asetuksista tai tyhjentämällä sivuston tallentaman valinnan.",
+          ],
+        },
+        {
+          title: "Tietojen luovuttaminen ja käsittelijät",
+          body: [
+            "Emme myy henkilötietoja. Käytämme luotettavia palveluntarjoajia esimerkiksi sivuston ylläpitoon, sähköpostiin, analytiikkaan ja mediaostamiseen. Ne käsittelevät tietoja puolestamme ja vain ohjeidemme mukaisesti.",
+            "Tietoja voidaan siirtää EU:n tai ETA:n ulkopuolelle vain, jos siirrolle on asianmukainen suojamekanismi, kuten Euroopan komission vakiosopimuslausekkeet.",
+          ],
+        },
+        {
+          title: "Säilytysaika",
+          body: [
+            "Säilytämme tietoja vain niin kauan kuin se on käyttötarkoituksen kannalta tarpeen tai kuin laki edellyttää. Yhteydenottolomakkeen tiedot poistetaan pääsääntöisesti 24 kuukauden kuluessa, jos yhteydenotto ei johda asiakassuhteeseen.",
+          ],
+        },
+        {
+          title: "Oikeutesi",
+          body: [
+            "Sinulla on oikeus tarkastaa itseäsi koskevat tiedot, pyytää niiden oikaisua tai poistamista, rajoittaa tai vastustaa käsittelyä, siirtää tiedot järjestelmästä toiseen sekä peruuttaa antamasi suostumus.",
+            "Pyynnöt osoitetaan sähköpostilla osoitteeseen info(at)norr3.fi. Jos katsot, ettemme ole käsitelleet tietojasi lainmukaisesti, voit tehdä valituksen tietosuojavaltuutetun toimistolle (tietosuoja.fi).",
+          ],
+        },
+        {
+          title: "Tietoturva",
+          body: [
+            "Suojaamme tiedot asianmukaisin teknisin ja organisatorisin toimenpitein: pääsy on rajattu työtehtävän perusteella, yhteydet on salattu ja järjestelmien käyttöä valvotaan.",
+          ],
+        },
+        {
+          title: "Muutokset",
+          body: [
+            "Kehitämme palveluitamme jatkuvasti, joten voimme päivittää tätä selostetta. Merkittävistä muutoksista kerromme sivustollamme, ja voimassa oleva versio on aina luettavissa tällä sivulla.",
+          ],
+        },
+      ],
+    },
+    terms: {
+      pill: "KÄYTTÖEHDOT",
+      heading: "Käyttöehdot",
+      intro:
+        "Näitä ehtoja sovelletaan norr3.fi-sivuston käyttöön. Käyttämällä sivustoa hyväksyt nämä ehdot. Asiakastoimeksiannoista sovitaan aina erikseen kirjallisella sopimuksella.",
+      updated: "14.8.2026",
+      sections: [
+        {
+          title: "Soveltamisala",
+          body: [
+            "Sivuston ylläpitäjä on NORR3 Oy (Y-tunnus 2962074-8), Pursimiehenkatu 26 C, 3. krs., FI-00150 Helsinki. Nämä ehdot koskevat sivuston sisältöä ja käyttöä.",
+          ],
+        },
+        {
+          title: "Sisältö ja immateriaalioikeudet",
+          body: [
+            "Sivuston sisältö — tekstit, kuvat, tunnukset, grafiikat sekä NØRR3-, Marketing Engine- ja Media Insights -nimet — on NORR3 Oy:n tai sen kumppanien omaisuutta ja suojattu tekijänoikeuslailla.",
+            "Sisältöä saa katsella ja tulostaa omaan käyttöön. Sisällön kopiointi, muokkaaminen tai kaupallinen hyödyntäminen ilman kirjallista lupaa ei ole sallittua.",
+          ],
+        },
+        {
+          title: "Sivuston käyttö",
+          body: [
+            "Sivustoa on käytettävä lain ja hyvän tavan mukaisesti. Sivuston toiminnan häirintä, tietojen luvaton kerääminen sekä yritykset päästä käsiksi suojattuihin osiin ovat kiellettyjä.",
+          ],
+        },
+        {
+          title: "Sisältö on yleistä tietoa",
+          body: [
+            "Sivuston sisältö on yleistä tietoa palveluistamme eikä muodosta sitovaa tarjousta, sopimusta tai ammatillista neuvoa. Esitetyt tulokset ja luvut kuvaavat toteutuneita toimeksiantoja eivätkä ole lupaus vastaavista tuloksista.",
+          ],
+        },
+        {
+          title: "Linkit kolmansien osapuolten sivustoille",
+          body: [
+            "Sivustolla voi olla linkkejä kolmansien osapuolten sivustoihin. Emme vastaa niiden sisällöstä, tietosuojasta tai saatavuudesta.",
+          ],
+        },
+        {
+          title: "Saatavuus ja vastuunrajoitus",
+          body: [
+            "Pyrimme pitämään sivuston jatkuvasti saatavilla, mutta emme takaa keskeytyksetöntä tai virheetöntä toimintaa. Voimme muuttaa tai poistaa sisältöä ja keskeyttää palvelun ilman ennakkoilmoitusta.",
+            "Emme vastaa sivuston käytöstä tai käytön estymisestä aiheutuvista välillisistä vahingoista siinä laajuudessa kuin pakottava laki sen sallii.",
+          ],
+        },
+        {
+          title: "Asiakastoimeksiannot",
+          body: [
+            "Palveluidemme sisällöstä, aikatauluista, hinnoista ja vastuista sovitaan aina erillisessä kirjallisessa sopimuksessa. Jos sopimus ja nämä ehdot ovat ristiriidassa, sopimus on ensisijainen.",
+          ],
+        },
+        {
+          title: "Henkilötiedot ja evästeet",
+          body: [
+            "Henkilötietojen käsittelyä ja evästeiden käyttöä kuvataan tietosuojaselosteessamme.",
+          ],
+        },
+        {
+          title: "Muutokset",
+          body: [
+            "Voimme päivittää näitä ehtoja. Voimassa oleva versio on aina luettavissa tällä sivulla, ja päivityspäivä näkyy sivun alussa.",
+          ],
+        },
+        {
+          title: "Sovellettava laki ja riidanratkaisu",
+          body: [
+            "Näihin ehtoihin sovelletaan Suomen lakia. Mahdolliset riidat ratkaistaan Helsingin käräjäoikeudessa, jollei pakottavasta lainsäädännöstä muuta johdu.",
+          ],
+        },
+      ],
+    },
+  },
   banner: {
     heading: "Ota yhteyttä",
     body: "Olipa asiasi sitten pieni tai iso, meitä kiinnostaa se kuulla. Olemme tunnettuja nopeasta ja ammattitaitoisesta palvelusta.",
@@ -381,6 +546,16 @@ const en: Dictionary = {
       title: "Contact — NØRR3",
       description:
         "Get in touch with NØRR3. Whether your matter is small or large, we're known for fast, professional service.",
+    },
+    privacy: {
+      title: "Privacy Policy — NØRR3",
+      description:
+        "How NORR3 Oy handles personal data: what we collect, why, how long we keep it and what rights you have.",
+    },
+    terms: {
+      title: "Terms & Conditions — NØRR3",
+      description:
+        "Terms for using norr3.fi: content and intellectual property, limitation of liability and governing law.",
     },
   },
   announcement: {
@@ -472,6 +647,8 @@ const en: Dictionary = {
       cta: "Book a free 30 min demo",
       legendMen: "Men (15–29)",
       legendWomen: "Women (15–29)",
+      chartAlt:
+        "Bar chart of media use among 15–29-year-olds by channel: Instagram, Snapchat and YouTube reach the widest audience, and reach among women is clearly higher than among men in most social channels.",
     },
     why: {
       heading: "Why choose NØRR3 Media Insights?",
@@ -659,6 +836,154 @@ const en: Dictionary = {
     responseTime: "We usually reply within one business day.",
     locationHeading: "Find us",
     photoAlt: "A friendly NØRR3 colleague ready to help, in the Helsinki studio",
+  },
+  /* LEGAL TEMPLATE — see the FI block above; needs a legal review before launch. */
+  legal: {
+    updatedLabel: "Updated",
+    tocLabel: "Contents",
+    relatedLabel: "See also",
+    reviewNote: "This is a template and must be reviewed by legal counsel before launch.",
+    privacy: {
+      pill: "PRIVACY",
+      heading: "Privacy Policy",
+      intro:
+        "This policy explains what personal data we process on norr3.fi and in our client work, why we process it, and what rights you have. We process personal data in accordance with the EU General Data Protection Regulation (GDPR) and the Finnish Data Protection Act.",
+      updated: "14 August 2026",
+      sections: [
+        {
+          title: "Controller",
+          body: [
+            "NORR3 Oy (Business ID 2962074-8), Pursimiehenkatu 26 C, 3rd floor, FI-00150 Helsinki, Finland.",
+            "For any privacy matter, contact us at info(at)norr3.fi or +358 46 8100 118.",
+          ],
+        },
+        {
+          title: "What data we collect",
+          body: [
+            "Contact form data: name, email address, company and the content of your message.",
+            "Client and contact person data: name, role, work email and phone number, and correspondence relating to an engagement.",
+            "Technical data: IP address, browser and device information, site usage events, and analytics data collected via cookies.",
+          ],
+        },
+        {
+          title: "Purpose and legal basis",
+          body: [
+            "We process data to respond to enquiries, manage client relationships, deliver and develop our services, and for communication and marketing.",
+            "The legal bases are a contract or its preparation, legitimate interest (client and stakeholder communication, and improving the site), statutory obligations, and consent where non-essential cookies are concerned.",
+          ],
+        },
+        {
+          title: "Cookies",
+          body: [
+            "The site uses essential cookies to function and analytics cookies to understand how the site is used. Non-essential cookies are only set with your consent.",
+            "You can change or withdraw your consent at any time in your browser settings or by clearing the choice stored by the site.",
+          ],
+        },
+        {
+          title: "Disclosure and processors",
+          body: [
+            "We do not sell personal data. We use trusted service providers for hosting, email, analytics and media buying, for example. They process data on our behalf and only under our instructions.",
+            "Data may be transferred outside the EU or EEA only where an appropriate safeguard is in place, such as the European Commission's Standard Contractual Clauses.",
+          ],
+        },
+        {
+          title: "Retention",
+          body: [
+            "We keep data only for as long as the purpose requires or the law demands. Contact form data is generally deleted within 24 months if the enquiry does not lead to a client relationship.",
+          ],
+        },
+        {
+          title: "Your rights",
+          body: [
+            "You have the right to access your data, request its rectification or erasure, restrict or object to processing, port your data to another system, and withdraw consent you have given.",
+            "Send requests to info(at)norr3.fi. If you believe we have processed your data unlawfully, you may lodge a complaint with the Finnish Data Protection Ombudsman (tietosuoja.fi).",
+          ],
+        },
+        {
+          title: "Security",
+          body: [
+            "We protect data with appropriate technical and organisational measures: access is limited by role, connections are encrypted, and system use is monitored.",
+          ],
+        },
+        {
+          title: "Changes",
+          body: [
+            "We develop our services continuously, so we may update this policy. We will announce significant changes on our site, and the current version is always available on this page.",
+          ],
+        },
+      ],
+    },
+    terms: {
+      pill: "TERMS",
+      heading: "Terms & Conditions",
+      intro:
+        "These terms apply to the use of norr3.fi. By using the site you accept them. Client engagements are always agreed separately in a written contract.",
+      updated: "14 August 2026",
+      sections: [
+        {
+          title: "Scope",
+          body: [
+            "This site is operated by NORR3 Oy (Business ID 2962074-8), Pursimiehenkatu 26 C, 3rd floor, FI-00150 Helsinki. These terms cover the content and use of the site.",
+          ],
+        },
+        {
+          title: "Content and intellectual property",
+          body: [
+            "The content of this site — text, images, marks, graphics and the NØRR3, Marketing Engine and Media Insights names — belongs to NORR3 Oy or its partners and is protected by copyright law.",
+            "You may view and print content for your own use. Copying, modifying or commercially exploiting the content without written permission is not permitted.",
+          ],
+        },
+        {
+          title: "Use of the site",
+          body: [
+            "The site must be used lawfully and in good faith. Disrupting the site's operation, harvesting data without permission and attempting to access protected areas are prohibited.",
+          ],
+        },
+        {
+          title: "Content is general information",
+          body: [
+            "Content on this site is general information about our services and does not constitute a binding offer, a contract or professional advice. Results and figures shown describe completed engagements and are not a promise of comparable outcomes.",
+          ],
+        },
+        {
+          title: "Third-party links",
+          body: [
+            "The site may link to third-party sites. We are not responsible for their content, privacy practices or availability.",
+          ],
+        },
+        {
+          title: "Availability and limitation of liability",
+          body: [
+            "We aim to keep the site continuously available but do not guarantee uninterrupted or error-free operation. We may change or remove content and suspend the service without prior notice.",
+            "To the extent permitted by mandatory law, we are not liable for indirect damages arising from the use of, or inability to use, the site.",
+          ],
+        },
+        {
+          title: "Client engagements",
+          body: [
+            "The scope, schedule, pricing and responsibilities of our services are always agreed in a separate written contract. If that contract and these terms conflict, the contract prevails.",
+          ],
+        },
+        {
+          title: "Personal data and cookies",
+          body: [
+            "Our processing of personal data and use of cookies is described in our privacy policy.",
+          ],
+        },
+        {
+          title: "Changes",
+          body: [
+            "We may update these terms. The current version is always available on this page, and the date of the latest update is shown at the top.",
+          ],
+        },
+        {
+          title: "Governing law and disputes",
+          body: [
+            "These terms are governed by Finnish law. Any disputes will be settled in the District Court of Helsinki, unless mandatory legislation provides otherwise.",
+          ],
+        },
+      ],
+    },
   },
   banner: {
     heading: "Contact Us",
