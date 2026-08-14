@@ -14,6 +14,15 @@ export const metadata: Metadata = {
   description:
     "NØRR3 is a Nordic media agency turning media investments into growth and competitive advantage.",
   applicationName: "NØRR3",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
+    ],
+    apple: [{ url: "/icon-180.png", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     siteName: "NØRR3",
