@@ -6,6 +6,8 @@ import { PixelArt } from "./PixelArt";
 
 /** ms per character for the "A New Way to" typewriter intro. */
 const TYPE_SPEED = 70;
+/** ms between each card "popping" in after the left word finishes typing. */
+const POP_STAGGER = 220;
 /** ms between stack rotations (front → back, back → mid, mid → front). */
 const ROTATE_EVERY = 2400;
 /** Max pointer-parallax travel, in px, at depth 1. */
@@ -117,12 +119,16 @@ export function HomeHero({
   const [order, setOrder] = useState<number[]>(INITIAL_ORDER);
   /** Characters of the left word revealed so far (only used while animating). */
   const [typed, setTyped] = useState(0);
+  /** How many cards have "popped" in (0..3). All three = intro done. */
+  const [popped, setPopped] = useState(0);
 
   const introRan = useRef(false);
   const pointer = useRef({ x: 0, y: 0 });
   const stageRef = useRef<HTMLDivElement | null>(null);
 
   const typing = motion && typed < left.length;
+  /** True while the cards are still popping in (after typing, before rotation). */
+  const popping = motion && !typing && popped < CARDS.length;
 
   // Type the left word out, once, on the first render that allows motion.
   useEffect(() => {
@@ -137,15 +143,23 @@ export function HomeHero({
     return () => window.clearInterval(tick);
   }, [motion, left]);
 
-  // The rotating stack — starts once the left word has finished typing.
+  // "Pop pop pop" — once the left word is typed, reveal the three cards one by
+  // one (back → mid → front), then hand off to the rotation + accent word.
   useEffect(() => {
-    if (!motion || typing) return;
+    if (!motion || typing || popped >= CARDS.length) return;
+    const t = window.setTimeout(() => setPopped((n) => n + 1), POP_STAGGER);
+    return () => window.clearTimeout(t);
+  }, [motion, typing, popped]);
+
+  // The rotating stack — starts once all three cards have popped in.
+  useEffect(() => {
+    if (!motion || typing || popping) return;
     const rot = window.setInterval(() => {
       // front → back, back → mid, mid → front
       setOrder(([back, mid, front]) => [front, back, mid]);
     }, ROTATE_EVERY);
     return () => window.clearInterval(rot);
-  }, [motion, typing]);
+  }, [motion, typing, popping]);
 
   // Pointer parallax: every card drifts by its slot depth, the front one most.
   useEffect(() => {
@@ -184,8 +198,11 @@ export function HomeHero({
 
   /** Which slot each card currently sits in. */
   const slotOf = CARDS.map((_, card) => order.indexOf(card));
-  // Until the intro finishes, the resting accent word stands in.
-  const accentWord = typing || !motion ? accent : CARDS[order[2]].word;
+  // The accent word holds off until the cards finish popping in; then it tracks
+  // whichever card holds the front slot.
+  const accentWord = typing || popping || !motion ? accent : CARDS[order[2]].word;
+  /** Accent word is hidden during typing and the pop-in sequence. */
+  const accentHidden = typing || popping;
 
   return (
     <h1
@@ -207,7 +224,12 @@ export function HomeHero({
           className="relative mx-auto h-[420px] w-full max-w-lg select-none [--card:300px] sm:h-[500px] sm:[--card:360px] lg:mx-0 lg:w-[360px]"
         >
           {CARDS.map((card, index) => {
-            const slot = SLOTS[slotOf[index]];
+            const slotIndex = slotOf[index];
+            const slot = SLOTS[slotIndex];
+            // During the intro, a card is hidden until its turn in the pop
+            // sequence (back → mid → front). After the intro `popped` is 3, so
+            // every card is shown and this is always true.
+            const isPopped = !motion || popped > slotIndex;
             return (
               <div
                 key={card.word}
@@ -225,12 +247,13 @@ export function HomeHero({
                     // Card width as a share of the stage (percentage-based) so
                     // it scales cleanly at every breakpoint; front card = 72%.
                     width: `calc(${slot.scale} * 72%)`,
-                    opacity: slot.opacity,
-                    transform: "translate(-50%, -50%)",
+                    opacity: isPopped ? slot.opacity : 0,
+                    // Pop-in: scale from 0 to 1 (springy) as each card appears.
+                    transform: `translate(-50%, -50%) scale(${isPopped ? 1 : 0})`,
                     outline: "2.5px solid transparent",
                     outlineColor: slot.front ? "var(--color-purple)" : "transparent",
                     transition: motion
-                      ? `width .8s ${EASE}, opacity .8s, outline-color .4s`
+                      ? `width .8s ${EASE}, opacity .45s ${EASE}, transform .5s cubic-bezier(.34,1.56,.64,1), outline-color .4s`
                       : undefined,
                   }}
                 >
@@ -262,15 +285,16 @@ export function HomeHero({
         </div>
       </span>
 
-      {/* Accent word — cycles in sync with whichever card holds the front slot.
-          An inline-grid stacks invisible ghosts of every candidate word so the
-          box always reserves the widest word's width ("Execute") — the collage
-          never reflows as the word swaps — and left-aligns the visible word so
-          it sits attached to the collage rather than pushed to the far right. */}
+      {/* Accent word — appears only after the cards finish popping in, then
+          cycles in sync with whichever card holds the front slot. An inline-grid
+          stacks invisible ghosts of every candidate word so the box always
+          reserves the widest word's width — the collage never reflows as the
+          word swaps — and left-aligns the visible word so it sits attached to
+          the collage rather than pushed to the far right. */}
       <span
         aria-hidden
         className="block whitespace-nowrap text-[10vw] transition-opacity duration-[400ms] lg:text-[6.5vw]"
-        style={{ opacity: typing ? 0 : 1 }}
+        style={{ opacity: accentHidden ? 0 : 1 }}
       >
         <span className="inline-grid justify-items-start">
           {[accent, ...CARDS.map((card) => card.word)].map((word) => (
