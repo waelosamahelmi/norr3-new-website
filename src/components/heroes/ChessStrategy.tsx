@@ -8,6 +8,8 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /** Square size in viewBox units — taken from the user's draft SVG (44.03px). */
 const SQUARE = 44;
+/** Square height is thinner than width so the board reads as a slim strip. */
+const SQ_H = 24;
 const SQUARES = 8;
 /** Board left edge and top edge; the queen stands on the top edge. */
 const BOARD_X = 10;
@@ -52,7 +54,7 @@ function Rank() {
             x={BOARD_X + i * SQUARE}
             y={BOARD_Y}
             width={SQUARE}
-            height={SQUARE}
+            height={SQ_H}
             fill="currentColor"
           />
         ) : (
@@ -61,7 +63,7 @@ function Rank() {
             x={BOARD_X + i * SQUARE + 1.25}
             y={BOARD_Y + 1.25}
             width={SQUARE - 2.5}
-            height={SQUARE - 2.5}
+            height={SQ_H - 2.5}
             fill="none"
             stroke="currentColor"
             strokeWidth={2.5}
