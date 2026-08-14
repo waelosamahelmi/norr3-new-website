@@ -11,9 +11,9 @@ const SQUARE = 44;
 /** Square height is thinner than width so the board reads as a slim strip. */
 const SQ_H = 24;
 const SQUARES = 8;
-/** Board left edge and top edge; the queen stands on the top edge. */
+/** Board left edge; the rank sits at the bottom of the viewBox. */
 const BOARD_X = 10;
-const BOARD_Y = 58;
+const BOARD_Y = 80;
 
 /** One hop's travel time. */
 const HOP_MS = 750;
