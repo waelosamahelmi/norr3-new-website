@@ -44,9 +44,9 @@ function useParallaxAllowed() {
  * -150px, -40px, +96px); `y` stays in px. `depth` scales the pointer parallax.
  */
 const SLOTS = [
-  { x: "-34%", y: "40px", scale: 0.66, opacity: 0.9, z: 1, depth: 0.3, front: false },
+  { x: "-30%", y: "40px", scale: 0.66, opacity: 0.9, z: 1, depth: 0.3, front: false },
   { x: "-14%", y: "10px", scale: 0.82, opacity: 0.97, z: 2, depth: 0.6, front: false },
-  { x: "8%", y: "-24px", scale: 1, opacity: 1, z: 3, depth: 1, front: true },
+  { x: "2%", y: "-22px", scale: 1, opacity: 1, z: 3, depth: 1, front: true },
 ] as const;
 
 type HeroCard = {
@@ -190,7 +190,7 @@ export function HomeHero({
   return (
     <h1
       aria-label={`${left} ${accent}`}
-      className="flex w-full flex-wrap items-center justify-center gap-3 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:justify-start lg:gap-5"
+      className="flex w-full flex-wrap items-center justify-center gap-2 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:justify-start lg:gap-2"
       onPointerMove={parallax ? handlePointerMove : undefined}
       onPointerLeave={parallax ? handlePointerLeave : undefined}
     >
@@ -204,7 +204,7 @@ export function HomeHero({
       <span aria-hidden className="order-3 block w-full lg:order-none lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
           ref={stageRef}
-          className="relative mx-auto h-[360px] w-full max-w-lg select-none [--card:300px] sm:h-[420px] sm:[--card:360px] lg:mx-0 lg:w-[460px]"
+          className="relative mx-auto h-[420px] w-full max-w-lg select-none [--card:300px] sm:h-[500px] sm:[--card:360px] lg:mx-0 lg:w-[437px]"
         >
           {CARDS.map((card, index) => {
             const slot = SLOTS[slotOf[index]];
@@ -222,9 +222,9 @@ export function HomeHero({
                 <div
                   className="absolute left-1/2 top-1/2 aspect-[3/4] overflow-hidden rounded-md shadow-[0_14px_34px_rgba(0,0,0,0.22)]"
                   style={{
-                    // 3:4 portrait sized off the reference 300px height, capped
-                    // at a share of the stage so a squeezed stage never spills.
-                    width: `calc(${slot.scale} * min(calc(0.75 * var(--card)), 66%))`,
+                    // Card width as a share of the stage (percentage-based) so
+                    // it scales cleanly at every breakpoint; front card = 60%.
+                    width: `calc(${slot.scale} * 60%)`,
                     opacity: slot.opacity,
                     transform: "translate(-50%, -50%)",
                     outline: "2.5px solid transparent",
