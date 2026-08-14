@@ -47,7 +47,7 @@ function Queen() {
   );
 }
 
-/** The rank: eight squares, alternating filled / outlined, all in currentColor. */
+/** The rank: eight squares, alternating filled / empty, all in currentColor. */
 function Rank() {
   return (
     <>
@@ -64,13 +64,11 @@ function Rank() {
         ) : (
           <rect
             key={i}
-            x={BOARD_X + i * SQUARE + 1.25}
-            y={BOARD_Y + 1.25}
-            width={SQUARE - 2.5}
-            height={SQ_H - 2.5}
+            x={BOARD_X + i * SQUARE}
+            y={BOARD_Y}
+            width={SQUARE}
+            height={SQ_H}
             fill="none"
-            stroke="currentColor"
-            strokeWidth={2.5}
           />
         ),
       )}
