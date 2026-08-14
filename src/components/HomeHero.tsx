@@ -201,10 +201,10 @@ export function HomeHero({
       </span>
 
       {/* The rotating portrait stack. */}
-      <span aria-hidden className="order-3 block w-full lg:order-none lg:w-auto lg:min-w-0 lg:shrink">
+      <span aria-hidden className="order-3 block w-full lg:order-none lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
           ref={stageRef}
-          className="relative mx-auto h-[360px] w-full max-w-lg select-none [--card:300px] sm:h-[420px] sm:[--card:360px] lg:mx-0"
+          className="relative mx-auto h-[360px] w-full max-w-lg select-none [--card:300px] sm:h-[420px] sm:[--card:360px] lg:mx-0 lg:w-[460px]"
         >
           {CARDS.map((card, index) => {
             const slot = SLOTS[slotOf[index]];
