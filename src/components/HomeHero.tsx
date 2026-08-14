@@ -212,7 +212,7 @@ export function HomeHero({
       onPointerLeave={parallax ? handlePointerLeave : undefined}
     >
       {/* Left word — types itself in, with the blinking caret trailing it. */}
-      <span aria-hidden className="block whitespace-nowrap text-[10vw] lg:text-[6.5vw]">
+      <span aria-hidden className="block whitespace-nowrap text-[7.5vw] lg:text-[6.5vw]">
         {motion ? left.slice(0, typed) : left}
         <span className={typing ? "caret-blink" : "opacity-0"}>_</span>
       </span>
@@ -221,7 +221,7 @@ export function HomeHero({
       <span aria-hidden className="order-3 block w-full lg:order-none lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
           ref={stageRef}
-          className="relative mx-auto h-[360px] max-h-[46svh] w-[min(340px,88vw)] select-none [--card:250px] [--spread:0.72] sm:h-[480px] sm:w-full sm:max-w-md sm:[--card:340px] sm:[--spread:0.85] lg:mx-0 lg:h-[380px] lg:max-h-[52svh] lg:w-[360px] lg:[--card:360px] lg:[--spread:1]"
+          className="relative mx-auto h-[320px] max-h-[42svh] w-[min(300px,80vw)] select-none [--card:210px] [--spread:0.72] sm:h-[480px] sm:w-full sm:max-w-md sm:[--card:340px] sm:[--spread:0.85] lg:mx-0 lg:h-[380px] lg:max-h-[52svh] lg:w-[360px] lg:[--card:360px] lg:[--spread:1]"
         >
           {CARDS.map((card, index) => {
             const slotIndex = slotOf[index];
@@ -293,7 +293,7 @@ export function HomeHero({
           the collage rather than pushed to the far right. */}
       <span
         aria-hidden
-        className="block whitespace-nowrap text-[10vw] transition-opacity duration-[400ms] lg:text-[6.5vw]"
+        className="block whitespace-nowrap text-[7.5vw] transition-opacity duration-[400ms] lg:text-[6.5vw]"
         style={{ opacity: accentHidden ? 0 : 1 }}
       >
         <span className="inline-grid justify-items-start">
