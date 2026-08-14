@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { RouteWipe } from "@/components/RouteWipe";
 import { HtmlLangSync } from "@/components/HtmlLangSync";
+import { CookieConsent } from "@/components/CookieConsent";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -69,6 +70,7 @@ export default async function LocaleLayout({
       <Nav locale={locale} dict={dict} />
       <main className="flex-1">{children}</main>
       <Footer locale={locale} dict={dict} />
+      <CookieConsent dict={dict.cookies} />
     </MotionConfig>
   );
 }

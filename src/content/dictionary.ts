@@ -331,6 +331,13 @@ const fi = {
     privacy: "Tietosuojaseloste",
     terms: "Käyttöehdot",
   },
+  cookies: {
+    title: "Evästeet",
+    body: "Käytämme evästeitä parantaaksemme käyttökokemustasi ja analysoidaksemme sivuston liikennettä.",
+    accept: "Hyväksy",
+    decline: "Hylkää",
+    privacyLink: "Lue tietosuojaselosteemme",
+  },
 };
 
 const en: Dictionary = {
@@ -663,6 +670,13 @@ const en: Dictionary = {
     copyright: "© NØRR3 2026",
     privacy: "Privacy Policy",
     terms: "Terms & Conditions",
+  },
+  cookies: {
+    title: "Cookies",
+    body: "We use cookies to improve your experience and analyze site traffic.",
+    accept: "Accept",
+    decline: "Decline",
+    privacyLink: "Read our privacy policy",
   },
 };
 

@@ -15,8 +15,8 @@ type Dot = { x: number; y: number; b: number };
 export function DotGrid({
   spacing = 22,
   radius = 150,
-  baseAlpha = 0.07,
-  peakAlpha = 0.55,
+  baseAlpha = 0.13,
+  peakAlpha = 0.92,
   dotRgb = "122,6,211",
   className = "",
 }: {
