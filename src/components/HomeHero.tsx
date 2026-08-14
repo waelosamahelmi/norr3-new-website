@@ -207,7 +207,7 @@ export function HomeHero({
   return (
     <h1
       aria-label={`${left} ${accent}`}
-      className="flex w-full flex-wrap items-center justify-center gap-2 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:justify-start lg:gap-2 dark:text-white"
+      className="flex w-full flex-wrap items-center justify-start gap-x-1.5 gap-y-1 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:gap-2 dark:text-white"
       onPointerMove={parallax ? handlePointerMove : undefined}
       onPointerLeave={parallax ? handlePointerLeave : undefined}
     >
@@ -218,7 +218,7 @@ export function HomeHero({
       </span>
 
       {/* The rotating portrait stack. */}
-      <span aria-hidden className="order-3 block w-full lg:order-none lg:w-auto lg:min-w-0 lg:shrink-0">
+      <span aria-hidden className="order-3 mt-5 block w-full lg:order-none lg:mt-0 lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
           ref={stageRef}
           className="relative mx-auto h-[320px] max-h-[42svh] w-[min(300px,80vw)] select-none [--card:210px] [--spread:0.72] sm:h-[480px] sm:w-full sm:max-w-md sm:[--card:340px] sm:[--spread:0.85] lg:mx-0 lg:h-[380px] lg:max-h-[52svh] lg:w-[360px] lg:[--card:360px] lg:[--spread:1]"

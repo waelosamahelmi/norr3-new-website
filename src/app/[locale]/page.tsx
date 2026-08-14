@@ -100,7 +100,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       {/* Hero — screen-height: headline + rotating stack, body/CTA, and the
           client-logo strip all fit within one viewport (minus the sticky nav). */}
       <section className="relative flex min-h-[calc(100svh-4.25rem)] flex-col overflow-hidden">
-        <div className="relative flex flex-1 flex-col justify-center overflow-hidden">
+        <div className="relative flex flex-1 flex-col justify-start pt-4 overflow-hidden sm:pt-6 lg:justify-center lg:pt-0">
           <DotGrid />
           <Container className="relative z-10 py-8">
             <HomeHero left={dict.home.heroLeft} accent={dict.home.heroAccent} alts={heroAlts} />
