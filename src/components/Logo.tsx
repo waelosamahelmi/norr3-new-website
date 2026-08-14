@@ -387,7 +387,7 @@ export type LogoAnimate = "hover" | "loop" | "off";
 export function Logo({
   variant = "dark",
   className = "",
-  animate = "hover",
+  animate = "loop",
 }: {
   variant?: "dark" | "light";
   className?: string;

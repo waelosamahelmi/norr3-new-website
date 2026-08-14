@@ -2,6 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
 import { Container } from "@/components/Container";
+import { DotGrid } from "@/components/DotGrid";
 import { HomeHero } from "@/components/HomeHero";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
@@ -97,13 +98,16 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       />
 
       {/* Hero — "A New Way to [rotating stack] _Grow" on one visual line */}
-      <Container className="pb-14 pt-10 lg:pt-16">
-        <HomeHero left={dict.home.heroLeft} accent={dict.home.heroAccent} alts={heroAlts} />
-        <Reveal delay={0.3} className="mt-10 flex flex-col items-start gap-6">
-          <p className="max-w-xs text-sm leading-relaxed text-ink/80">{dict.home.heroBody}</p>
-          <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
-        </Reveal>
-      </Container>
+      <section className="relative overflow-hidden">
+        <DotGrid />
+        <Container className="relative z-10 pb-14 pt-10 lg:pt-16">
+          <HomeHero left={dict.home.heroLeft} accent={dict.home.heroAccent} alts={heroAlts} />
+          <Reveal delay={0.3} className="mt-10 flex flex-col items-start gap-6">
+            <p className="max-w-xs text-sm leading-relaxed text-ink/80">{dict.home.heroBody}</p>
+            <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
+          </Reveal>
+        </Container>
+      </section>
 
       <LogoStrip />
 
