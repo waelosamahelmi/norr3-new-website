@@ -12,12 +12,12 @@ import { CountUpStat } from "@/components/CountUpStat";
 export function CaseCard({
   study,
   locale,
-  readMoreLabel,
+  ctaLabel,
   large = false,
 }: {
   study: CaseStudy;
   locale: Locale;
-  readMoreLabel: string;
+  ctaLabel: string;
   large?: boolean;
 }) {
   return (
@@ -27,7 +27,7 @@ export function CaseCard({
       alt={`${study.client} — ${study.tagline[locale]}`}
       title={study.client}
       body={study.summary[locale]}
-      ctaLabel={readMoreLabel}
+      ctaLabel={ctaLabel}
       stat={
         <>
           <span className="text-sm font-medium tabular-nums">

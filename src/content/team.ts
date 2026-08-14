@@ -22,10 +22,20 @@ export type TeamMember = {
 // Roster from the photo-shoot schedule. Portrait photos are placeholders until
 // the real shots arrive (see selectedShot). Roles are only set where the brand
 // materials state them — do not invent titles for real people.
-const bio = {
+
+/**
+ * The shared house line every member currently carries, because per-person bios
+ * have not been written yet. Cards compare against this object and skip it: 17
+ * identical paragraphs read as filler, and the same claim is already made in
+ * full by the "Attitude." pillar above the roster. As soon as a member gets a
+ * real bio object, their card starts showing it — no code change needed.
+ */
+export const houseBio = {
   fi: "Rohkea, innovatiivinen ja strateginen mediatoimistokentän uudistaja.",
   en: "A bold, innovative and strategic renewer of the media agency field.",
 };
+
+const bio = houseBio;
 
 export const team: TeamMember[] = [
   { id: "maria-malila", name: "Maria Malila", photo: "/images/team/maria-malila.webp", selectedShot: "Norr33113.jpg", bio },

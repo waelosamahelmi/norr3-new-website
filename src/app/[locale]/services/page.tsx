@@ -282,7 +282,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {relatedCases.map((c) => (
-              <CaseCard key={c.slug} study={c} locale={locale} readMoreLabel={dict.common.readMore} />
+              <CaseCard key={c.slug} study={c} locale={locale} ctaLabel={dict.common.readCase} />
             ))}
           </StaggerGrid>
         </Container>
@@ -302,7 +302,13 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
             {insights.map((post) => (
-              <BlogCard key={post.slug} post={post} locale={locale} readMoreLabel={dict.common.readMore} />
+              <BlogCard
+                key={post.slug}
+                post={post}
+                locale={locale}
+                readMoreLabel={dict.common.readMore}
+                minReadLabel={dict.insights.minRead}
+              />
             ))}
           </StaggerGrid>
         </Container>

@@ -3,11 +3,14 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
 import { Container, HeroPill } from "@/components/Container";
+import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
+import { SectionHeader } from "@/components/SectionHeader";
+import { ShareRow } from "@/components/ShareRow";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
-import { insights, getInsight } from "@/content/insights";
+import { insights, getInsight, readingMinutes } from "@/content/insights";
 
 export function generateStaticParams() {
   return insights.map((i) => ({ slug: i.slug }));
@@ -61,29 +64,27 @@ export default async function InsightArticlePage({
 
   const content = post[locale];
   const others = insights.filter((i) => i.slug !== slug).slice(0, 3);
-
-  // ≈200 wpm — the same rough figure the blog index quotes.
-  const words = content.body.join(" ").split(/\s+/).filter(Boolean).length;
-  const minutes = Math.max(1, Math.round(words / 200));
+  const minutes = readingMinutes(content.body);
+  const url = `https://norr3.fi/${locale}/insights/${slug}`;
 
   return (
     <>
       {/* Title block: back-link, pill, headline, hairline meta row. */}
-      <Container className="pb-10 pt-10 lg:pt-16">
+      <Container className="pb-10 pt-12 lg:pt-20">
         <Reveal className="mx-auto max-w-3xl text-center">
           <Link
             href={`/${locale}/insights`}
-            className="text-xs font-medium text-ink/50 transition-colors hover:text-ink dark:text-white/50 dark:hover:text-white"
+            className="inline-flex items-center gap-1.5 rounded-sm text-xs font-medium text-ink/50 transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple dark:text-white/50 dark:hover:text-white dark:focus-visible:outline-light-purple"
           >
-            ← {dict.insights.heading}
+            <span aria-hidden>←</span> {dict.common.allInsights}
           </Link>
           <div className="mt-6 flex justify-center">
             <HeroPill>{dict.insights.pill}</HeroPill>
           </div>
-          <h1 className="mt-5 text-3xl font-medium leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl dark:text-white">
+          <h1 className="mt-6 text-3xl font-medium leading-[1.1] tracking-tight text-ink sm:text-4xl lg:text-5xl dark:text-white">
             {content.title}
           </h1>
-          <p className="mt-4 text-xs uppercase tracking-[0.14em] text-ink/50 dark:text-white/50">
+          <p className="mt-5 text-xs uppercase tracking-[0.14em] text-ink/50 dark:text-white/50">
             {post.date} · {minutes} {dict.insights.minRead}
           </p>
         </Reveal>
@@ -116,32 +117,60 @@ export default async function InsightArticlePage({
         </Container>
       </section>
 
-      {/* Prose column: first paragraph reads as a lead, the rest as body copy. */}
-      <Container className="py-14">
-        <Reveal className="mx-auto max-w-2xl">
-          {content.body.map((paragraph, i) => (
-            <p
-              key={i}
-              className={
-                i === 0
-                  ? "text-xl font-medium leading-relaxed tracking-tight text-ink dark:text-white"
-                  : // Long-form body sits a notch brighter than the site's /80 body
-                    // copy — at 17px/1.75 over a full article, /85 keeps it comfortable.
-                    "mt-6 text-[17px] leading-[1.75] text-ink/80 dark:text-white/85"
-              }
-            >
-              {paragraph}
-            </p>
-          ))}
-        </Reveal>
+      {/* Prose column: first paragraph reads as a lead, the rest as body copy.
+          The article closes on a share row and a way back to the index, so a
+          finished read has somewhere to go besides the nav. */}
+      <Container className="pb-24 pt-14 lg:pb-32 lg:pt-16">
+        <article className="mx-auto max-w-2xl">
+          <Reveal>
+            {content.body.map((paragraph, i) => (
+              <p
+                key={i}
+                className={
+                  i === 0
+                    ? "text-xl font-medium leading-relaxed tracking-tight text-ink lg:text-2xl dark:text-white"
+                    : // Long-form body sits a notch brighter than the site's /80 body
+                      // copy — at 17px/1.75 over a full article, /85 keeps it comfortable.
+                      "mt-7 text-[17px] leading-[1.75] text-ink/80 dark:text-white/85"
+                }
+              >
+                {paragraph}
+              </p>
+            ))}
+          </Reveal>
+
+          <Reveal delay={0.05} className="mt-12 flex flex-col items-start gap-6 border-t border-black/10 pt-8 dark:border-white/10">
+            <ShareRow
+              url={url}
+              label={dict.insights.share}
+              linkedinLabel={dict.insights.shareLinkedin}
+              copyLabel={dict.insights.copyLink}
+              copiedLabel={dict.insights.linkCopied}
+            />
+            <PillButton href={`/${locale}/insights`} variant="secondary">
+              {dict.common.allInsights}
+            </PillButton>
+          </Reveal>
+        </article>
       </Container>
 
-      <section className="border-t border-black/5 py-16 dark:border-white/10">
+      <section className="border-t border-black/5 pb-24 pt-24 lg:pb-32 lg:pt-32 dark:border-white/10">
         <Container>
-          <h2 className="text-center text-2xl font-medium text-ink dark:text-white">{dict.services.relatedPosts}</h2>
-          <StaggerGrid className="mt-10 grid gap-x-6 gap-y-12 sm:grid-cols-3">
+          <SectionHeader
+            heading={dict.services.relatedPosts}
+            body={dict.home.blog.body}
+            cta={dict.common.allInsights}
+            ctaHref={`/${locale}/insights`}
+          />
+          <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-3 lg:mt-16">
             {others.map((p) => (
-              <BlogCard key={p.slug} post={p} locale={locale} readMoreLabel={dict.common.readMore} />
+              <BlogCard
+                key={p.slug}
+                post={p}
+                locale={locale}
+                readMoreLabel={dict.common.readMore}
+                minReadLabel={dict.insights.minRead}
+              />
             ))}
           </StaggerGrid>
         </Container>

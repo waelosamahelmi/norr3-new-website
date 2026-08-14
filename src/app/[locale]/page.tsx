@@ -177,10 +177,10 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             ctaHref={`/${locale}/cases`}
           />
           <div className="mt-14 grid gap-x-6 gap-y-12 lg:mt-16 lg:grid-cols-2">
-            <CaseCard study={featuredCases[0]} locale={locale} readMoreLabel={dict.common.readMore} large />
+            <CaseCard study={featuredCases[0]} locale={locale} ctaLabel={dict.common.readCase} large />
             <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2">
               {featuredCases.slice(1).map((c) => (
-                <CaseCard key={c.slug} study={c} locale={locale} readMoreLabel={dict.common.readMore} />
+                <CaseCard key={c.slug} study={c} locale={locale} ctaLabel={dict.common.readCase} />
               ))}
             </div>
           </div>
@@ -318,7 +318,13 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
             {insights.map((post) => (
-              <BlogCard key={post.slug} post={post} locale={locale} readMoreLabel={dict.common.readMore} />
+              <BlogCard
+                key={post.slug}
+                post={post}
+                locale={locale}
+                readMoreLabel={dict.common.readMore}
+                minReadLabel={dict.insights.minRead}
+              />
             ))}
           </StaggerGrid>
         </Container>

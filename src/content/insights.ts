@@ -107,3 +107,13 @@ export const insights: Insight[] = [
 export function getInsight(slug: string) {
   return insights.find((i) => i.slug === slug);
 }
+
+/**
+ * Estimated reading time at ≈200 words per minute, rounded to at least one
+ * minute. One helper for the blog cards, the index feature and the article
+ * header, so the same post never advertises two different figures.
+ */
+export function readingMinutes(body: string[]) {
+  const words = body.join(" ").split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}

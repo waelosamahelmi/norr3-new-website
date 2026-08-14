@@ -7,7 +7,7 @@ import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
-import { insights } from "@/content/insights";
+import { insights, readingMinutes } from "@/content/insights";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/insights">) {
   const { locale } = await params;
@@ -47,32 +47,38 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
 
   const featured = insights[0];
   const fc = featured[locale];
-  const words = fc.body.join(" ").split(/\s+/).filter(Boolean).length;
-  const featuredMinutes = Math.max(1, Math.round(words / 200));
+  const featuredMinutes = readingMinutes(fc.body);
+  const rest = insights.slice(1);
 
   return (
     <>
-      <Container className="pb-12 pt-10 lg:pt-16">
+      {/* Hero — the same rhythm as the other index pages: pill, display
+          headline, one paragraph, then straight into the editorial feature. */}
+      <Container className="pt-12 lg:pt-20">
         <Reveal>
           <HeroPill>{dict.insights.pill}</HeroPill>
         </Reveal>
         <Reveal delay={0.05}>
-          <h1 className="mt-5 text-[10vw] font-medium leading-none tracking-tight text-ink lg:text-[6.5rem] dark:text-white">
+          <h1 className="mt-6 text-[10vw] font-medium leading-[0.95] tracking-tight text-ink lg:text-[6.5rem] dark:text-white">
             {dict.insights.heading}
           </h1>
         </Reveal>
         <Reveal delay={0.15}>
-          <p className="mt-6 max-w-sm text-sm leading-relaxed text-ink/80 dark:text-white/80">{dict.insights.body}</p>
+          <p className="mt-6 max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
+            {dict.insights.body}
+          </p>
         </Reveal>
       </Container>
 
-      <Container className="pb-16">
+      {/* Featured article — the magazine opener, mirroring the cases index's
+          CaseFeature: photo left, meta / title / excerpt / CTA pill right. */}
+      <Container className="pb-24 pt-14 lg:pb-32 lg:pt-16">
         <Reveal>
           <Link
             href={`/${locale}/insights/${featured.slug}`}
-            className="group grid gap-8 lg:grid-cols-2 lg:items-center"
+            className="group grid gap-8 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple lg:grid-cols-2 lg:items-center lg:gap-14"
           >
-            <div className="aspect-[4/3] overflow-hidden rounded-[25px]">
+            <div className="aspect-[4/3] overflow-hidden rounded-card">
               {featured.image ? (
                 <img
                   src={featured.image}
@@ -89,30 +95,49 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
               )}
             </div>
             <div>
-              <div className="flex items-center gap-3">
-                <span className="inline-flex items-center rounded-full bg-yellow px-3 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-ink">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center rounded-full bg-yellow px-3.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-ink">
                   {dict.insights.featuredLabel}
                 </span>
                 <span className="text-xs text-ink/50 dark:text-white/50">
                   {featured.date} · {featuredMinutes} {dict.insights.minRead}
                 </span>
               </div>
-              <h2 className="mt-5 text-3xl font-medium leading-tight tracking-tight text-ink lg:text-5xl dark:text-white">
+              <h2 className="mt-5 text-3xl font-medium leading-[1.05] tracking-tight text-ink transition-colors group-hover:text-purple lg:text-5xl dark:text-white dark:group-hover:text-light-purple">
                 {fc.title}
               </h2>
-              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-ink/70 dark:text-white/70">{fc.excerpt}</p>
-              <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-ink transition-transform group-hover:translate-x-0.5 dark:text-white">
-                {dict.common.readMore} <span aria-hidden>→</span>
+              <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-ink/70 lg:text-base dark:text-white/70">
+                {fc.excerpt}
+              </p>
+              {/* Same outlined pill the case feature and photo cards use, so
+                  every "open this" affordance on the site looks alike. */}
+              <span className="mt-8 inline-flex w-fit items-center rounded-full border border-ink/40 px-5 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink transition-colors group-hover:bg-ink group-hover:text-white dark:border-white/40 dark:text-white dark:group-hover:bg-white dark:group-hover:text-ink">
+                {dict.common.readMore}
               </span>
             </div>
           </Link>
         </Reveal>
       </Container>
 
-      <Container className="pb-20">
-        <StaggerGrid className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {insights.slice(1).map((post) => (
-            <BlogCard key={post.slug} post={post} locale={locale} readMoreLabel={dict.common.readMore} />
+      {/* The rest of the archive under a hairline index header */}
+      <Container className="pb-24 lg:pb-32">
+        <Reveal className="flex items-baseline justify-between gap-6 border-t border-black/10 pt-6 dark:border-white/10">
+          <h2 className="text-[11px] font-medium uppercase tracking-[0.14em] text-purple dark:text-light-purple">
+            {dict.common.allInsights}
+          </h2>
+          <p className="text-xs text-ink/50 dark:text-white/50">
+            {insights.length} {dict.insights.articlesLabel}
+          </p>
+        </Reveal>
+        <StaggerGrid className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {rest.map((post) => (
+            <BlogCard
+              key={post.slug}
+              post={post}
+              locale={locale}
+              readMoreLabel={dict.common.readMore}
+              minReadLabel={dict.insights.minRead}
+            />
           ))}
         </StaggerGrid>
       </Container>

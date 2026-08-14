@@ -257,7 +257,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {related.map((c) => (
-              <CaseCard key={c.slug} study={c} locale={locale} readMoreLabel={dict.common.readCase} />
+              <CaseCard key={c.slug} study={c} locale={locale} ctaLabel={dict.common.readCase} />
             ))}
           </StaggerGrid>
         </Container>

@@ -1,5 +1,6 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
 import { Container, HeroPill } from "@/components/Container";
 import { PillButton } from "@/components/PillButton";
@@ -67,52 +68,79 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
 
   return (
     <>
+      {/*
+        Section rhythm shared with Home / Services / Engine / Cases: a run of
+        base-background sections opens with `pt-24 lg:pt-32` and every member
+        closes with `pb-24 lg:pb-32`; full-width bands reset the run.
+      */}
+
       {/* Hero — headline + always-sliding team strip */}
-      <Container className="pt-10 lg:pt-16">
+      <Container className="pt-12 lg:pt-20">
         <Reveal>
           <HeroPill>{t.pill}</HeroPill>
         </Reveal>
         <Reveal delay={0.05}>
-          <h1 className="mt-5 text-[8vw] font-medium leading-none tracking-tight text-ink lg:text-[5.5rem] dark:text-white">
+          <h1 className="mt-6 max-w-5xl text-[8vw] font-medium leading-[1.02] tracking-tight text-ink lg:text-[5.5rem] dark:text-white">
             {t.heroHeadline}
           </h1>
         </Reveal>
       </Container>
-      <div className="mt-10">
+      <div className="mt-10 lg:mt-12">
         <TeamMarquee locale={locale} />
       </div>
-      <Container className="pb-16 pt-10">
+      <Container className="pb-16 pt-10 lg:pb-20">
         <Reveal className="flex flex-col items-start gap-6">
-          <p className="max-w-sm whitespace-pre-line text-sm leading-relaxed text-ink/80 dark:text-white/80">{t.heroBody}</p>
-          <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
+          <p className="max-w-md whitespace-pre-line text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
+            {t.heroBody}
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
+            {/* The roles section is the second reason people open this page —
+                give it a route in from the fold instead of a long scroll. */}
+            <PillButton href={`/${locale}/team#open-roles`} variant="secondary">
+              {dict.common.openJobs}
+            </PillButton>
+          </div>
         </Reveal>
       </Container>
 
       {/* Intro + pillars */}
-      <section className="border-t border-black/5 py-20 dark:border-white/10">
+      <section className="border-t border-black/5 pb-24 pt-24 lg:pb-32 lg:pt-32 dark:border-white/10">
         <Container>
           <SectionHeader heading={t.intro.heading} body={t.intro.body} />
-          <div className="mt-16 space-y-20">
+          <div className="mt-16 space-y-20 lg:mt-20 lg:space-y-28">
             {t.pillars.map((pillar, i) => (
-              <Reveal key={pillar.title} className="grid items-start gap-10 lg:grid-cols-2">
-                <div className={`aspect-[4/3] overflow-hidden ${i % 2 === 1 ? "lg:order-2" : ""}`}>
+              <Reveal key={pillar.title} className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+                <div className={`aspect-[4/3] overflow-hidden rounded-card ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                   <img
                     src={["/images/brand/team-attitude.webp", "/images/brand/team-technology.webp", "/images/brand/team-talent.webp"][i]}
                     alt={pillarAlts[i]}
+                    width={1600}
+                    height={1066}
                     className="h-full w-full object-cover"
                     loading="lazy"
                   />
                 </div>
-                <div className="flex h-full flex-col">
-                  <h3 className="text-3xl font-medium tracking-tight text-ink lg:text-4xl dark:text-white">{pillar.title}</h3>
-                  <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink/70 dark:text-white/70">{pillar.body}</p>
-                  <div className={`mt-auto grid gap-8 pt-10 ${pillar.stats.length > 2 ? "grid-cols-3" : "grid-cols-2"}`}>
+                <div className="flex h-full flex-col justify-center">
+                  {/* Index numerals — the same numbering device the service and
+                      culture cards use, so the three brand pillars read as a
+                      sequence rather than three unrelated photo rows. */}
+                  <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-purple dark:text-light-purple">
+                    {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="mt-3 text-3xl font-medium leading-[1.1] tracking-tight text-ink lg:text-4xl dark:text-white">
+                    {pillar.title}
+                  </h3>
+                  <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-ink/70 lg:text-base dark:text-white/70">
+                    {pillar.body}
+                  </p>
+                  <div className={`mt-10 grid gap-8 ${pillar.stats.length > 2 ? "grid-cols-3" : "grid-cols-2"}`}>
                     {pillar.stats.map((s) => (
-                      <div key={s.label} className="border-t border-black/20 pt-2 dark:border-white/20">
-                        <p className="text-3xl font-medium tracking-tight text-ink lg:text-4xl dark:text-white">
+                      <div key={s.label} className="border-t border-black/20 pt-3 dark:border-white/20">
+                        <p className="text-3xl font-medium leading-[1.15] tabular-nums tracking-[-0.04em] text-ink lg:text-4xl dark:text-white">
                           <CountUpStat value={s.value} suffix={"suffix" in s ? s.suffix : undefined} locale={locale} />
                         </p>
-                        <p className="mt-1 text-[11px] text-ink/60 dark:text-white/60">{s.label}</p>
+                        <p className="mt-2 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{s.label}</p>
                       </div>
                     ))}
                   </div>
@@ -121,17 +149,17 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
             ))}
           </div>
 
-          <div className="mt-24">
+          <div className="mt-24 lg:mt-32">
             <StatGrid stats={inNumbers} locale={locale} label={dict.common.inNumbers} />
           </div>
         </Container>
       </section>
 
       {/* Culture */}
-      <section className="pb-20">
+      <section className="pb-24 lg:pb-32">
         <Container>
           <SectionHeader heading={t.culture.heading} body={t.culture.body} />
-          <StaggerGrid className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
             {t.culture.principles.map((p, i) => (
               <CultureCard
                 key={p.title}
@@ -145,7 +173,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
         </Container>
       </section>
 
-      <Container className="pb-20">
+      <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
           image="/images/brand/team-space.webp"
           alt={locale === "fi" ? "NØRR3:n studion avoin lounge pehmeässä iltavalossa" : "The NØRR3 studio open lounge in soft evening light"}
@@ -154,11 +182,13 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
         />
       </Container>
 
-      {/* Management team */}
-      <section className="pb-20">
+      {/* Management team — the full roster, the site's most human screen */}
+      <section className="pb-24 lg:pb-32">
         <Container>
           <SectionHeader heading={t.management.heading} body={t.management.body} />
-          <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Four columns from xl so 18 tiles read as one wall of faces rather
+              than six long rows; the stagger stays per-card. */}
+          <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 xl:grid-cols-4">
             {team.map((m) => (
               <TeamMemberCard
                 key={m.id}
@@ -173,24 +203,32 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
         </Container>
       </section>
 
-      {/* Open roles */}
-      <section className="pb-20">
+      {/* Open roles — anchored, so the hero CTA has somewhere to land */}
+      <section id="open-roles" className="scroll-mt-24 pb-24 lg:pb-32">
         <Container>
           <SectionHeader heading={t.openRoles.heading} body={t.openRoles.body} />
-          <StaggerGrid className="mt-14 grid gap-5 sm:grid-cols-3">
+          {/* Radical-candor line: a real differentiator in Finnish recruiting,
+              so it gets its own beat under the section intro. */}
+          <Reveal delay={0.05} className="mx-auto mt-6 flex max-w-3xl items-center justify-center gap-2 text-center">
+            <Icon name="drafts" className="text-purple dark:text-light-purple" style={{ fontSize: "18px" }} />
+            <p className="text-[15px] font-medium text-ink/80 dark:text-white/80">{t.openRoles.candor}</p>
+          </Reveal>
+          <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-3 lg:mt-16">
             {openRoles.map((role) => (
-              <a
+              <Link
                 key={role.id}
                 href={`/${locale}/contact`}
-                className="group flex h-full flex-col gap-3 bg-yellow p-7 transition-transform duration-300 hover:-translate-y-1"
+                className="group flex h-full flex-col rounded-card bg-yellow p-8 transition-transform duration-300 hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple"
               >
-                <Icon name="work" className="text-[28px] text-ink/80" />
-                <h3 className="text-lg font-medium leading-snug text-ink">{role.title[locale]}</h3>
-                <p className="text-sm text-ink/70">{role.location[locale]}</p>
-                <span className="mt-auto inline-flex items-center gap-1 border-t border-ink/30 pt-3 text-xs font-medium text-ink transition-transform group-hover:translate-x-0.5">
+                <span className="flex h-[64px] w-[64px] items-center justify-center rounded-[5px] bg-white/60 text-ink">
+                  <Icon name="work" style={{ fontSize: "28px" }} />
+                </span>
+                <h3 className="mt-8 text-lg font-medium leading-snug text-ink">{role.title[locale]}</h3>
+                <p className="mt-1.5 text-sm text-ink/70">{role.location[locale]}</p>
+                <span className="mt-auto inline-flex items-center gap-1 pt-8 text-xs font-medium uppercase tracking-[0.08em] text-ink transition-transform group-hover:translate-x-0.5">
                   {t.openRoles.apply} <span aria-hidden>→</span>
                 </span>
-              </a>
+              </Link>
             ))}
           </StaggerGrid>
         </Container>

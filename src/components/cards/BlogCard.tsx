@@ -1,21 +1,26 @@
 import Link from "next/link";
-import type { Insight } from "@/content/insights";
+import { readingMinutes, type Insight } from "@/content/insights";
 import type { Locale } from "@/i18n/config";
 
 /**
  * Blog card per Figma: a photo OR a lavender tile with a giant ghost figure,
- * then date, title, excerpt and a "Read more →" text link.
+ * then a date · read-time meta line, title, excerpt and a "Read more →" text
+ * link. `minReadLabel` is what makes the read time appear — every blog grid on
+ * the site passes it, so the estimate is stated the same way everywhere.
  */
 export function BlogCard({
   post,
   locale,
   readMoreLabel,
+  minReadLabel,
 }: {
   post: Insight;
   locale: Locale;
   readMoreLabel: string;
+  minReadLabel?: string;
 }) {
   const content = post[locale];
+  const minutes = readingMinutes(content.body);
   return (
     <Link
       href={`/${locale}/insights/${post.slug}`}
@@ -37,7 +42,10 @@ export function BlogCard({
           </div>
         )}
       </div>
-      <p className="mt-4 text-xs text-ink/50 dark:text-white/50">{post.date}</p>
+      <p className="mt-4 text-xs text-ink/50 dark:text-white/50">
+        {post.date}
+        {minReadLabel && ` · ${minutes} ${minReadLabel}`}
+      </p>
       <h3 className="mt-1.5 text-base font-medium leading-snug text-ink transition-colors group-hover:text-purple dark:text-white dark:group-hover:text-light-purple">
         {content.title}
       </h3>
