@@ -71,7 +71,7 @@ const CARDS: HeroCard[] = [
     pixel: "var(--color-yellow)",
   },
   {
-    word: "Execute",
+    word: "Act",
     number: "02",
     src: "/images/brand/engine-workflow.webp",
     icon: "draw",
