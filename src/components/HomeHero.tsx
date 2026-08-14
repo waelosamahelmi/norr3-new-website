@@ -44,9 +44,9 @@ function useParallaxAllowed() {
  * -150px, -40px, +96px); `y` stays in px. `depth` scales the pointer parallax.
  */
 const SLOTS = [
-  { x: "-32%", y: "34px", scale: 0.66, opacity: 0.9, z: 1, depth: 0.3, front: false },
-  { x: "-13%", y: "8px", scale: 0.82, opacity: 0.97, z: 2, depth: 0.6, front: false },
-  { x: "10%", y: "-20px", scale: 1, opacity: 1, z: 3, depth: 1, front: true },
+  { x: "-44%", y: "34px", scale: 0.66, opacity: 0.9, z: 1, depth: 0.3, front: false },
+  { x: "-22%", y: "8px", scale: 0.82, opacity: 0.97, z: 2, depth: 0.6, front: false },
+  { x: "-2%", y: "-20px", scale: 1, opacity: 1, z: 3, depth: 1, front: true },
 ] as const;
 
 type HeroCard = {
@@ -224,7 +224,7 @@ export function HomeHero({
                   style={{
                     // 3:4 portrait sized off the reference 300px height, capped
                     // at a share of the stage so a squeezed stage never spills.
-                    width: `calc(${slot.scale} * min(calc(0.75 * var(--card)), 52%))`,
+                    width: `calc(${slot.scale} * min(calc(0.75 * var(--card)), 66%))`,
                     opacity: slot.opacity,
                     transform: "translate(-50%, -50%)",
                     outline: "2.5px solid transparent",
