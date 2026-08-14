@@ -33,7 +33,7 @@ export function ServiceCard({
     <HoverLift className="h-full">
       <Link
         href={href}
-        className={`group relative flex h-full flex-col items-center gap-4 overflow-hidden rounded-card px-card-pad pb-card-pad pt-20 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple ${
+        className={`group relative flex h-full flex-col items-center gap-4 overflow-hidden rounded-card px-card-pad pb-card-pad pt-20 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus-visible:outline-light-purple ${
           highlighted
             ? "bg-purple text-white"
             : "bg-pastel-purple/60 text-ink dark:bg-white/[0.04] dark:text-white dark:ring-1 dark:ring-white/10"
@@ -47,7 +47,13 @@ export function ServiceCard({
         <div className="relative flex h-[100px] w-[100px] items-center justify-center rounded-[5px] bg-yellow text-ink">
           <Icon name={icon} style={{ fontSize: "40px" }} />
         </div>
-        <span className="relative text-2xl font-medium text-yellow [text-shadow:0_0_1px_rgba(0,0,0,0.15)]">
+        {/* Yellow only holds on the purple card; on the pastel ground the index
+            takes the primary purple, matching the services data cards. */}
+        <span
+          className={`relative text-2xl font-medium ${
+            highlighted ? "text-yellow" : "text-purple dark:text-light-purple"
+          }`}
+        >
           {number}
         </span>
         <h3 className="relative text-xl font-medium leading-snug">{title}</h3>

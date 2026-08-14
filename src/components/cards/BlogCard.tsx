@@ -24,7 +24,7 @@ export function BlogCard({
   return (
     <Link
       href={`/${locale}/insights/${post.slug}`}
-      className="group flex h-full flex-col rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple"
+      className="group flex h-full flex-col rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple dark:focus-visible:outline-light-purple"
     >
       <div className="aspect-[5/4] overflow-hidden">
         {post.image ? (

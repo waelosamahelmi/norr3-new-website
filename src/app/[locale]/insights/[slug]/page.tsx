@@ -84,7 +84,7 @@ export default async function InsightArticlePage({
           <h1 className="mt-6 text-3xl font-medium leading-[1.1] tracking-tight text-ink sm:text-4xl lg:text-5xl dark:text-white">
             {content.title}
           </h1>
-          <p className="mt-5 text-xs uppercase tracking-[0.14em] text-ink/50 dark:text-white/50">
+          <p className="mt-5 text-xs font-medium uppercase tracking-[0.14em] text-ink/50 dark:text-white/50">
             {post.date} · {minutes} {dict.insights.minRead}
           </p>
         </Reveal>
@@ -95,11 +95,11 @@ export default async function InsightArticlePage({
       <section>
         <Container>
           <Reveal className="mx-auto max-w-4xl">
-            <div className="aspect-[16/9] w-full overflow-hidden rounded-[25px]">
+            <div className="aspect-[16/9] w-full overflow-hidden rounded-card">
               {post.image ? (
                 <img
                   src={post.image}
-                  alt=""
+                  alt={content.title}
                   width={1600}
                   height={900}
                   fetchPriority="high"

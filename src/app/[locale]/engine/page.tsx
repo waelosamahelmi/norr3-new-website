@@ -169,9 +169,11 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
                   <div className="flex h-[64px] w-[64px] items-center justify-center rounded-[5px] bg-violet text-white">
                     <Icon name={step.icon} style={{ fontSize: "28px" }} />
                   </div>
+                  {/* Purple, not yellow — same call as the services data cards:
+                      yellow on a pastel ground reads poorly in light mode. */}
                   <span
                     aria-hidden
-                    className="text-3xl font-medium text-yellow [text-shadow:0_0_1px_rgba(0,0,0,0.2)]"
+                    className="text-3xl font-medium text-purple dark:text-light-purple"
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -188,7 +190,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
 
       {/* Interactive media-mix simulator — black band, per the design language.
           scroll-mt keeps the heading clear of the sticky nav on the #simulator jump. */}
-      <section id="simulator" className="scroll-mt-24 bg-ink py-24 lg:py-32">
+      <section id="simulator" className="scroll-mt-24 bg-ink py-24 lg:py-32 dark:border-y dark:border-white/10">
         <Container>
           <SectionHeader heading={e.simulator.heading} body={e.simulator.body} tone="light" />
           <Reveal delay={0.1} className="mx-auto mt-14 max-w-5xl lg:mt-16">

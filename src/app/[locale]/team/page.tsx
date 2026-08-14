@@ -88,7 +88,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
       <div className="mt-10 lg:mt-12">
         <TeamMarquee locale={locale} />
       </div>
-      <Container className="pb-16 pt-10 lg:pb-20">
+      <Container className="pb-24 pt-12 lg:pb-32">
         <Reveal className="flex flex-col items-start gap-6">
           <p className="max-w-md whitespace-pre-line text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
             {t.heroBody}
@@ -218,7 +218,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
               <Link
                 key={role.id}
                 href={`/${locale}/contact`}
-                className="group flex h-full flex-col rounded-card bg-yellow p-8 transition-transform duration-300 hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple"
+                className="group flex h-full flex-col rounded-card bg-yellow p-8 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus-visible:outline-light-purple"
               >
                 <span className="flex h-[64px] w-[64px] items-center justify-center rounded-[5px] bg-white/60 text-ink">
                   <Icon name="work" style={{ fontSize: "28px" }} />

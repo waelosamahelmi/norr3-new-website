@@ -9,6 +9,10 @@ import { ThemeToggle } from "./ThemeToggle";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
 
+// Every control in the site chrome gets the same house focus ring.
+const focusRing =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus-visible:outline-light-purple";
+
 export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -34,7 +38,10 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
         transition={{ duration: 0.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 lg:px-14"
       >
-        <Link href={`/${locale}`} className="shrink-0">
+        <Link
+          href={`/${locale}`}
+          className={`shrink-0 rounded-sm transition-opacity hover:opacity-75 ${focusRing}`}
+        >
           <Logo className="dark:brightness-0 dark:invert" />
         </Link>
 
@@ -44,7 +51,7 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             <Link
               key={item.key}
               href={item.href}
-              className="relative flex items-center gap-1.5 py-1 text-[15px] text-ink transition-colors hover:text-purple dark:text-white dark:hover:text-light-purple"
+              className={`relative flex items-center gap-1.5 rounded-sm py-1 text-[15px] text-ink transition-colors hover:text-purple dark:text-white dark:hover:text-light-purple ${focusRing}`}
             >
               {isActive(item.href) && (
                 <motion.span
@@ -62,7 +69,7 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           <ThemeToggle label={dict.common.toggleTheme} />
           <Link
             href={otherPath}
-            className="text-sm font-medium tracking-wide text-ink/50 transition-colors hover:text-ink dark:text-white/50 dark:hover:text-white"
+            className={`rounded-sm text-sm font-medium tracking-wide text-ink/50 transition-colors hover:text-ink dark:text-white/50 dark:hover:text-white ${focusRing}`}
           >
             {other.toUpperCase()}
           </Link>
@@ -71,14 +78,15 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
               primary accent (§8) instead. */}
           <Link
             href={`/${locale}/engine`}
-            className="hidden rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-ink/90 lg:inline-flex dark:bg-purple dark:text-white dark:hover:bg-violet"
+            className={`hidden rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-purple lg:inline-flex dark:bg-purple dark:text-white dark:hover:bg-violet ${focusRing}`}
           >
             {dict.nav.engine}
           </Link>
           <button
-            aria-label="Menu"
+            aria-label={dict.common.menu}
+            aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
+            className={`flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-full lg:hidden ${focusRing}`}
           >
             <span className={`h-[1.5px] w-5 bg-ink transition-transform dark:bg-white ${open ? "translate-y-[3.5px] rotate-45" : ""}`} />
             <span className={`h-[1.5px] w-5 bg-ink transition-transform dark:bg-white ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`} />
@@ -100,7 +108,7 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
                 key={item.key}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-2 py-2.5 text-base text-ink dark:text-white"
+                className={`flex items-center gap-2 rounded-sm py-2.5 text-base text-ink transition-colors hover:text-purple dark:text-white dark:hover:text-light-purple ${focusRing}`}
               >
                 {isActive(item.href) && <span className="h-2 w-2 rounded-full bg-purple" />}
                 {item.label}
@@ -109,7 +117,7 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             <Link
               href={`/${locale}/engine`}
               onClick={() => setOpen(false)}
-              className="mt-3 w-full rounded-full bg-ink px-5 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-ink/90 dark:bg-purple dark:hover:bg-violet"
+              className={`mt-3 w-full rounded-full bg-ink px-5 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-purple dark:bg-purple dark:hover:bg-violet ${focusRing}`}
             >
               {dict.nav.engine}
             </Link>

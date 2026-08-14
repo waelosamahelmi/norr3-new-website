@@ -36,7 +36,7 @@ export function PhotoLinkCard({
   return (
     <Link
       href={href}
-      className="group flex h-full flex-col rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple"
+      className="group flex h-full flex-col rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple dark:focus-visible:outline-light-purple"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
@@ -65,7 +65,7 @@ export function PhotoLinkCard({
       >
         {body}
       </p>
-      <span className="mt-4 inline-flex w-fit items-center rounded-full border border-ink/40 px-4 py-1.5 text-[10px] font-medium uppercase tracking-[0.08em] text-ink transition-colors group-hover:bg-ink group-hover:text-white dark:border-white/40 dark:text-white dark:group-hover:bg-white dark:group-hover:text-ink">
+      <span className="mt-4 inline-flex w-fit items-center rounded-full border border-ink/40 px-5 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink transition-colors group-hover:bg-ink group-hover:text-white dark:border-white/40 dark:text-white dark:group-hover:bg-white dark:group-hover:text-ink">
         {ctaLabel}
       </span>
     </Link>

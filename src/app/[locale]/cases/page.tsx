@@ -63,7 +63,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
       */}
 
       {/* Hero */}
-      <Container className="pt-12 lg:pt-20">
+      <Container className="pb-24 pt-12 lg:pb-32 lg:pt-20">
         <Reveal>
           <HeroPill>{c.pill}</HeroPill>
         </Reveal>
@@ -90,7 +90,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
               />
               <span
                 aria-hidden
-                className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-3 pb-2 pt-8 text-[11px] font-medium uppercase tracking-[0.1em] text-white"
+                className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-3 pb-2 pt-8 text-[11px] font-medium uppercase tracking-[0.14em] text-white"
               >
                 {study.client}
               </span>
@@ -114,7 +114,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
             </div>
           </Reveal>
         </div>
-        <Reveal delay={0.25} className="mt-10 flex flex-col items-start gap-6 pb-24 lg:pb-32">
+        <Reveal delay={0.25} className="mt-10 flex flex-col items-start gap-6">
           <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
             {c.heroBody}
           </p>
@@ -176,6 +176,15 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
           </StaggerGrid>
         </Container>
       </section>
+
+      {/* Pre-footer lavender banner — every other page closes on this beat. */}
+      <ContactBanner
+        locale={locale}
+        heading={dict.banner.heading}
+        body={dict.banner.body}
+        cta={dict.common.contactUs}
+        tone="lavender"
+      />
     </>
   );
 }

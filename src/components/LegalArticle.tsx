@@ -60,7 +60,7 @@ export function LegalArticle({
             <p className="mt-8 max-w-[62ch] text-[15px] leading-relaxed text-ink/75 lg:text-base dark:text-white/75">
               {intro}
             </p>
-            <p className="mt-6 flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-ink/50 dark:text-white/50">
+            <p className="mt-6 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-ink/50 dark:text-white/50">
               <Icon name="update" style={{ fontSize: "16px" }} />
               {updatedLabel}: {updated}
             </p>
@@ -83,7 +83,7 @@ export function LegalArticle({
                   </span>
                   <a
                     href={`#${anchor(i)}`}
-                    className="rounded-sm text-ink/70 transition-colors hover:text-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-white/70 dark:hover:text-light-purple"
+                    className="rounded-sm text-ink/70 transition-colors hover:text-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-white/70 dark:hover:text-light-purple dark:focus-visible:outline-light-purple"
                   >
                     {section.title}
                   </a>
@@ -101,7 +101,7 @@ export function LegalArticle({
               >
                 <h2
                   id={anchor(i)}
-                  className="scroll-mt-28 text-2xl font-medium tracking-tight text-ink lg:text-[26px] dark:text-white"
+                  className="scroll-mt-28 text-2xl font-medium tracking-tight text-ink lg:text-h4 dark:text-white"
                 >
                   <span className="mr-3 font-medium tabular-nums text-purple dark:text-light-purple">
                     {String(i + 1).padStart(2, "0")}
@@ -121,8 +121,8 @@ export function LegalArticle({
               </Reveal>
             ))}
 
-            <Reveal className="mt-6 rounded-[25px] bg-light-purple p-9 dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
-              <p className="text-xs font-medium uppercase tracking-[0.14em] text-ink/60 dark:text-white/60">
+            <Reveal className="mt-6 rounded-card bg-light-purple p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
+              <p className="text-xs font-medium uppercase tracking-[0.14em] text-ink/50 dark:text-white/50">
                 {relatedLabel}
               </p>
               <ul className="mt-4 space-y-2">
@@ -130,12 +130,12 @@ export function LegalArticle({
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="group inline-flex items-center gap-2 rounded-sm text-[15px] font-medium text-purple transition-colors hover:text-violet focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-light-purple dark:hover:text-white"
+                      className="group inline-flex items-center gap-2 rounded-sm text-[15px] font-medium text-purple transition-colors hover:text-violet focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-light-purple dark:hover:text-white dark:focus-visible:outline-light-purple"
                     >
                       {link.label}
                       <span
                         aria-hidden
-                        className="inline-block transition-transform duration-200 group-hover:translate-x-1"
+                        className="inline-block transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1"
                       >
                         →
                       </span>

@@ -76,7 +76,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
         <Reveal>
           <Link
             href={`/${locale}/insights/${featured.slug}`}
-            className="group grid gap-8 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple lg:grid-cols-2 lg:items-center lg:gap-14"
+            className="group grid gap-8 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple lg:grid-cols-2 lg:items-center lg:gap-14 dark:focus-visible:outline-light-purple"
           >
             <div className="aspect-[4/3] overflow-hidden rounded-card">
               {featured.image ? (
@@ -96,14 +96,14 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-3">
-                <span className="inline-flex items-center rounded-full bg-yellow px-3.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-ink">
+                <span className="inline-flex items-center rounded-full bg-yellow px-3.5 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-ink">
                   {dict.insights.featuredLabel}
                 </span>
                 <span className="text-xs text-ink/50 dark:text-white/50">
                   {featured.date} · {featuredMinutes} {dict.insights.minRead}
                 </span>
               </div>
-              <h2 className="mt-5 text-3xl font-medium leading-[1.05] tracking-tight text-ink transition-colors group-hover:text-purple lg:text-5xl dark:text-white dark:group-hover:text-light-purple">
+              <h2 className="mt-5 text-4xl font-medium leading-[1.05] tracking-tight text-ink transition-colors group-hover:text-purple lg:text-5xl dark:text-white dark:group-hover:text-light-purple">
                 {fc.title}
               </h2>
               <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-ink/70 lg:text-base dark:text-white/70">

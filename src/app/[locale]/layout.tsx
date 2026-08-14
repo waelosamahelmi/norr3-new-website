@@ -65,13 +65,22 @@ export default async function LocaleLayout({
 
   return (
     <MotionConfig reducedMotion="user">
+      {/* Keyboard users otherwise cross ~16 tab stops of chrome per page. */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-ink focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus:bg-purple dark:focus-visible:outline-light-purple"
+      >
+        {dict.common.skipToContent}
+      </a>
       {/* Sits in normal flow above the sticky nav, so it scrolls away. */}
       <AnnouncementBar locale={locale} dict={dict.announcement} />
       <HtmlLangSync locale={locale} />
       <SmoothScroll />
       <RouteWipe />
       <Nav locale={locale} dict={dict} />
-      <main className="flex-1">{children}</main>
+      <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+        {children}
+      </main>
       <Footer locale={locale} dict={dict} />
       <CookieConsent dict={dict.cookies} locale={locale} />
     </MotionConfig>

@@ -202,7 +202,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           />
           <div className="mt-14 grid items-stretch gap-card-gap lg:mt-16 lg:grid-cols-2">
             <Reveal delay={0.05} className="flex flex-col">
-              <div className="overflow-hidden rounded-[25px]">
+              <div className="overflow-hidden rounded-card">
                 <img
                   src="/images/brand/engine-team.webp"
                   width={1500}

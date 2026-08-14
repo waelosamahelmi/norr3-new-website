@@ -107,7 +107,8 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       </section>
 
       {/* NØRR3 Media Insights — black band */}
-      <section className="bg-ink py-24 lg:py-32">
+      {/* The black band needs a hairline in dark mode or it melts into the base. */}
+      <section className="bg-ink py-24 lg:py-32 dark:border-y dark:border-white/10">
         <Container>
           <SectionHeader
             heading={s.insights.heading}
@@ -234,7 +235,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           <div className="mt-14 grid items-start gap-12 lg:mt-16 lg:grid-cols-2 lg:gap-16">
             {/* Decorative product visual — purely illustrative, so it is hidden
                 from assistive tech; the real chart above carries a description. */}
-            <Reveal className="rounded-card bg-ink p-10 lg:sticky lg:top-28">
+            <Reveal className="rounded-card bg-ink p-10 ring-1 ring-white/10 lg:sticky lg:top-28">
               <div aria-hidden className="mx-auto max-w-xs rounded-[16px] bg-white p-6">
                 <div className="flex h-40 items-end gap-2">
                   {[30, 55, 40, 75, 50, 85].map((h, i) => (

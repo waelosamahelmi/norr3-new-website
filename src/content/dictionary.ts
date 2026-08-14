@@ -61,6 +61,8 @@ const fi = {
     contact: "Yhteystiedot",
   },
   common: {
+    skipToContent: "Siirry sisältöön",
+    menu: "Valikko",
     toggleTheme: "Vaihda vaaleaan tai tummaan teemaan",
     contactUs: "Ota yhteyttä",
     allServices: "Kaikki palvelut",
@@ -621,6 +623,8 @@ const en: Dictionary = {
     contact: "Contact",
   },
   common: {
+    skipToContent: "Skip to content",
+    menu: "Menu",
     toggleTheme: "Toggle light or dark theme",
     contactUs: "Contact us",
     allServices: "All services",

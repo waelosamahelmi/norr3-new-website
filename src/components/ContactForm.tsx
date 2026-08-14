@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Icon } from "@/components/Icon";
 import type { Dictionary } from "@/content/dictionary";
 
 /** Shared field styling — one source of truth for every input/textarea. */
 const fieldClass =
-  "mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-purple";
+  "mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-light-purple dark:focus-visible:ring-light-purple/40";
 const labelClass = "text-sm font-medium text-ink/70 dark:text-white/80";
 
 export function ContactForm({ dict }: { dict: Dictionary["contact"] }) {
@@ -20,16 +21,17 @@ export function ContactForm({ dict }: { dict: Dictionary["contact"] }) {
   }
 
   return (
-    <div className="relative rounded-[25px] bg-white p-8 ring-1 ring-black/5 sm:p-10 dark:bg-white/[0.04] dark:ring-white/10">
+    <div className="relative rounded-card bg-white p-8 ring-1 ring-black/5 sm:p-10 dark:bg-white/[0.04] dark:ring-white/10">
       <AnimatePresence mode="wait">
         {sent ? (
           <motion.div
             key="sent"
+            role="status"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex min-h-[320px] flex-col items-center justify-center text-center"
           >
-            <span className="material-symbols-outlined text-5xl text-purple">check_circle</span>
+            <Icon name="check_circle" className="text-5xl text-purple dark:text-light-purple" />
             <p className="mt-4 text-lg font-medium text-ink dark:text-white">{dict.formSuccess}</p>
           </motion.div>
         ) : (
@@ -84,7 +86,7 @@ export function ContactForm({ dict }: { dict: Dictionary["contact"] }) {
             </div>
             <button
               type="submit"
-              className="mt-2 self-start rounded-full bg-ink px-7 py-3.5 text-sm font-medium uppercase tracking-wide text-white transition-transform duration-200 hover:bg-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple active:scale-[0.97] dark:bg-purple dark:hover:bg-violet dark:focus-visible:outline-light-purple"
+              className="mt-2 self-start rounded-full bg-ink px-7 py-3.5 text-sm font-medium uppercase tracking-wide text-white transition-[transform,background-color] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple active:scale-[0.97] dark:bg-purple dark:hover:bg-violet dark:focus-visible:outline-light-purple"
             >
               {dict.formSubmit}
             </button>

@@ -49,12 +49,12 @@ export function TeamMemberCard({
           />
           <span
             aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-card ring-0 ring-inset ring-purple/0 transition-all duration-500 group-hover/member:ring-2 group-hover/member:ring-purple/70"
+            className="pointer-events-none absolute inset-0 rounded-card ring-0 ring-inset ring-purple/0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/member:ring-2 group-hover/member:ring-purple/70"
           />
         </div>
         <h3 className="mt-5 text-lg font-medium leading-snug text-ink dark:text-white">{member.name}</h3>
         {member.role ? (
-          <p className="mt-1.5 text-[11px] font-medium uppercase leading-relaxed tracking-[0.12em] text-purple dark:text-light-purple">
+          <p className="mt-1.5 text-[11px] font-medium uppercase leading-relaxed tracking-[0.14em] text-purple dark:text-light-purple">
             {member.role[locale]}
           </p>
         ) : (
@@ -91,7 +91,7 @@ export function ViewAllTile({ title, body }: { title: string; body: string }) {
         href={COMPANY_LINKEDIN}
         target="_blank"
         rel="noreferrer"
-        className="group/tile flex h-full flex-col rounded-card bg-yellow p-8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple"
+        className="group/tile flex h-full flex-col rounded-card bg-yellow p-8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus-visible:outline-light-purple"
       >
         <span className="flex h-16 w-16 items-center justify-center rounded-[5px] bg-white/60 text-ink">
           <Icon name="sentiment_satisfied" style={{ fontSize: "30px" }} />

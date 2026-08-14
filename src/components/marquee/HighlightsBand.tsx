@@ -32,7 +32,7 @@ export function HighlightsBand({ label }: { label: string }) {
   );
 
   return (
-    <section className="bg-ink py-12">
+    <section className="bg-ink py-12 dark:border-y dark:border-white/10">
       {/* Same uppercase eyebrow treatment as the StatGrid label, so every
           small section label on the site reads as one system. */}
       <p className="mb-8 text-center text-xs font-medium uppercase tracking-[0.14em] text-white/60">

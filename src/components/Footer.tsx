@@ -10,8 +10,14 @@ const LETTERS = ["N", "Ø", "R", "R", "3"];
 export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <footer className="bg-purple text-white">
-      {/* Giant black stencil wordmark, letters rising in on scroll */}
-      <div className="mx-auto flex max-w-[1600px] items-end justify-between overflow-hidden px-6 pt-16 lg:px-14">
+      {/* Giant black stencil wordmark, letters rising in on scroll. Purely
+          decorative — the brand name is real text in the column below, so the
+          whole strip is hidden from AT (a per-letter split would leak a bare
+          "N" to screen readers). */}
+      <div
+        aria-hidden
+        className="mx-auto flex max-w-[1600px] items-end justify-between overflow-hidden px-6 pt-16 lg:px-14"
+      >
         {LETTERS.map((letter, i) => (
           <motion.span
             key={i}
@@ -21,7 +27,6 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             transition={{ duration: 0.7, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
             className="select-none font-medium leading-[0.8] text-black"
             style={{ fontSize: "clamp(5rem, 17vw, 21rem)" }}
-            aria-hidden={i > 0}
           >
             {letter}
           </motion.span>
@@ -48,8 +53,13 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
                 <p key={line}>{line}</p>
               ))}
             </div>
-            <p className="pt-1 underline decoration-white/40 underline-offset-2">
-              <Link href={`/${locale}/contact`}>{dict.footer.billing}</Link>
+            <p className="pt-1">
+              <Link
+                href={`/${locale}/contact`}
+                className="rounded-sm underline decoration-white/40 underline-offset-2 transition-colors hover:text-white hover:decoration-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                {dict.footer.billing}
+              </Link>
             </p>
           </div>
         </div>
@@ -57,10 +67,20 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
         <div>
           <p className="text-lg font-medium">{dict.footer.followHeading}</p>
           <div className="mt-4 space-y-1.5 text-sm text-white/80">
-            <a href="https://linkedin.com/company/norr3" target="_blank" rel="noreferrer" className="block hover:text-white">
+            <a
+              href="https://linkedin.com/company/norr3"
+              target="_blank"
+              rel="noreferrer"
+              className="block w-fit rounded-sm transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
               LinkedIn
             </a>
-            <a href="https://instagram.com/norr3.fi" target="_blank" rel="noreferrer" className="block hover:text-white">
+            <a
+              href="https://instagram.com/norr3.fi"
+              target="_blank"
+              rel="noreferrer"
+              className="block w-fit rounded-sm transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
               Instagram
             </a>
           </div>
@@ -70,7 +90,11 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           <p className="text-lg font-medium">{dict.footer.joinHeading}</p>
           <div className="mt-4 space-y-1.5 text-sm text-white/80">
             {dict.footer.joinLinks.map((label) => (
-              <Link key={label} href={`/${locale}/team`} className="block hover:text-white">
+              <Link
+                key={label}
+                href={`/${locale}/team`}
+                className="block w-fit rounded-sm transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
                 {label}
               </Link>
             ))}
@@ -79,7 +103,7 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
       </div>
 
       {/* Legal row: real routes now exist, so these are no longer href="#". */}
-      <div className="mx-auto flex max-w-[1600px] flex-col gap-2 px-6 pb-8 text-xs text-white/70 sm:flex-row sm:items-center sm:justify-between lg:px-14">
+      <div className="mx-auto flex max-w-[1600px] flex-col gap-2 px-6 pb-8 text-xs text-white/80 sm:flex-row sm:items-center sm:justify-between lg:px-14">
         <p>{dict.footer.copyright}</p>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           <Link

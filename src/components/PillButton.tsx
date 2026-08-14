@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-type Variant = "primary" | "secondary" | "lavender" | "outlineLight" | "text";
+type Variant = "primary" | "secondary" | "lavender" | "outlineLight" | "outlineInk" | "text";
 
 // Keyboard users got no visible focus state on the site's main CTA at all, so
 // the ring lives in `base` and each variant only picks its ring colour — purple
@@ -19,6 +19,10 @@ const variants: Record<Variant, string> = {
   // `secondary` variant's ink border would disappear.
   outlineLight:
     "bg-transparent text-white border border-white/50 rounded-full px-6 py-3 hover:bg-white hover:text-ink focus-visible:outline-white",
+  // For CTAs on surfaces that stay light in BOTH themes (yellow/lavender
+  // bands), where `secondary`'s dark: overrides would go white-on-light.
+  outlineInk:
+    "bg-transparent text-ink border border-ink/60 rounded-full px-6 py-3 hover:bg-ink hover:text-white focus-visible:outline-ink",
   text: "text-ink normal-case tracking-normal font-normal text-sm hover:text-purple dark:text-white dark:hover:text-light-purple focus-visible:outline-purple dark:focus-visible:outline-light-purple",
 };
 
@@ -42,7 +46,10 @@ export function PillButton({
     variant === "text" ? (
       <>
         {children}
-        <span aria-hidden className="inline-block transition-transform duration-200 group-hover:translate-x-1">
+        <span
+          aria-hidden
+          className="inline-block transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1"
+        >
           →
         </span>
       </>

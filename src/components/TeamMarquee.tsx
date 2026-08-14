@@ -47,7 +47,7 @@ const STRIP = buildStrip();
 
 function MiniDashboard() {
   return (
-    <div className="flex h-full w-56 shrink-0 flex-col gap-2 self-center rounded-2xl bg-black p-4 text-white">
+    <div className="flex h-full w-56 shrink-0 flex-col gap-2 self-center rounded-2xl bg-black p-4 text-white ring-1 ring-white/10">
       <p className="text-[10px] font-medium">Campaign Dashboard</p>
       <p className="text-[8px] text-white/50">Real-time performance</p>
       <div className="mt-1 grid grid-cols-2 gap-1.5">
@@ -101,20 +101,25 @@ export function TeamMarquee({ locale }: { locale: Locale }) {
             onBlur={() => setActive(null)}
             onClick={() => setActive(isActive ? null : item.memberIndex)}
             aria-label={member.role ? `${member.name} — ${member.role[locale]}` : member.name}
-            className={`group/card relative shrink-0 cursor-pointer overflow-hidden rounded-lg transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            // The second copy exists only for the seamless loop; it is
+            // aria-hidden, so it must not be reachable by keyboard either.
+            tabIndex={copy > 0 ? -1 : undefined}
+            className={`group/card relative shrink-0 cursor-pointer overflow-hidden rounded-lg transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus-visible:outline-light-purple ${
               tall ? "self-stretch" : "self-center"
             } ${isActive ? "w-64" : "w-32 sm:w-36"} ${tall ? "h-full" : "h-40 sm:h-48"}`}
           >
             <img
               src={member.photo}
-              alt={copy === 0 ? member.name : ""}
-              className={`h-full w-full object-cover transition-all duration-500 ${
+              // The button's aria-label already names the member — a non-empty
+              // alt here would make AT announce the name twice.
+              alt=""
+              className={`h-full w-full object-cover transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                 isActive ? "scale-105 grayscale-0" : "grayscale-[0.2]"
               }`}
               draggable={false}
             />
             <span
-              className={`absolute inset-x-0 bottom-0 flex flex-col items-start gap-0.5 bg-gradient-to-t from-black/80 to-transparent p-3 text-left transition-opacity duration-300 ${
+              className={`absolute inset-x-0 bottom-0 flex flex-col items-start gap-0.5 bg-gradient-to-t from-black/80 to-transparent p-3 text-left transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                 isActive ? "opacity-100" : "opacity-0"
               }`}
             >
@@ -125,7 +130,7 @@ export function TeamMarquee({ locale }: { locale: Locale }) {
             </span>
             {/* Affordance: a subtle plus chip so users know cards respond */}
             <span
-              className={`absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-white/85 text-ink transition-opacity duration-300 ${
+              className={`absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-white/85 text-ink transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                 isActive ? "opacity-0" : "opacity-0 group-hover/card:opacity-100"
               }`}
             >

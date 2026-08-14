@@ -149,6 +149,9 @@ export function MediaMixSimulator({
   }, [activeChannels, allocations, budget, locale]);
 
   const eyebrow = "text-[11px] font-medium uppercase tracking-[0.14em] text-white/50";
+  // Channels whose brand accent is light enough that a white % label fails
+  // contrast on the allocation bar — those segments take ink instead.
+  const lightSegments = new Set(["display", "pdooh", "audio"]);
   const focusRing =
     "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-light-purple";
 
@@ -226,7 +229,9 @@ export function MediaMixSimulator({
             {activeChannels.map((c) => (
               <div
                 key={c.id}
-                className="flex items-center justify-center text-xs font-semibold tabular-nums text-white transition-[width] duration-150"
+                className={`flex items-center justify-center text-xs font-semibold tabular-nums transition-[width] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  lightSegments.has(c.id) ? "text-ink" : "text-white"
+                }`}
                 style={{ width: `${allocations[c.id]}%`, backgroundColor: c.color }}
               >
                 {Math.round(allocations[c.id])} %
@@ -242,8 +247,10 @@ export function MediaMixSimulator({
               role="slider"
               tabIndex={0}
               aria-label={`${activeChannels[i][locale]} / ${activeChannels[i + 1][locale]} — ${labels.dividerLabel}`}
-              aria-valuemin={MIN_SHARE}
-              aria-valuemax={100 - MIN_SHARE}
+              // The boundary must leave MIN_SHARE for every channel on each
+              // side, so its real range depends on its position in the bar.
+              aria-valuemin={(i + 1) * MIN_SHARE}
+              aria-valuemax={100 - (activeChannels.length - i - 1) * MIN_SHARE}
               aria-valuenow={Math.round(leftPercent)}
               aria-valuetext={`${Math.round(allocations[activeChannels[i].id])} % / ${Math.round(allocations[activeChannels[i + 1].id])} %`}
               onPan={(_, info) => handleDividerDrag(i, info.delta.x)}

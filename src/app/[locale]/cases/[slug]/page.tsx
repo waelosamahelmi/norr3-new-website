@@ -79,12 +79,13 @@ export default async function CaseDetailPage({ params }: PageProps<"/[locale]/ca
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/5" />
           <Container className="absolute inset-x-0 bottom-0 pb-10 lg:pb-14">
             <Reveal>
-              <span className="inline-flex items-center rounded-full border border-white/40 px-4 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+              {/* HeroPill metrics, on-photo colours — white ink over the image. */}
+              <span className="inline-flex items-center rounded-full border border-white/40 px-3.5 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-white backdrop-blur-sm">
                 {dict.cases.pill}
               </span>
             </Reveal>
             <Reveal delay={0.05}>
-              <h1 className="mt-5 text-[13vw] font-medium leading-[0.92] tracking-tight text-white lg:text-[7rem]">
+              <h1 className="mt-6 text-[13vw] font-medium leading-[0.92] tracking-tight text-white lg:text-[7rem]">
                 {study.client}
               </h1>
             </Reveal>

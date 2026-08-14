@@ -137,7 +137,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[5px] bg-violet text-white">
                   <Icon name="location_on" style={{ fontSize: "22px" }} />
                 </span>
-                <h3 className="text-sm font-medium uppercase tracking-[0.12em] text-ink/70 dark:text-white/70">
+                <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-ink/70 dark:text-white/70">
                   {dict.contact.locationHeading}
                 </h3>
               </div>
@@ -152,7 +152,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
                 href="https://www.google.com/maps/search/?api=1&query=Pursimiehenkatu+26+C%2C+00150+Helsinki"
                 target="_blank"
                 rel="noreferrer"
-                className="mt-6 inline-flex items-center gap-1.5 rounded-full border border-ink/30 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:border-white/30 dark:text-white dark:hover:bg-white dark:hover:text-ink dark:focus-visible:outline-light-purple"
+                className="mt-6 inline-flex items-center gap-1.5 rounded-full border border-ink/40 px-5 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:border-white/40 dark:text-white dark:hover:bg-white dark:hover:text-ink dark:focus-visible:outline-light-purple"
               >
                 {dict.contact.mapLink}
                 <Icon name="arrow_outward" style={{ fontSize: "14px" }} />
