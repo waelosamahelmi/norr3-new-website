@@ -9,6 +9,12 @@ import gsap from "gsap";
  * motion guidelines: transform + boxShadow only (compositor-friendly), reverses
  * cleanly on mouseleave, respects prefers-reduced-motion, and uses quickTo so
  * grids with many cards don't recreate a tween per hover event.
+ *
+ * Zero layout impact by construction: the wrapper is promoted at rest
+ * (will-change + transform-gpu) so the first hover doesn't cause a
+ * layer-promotion jump, `isolate` keeps the scaled card's stacking local so it
+ * can't interleave with siblings, and the shadow is pure box-shadow rounded to
+ * the card radius — nothing here resizes, pads, or margins on hover.
  */
 export function HoverLift({
   children,
@@ -51,7 +57,10 @@ export function HoverLift({
   }, [lift, scale]);
 
   return (
-    <div ref={ref} className={className}>
+    <div
+      ref={ref}
+      className={`isolate rounded-card transform-gpu will-change-transform ${className}`}
+    >
       {children}
     </div>
   );
