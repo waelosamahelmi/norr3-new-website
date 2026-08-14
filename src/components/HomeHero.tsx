@@ -44,9 +44,9 @@ function useParallaxAllowed() {
  * -150px, -40px, +96px); `y` stays in px. `depth` scales the pointer parallax.
  */
 const SLOTS = [
-  { x: "-44%", y: "34px", scale: 0.66, opacity: 0.9, z: 1, depth: 0.3, front: false },
-  { x: "-22%", y: "8px", scale: 0.82, opacity: 0.97, z: 2, depth: 0.6, front: false },
-  { x: "-2%", y: "-20px", scale: 1, opacity: 1, z: 3, depth: 1, front: true },
+  { x: "-34%", y: "40px", scale: 0.66, opacity: 0.9, z: 1, depth: 0.3, front: false },
+  { x: "-14%", y: "10px", scale: 0.82, opacity: 0.97, z: 2, depth: 0.6, front: false },
+  { x: "8%", y: "-24px", scale: 1, opacity: 1, z: 3, depth: 1, front: true },
 ] as const;
 
 type HeroCard = {
@@ -190,7 +190,7 @@ export function HomeHero({
   return (
     <h1
       aria-label={`${left} ${accent}`}
-      className="flex w-full flex-wrap items-center justify-between gap-6 font-medium leading-none tracking-tight text-ink lg:flex-nowrap"
+      className="flex w-full flex-wrap items-center justify-center gap-3 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:justify-start lg:gap-5"
       onPointerMove={parallax ? handlePointerMove : undefined}
       onPointerLeave={parallax ? handlePointerLeave : undefined}
     >
@@ -201,10 +201,10 @@ export function HomeHero({
       </span>
 
       {/* The rotating portrait stack. */}
-      <span aria-hidden className="order-3 block w-full lg:order-none lg:w-auto lg:min-w-0 lg:flex-1">
+      <span aria-hidden className="order-3 block w-full lg:order-none lg:w-auto lg:min-w-0 lg:shrink">
         <div
           ref={stageRef}
-          className="relative mx-auto h-[300px] w-full max-w-xl select-none [--card:250px] sm:h-[360px] sm:[--card:300px]"
+          className="relative mx-auto h-[360px] w-full max-w-lg select-none [--card:300px] sm:h-[420px] sm:[--card:360px] lg:mx-0"
         >
           {CARDS.map((card, index) => {
             const slot = SLOTS[slotOf[index]];
@@ -265,14 +265,14 @@ export function HomeHero({
       {/* Accent word — cycles in sync with whichever card holds the front slot.
           An inline-grid stacks invisible ghosts of every candidate word so the
           box always reserves the widest word's width ("Execute") — the collage
-          never reflows as the word swaps — and right-aligns the visible word so
-          it stays pinned to the row's right edge. */}
+          never reflows as the word swaps — and left-aligns the visible word so
+          it sits attached to the collage rather than pushed to the far right. */}
       <span
         aria-hidden
         className="block whitespace-nowrap text-[10vw] transition-opacity duration-[400ms] lg:text-[6.5vw]"
         style={{ opacity: typing ? 0 : 1 }}
       >
-        <span className="inline-grid justify-items-end">
+        <span className="inline-grid justify-items-start">
           {[accent, ...CARDS.map((card) => card.word)].map((word) => (
             <span key={`ghost-${word}`} className="invisible col-start-1 row-start-1" aria-hidden>
               <span className="text-purple">_</span>
