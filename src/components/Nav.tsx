@@ -31,7 +31,7 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur dark:bg-background/95">
+    <header className="site-nav sticky top-0 z-50 bg-white/95 backdrop-blur dark:bg-background/95">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}

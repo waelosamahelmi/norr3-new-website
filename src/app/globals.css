@@ -134,3 +134,25 @@ html {
     scroll-behavior: auto !important;
   }
 }
+
+/* When the city hero is active, force the nav into dark-mode styling
+   regardless of the theme toggle — the city hero is always dark. */
+html[data-city-hero-active] .site-nav {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+html[data-city-hero-active] .site-nav a,
+html[data-city-hero-active] .site-nav button {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+html[data-city-hero-active] .site-nav a:hover,
+html[data-city-hero-active] .site-nav button:hover {
+  color: #fff !important;
+}
+html[data-city-hero-active] .site-nav img[alt="NØRR3"] {
+  filter: brightness(0) invert(1);
+}
+/* The black Engine CTA pill stays visible on dark */
+html[data-city-hero-active] .site-nav .bg-ink {
+  background-color: var(--color-purple) !important;
+}

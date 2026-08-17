@@ -4,6 +4,7 @@ import { getDictionary } from "@/lib/dictionary";
 import { Container } from "@/components/Container";
 import { DotGrid } from "@/components/DotGrid";
 import { HomeHero } from "@/components/HomeHero";
+import { HeroRandomizer } from "@/components/heroes/HeroRandomizer";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
@@ -98,27 +99,19 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Hero — screen-height: headline + rotating stack, body/CTA, and the
-          client-logo strip all fit within one viewport (minus the sticky nav). */}
-      <section className="relative flex min-h-[calc(100svh-4.25rem)] flex-col overflow-hidden">
-        <div className="relative flex flex-1 flex-col justify-start pt-4 overflow-hidden sm:pt-6 lg:justify-center lg:pt-0">
-          <DotGrid />
-          <Container className="relative z-10 py-8">
-            <HomeHero left={dict.home.heroLeft} accent={dict.home.heroAccent} alts={heroAlts} />
-            {/* Hero promise + primary CTA. Body sits at brand body size (15/16px)
-                rather than 14px — it is the first sentence a visitor reads. */}
-            <Reveal delay={0.3} className="mt-7 flex flex-col items-start gap-5 lg:mt-8">
-              <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
-                {dict.home.heroBody}
-              </p>
-              <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
-            </Reveal>
-          </Container>
-        </div>
-        <div className="relative z-10">
-          <LogoStrip />
-        </div>
-      </section>
+      {/* Hero — randomizes between the original HomeHero and the CityHero
+          (dark Helsinki cityscape parallax) on each page load. The CityHero
+          forces the nav into dark-mode styling via data-city-hero-active. */}
+      <HeroRandomizer
+        locale={locale}
+        left={dict.home.heroLeft}
+        accent={dict.home.heroAccent}
+        alts={heroAlts}
+        heroBody={dict.home.heroBody}
+        contactLabel={dict.common.contactUs}
+        contactHref={`/${locale}/contact`}
+        logoStrip={<LogoStrip />}
+      />
 
       {/*
         Section rhythm on this page: a run of base-background sections opens with
