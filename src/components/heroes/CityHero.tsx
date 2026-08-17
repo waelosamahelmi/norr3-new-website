@@ -160,7 +160,7 @@ function MagneticDots() {
     <div
       ref={wrapRef}
       className="absolute inset-x-0 bottom-0 top-auto h-[135%]"
-      style={{ zIndex: 0 }}
+      style={{ zIndex: 2 }}
     >
       <canvas ref={canvasRef} className="h-full w-full" aria-hidden />
     </div>
@@ -275,7 +275,7 @@ export function CityHero({ locale }: { locale: Locale }) {
           ref={(el) => { layerRefs.current[i] = el; }}
           data-speed={layer.speed}
           className={`absolute inset-0 will-change-transform ${layer.className || ""}`}
-          style={{ zIndex: layer.z }}
+          style={{ zIndex: layer.z, pointerEvents: "none" }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -317,8 +317,8 @@ export function CityHero({ locale }: { locale: Locale }) {
 
       {/* Content: eyebrow + body + CTA */}
       <div
-        className="absolute bottom-[clamp(48px,10vh,112px)] left-[clamp(24px,7vw,104px)] z-7 w-[min(560px,calc(100%-48px))]"
-        style={{ zIndex: 7 }}
+        className="absolute bottom-[clamp(48px,10vh,112px)] left-[clamp(24px,7vw,104px)] w-[min(560px,calc(100%-48px))]"
+        style={{ zIndex: 7, pointerEvents: "auto" }}
       >
         <div className="mb-5 flex items-center gap-2.5 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#e6cfff]">
           <span className="block h-px w-7 bg-current" />
