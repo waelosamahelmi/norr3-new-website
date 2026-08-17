@@ -3,6 +3,10 @@
 import { useState, useEffect } from "react";
 import { HomeHero } from "@/components/HomeHero";
 import { CityHero } from "@/components/heroes/CityHero";
+import { DotGrid } from "@/components/DotGrid";
+import { Container } from "@/components/Container";
+import { Reveal } from "@/components/Reveal";
+import { PillButton } from "@/components/PillButton";
 import type { Locale } from "@/i18n/config";
 
 /**
@@ -57,7 +61,16 @@ export function HeroRandomizer({
     <>
       <section className="relative flex min-h-[calc(100svh-4.25rem)] flex-col overflow-hidden">
         <div className="relative flex flex-1 flex-col justify-start overflow-hidden pt-4 sm:pt-6 lg:justify-center lg:pt-0">
-          <HomeHero left={left} accent={accent} alts={alts} />
+          <DotGrid />
+          <Container className="relative z-10 py-8">
+            <HomeHero left={left} accent={accent} alts={alts} />
+            <Reveal delay={0.3} className="mt-7 flex flex-col items-start gap-5 lg:mt-8">
+              <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
+                {heroBody}
+              </p>
+              <PillButton href={contactHref}>{contactLabel}</PillButton>
+            </Reveal>
+          </Container>
         </div>
         <div className="relative z-10">{logoStrip}</div>
       </section>

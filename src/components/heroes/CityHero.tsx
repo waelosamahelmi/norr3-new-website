@@ -276,14 +276,22 @@ export function CityHero({ locale }: { locale: Locale }) {
           key={i}
           ref={(el) => { layerRefs.current[i] = el; }}
           data-speed={layer.speed}
-          className={`absolute will-change-transform ${isFrontBuildings ? "bottom-0 left-0 right-0" : "inset-0"} ${layer.className || ""}`}
-          style={{ zIndex: layer.z, pointerEvents: "none" }}
+          className={`absolute will-change-transform ${layer.className || ""}`}
+          style={{
+            zIndex: layer.z,
+            pointerEvents: "none",
+            // Front buildings: taller than hero + anchored bottom so parallax
+            // (which moves it up) never exposes an empty gap at the bottom.
+            ...(isFrontBuildings
+              ? { bottom: 0, left: 0, right: 0, height: "140%" }
+              : { inset: 0 }),
+          }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={layer.src}
             alt=""
-            className={isFrontBuildings ? "w-full" : "h-full w-full"}
+            className="h-full w-full"
             style={{
               objectFit: "cover",
               objectPosition: "center bottom",
@@ -299,20 +307,20 @@ export function CityHero({ locale }: { locale: Locale }) {
       {/* Magnetic dot grid */}
       <MagneticDots />
 
-      {/* Title floating between layers — cycles Plan → Act → Grow */}
+      {/* Title floating between layers — cycles Plan → Act → Grow, one line */}
       <h1
         ref={titleRef}
         data-speed={TITLE_SPEED}
-        className="absolute inset-0 flex flex-col items-center justify-center text-center font-medium leading-[0.88] tracking-[-0.06em] text-white will-change-transform"
-        style={{ zIndex: 3, fontSize: "clamp(2rem, 9vw, 9rem)", padding: "0 24px", pointerEvents: "none" }}
+        className="absolute inset-0 flex items-center justify-center text-center font-medium leading-[0.88] tracking-[-0.06em] text-white will-change-transform"
+        style={{ zIndex: 3, fontSize: "clamp(2rem, 9vw, 9rem)", padding: "0 24px", whiteSpace: "nowrap", pointerEvents: "none" }}
         aria-label={`${content.titlePrefix} ${CYCLE[wordIdx]}`}
       >
-        <span aria-hidden>{content.titlePrefix}</span>
+        <span aria-hidden>{content.titlePrefix} </span>
         <span
           aria-hidden
           key={wordIdx}
-          className="mt-2 text-yellow"
-          style={{ animation: motionAllowed ? "accent-swap 0.5s cubic-bezier(0.16,1,0.3,1)" : undefined }}
+          className="text-yellow"
+          style={{ animation: motionAllowed ? "accent-swap 0.5s cubic-bezier(0.16,1,0.3,1)" : undefined, display: "inline-block" }}
         >
           {CYCLE[wordIdx]}
         </span>

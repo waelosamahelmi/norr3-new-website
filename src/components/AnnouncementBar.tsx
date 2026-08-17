@@ -32,7 +32,7 @@ export function AnnouncementBar({
   if (dismissed) return null;
 
   return (
-    <div className="relative bg-ink px-6 py-2.5 text-center text-sm text-white dark:border-b dark:border-white/10">
+    <div className="relative z-[60] bg-ink px-6 py-2.5 text-center text-sm text-white dark:border-b dark:border-white/10">
       <Link
         href={`/${locale}/engine`}
         className="inline-flex items-center gap-2 rounded-sm transition-colors hover:text-light-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
