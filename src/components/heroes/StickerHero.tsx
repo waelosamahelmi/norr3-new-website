@@ -240,6 +240,8 @@ export function StickerHero({ locale }: { locale: Locale }) {
 
     let comboFlash = 0;
     let draggingBody: MatterBody | null = null;
+    let isMouseDown = false;
+    let mouseConstraint: ReturnType<typeof MouseConstraint.create> | null = null;
 
     resize();
     QUOTES[locale].forEach((quote, index) => addSticker(quote, width * (0.08 + (index % 6) * 0.17), 95 + Math.floor(index / 6) * 76, COLORS[index % COLORS.length], false, false));
@@ -249,29 +251,15 @@ export function StickerHero({ locale }: { locale: Locale }) {
       runner = Runner.create();
       Runner.run(runner, engine);
       const mouse = Mouse.create(canvas);
-      const constraint = MouseConstraint.create(engine, { mouse, constraint: { stiffness: 0.18, damping: 0.1, render: { visible: false } } });
-      Composite.add(engine.world, constraint);
+      mouseConstraint = MouseConstraint.create(engine, { mouse, constraint: { stiffness: 0.18, damping: 0.1, render: { visible: false } } });
+      Composite.add(engine.world, mouseConstraint);
 
-      // Track which body the user is dragging
-      Events.on(constraint, "startdrag" as never, () => {
-        draggingBody = constraint.body;
-      });
-      Events.on(constraint, "enddrag" as never, () => {
-        draggingBody = null;
-      });
-      // Also track via mouse events (more reliable than Matter's custom events)
-      canvas.addEventListener("mousedown", () => {
-        draggingBody = constraint.body;
-      });
-      canvas.addEventListener("mouseup", () => {
-        draggingBody = null;
-      });
-      canvas.addEventListener("touchstart", () => {
-        draggingBody = constraint.body;
-      });
-      canvas.addEventListener("touchend", () => {
-        draggingBody = null;
-      });
+      // Track which body the user is dragging — check constraint.body every frame
+      // (Matter.js sets constraint.body when grabbing; we poll it in the draw loop)
+      canvas.addEventListener("mousedown", () => { isMouseDown = true; });
+      canvas.addEventListener("mouseup", () => { isMouseDown = false; draggingBody = null; });
+      canvas.addEventListener("touchstart", () => { isMouseDown = true; }, { passive: true });
+      canvas.addEventListener("touchend", () => { isMouseDown = false; draggingBody = null; });
 
       // Register collision listener
       Events.on(engine, "collisionStart", onCollision);
@@ -279,6 +267,10 @@ export function StickerHero({ locale }: { locale: Locale }) {
 
     const draw = () => {
       if (!alive) return;
+      // Poll the mouse constraint to track which body is being dragged
+      if (isMouseDown && mouseConstraint?.body) {
+        draggingBody = mouseConstraint.body;
+      }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, width, height);
       stickers.forEach(({ body, text, color, width: stickerWidth, height: stickerHeight, lines, emoji }) => {
