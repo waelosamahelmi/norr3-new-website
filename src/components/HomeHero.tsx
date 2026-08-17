@@ -75,7 +75,7 @@ const CARDS: HeroCard[] = [
   {
     word: "Act",
     number: "02",
-    src: "/images/brand/engine-workflow.webp",
+    src: "/images/brand/hero-human.webp",
     icon: "draw",
     tile: "bg-yellow text-ink",
     pixel: "var(--color-purple)",
@@ -83,7 +83,7 @@ const CARDS: HeroCard[] = [
   {
     word: "Grow",
     number: "03",
-    src: "/images/brand/team-energy.webp",
+    src: "/images/brand/hero-data.webp",
     icon: "trending_up",
     tile: "bg-violet text-white",
     pixel: "var(--color-yellow)",
@@ -121,8 +121,9 @@ export function HomeHero({
   const [typed, setTyped] = useState(0);
   /** How many cards have "popped" in (0..3). All three = intro done. */
   const [popped, setPopped] = useState(0);
+  const displayedAccentRef = useRef(accent);
+  const [displayedAccent, setDisplayedAccent] = useState(accent);
 
-  const introRan = useRef(false);
   const pointer = useRef({ x: 0, y: 0 });
   const stageRef = useRef<HTMLDivElement | null>(null);
 
@@ -132,8 +133,7 @@ export function HomeHero({
 
   // Type the left word out, once, on the first render that allows motion.
   useEffect(() => {
-    if (!motion || introRan.current) return;
-    introRan.current = true;
+    if (!motion) return;
     let i = 0;
     const tick = window.setInterval(() => {
       i += 1;
@@ -204,6 +204,45 @@ export function HomeHero({
   /** Accent word is hidden during typing and the pop-in sequence. */
   const accentHidden = typing || popping;
 
+  useEffect(() => {
+    if (!motion) return;
+    let cancelled = false;
+    let eraseTimer = 0;
+    let typeTimer = 0;
+    let pauseTimer = 0;
+    let current = displayedAccentRef.current;
+
+    const typeNext = () => {
+      let position = 0;
+      typeTimer = window.setInterval(() => {
+        if (cancelled) return;
+        position += 1;
+        current = accentWord.slice(0, position);
+        displayedAccentRef.current = current;
+        setDisplayedAccent(current);
+        if (position >= accentWord.length) window.clearInterval(typeTimer);
+      }, TYPE_SPEED);
+    };
+
+    eraseTimer = window.setInterval(() => {
+      if (cancelled) return;
+      current = current.slice(0, -1);
+      displayedAccentRef.current = current;
+      setDisplayedAccent(current);
+      if (!current) {
+        window.clearInterval(eraseTimer);
+        pauseTimer = window.setTimeout(typeNext, 180);
+      }
+    }, TYPE_SPEED);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(eraseTimer);
+      window.clearInterval(typeTimer);
+      window.clearTimeout(pauseTimer);
+    };
+  }, [accentWord, motion]);
+
   return (
     <h1
       aria-label={`${left} ${accent}`}
@@ -262,8 +301,8 @@ export function HomeHero({
                   <img
                     src={card.src}
                     alt={alts[index]}
-                    loading={index === 2 ? "eager" : "lazy"}
-                    fetchPriority={index === 2 ? "high" : undefined}
+                    loading={index === 1 ? "eager" : "lazy"}
+                    fetchPriority={index === 1 ? "high" : undefined}
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                   <span className="absolute inset-0 bg-gradient-to-b from-violet/15 to-ink/50" />
@@ -299,16 +338,15 @@ export function HomeHero({
         style={{ opacity: accentHidden ? 0 : 1 }}
       >
         <span className="inline-grid justify-items-start">
-          {[accent, ...CARDS.map((card) => card.word)].map((word) => (
-            <span key={`ghost-${word}`} className="invisible col-start-1 row-start-1 hidden lg:block" aria-hidden>
+          {[accent, ...CARDS.map((card) => card.word)].map((word, index) => (
+            <span key={`ghost-${index}`} className="invisible col-start-1 row-start-1 hidden lg:block" aria-hidden>
               <span className="text-ink dark:text-white">_</span>
               {word}
             </span>
           ))}
           <span className="col-start-1 row-start-1">
-            <span className="text-ink dark:text-white">_</span>
-            <span key={accentWord} className={motion && !typing ? "accent-swap inline-block" : undefined}>
-              {accentWord}
+            <span className={motion && displayedAccent !== accentWord ? "caret-blink text-ink dark:text-white" : "text-ink dark:text-white"}>_</span>
+            <span>{motion ? displayedAccent : accentWord}
             </span>
           </span>
         </span>

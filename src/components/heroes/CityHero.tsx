@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useMotionAllowed } from "@/components/heroes/useMotionAllowed";
+import { HeroCardStack } from "@/components/heroes/HeroCardStack";
 import type { Locale } from "@/i18n/config";
 
 /**
@@ -170,9 +171,9 @@ function MagneticDots() {
 // ─── Parallax layers ──────────────────────────────────────────────────────
 const LAYERS: { src: string; speed: number; z: number; className?: string }[] = [
   { src: "/images/hero-cityscape/bg.webp", speed: 0, z: 0, className: "mix-blend-screen" },
-  { src: "/images/hero-cityscape/cathedral.webp", speed: -0.15, z: 1 },
-  { src: "/images/hero-cityscape/buildings2.webp", speed: 0.28, z: 2 },
-  { src: "/images/hero-cityscape/buildings.webp", speed: 0.48, z: 4 },
+  { src: "/images/hero-cityscape/cathedral.webp", speed: -0.8, z: 1 },
+  { src: "/images/hero-cityscape/buildings2.webp", speed: -0.5, z: 2 },
+  { src: "/images/hero-cityscape/buildings.webp", speed: 0, z: 4 },
 ];
 
 const TITLE_SPEED = -0.36;
@@ -259,7 +260,7 @@ export function CityHero({ locale }: { locale: Locale }) {
     <section
       ref={heroRef}
       data-city-hero
-      className="relative h-[calc(100svh)] min-h-[620px] overflow-hidden bg-purple"
+      className="relative h-[calc(100svh)] min-h-[620px] overflow-hidden bg-ink"
       style={{ isolation: "isolate", marginTop: "-112px" }}
     >
       {/* Dark gradient overlay (top + bottom) */}
@@ -272,21 +273,19 @@ export function CityHero({ locale }: { locale: Locale }) {
       {LAYERS.map((layer, i) => {
         const isFrontBuildings = i === LAYERS.length - 1;
         return (
-        <div
-          key={i}
-          ref={(el) => { layerRefs.current[i] = el; }}
-          data-speed={layer.speed}
-          className={`absolute will-change-transform ${layer.className || ""}`}
-          style={{
-            zIndex: layer.z,
-            pointerEvents: "none",
-            // Front buildings: taller than hero + anchored bottom so parallax
-            // (which moves it up) never exposes an empty gap at the bottom.
-            ...(isFrontBuildings
-              ? { bottom: 0, left: 0, right: 0, height: "140%" }
-              : { inset: 0 }),
-          }}
-        >
+          <div
+            key={i}
+            ref={(el) => { layerRefs.current[i] = el; }}
+            data-speed={layer.speed}
+            className={`absolute will-change-transform ${layer.className || ""}`}
+            style={{
+              zIndex: layer.z,
+              pointerEvents: "none",
+              ...(isFrontBuildings
+                ? { bottom: 0, left: 0, right: 0, height: "100%" }
+                : { inset: 0 }),
+            }}
+          >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={layer.src}
@@ -300,7 +299,7 @@ export function CityHero({ locale }: { locale: Locale }) {
             decoding="async"
             aria-hidden
           />
-        </div>
+          </div>
         );
       })}
 
@@ -319,7 +318,7 @@ export function CityHero({ locale }: { locale: Locale }) {
         <span
           aria-hidden
           key={wordIdx}
-          className="text-yellow"
+          className="ml-4 text-white sm:ml-8"
           style={{ animation: motionAllowed ? "accent-swap 0.5s cubic-bezier(0.16,1,0.3,1)" : undefined, display: "inline-block" }}
         >
           {CYCLE[wordIdx]}
@@ -347,15 +346,8 @@ export function CityHero({ locale }: { locale: Locale }) {
         </a>
       </div>
 
-      {/* Scroll cue */}
-      <div
-        className="absolute bottom-[clamp(48px,10vh,112px)] right-[clamp(24px,7vw,104px)] hidden gap-3 justify-items-center text-[0.7rem] uppercase tracking-[0.12em] text-white/72 sm:grid"
-        style={{ zIndex: 7 }}
-        aria-hidden
-      >
-        Scroll to explore
-        <span className="block h-14 w-px bg-gradient-to-b from-white to-transparent" />
-      </div>
+      <HeroCardStack locale={locale} />
+
     </section>
   );
 }
