@@ -7,7 +7,7 @@ const LOCALES = ["fi", "en"] as const;
 const ROUTES = ["", "services", "engine", "cases", "about", "careers", "team", "insights", "contact", "privacy", "terms"];
 
 // Case + insight slugs — kept in sync with src/content/{cases,insights}.ts
-const CASE_SLUGS = ["flow-festival", "terveystalo", "kokkola", "st1", "kiinteistomaailma"];
+const CASE_SLUGS = ["flow-festival", "oomi", "suun-terveystalo", "kokkola", "st1", "kiinteistomaailma"];
 const INSIGHT_SLUGS = ["voittava-mediamix-2026", "data-jahta-mittaa", "some-uutiset-2026", "dooh-toimii"];
 
 function buildEntries() {

@@ -25,7 +25,7 @@ const fi = {
     cases: {
       title: "Caset — NØRR3",
       description:
-        "Aitoja tuloksia: Flow Festival, Terveystalo, Kokkola, ST1 ja muut — näin NØRR3 muuttaa median kasvun moottoriksi.",
+        "Aitoja tuloksia: Flow Festival, Oomi, Suun Terveystalo, Kokkola, ST1 ja muut — näin NØRR3 muuttaa median kasvun moottoriksi.",
     },
     insights: {
       title: "Insights — NØRR3",
@@ -143,7 +143,7 @@ const fi = {
       "Määrittelemme miten ja mitkä mediat kuljettavat oikeat viestit perille oikeaan aikaan ja oikealle yleisölle vaikuttavasti, jotta kohderyhmän ajattelussa tai käytöksessä saadaan aikaan haluttu muutos.",
     areas: {
       heading: "Mitä teemme",
-      body: "Kuusi palvelualuetta, yksi tiimi — insightistä ja strategiasta dataan, maksettuun mediaan, mittaamiseen ja luovaan. Räätälöimme niistä yrityksellesi sopivan mallin.",
+      body: "Kuusi palvelualuetta, yksi tiimi — insightistä ja strategiasta dataan ja mittaukseen, löydettävyyteen, mediapalveluihin, performanceen ja Marketing Engineen. Räätälöimme niistä yrityksellesi sopivan mallin.",
     },
     insights: {
       heading: "NØRR3 Media Insights",
@@ -691,7 +691,7 @@ const en: Dictionary = {
     cases: {
       title: "Cases — NØRR3",
       description:
-        "Real results for Flow Festival, Terveystalo, Kokkola, ST1 and more — how NØRR3 turns media into a growth engine.",
+        "Real results for Flow Festival, Oomi, Suun Terveystalo, Kokkola, ST1 and more — how NØRR3 turns media into a growth engine.",
     },
     insights: {
       title: "Insights — NØRR3",
@@ -809,7 +809,7 @@ const en: Dictionary = {
       "We define how and which media deliver the right messages at the right time to the right audience — effectively enough to change how the target group thinks or acts.",
     areas: {
       heading: "What we do",
-      body: "Six service areas, one team — from insight and strategy to data, paid media, measurement and creative. We tailor them into a model that fits your business.",
+      body: "Six service areas, one team — from insight and strategy to data and measurement, discoverability, media services, performance and the Marketing Engine. We tailor them into a model that fits your business.",
     },
     insights: {
       heading: "NØRR3 Media Insights",

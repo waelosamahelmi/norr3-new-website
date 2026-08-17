@@ -4,47 +4,81 @@ export type ServiceCard = {
   highlighted?: boolean;
   fi: { title: string; body: string };
   en: { title: string; body: string };
+  /**
+   * The named services sold under this category. Rendered as chips inside the
+   * card on the Services page; the home page shows the categories alone, so the
+   * short grid there stays a summary rather than a price list.
+   *
+   * Both locales live here beside the card's own title/body — the same file is
+   * already the FI/EN source for service copy, and splitting the sub-items into
+   * dictionary.ts would mean two index-aligned arrays that can silently drift.
+   */
+  items?: { fi: string; en: string }[];
 };
 
-// The six service cards from the Figma "Services" grid — card 02 is the
-// purple highlighted variant in the design.
+// The six service categories per Antti's service map — card 02 is the purple
+// highlighted variant carried over from the Figma "Services" grid.
 export const serviceCards: ServiceCard[] = [
   {
     number: "01",
     icon: "zoom_in_map",
-    fi: { title: "Insight & Strategy", body: "Meiltä saat tehokasta ja liiketoimintalähtöistä strategiatyötä kohderyhmä-, kilpailija- ja mediatarpeisiin." },
+    fi: { title: "Insight & Strategia", body: "Meiltä saat tehokasta ja liiketoimintalähtöistä strategiatyötä kohderyhmä-, kilpailija- ja mediatarpeisiin." },
     en: { title: "Insight & Strategy", body: "Effective, business-driven strategy work for audience, competitor and media needs." },
+    items: [
+      { fi: "Tunnettuustutkimukset", en: "Brand awareness studies" },
+      { fi: "Kohderyhmätutkimukset", en: "Audience research" },
+      { fi: "Mediankäyttötutkimukset – NØRR3 Media Insights", en: "Media usage studies – NØRR3 Media Insights" },
+    ],
   },
   {
     number: "02",
     icon: "monitoring",
     highlighted: true,
-    fi: { title: "Data & Analytics", body: "Optimaalisen mediastrategian rakentaminen alkaa tutkimalla saatavilla olevaa dataa." },
-    en: { title: "Data & Analytics", body: "Building an optimal media strategy starts by studying the available data." },
+    fi: { title: "Data & Mittaus", body: "Optimaalisen mediastrategian rakentaminen alkaa datasta — ja päättyy siihen, että tulos on todennettu." },
+    en: { title: "Data & Measurement", body: "Building an optimal media strategy starts with data — and ends with the result actually verified." },
+    items: [
+      { fi: "NØRR3 Dashboard", en: "NØRR3 Dashboard" },
+      { fi: "Konversiomittaus", en: "Conversion measurement" },
+    ],
   },
   {
     number: "03",
-    icon: "paid",
-    fi: { title: "Paid Media", body: "Kokenut tiimimme operoi ja optimoi sinulle tuloksia kaikissa maksetun mainonnan kanavissa." },
-    en: { title: "Paid Media", body: "Our experienced team operates and optimizes results for you across all paid advertising channels." },
+    icon: "travel_explore",
+    fi: { title: "SEO, GEO & SEM", body: "Löydyt sieltä, mistä sinua etsitään — hakukoneista ja yhä useammin myös tekoälyn vastauksista." },
+    en: { title: "SEO, GEO & SEM", body: "Be found where you are searched for — in search engines and, increasingly, in AI answers too." },
+    items: [
+      { fi: "Hakukonelöydettävyys", en: "Search engine discoverability" },
+      { fi: "AI-löydettävyys", en: "AI discoverability" },
+      { fi: "Hakukonemainonta", en: "Search engine advertising" },
+      { fi: "Auditit", en: "Audits" },
+    ],
   },
   {
     number: "04",
-    icon: "query_stats",
-    fi: { title: "Measurement", body: "Laaja tutkimus- ja mittaustyökalupakkimme varmistaa ja todentaa suunnitelmat ja tulokset." },
-    en: { title: "Measurement", body: "Our broad research and measurement toolkit verifies and validates plans and results." },
+    icon: "paid",
+    fi: { title: "Mediapalvelut", body: "Kokenut tiimimme suunnittelee, ostaa ja optimoi sinulle tuloksia kaikissa median kanavissa." },
+    en: { title: "Media Services", body: "Our experienced team plans, buys and optimizes results for you across every media channel." },
   },
   {
     number: "05",
     icon: "trending_up",
     fi: { title: "Performance Marketing", body: "Tulospohjainen mainonta on tehokas tapa tavoittaa kohdeyleisö ja saada konkreettisia tuloksia." },
     en: { title: "Performance Marketing", body: "Performance-based advertising is an effective way to reach the target audience and get concrete results." },
+    items: [
+      { fi: "Dynamisen markkinoinnin palvelut", en: "Dynamic marketing services" },
+      { fi: "Performance markkinoinnin palvelut", en: "Performance marketing services" },
+    ],
   },
   {
     number: "06",
-    icon: "draw",
-    fi: { title: "Creative Production", body: "Olemme erikoistuneet dynaamisiin ja html-aineistoihin sekä luovien A/B-testaukseen." },
-    en: { title: "Creative Production", body: "We specialize in dynamic and HTML assets as well as creative A/B testing." },
+    icon: "rocket_launch",
+    fi: { title: "Marketing Engine", body: "Yksi alusta, joka yhdistää datan, tekoälyn ja monikanavaisen toteutuksen briiffistä tuloksiin." },
+    en: { title: "Marketing Engine", body: "One platform connecting data, AI and multichannel execution — from brief to results." },
+    items: [
+      { fi: "Esittely & demo", en: "Presentation & demo" },
+      { fi: "Appit", en: "Apps" },
+      { fi: "Hinnoittelu", en: "Pricing" },
+    ],
   },
 ];
 

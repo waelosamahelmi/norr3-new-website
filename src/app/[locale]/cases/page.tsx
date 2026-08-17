@@ -50,9 +50,9 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
   const rest = cases.filter((x) => x.slug !== featured.slug);
 
   // The purple stat tile in the collage is sourced from a real case metric
-  // (Terveystalo's rank in brand metrics) instead of a decorative number, and
+  // (Suun Terveystalo's cost per booking) instead of a decorative number, and
   // reads it off `cases.ts` so it can never drift from the case page itself.
-  const statCase = getCase("terveystalo")!;
+  const statCase = getCase("suun-terveystalo")!;
 
   return (
     <>

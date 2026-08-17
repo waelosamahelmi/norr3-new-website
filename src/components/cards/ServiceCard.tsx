@@ -17,6 +17,7 @@ export function ServiceCard({
   icon,
   title,
   body,
+  items,
   readMoreLabel,
   highlighted = false,
   href,
@@ -25,6 +26,9 @@ export function ServiceCard({
   icon: string;
   title: string;
   body: string;
+  /** Named services under this category — rendered as chips. Omitted on the
+   *  home page, where the grid is a summary rather than a full service list. */
+  items?: string[];
   readMoreLabel: string;
   highlighted?: boolean;
   href: string;
@@ -60,6 +64,22 @@ export function ServiceCard({
         <p className={`relative text-sm leading-relaxed ${highlighted ? "text-white/85" : "text-ink/65 dark:text-white/65"}`}>
           {body}
         </p>
+        {items && items.length > 0 && (
+          <ul className="relative flex flex-wrap justify-center gap-2">
+            {items.map((item) => (
+              <li
+                key={item}
+                className={`rounded-full px-3 py-1 text-[11px] leading-snug ${
+                  highlighted
+                    ? "bg-white/15 text-white/90"
+                    : "bg-white/70 text-ink/75 dark:bg-white/10 dark:text-white/75"
+                }`}
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
         <span
           className={`relative mt-auto inline-flex items-center rounded-full border px-5 py-2 text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
             highlighted

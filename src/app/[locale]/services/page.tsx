@@ -53,7 +53,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
   const s = dict.services;
 
   const pills = mediaPills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }));
-  const relatedCases = cases.filter((c) => c.slug !== "terveystalo").slice(0, 3);
+  const relatedCases = cases.filter((c) => c.slug !== "suun-terveystalo").slice(0, 3);
 
   return (
     <>
@@ -99,6 +99,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
                 icon={card.icon}
                 title={card[locale].title}
                 body={card[locale].body}
+                items={card.items?.map((item) => item[locale])}
                 readMoreLabel={dict.common.readMore}
                 highlighted={card.highlighted}
                 href={`/${locale}/contact`}
