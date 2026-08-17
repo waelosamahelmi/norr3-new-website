@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const OLLAMA_URL = "http://localhost:11434/v1/chat/completions";
-const MODEL = "kimi-k2.6:cloud";
+const MODEL = "glm-5.2:cloud";
 
-const SYSTEM_PROMPT = `Reply with ONE short phrase (max 8 words) connecting the user's idea to a media agency service. Output only the phrase, no quotes, no explanation. Reply in the same language as the input.`;
+// Include NØRR3's real services so the AI can connect ideas to what we do
+const SYSTEM_PROMPT = `You are NØRR3, a Nordic media agency. A visitor typed an idea. Reply with ONE short phrase (max 10 words) connecting their idea to what NØRR3 actually offers.
+
+NØRR3 services: Marketing Engine (automated campaign planning, creative generation in Meta/DOOH/display sizes, media mix optimization), Insight & Strategy, Data & Analytics, Paid Media, Measurement, Performance Marketing.
+
+Reply in the same language as the input. Output ONLY the phrase, no quotes, no explanation.`;
 
 export async function POST(req: NextRequest) {
   let locale = "en";
@@ -12,7 +17,7 @@ export async function POST(req: NextRequest) {
     locale = body.locale || "en";
     const idea = body.idea;
 
-    if (!idea || typeof idea !== "string" || idea.length > 52) {
+    if (!idea || typeof idea !== "string" || idea.length > 80) {
       return NextResponse.json({ error: "Invalid idea" }, { status: 400 });
     }
 
@@ -25,10 +30,12 @@ export async function POST(req: NextRequest) {
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: idea },
         ],
-        max_tokens: 500,
+        // glm-5.2 uses reasoning tokens internally, so needs a high limit
+        // to actually produce content after the reasoning step
+        max_tokens: 1000,
         temperature: 0.7,
       }),
-      signal: AbortSignal.timeout(12000),
+      signal: AbortSignal.timeout(15000),
     });
 
     if (!response.ok) {
