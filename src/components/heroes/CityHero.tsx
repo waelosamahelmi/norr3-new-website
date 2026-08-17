@@ -184,19 +184,33 @@ export function CityHero({ locale }: { locale: Locale }) {
   const layerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
+  // Cycling accent word — same Plan → Act → Grow as the HomeHero
+  const CYCLE = locale === "fi"
+    ? ["Suunnittele", "Toimi", "Kasva"]
+    : ["Plan", "Act", "Grow"];
+  const [wordIdx, setWordIdx] = useState(0);
+
+  useEffect(() => {
+    if (!motionAllowed) return;
+    const interval = setInterval(() => {
+      setWordIdx((i) => (i + 1) % CYCLE.length);
+    }, 2400);
+    return () => clearInterval(interval);
+  }, [motionAllowed, CYCLE]);
+
   // NØRR3-adapted copy
   const content = useMemo(() => {
     if (locale === "fi") {
       return {
         eyebrow: "Mediaa kasvun moottorina",
-        title: "Uusi tapa kasvaa.",
+        titlePrefix: "Uusi tapa",
         body: "Yhdistämme haastajan asenteen, viimeisimmän teknologian ja osaamisen — jokaisella eurolla mitattavaa tulosta.",
         cta: "Tutustu toimintaan",
       };
     }
     return {
       eyebrow: "Making media a growth engine",
-      title: "A new way to grow.",
+      titlePrefix: "A new way to",
       body: "We combine a challenger attitude, the latest technology and deep expertise — turning every euro of media into measurable growth.",
       cta: "See how we work",
     };
@@ -246,7 +260,7 @@ export function CityHero({ locale }: { locale: Locale }) {
       ref={heroRef}
       data-city-hero
       className="relative h-[100svh] min-h-[620px] overflow-hidden bg-purple"
-      style={{ isolation: "isolate" }}
+      style={{ isolation: "isolate", marginTop: "-44px" }}
     >
       {/* Dark gradient overlay (top + bottom) */}
       <div
@@ -267,8 +281,11 @@ export function CityHero({ locale }: { locale: Locale }) {
           <img
             src={layer.src}
             alt=""
-            className="h-full w-full object-cover object-center bottom"
-            style={{ objectPosition: "center bottom" }}
+            className="h-full w-full"
+            style={{
+              objectFit: "cover",
+              objectPosition: i === LAYERS.length - 1 ? "center bottom" : "center center",
+            }}
             loading="eager"
             decoding="async"
             aria-hidden
@@ -279,15 +296,23 @@ export function CityHero({ locale }: { locale: Locale }) {
       {/* Magnetic dot grid */}
       <MagneticDots />
 
-      {/* Title floating between layers */}
+      {/* Title floating between layers — cycles Plan → Act → Grow */}
       <h1
         ref={titleRef}
         data-speed={TITLE_SPEED}
-        className="absolute inset-0 flex items-center justify-center text-center font-medium leading-[0.88] tracking-[-0.06em] text-white will-change-transform"
-        style={{ zIndex: 3, fontSize: "clamp(2rem, 9vw, 9rem)", padding: "0 24px", whiteSpace: "nowrap", pointerEvents: "none" }}
-        aria-label={content.title}
+        className="absolute inset-0 flex flex-col items-center justify-center text-center font-medium leading-[0.88] tracking-[-0.06em] text-white will-change-transform"
+        style={{ zIndex: 3, fontSize: "clamp(2rem, 9vw, 9rem)", padding: "0 24px", pointerEvents: "none" }}
+        aria-label={`${content.titlePrefix} ${CYCLE[wordIdx]}`}
       >
-        <span aria-hidden>{content.title}</span>
+        <span aria-hidden>{content.titlePrefix}</span>
+        <span
+          aria-hidden
+          key={wordIdx}
+          className="mt-2 text-yellow"
+          style={{ animation: motionAllowed ? "accent-swap 0.5s cubic-bezier(0.16,1,0.3,1)" : undefined }}
+        >
+          {CYCLE[wordIdx]}
+        </span>
       </h1>
 
       {/* Content: eyebrow + body + CTA */}
