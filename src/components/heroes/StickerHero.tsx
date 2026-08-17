@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { Bodies, Body, Composite, Engine, Mouse, MouseConstraint, Runner, type Body as MatterBody } from "matter-js";
+import { Bodies, Body, Composite, Engine, Events, Mouse, MouseConstraint, Runner, type Body as MatterBody } from "matter-js";
 import { useMotionAllowed } from "@/components/heroes/useMotionAllowed";
 import { DotGrid } from "@/components/DotGrid";
 import type { Locale } from "@/i18n/config";
@@ -198,6 +198,49 @@ export function StickerHero({ locale }: { locale: Locale }) {
 
     engine = Engine.create({ gravity: { x: 0, y: 1, scale: GRAVITY } });
     engine.timing.timeScale = motionAllowed ? 0.75 : 0;
+
+    // ─── Game: bounce counter ───────────────────────────────────────────
+    // Track sticker-on-sticker collisions while the user is dragging one.
+    let impressions = 0;
+    let bounceStreak = 0;
+    let conversions = 0;
+    let lastBounceTime = 0;
+    let comboTimer = 0;
+    const STREAK_TARGET = 10;
+
+    function onCollision(event: { pairs: { bodyA: MatterBody; bodyB: MatterBody }[] }) {
+      // Only count bounces when the user is actively dragging a sticker
+      if (!draggingBody) return;
+      for (const pair of event.pairs) {
+        const aIsSticker = stickers.some((s) => s.body === pair.bodyA);
+        const bIsSticker = stickers.some((s) => s.body === pair.bodyB);
+        if (aIsSticker && bIsSticker) {
+          // A sticker bounced off another sticker!
+          const now = performance.now();
+          if (now - lastBounceTime < 2000) {
+            bounceStreak++;
+          } else {
+            bounceStreak = 1;
+          }
+          lastBounceTime = now;
+          // impressions increase proportional to bounce velocity
+          const v = Math.hypot(pair.bodyA.velocity.x, pair.bodyA.velocity.y);
+          impressions += Math.max(1, Math.round(v * 3));
+          // Every STREAK_TARGET bounces -> conversions!
+          if (bounceStreak >= STREAK_TARGET) {
+            conversions += Math.max(1, Math.floor(bounceStreak / STREAK_TARGET));
+            bounceStreak = 0;
+            // Flash effect
+            comboFlash = 1;
+          }
+          break;
+        }
+      }
+    }
+
+    let comboFlash = 0;
+    let draggingBody: MatterBody | null = null;
+
     resize();
     QUOTES[locale].forEach((quote, index) => addSticker(quote, width * (0.08 + (index % 6) * 0.17), 95 + Math.floor(index / 6) * 76, COLORS[index % COLORS.length], false, false));
     EMOJIS.forEach((emoji, index) => addSticker(emoji, width * (0.06 + (index % 9) * 0.11), 145 + Math.floor(index / 9) * 82, COLORS[(index + 3) % COLORS.length], true, false));
@@ -208,6 +251,30 @@ export function StickerHero({ locale }: { locale: Locale }) {
       const mouse = Mouse.create(canvas);
       const constraint = MouseConstraint.create(engine, { mouse, constraint: { stiffness: 0.18, damping: 0.1, render: { visible: false } } });
       Composite.add(engine.world, constraint);
+
+      // Track which body the user is dragging
+      Events.on(constraint, "startdrag" as never, () => {
+        draggingBody = constraint.body;
+      });
+      Events.on(constraint, "enddrag" as never, () => {
+        draggingBody = null;
+      });
+      // Also track via mouse events (more reliable than Matter's custom events)
+      canvas.addEventListener("mousedown", () => {
+        draggingBody = constraint.body;
+      });
+      canvas.addEventListener("mouseup", () => {
+        draggingBody = null;
+      });
+      canvas.addEventListener("touchstart", () => {
+        draggingBody = constraint.body;
+      });
+      canvas.addEventListener("touchend", () => {
+        draggingBody = null;
+      });
+
+      // Register collision listener
+      Events.on(engine, "collisionStart", onCollision);
     }
 
     const draw = () => {
@@ -239,6 +306,57 @@ export function StickerHero({ locale }: { locale: Locale }) {
         }
         ctx.restore();
       });
+
+      // ─── Game HUD: impressions + conversions counter ────────────────────
+      if (impressions > 0 || conversions > 0) {
+        // Impressions counter (top-left corner)
+        ctx.save();
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.font = "600 22px 'Host Grotesk', sans-serif";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "top";
+
+        // Label
+        ctx.fillStyle = "rgba(255,255,255,0.45)";
+        ctx.font = "500 11px 'Host Grotesk', sans-serif";
+        ctx.fillText(locale === "fi" ? "VAIKUTUKSET" : "IMPRESSIONS", 20, 20);
+
+        // Big number
+        ctx.fillStyle = "#F6FF4F";
+        ctx.font = "700 28px 'Host Grotesk', sans-serif";
+        ctx.fillText(String(impressions).padStart(5, "0"), 20, 36);
+
+        // Bounce streak indicator
+        if (bounceStreak > 0) {
+          ctx.fillStyle = "rgba(255,255,255,0.6)";
+          ctx.font = "500 12px 'Host Grotesk', sans-serif";
+          const streakLabel = locale === "fi" ? `Putki: ${bounceStreak}/${STREAK_TARGET}` : `Streak: ${bounceStreak}/${STREAK_TARGET}`;
+          ctx.fillText(streakLabel, 20, 72);
+        }
+
+        // Conversions (appears when > 0, with flash effect)
+        if (conversions > 0) {
+          const flashAlpha = Math.max(0, comboFlash);
+          if (comboFlash > 0) comboFlash -= 0.02;
+
+          // Label
+          ctx.fillStyle = `rgba(255,151,232,${0.7 + flashAlpha * 0.3})`;
+          ctx.font = "500 11px 'Host Grotesk', sans-serif";
+          ctx.textAlign = "right";
+          ctx.fillText(locale === "fi" ? "KONVERSIOITA" : "CONVERSIONS", width - 20, 20);
+
+          // Big number with flash
+          ctx.fillStyle = comboFlash > 0
+            ? `rgba(255,151,232,${Math.min(1, 0.8 + flashAlpha)})`
+            : "#FF97E8";
+          ctx.font = "700 28px 'Host Grotesk', sans-serif";
+          ctx.fillText(String(conversions), width - 20, 36);
+        }
+
+        ctx.restore();
+      }
+      // ─── End game HUD ──────────────────────────────────────────────────
+
       frame = requestAnimationFrame(draw);
     };
     const observer = new ResizeObserver(resize);
