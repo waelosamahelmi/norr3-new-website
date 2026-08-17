@@ -235,7 +235,7 @@ export function StickerHero({ locale }: { locale: Locale }) {
     };
   }, [locale, motionAllowed]);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const input = inputRef.current;
     const value = input?.value.trim();
@@ -243,7 +243,26 @@ export function StickerHero({ locale }: { locale: Locale }) {
     const container = containerRef.current;
     if (!input || !container) return;
     input.value = "";
+    // Drop the user's sticker immediately
     container.dispatchEvent(new CustomEvent("sticker:add", { detail: value }));
+
+    // Ask NØRR3 AI for a reply and drop it as a second sticker
+    try {
+      const res = await fetch("/api/idea", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idea: value, locale }),
+      });
+      const data = await res.json();
+      if (data.reply) {
+        // Small delay so the AI sticker arrives slightly after the user's
+        setTimeout(() => {
+          container.dispatchEvent(new CustomEvent("sticker:add", { detail: data.reply }));
+        }, 600);
+      }
+    } catch {
+      // Silent fail — the user's sticker is already on the wall
+    }
   };
 
   return (
