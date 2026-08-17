@@ -5,8 +5,23 @@ import { getDictionary } from "@/lib/dictionary";
 import { Container, HeroPill } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { ContactForm } from "@/components/ContactForm";
+import { StaggerGrid } from "@/components/StaggerGrid";
+import { SectionHeader } from "@/components/SectionHeader";
+import { LeadContactCard } from "@/components/cards/LeadContactCard";
 import { LogoStrip } from "@/components/marquee/LogoStrip";
+import { PillButton } from "@/components/PillButton";
 import { Icon } from "@/components/Icon";
+import { team } from "@/content/team";
+
+/** The five people who take direct contact on this page. The rest of the
+ *  roster lives on /team — this row is a routing aid, not a second roster. */
+const LEAD_CONTACT_NAMES = [
+  "Antti Ujainen",
+  "Maria Malila",
+  "Marika Salovaara",
+  "Anne-Mari Lahtinen",
+  "Karoliina Mäkelä",
+];
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/contact">) {
   const { locale } = await params;
@@ -48,6 +63,12 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dict = getDictionary(locale);
+
+  // Ordered by the list above, not by roster order, and silently skipping a
+  // name that ever leaves team.ts rather than rendering a hole.
+  const leadContacts = LEAD_CONTACT_NAMES.map((name) =>
+    team.find((m) => m.name === name),
+  ).filter((m) => m !== undefined);
 
   return (
     <>
@@ -188,6 +209,30 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
           </Reveal>
         </div>
       </Container>
+
+      {/* Lead contacts — the five people worth reaching directly. The full
+          roster stays on /team so this page keeps one job. */}
+      <section className="pb-24 lg:pb-32">
+        <Container>
+          <SectionHeader heading={dict.contact.leads.heading} body={dict.contact.leads.body} />
+          <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 xl:grid-cols-5">
+            {leadContacts.map((member) => (
+              <LeadContactCard
+                key={member.id}
+                member={member}
+                locale={locale}
+                emailLabel={dict.common.email}
+                linkedinLabel={dict.common.linkedin}
+              />
+            ))}
+          </StaggerGrid>
+          <Reveal className="mt-12 flex justify-center">
+            <PillButton href={`/${locale}/team`} variant="secondary">
+              {dict.contact.leads.fullTeam}
+            </PillButton>
+          </Reveal>
+        </Container>
+      </section>
 
       <LogoStrip />
     </>

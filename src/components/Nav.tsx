@@ -22,9 +22,10 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
     { key: "services", label: dict.nav.services, href: `/${locale}/services` },
     { key: "engine", label: dict.nav.engine, href: `/${locale}/engine` },
     { key: "cases", label: dict.nav.cases, href: `/${locale}/cases` },
-    { key: "team", label: dict.nav.team, href: `/${locale}/team` },
     { key: "insights", label: dict.nav.insights, href: `/${locale}/insights` },
     { key: "contact", label: dict.nav.contact, href: `/${locale}/contact` },
+    { key: "about", label: dict.nav.about, href: `/${locale}/about` },
+    { key: "careers", label: dict.nav.careers, href: `/${locale}/careers` },
   ];
 
   const otherPath = pathname.replace(`/${locale}`, `/${other}`);

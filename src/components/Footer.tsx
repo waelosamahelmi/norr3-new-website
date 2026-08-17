@@ -86,13 +86,15 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
         <div>
           <p className="text-lg font-medium">{dict.footer.joinHeading}</p>
           <div className="mt-4 space-y-1.5 text-sm text-white/80">
-            {dict.footer.joinLinks.map((label) => (
+            {/* Each label now has its own route (About / Careers / Team)
+                instead of three links all landing on /team. */}
+            {dict.footer.joinLinks.map((item) => (
               <Link
-                key={label}
-                href={`/${locale}/team`}
+                key={item.key}
+                href={`/${locale}/${item.path}`}
                 className="block w-fit rounded-sm transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
-                {label}
+                {item.label}
               </Link>
             ))}
           </div>

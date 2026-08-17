@@ -4,7 +4,7 @@ const BASE = "https://norr3.fi";
 const LOCALES = ["fi", "en"] as const;
 
 // Static top-level routes (dynamic [slug] routes are appended below)
-const ROUTES = ["", "services", "engine", "cases", "team", "insights", "contact", "privacy", "terms"];
+const ROUTES = ["", "services", "engine", "cases", "about", "careers", "team", "insights", "contact", "privacy", "terms"];
 
 // Case + insight slugs — kept in sync with src/content/{cases,insights}.ts
 const CASE_SLUGS = ["flow-festival", "terveystalo", "kokkola", "st1", "kiinteistomaailma"];

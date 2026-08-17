@@ -37,6 +37,16 @@ const fi = {
       description:
         "Ota yhteyttä NØRR3:een. Olipa asiasi pieni tai iso, meidät tunnetaan nopeasta ja ammattitaitoisesta palvelusta.",
     },
+    about: {
+      title: "Meistä — NØRR3",
+      description:
+        "NØRR3 on helsinkiläinen mediatoimisto, joka muuttaa mediainvestoinnit kasvuksi — haastajan asenteella, omalla teknologialla ja poikkeuksellisella osaamisella.",
+    },
+    careers: {
+      title: "Rekry — NØRR3",
+      description:
+        "NØRR3 kasvaa. Katso avoimet paikat ja tule mukaan kasvattamaan mediaa pohjoismaiden innovatiivisimpaan mediatoimistoon.",
+    },
     privacy: {
       title: "Tietosuojaseloste — NØRR3",
       description:
@@ -56,9 +66,10 @@ const fi = {
     services: "Palvelut",
     engine: "Engine",
     cases: "Caset",
-    team: "Tiimi",
     insights: "Insights",
     contact: "Yhteystiedot",
+    about: "Meistä",
+    careers: "Rekry",
   },
   common: {
     skipToContent: "Siirry sisältöön",
@@ -327,6 +338,88 @@ const fi = {
       candor: "Luemme jokaisen hakemuksen käsin — ja vastaamme aina.",
     },
   },
+  about: {
+    pill: "MEISTÄ",
+    heroLeft: "Pohjoismainen",
+    heroAccent: "Mediatoimisto",
+    heroBody:
+      "Muutamme mediainvestoinnit kasvuksi. Haastajan asenne, itse rakennettu teknologia ja poikkeuksellinen osaaminen — saman katon alla Helsingissä.",
+    story: {
+      heading: "NØRR3:n tarina",
+      body: "Kolme sanaa kertoo, mistä meidät tunnetaan: asenne, teknologia ja osaaminen.",
+      paragraphs: [
+        "NØRR3 perustettiin vuonna 2019, koska mediatoimistokenttä kaipasi haastajaa. Halusimme toimiston, jossa strategia, ostaminen ja mittaaminen tehdään saman katon alla — ja jossa asiakkaalle kerrotaan suoraan, mikä toimii ja mikä ei.",
+        "Tänään olemme helsinkiläinen mediatoimisto, joka muuttaa mediainvestoinnit kasvuksi ja kilpailueduksi. Rakennamme omat työkalumme itse — Marketing Enginestä Media Insightsiin — jotta jokainen päätös nojaa tutkittuun dataan eikä tuntumaan.",
+        "Meitä on kaksikymmentä Helsingissä, ja takanamme on yli 800 osaajan verkosto ympäri maailmaa. Se on tarpeeksi pieni tiimi ollakseen nopea ja tarpeeksi kokenut pitääkseen puolensa missä tahansa johtoryhmän kokouksessa.",
+      ],
+      photoAlt: "NØRR3:n tiimi yhteiskuvassa Helsingin studiolla",
+    },
+    values: {
+      heading: "Arvomme",
+      body: "Uskomme vahvasti itsenäiseen ja kokeilevaan kulttuuriin, mutta myös yhdessä tekemisen voimaan. Arvomme eivät ole seinätaulu — ne näkyvät joka briiffissä ja joka palaverissa.",
+    },
+    principles: {
+      heading: "Neljä periaatetta",
+      body: "Asenne, teknologia ja osaaminen ovat keinot. Tulos on se, mistä meidät mitataan.",
+      items: [
+        {
+          icon: "bolt",
+          title: "Asenne",
+          body: "Haastamme totutut mediajaot ja sanomme suoraan, jos jokin ei toimi — myös silloin, kun se on epämukavaa.",
+        },
+        {
+          icon: "memory",
+          title: "Teknologia",
+          body: "Rakennamme työkalumme talon sisällä. Marketing Engine ja Media Insights ovat omaa koodiamme, eivät lisensoitua.",
+        },
+        {
+          icon: "diversity_3",
+          title: "Osaaminen",
+          body: "Senioritiimi, jonka tukena on yli 800 osaajan verkosto ympäri maailmaa. Kokemus näkyy ensimmäisestä palaverista alkaen.",
+        },
+        {
+          icon: "trending_up",
+          title: "Tulokset",
+          body: "Mediaeuro on investointi, ei kuluerä. Todennamme tuloksen numeroilla, jotka kestävät hallituksen katseen.",
+        },
+      ],
+    },
+    stats: {
+      heading: "NØRR3 lukuina",
+      items: [
+        { value: 20, label: "Työntekijää" },
+        { value: 800, suffix: "+", label: "Osaajaa verkostossamme maailmanlaajuisesti" },
+        { value: 83, label: "NPS 2026" },
+        { value: 15.5, decimals: 1, suffix: " M€", label: "Liikevaihto 2025" },
+      ],
+    },
+    team: {
+      heading: "Numeroiden takana on ihmisiä",
+      body: "Ihmiset, jotka suunnittelevat, ostavat ja todentavat jokaisen mediaeurosi — lähes kaikki talon partnereita.",
+    },
+  },
+  careers: {
+    pill: "REKRY",
+    heroLeft: "Tule kasvattamaan",
+    heroAccent: "Mediaa",
+    heroBody: "NØRR3 kasvaa — tule mukaan kasvattamaan mediaa.",
+    roles: {
+      heading: "Avoimet paikat",
+      body: "Etsimme ihmisiä, jotka haluavat tehdä mediasta liiketoiminnan moottorin. Jos oikeaa paikkaa ei ole vielä auki, kerro silti itsestäsi — hyvälle tekijälle löytyy paikka.",
+      apply: "Hae paikkaa",
+      candor: "Luemme jokaisen hakemuksen käsin — ja vastaamme aina.",
+    },
+    culture: {
+      heading: "Millaista meillä on töissä",
+      body: "Meillä saa päättää itse, miten työnsä tekee, ja meillä pitää uskaltaa sanoa, jos jokin ei toimi. Tiimi on senioria, hierarkia matala ja päätökset nopeita. Tässä toimistossa kehittyy Suomen strategisimmaksi median moniosaajaksi.",
+      cta: "Tutustu meihin",
+      benefits: [
+        { icon: "self_improvement", title: "Itsenäisyys", body: "Sinä päätät, miten työsi teet. Me huolehdimme siitä, että tavoite ja raamit ovat selvät." },
+        { icon: "school", title: "Oppiminen", body: "Opimme toisiltamme ja omista työkaluistamme. Uutta teknologiaa kokeillaan täällä ensin, ei viimeisenä." },
+        { icon: "diversity_3", title: "Yhdessä", body: "Matala hierarkia, senioritiimi ja pöhinää myös työajan ulkopuolella. Kukaan ei jää yksin briiffin kanssa." },
+      ],
+    },
+  },
   cases: {
     pill: "CUSTOMER CASES",
     heroHeadline: "Making Media a Growth Engine",
@@ -380,6 +473,11 @@ const fi = {
     mapLink: "Avaa kartalla",
     privacyNote: "Käsittelemme yhteystietosi luottamuksellisesti.",
     photoAlt: "Ystävällinen NØRR3:n kollega valmiina auttamaan Helsingin studiolla",
+    leads: {
+      heading: "Johtoryhmä",
+      body: "Nämä viisi vastaavat asiakkuuksista, konsepteista ja koko toimiston tekemisestä. Ota yhteyttä suoraan — tai kirjoita yhteiseen postilaatikkoomme, niin ohjaamme viestin oikealle ihmiselle.",
+      fullTeam: "Katso koko tiimi",
+    },
   },
   /*
    * LEGAL TEMPLATE — reviewed by NØRR3, not yet by counsel.
@@ -550,7 +648,11 @@ const fi = {
     billing: "Laskutustiedot",
     followHeading: "Seuraa meitä",
     joinHeading: "Liity tiimiin",
-    joinLinks: ["Liity tiimiin", "Katso avoimet työpaikat"],
+    joinLinks: [
+      { key: "about", label: "Meistä", path: "about" },
+      { key: "careers", label: "Avoimet työpaikat", path: "careers" },
+      { key: "team", label: "Tiimi", path: "team" },
+    ],
     copyright: "© NØRR3 2026",
     privacy: "Tietosuojaseloste",
     terms: "Käyttöehdot",
@@ -601,6 +703,16 @@ const en: Dictionary = {
       description:
         "Get in touch with NØRR3. Whether your matter is small or large, we're known for fast, professional service.",
     },
+    about: {
+      title: "About Us — NØRR3",
+      description:
+        "NØRR3 is a Helsinki-based media agency turning media investments into growth — with a challenger's attitude, our own technology and exceptional talent.",
+    },
+    careers: {
+      title: "Careers — NØRR3",
+      description:
+        "NØRR3 is growing. See our open positions and come grow media with the most innovative media agency in the Nordics.",
+    },
     privacy: {
       title: "Privacy Policy — NØRR3",
       description:
@@ -620,9 +732,10 @@ const en: Dictionary = {
     services: "Services",
     engine: "Engine",
     cases: "Cases",
-    team: "Team",
     insights: "Insights",
     contact: "Contact",
+    about: "About Us",
+    careers: "Careers",
   },
   common: {
     skipToContent: "Skip to content",
@@ -891,6 +1004,88 @@ const en: Dictionary = {
       candor: "We read every application by hand — and we always reply.",
     },
   },
+  about: {
+    pill: "ABOUT US",
+    heroLeft: "A Nordic",
+    heroAccent: "Media Agency",
+    heroBody:
+      "We turn media investments into growth. A challenger's attitude, technology we build ourselves and exceptional talent — under one roof in Helsinki.",
+    story: {
+      heading: "The NØRR3 story",
+      body: "Three words describe what we are known for: attitude, technology and talent.",
+      paragraphs: [
+        "NØRR3 was founded in 2019 because the media agency field needed a challenger. We wanted an agency where strategy, buying and measurement happen under one roof — and where the client is told plainly what works and what doesn't.",
+        "Today we are a Helsinki-based media agency that turns media investments into growth and competitive advantage. We build our own tools — from the Marketing Engine to Media Insights — so every decision rests on researched data rather than gut feeling.",
+        "There are twenty of us in Helsinki, backed by a network of more than 800 specialists around the world. Small enough to move fast, senior enough to hold our own in any boardroom.",
+      ],
+      photoAlt: "The NØRR3 team together in the Helsinki studio",
+    },
+    values: {
+      heading: "Our values",
+      body: "We believe strongly in an independent, experimental culture — and in the power of doing things together. Our values are not a poster on the wall; they show up in every brief and every meeting.",
+    },
+    principles: {
+      heading: "Four principles",
+      body: "Attitude, technology and talent are the means. Results are what we are measured on.",
+      items: [
+        {
+          icon: "bolt",
+          title: "Attitude",
+          body: "We challenge the usual media splits and say so when something isn't working — even when it's uncomfortable.",
+        },
+        {
+          icon: "memory",
+          title: "Technology",
+          body: "We build our tools in-house. The Marketing Engine and Media Insights are our own code, not licensed software.",
+        },
+        {
+          icon: "diversity_3",
+          title: "Talent",
+          body: "A senior team backed by a network of more than 800 specialists worldwide. The experience shows from the first meeting on.",
+        },
+        {
+          icon: "trending_up",
+          title: "Results",
+          body: "A media euro is an investment, not a cost. We prove the result with numbers that hold up in the boardroom.",
+        },
+      ],
+    },
+    stats: {
+      heading: "NORR3 In Numbers",
+      items: [
+        { value: 20, label: "Employees" },
+        { value: 800, suffix: "+", label: "Talents in our network worldwide" },
+        { value: 83, label: "NPS 2026" },
+        { value: 15.5, decimals: 1, suffix: " M€", label: "Revenue 2025" },
+      ],
+    },
+    team: {
+      heading: "Meet the humans behind the numbers",
+      body: "The people who plan, buy and prove every euro of your media — nearly all of them partners in the company.",
+    },
+  },
+  careers: {
+    pill: "CAREERS",
+    heroLeft: "Come Grow",
+    heroAccent: "Media",
+    heroBody: "NØRR3 is growing — come grow media with us.",
+    roles: {
+      heading: "Open positions",
+      body: "We're looking for people who want to make media an engine for business. If the right role isn't open yet, tell us about yourself anyway — there is always room for a good one.",
+      apply: "Apply",
+      candor: "We read every application by hand — and we always reply.",
+    },
+    culture: {
+      heading: "What working here is like",
+      body: "You decide how you do your work, and you're expected to speak up when something isn't working. The team is senior, the hierarchy is flat and decisions are fast. This office grows Finland's most strategic media all-rounders.",
+      cta: "All about us",
+      benefits: [
+        { icon: "self_improvement", title: "Independence", body: "You decide how the work gets done. We make sure the goal and the guardrails are clear." },
+        { icon: "school", title: "Learning", body: "We learn from each other and from our own tools. New technology gets tried here first, not last." },
+        { icon: "diversity_3", title: "Together", body: "Flat hierarchy, a senior team and buzz beyond office hours. Nobody is left alone with a brief." },
+      ],
+    },
+  },
   cases: {
     pill: "CUSTOMER CASES",
     heroHeadline: "Making Media a Growth Engine",
@@ -944,6 +1139,11 @@ const en: Dictionary = {
     mapLink: "Open in maps",
     privacyNote: "We handle your details confidentially.",
     photoAlt: "A friendly NØRR3 colleague ready to help, in the Helsinki studio",
+    leads: {
+      heading: "Lead contacts",
+      body: "These five run our client work, our concepts and the agency itself. Reach out directly — or write to our shared inbox and we'll route your message to the right person.",
+      fullTeam: "See the whole team",
+    },
   },
   /* LEGAL TEMPLATE — see the FI block above; needs a legal review before launch. */
   legal: {
@@ -1109,7 +1309,11 @@ const en: Dictionary = {
     billing: "Billing details",
     followHeading: "Follow Us",
     joinHeading: "Join Us",
-    joinLinks: ["Join us", "View our open roles"],
+    joinLinks: [
+      { key: "about", label: "About us", path: "about" },
+      { key: "careers", label: "Open roles", path: "careers" },
+      { key: "team", label: "Team", path: "team" },
+    ],
     copyright: "© NØRR3 2026",
     privacy: "Privacy Policy",
     terms: "Terms & Conditions",
