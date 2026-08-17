@@ -83,6 +83,13 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           >
             {dict.nav.engine}
           </Link>
+          {/* Secondary CTA — Brief us (Antti's header CTA) */}
+          <Link
+            href={`/${locale}/brief`}
+            className={`hidden rounded-full border border-ink/30 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white lg:inline-flex dark:border-white/30 dark:text-white dark:hover:bg-white dark:hover:text-ink ${focusRing}`}
+          >
+            {dict.common.briefUs}
+          </Link>
           <button
             aria-label={dict.common.menu}
             aria-expanded={open}
@@ -121,6 +128,13 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
               className={`mt-3 w-full rounded-full bg-ink px-5 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-purple dark:bg-purple dark:hover:bg-violet ${focusRing}`}
             >
               {dict.nav.engine}
+            </Link>
+            <Link
+              href={`/${locale}/brief`}
+              onClick={() => setOpen(false)}
+              className={`mt-2 w-full rounded-full border border-ink/30 px-5 py-3 text-center text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-white dark:border-white/30 dark:text-white dark:hover:bg-white dark:hover:text-ink ${focusRing}`}
+            >
+              {dict.common.briefUs}
             </Link>
           </motion.nav>
         )}
