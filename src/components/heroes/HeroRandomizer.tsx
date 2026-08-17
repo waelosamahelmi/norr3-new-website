@@ -48,8 +48,7 @@ export function HeroRandomizer({
     return (
       <>
         <CityHero locale={locale} />
-        {/* Logo strip sits below the city hero */}
-        <div className="relative z-10">{logoStrip}</div>
+        <div className="relative z-10 bg-offwhite dark:bg-background">{logoStrip}</div>
       </>
     );
   }

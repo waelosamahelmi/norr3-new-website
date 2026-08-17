@@ -160,7 +160,7 @@ function MagneticDots() {
     <div
       ref={wrapRef}
       className="absolute inset-x-0 bottom-0 top-auto h-[135%]"
-      style={{ zIndex: 2 }}
+      style={{ zIndex: 0 }}
     >
       <canvas ref={canvasRef} className="h-full w-full" aria-hidden />
     </div>
@@ -259,8 +259,8 @@ export function CityHero({ locale }: { locale: Locale }) {
     <section
       ref={heroRef}
       data-city-hero
-      className="relative h-[100svh] min-h-[620px] overflow-hidden bg-purple"
-      style={{ isolation: "isolate", marginTop: "-44px" }}
+      className="relative h-[calc(100svh)] min-h-[620px] overflow-hidden bg-purple"
+      style={{ isolation: "isolate", marginTop: "-112px" }}
     >
       {/* Dark gradient overlay (top + bottom) */}
       <div
@@ -269,29 +269,32 @@ export function CityHero({ locale }: { locale: Locale }) {
       />
 
       {/* Parallax image layers */}
-      {LAYERS.map((layer, i) => (
+      {LAYERS.map((layer, i) => {
+        const isFrontBuildings = i === LAYERS.length - 1;
+        return (
         <div
           key={i}
           ref={(el) => { layerRefs.current[i] = el; }}
           data-speed={layer.speed}
-          className={`absolute inset-0 will-change-transform ${layer.className || ""}`}
+          className={`absolute will-change-transform ${isFrontBuildings ? "bottom-0 left-0 right-0" : "inset-0"} ${layer.className || ""}`}
           style={{ zIndex: layer.z, pointerEvents: "none" }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={layer.src}
             alt=""
-            className="h-full w-full"
+            className={isFrontBuildings ? "w-full" : "h-full w-full"}
             style={{
               objectFit: "cover",
-              objectPosition: i === LAYERS.length - 1 ? "center bottom" : "center center",
+              objectPosition: "center bottom",
             }}
             loading="eager"
             decoding="async"
             aria-hidden
           />
         </div>
-      ))}
+        );
+      })}
 
       {/* Magnetic dot grid */}
       <MagneticDots />
