@@ -12,6 +12,7 @@ type Sticker = {
   color: string;
   width: number;
   height: number;
+  lines: string[];
   emoji?: boolean;
 };
 
@@ -53,7 +54,32 @@ function roundedRect(ctx: CanvasRenderingContext2D, x: number, y: number, width:
 
 function measureSticker(ctx: CanvasRenderingContext2D, text: string) {
   ctx.font = FONT;
-  return { width: Math.min(220, Math.max(104, ctx.measureText(text).width + 30)), height: 44 };
+  const maxWidth = 280;
+  const padX = 30;
+  const padY = 24;
+  const lineHeight = 20;
+
+  // Word-wrap the text into lines that fit within maxWidth
+  const words = text.split(" ");
+  const lines: string[] = [];
+  let current = "";
+  for (const word of words) {
+    const test = current ? current + " " + word : word;
+    if (ctx.measureText(test).width + padX <= maxWidth) {
+      current = test;
+    } else {
+      if (current) lines.push(current);
+      current = word;
+    }
+  }
+  if (current) lines.push(current);
+
+  const widestLine = Math.max(...lines.map((l) => ctx.measureText(l).width));
+  return {
+    width: Math.min(maxWidth, Math.max(104, widestLine + padX)),
+    height: Math.max(44, lines.length * lineHeight + padY),
+    lines,
+  };
 }
 
 export function StickerHero({ locale }: { locale: Locale }) {
@@ -151,7 +177,7 @@ export function StickerHero({ locale }: { locale: Locale }) {
     };
 
     const addSticker = (text: string, x: number, y: number, color: string, emoji = false, drop = true) => {
-      const size = emoji ? { width: 54, height: 54 } : measureSticker(ctx, text);
+      const size = emoji ? { width: 54, height: 44, lines: [text] } : measureSticker(ctx, text);
       const body = Bodies.rectangle(x, y, size.width, size.height, {
         restitution: 0.18,
         friction: 0.7,
@@ -160,7 +186,7 @@ export function StickerHero({ locale }: { locale: Locale }) {
         angle: (Math.random() - 0.5) * 0.45,
         render: { visible: false },
       });
-      const sticker = { body, text, color, width: size.width, height: size.height, emoji };
+      const sticker = { body, text, color, width: size.width, height: size.height, lines: size.lines, emoji };
       (body as MatterBody & { plugin: { sticker?: Sticker } }).plugin = { sticker };
       stickers.push(sticker);
       Composite.add(engine!.world, body);
@@ -188,7 +214,7 @@ export function StickerHero({ locale }: { locale: Locale }) {
       if (!alive) return;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, width, height);
-      stickers.forEach(({ body, text, color, width: stickerWidth, height: stickerHeight, emoji }) => {
+      stickers.forEach(({ body, text, color, width: stickerWidth, height: stickerHeight, lines, emoji }) => {
         ctx.save();
         ctx.translate(body.position.x, body.position.y);
         ctx.rotate(body.angle);
@@ -202,7 +228,15 @@ export function StickerHero({ locale }: { locale: Locale }) {
         ctx.font = emoji ? "32px 'Host Grotesk', sans-serif" : FONT;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(text, 0, emoji ? 1 : 0);
+        if (emoji || lines.length <= 1) {
+          ctx.fillText(text, 0, emoji ? 1 : 0);
+        } else {
+          const lineHeight = 20;
+          const startY = -((lines.length - 1) * lineHeight) / 2;
+          lines.forEach((line, i) => {
+            ctx.fillText(line, 0, startY + i * lineHeight);
+          });
+        }
         ctx.restore();
       });
       frame = requestAnimationFrame(draw);
