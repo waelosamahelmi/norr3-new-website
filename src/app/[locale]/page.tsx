@@ -52,10 +52,10 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const inNumbers = [
     { value: 360, suffix: "°", label: locale === "fi" ? "Strategisesti aktiivinen insight- ja mediatoimisto" : "A strategically active insight and media agency" },
     { value: 2019, grouping: false, label: locale === "fi" ? "Perustettu" : "Founded" },
-    { value: 14, label: locale === "fi" ? "Vakituista omaa työntekijää, kaikki kokeneita ja lähes kaikki partnereita" : "Permanent employees — all experienced, nearly all partners" },
-    { value: 88, label: "NPS (05/2024)" },
+    { value: 20, label: locale === "fi" ? "Vakituista omaa työntekijää, kaikki kokeneita ja lähes kaikki partnereita" : "Permanent employees — all experienced, nearly all partners" },
+    { value: 83, label: "NPS 2026" },
     { value: 800, suffix: "+", label: locale === "fi" ? "Ammattilaista tukena ympäri maailmaa" : "Professionals supporting us worldwide" },
-    { value: 11, suffix: " M€", label: locale === "fi" ? "Liikevaihtomme 2024" : "Our revenue 2024" },
+    { value: 15.5, suffix: " M€", label: locale === "fi" ? "Liikevaihtomme 2025" : "Our revenue 2025" },
   ];
 
   const jsonLd = {

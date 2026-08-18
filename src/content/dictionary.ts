@@ -375,16 +375,16 @@ const fi = {
         body: "Mitä tarkoittaa attitude? NØRR3 – rohkea, innovatiivinen ja strateginen mediatoimistokentän uudistaja. NØRR3:n kilpailuetuna on kyky tuottaa liiketoimintaa kasvattavia ratkaisuja kaikissa maksetun mainonnan kanavissa. Palvelumme kattavat strategia- ja insight-palvelut, mediaoperoinnin, optimoinnin sekä mittaamisen.",
         stats: [
           { value: 360, suffix: "°", label: "Aktiivinen" },
-          { value: 14, label: "Vakituista työntekijää" },
-          { value: 88, label: "NPS (05/2024)" },
+          { value: 20, label: "Vakituista työntekijää" },
+          { value: 83, label: "NPS 2026" },
         ],
       },
       {
         title: "Technology.",
         body: "Mitä tarkoittaa technology? Kehitämme omia työkaluja — Marketing Enginestä Media Insightsiin — joilla suunnittelu, ostaminen ja todentaminen tapahtuvat dataan nojaten, eivät mutuun.",
         stats: [
-          { value: 14, label: "Vakituista työntekijää" },
-          { value: 88, label: "NPS (05/2024)" },
+          { value: 20, label: "Vakituista työntekijää" },
+          { value: 83, label: "NPS 2026" },
         ],
       },
       {
@@ -1120,16 +1120,16 @@ const en: Dictionary = {
         body: "What does attitude mean? NØRR3 — a bold, innovative and strategic renewer of the media agency field. Our competitive edge is the ability to produce business-growing solutions across every paid advertising channel. Our services cover strategy and insight, media operations, optimization and measurement.",
         stats: [
           { value: 360, suffix: "°", label: "Active" },
-          { value: 14, label: "Permanent employees" },
-          { value: 88, label: "NPS (05/2024)" },
+          { value: 20, label: "Permanent employees" },
+          { value: 83, label: "NPS 2026" },
         ],
       },
       {
         title: "Technology.",
         body: "What does technology mean? We build our own tools — from the Marketing Engine to Media Insights — so planning, buying and proving media runs on data, not gut feeling.",
         stats: [
-          { value: 14, label: "Permanent employees" },
-          { value: 88, label: "NPS (05/2024)" },
+          { value: 20, label: "Permanent employees" },
+          { value: 83, label: "NPS 2026" },
         ],
       },
       {
