@@ -306,30 +306,37 @@ export function StickerHero({ locale }: { locale: Locale }) {
       });
 
       // ─── Game HUD: impressions + conversions counter ────────────────────
-      if (impressions > 0 || conversions > 0) {
-        // Impressions counter (top-left corner)
+      // Show after 3+ bounces (hidden initially — a discovery moment)
+      if (impressions >= 3 || conversions > 0) {
+        const hudY = 130; // below announcement bar (~44px) + nav (~68px) + padding
         ctx.save();
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.font = "600 22px 'Host Grotesk', sans-serif";
         ctx.textAlign = "left";
         ctx.textBaseline = "top";
 
+        // Panel background (frosted glass feel)
+        ctx.fillStyle = "rgba(14, 11, 22, 0.6)";
+        roundedRect(ctx, 16, hudY, 200, 78, 16);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
         // Label
-        ctx.fillStyle = "rgba(255,255,255,0.45)";
-        ctx.font = "500 11px 'Host Grotesk', sans-serif";
-        ctx.fillText(locale === "fi" ? "VAIKUTUKSET" : "IMPRESSIONS", 20, 20);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+        ctx.font = "500 10px 'Host Grotesk', sans-serif";
+        ctx.fillText(locale === "fi" ? "VAIKUTUKSET" : "IMPRESSIONS", 28, hudY + 12);
 
         // Big number
         ctx.fillStyle = "#F6FF4F";
-        ctx.font = "700 28px 'Host Grotesk', sans-serif";
-        ctx.fillText(String(impressions).padStart(5, "0"), 20, 36);
+        ctx.font = "700 26px 'Host Grotesk', sans-serif";
+        ctx.fillText(String(impressions).padStart(5, "0"), 28, hudY + 26);
 
         // Bounce streak indicator
         if (bounceStreak > 0) {
-          ctx.fillStyle = "rgba(255,255,255,0.6)";
-          ctx.font = "500 12px 'Host Grotesk', sans-serif";
-          const streakLabel = locale === "fi" ? `Putki: ${bounceStreak}/${STREAK_TARGET}` : `Streak: ${bounceStreak}/${STREAK_TARGET}`;
-          ctx.fillText(streakLabel, 20, 72);
+          ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+          ctx.font = "500 11px 'Host Grotesk', sans-serif";
+          ctx.fillText(locale === "fi" ? `Putki ${bounceStreak}/${STREAK_TARGET}` : `Streak ${bounceStreak}/${STREAK_TARGET}`, 28, hudY + 58);
         }
 
         // Conversions (appears when > 0, with flash effect)
@@ -337,18 +344,23 @@ export function StickerHero({ locale }: { locale: Locale }) {
           const flashAlpha = Math.max(0, comboFlash);
           if (comboFlash > 0) comboFlash -= 0.02;
 
-          // Label
-          ctx.fillStyle = `rgba(255,151,232,${0.7 + flashAlpha * 0.3})`;
-          ctx.font = "500 11px 'Host Grotesk', sans-serif";
-          ctx.textAlign = "right";
-          ctx.fillText(locale === "fi" ? "KONVERSIOITA" : "CONVERSIONS", width - 20, 20);
+          // Panel for conversions
+          ctx.fillStyle = "rgba(14, 11, 22, 0.6)";
+          roundedRect(ctx, width - 216, hudY, 200, 78, 16);
+          ctx.fill();
+          ctx.strokeStyle = "rgba(255, 151, 232, 0.15)";
+          ctx.stroke();
 
-          // Big number with flash
+          ctx.fillStyle = `rgba(255, 151, 232, ${0.5 + flashAlpha * 0.3})`;
+          ctx.font = "500 10px 'Host Grotesk', sans-serif";
+          ctx.textAlign = "right";
+          ctx.fillText(locale === "fi" ? "KONVERSIOITA" : "CONVERSIONS", width - 28, hudY + 12);
+
           ctx.fillStyle = comboFlash > 0
-            ? `rgba(255,151,232,${Math.min(1, 0.8 + flashAlpha)})`
+            ? `rgba(255, 151, 232, ${Math.min(1, 0.85 + flashAlpha)})`
             : "#FF97E8";
-          ctx.font = "700 28px 'Host Grotesk', sans-serif";
-          ctx.fillText(String(conversions), width - 20, 36);
+          ctx.font = "700 26px 'Host Grotesk', sans-serif";
+          ctx.fillText(String(conversions), width - 28, hudY + 26);
         }
 
         ctx.restore();
