@@ -174,6 +174,8 @@ export function StickerHero({ locale }: { locale: Locale }) {
         Bodies.rectangle(width + 30, height / 2, 60, height + 120, { isStatic: true }),
       ];
       Composite.add(engine.world, walls);
+      // Keep mouse pixel ratio in sync with the canvas backing store
+      if (mouseConstraint) mouseConstraint.mouse.pixelRatio = dpr;
     };
 
     const addSticker = (text: string, x: number, y: number, color: string, emoji = false, drop = true) => {
@@ -251,6 +253,10 @@ export function StickerHero({ locale }: { locale: Locale }) {
       runner = Runner.create();
       Runner.run(runner, engine);
       const mouse = Mouse.create(canvas);
+      // Fix: Matter.js maps mouse coordinates using clientWidth/width * pixelRatio.
+      // Our canvas backing store is width*dpr but physics world is in CSS pixels,
+      // so pixelRatio must equal dpr to cancel out the backing-store scaling.
+      mouse.pixelRatio = dpr;
       mouseConstraint = MouseConstraint.create(engine, { mouse, constraint: { stiffness: 0.18, damping: 0.1, render: { visible: false } } });
       Composite.add(engine.world, mouseConstraint);
 
