@@ -80,6 +80,42 @@ all reachable from CMS → Design. Anything untouched there injects nothing.
 - **Tone of voice:** confident, plain-spoken, growth-driven, Nordic. "Making Media
   a Growth Engine", "every euro of your media", "without the jargon". No fluff.
 
+### The logo
+
+The logo has two parts, and the distinction matters because they fail in
+different places:
+
+```
+public/logo-mark.svg       the triangle, as a standalone asset
+public/logo-animated.svg   the wordmark; a self-animating SMIL SVG (170KB)
+src/components/Logo.tsx    <Logo variant="lockup" | "mark" | "wordmark" />
+scripts/generate-icons.mjs regenerates every favicon and app icon from the mark
+```
+
+The wordmark stays an `<img>` so its 170KB of morph keyframes stay out of every
+page's HTML and cache as one asset. The mark is *inlined* by `Logo`, because it
+is a single path — that costs nothing and buys `currentColor`, which is how it
+turns white on the dark theme without the `brightness-0 invert` filter the
+wordmark needs.
+
+The mark's geometry is an equilateral triangle outline of uniform thickness. It
+was measured off the held state of the wordmark's own 3→triangle morph and then
+re-authored cleanly, so it is the same shape the animation resolves to but 686
+bytes rather than 4KB of polyline points.
+
+Both slots are replaceable from the CMS (Design → Logo), and the nav treatment
+is a setting. An empty setting means the shipped file.
+
+Two things to know:
+
+- **Two purples.** The logo artwork is `#7016cb`; the brand's `--color-purple`
+  token is `#7a06d3`. `Logo` draws the mark in the artwork's purple so the two
+  halves of the lockup match each other, and deliberately does not follow the
+  theme token — recolouring the UI should not recolour the logo. Worth resolving
+  upstream at some point, in one direction or the other.
+- **Icons are generated, not live.** Changing the mark in the CMS does not
+  rebuild the favicons; `node scripts/generate-icons.mjs` does.
+
 ### Dark mode
 
 Class-based (`@custom-variant dark` in `globals.css`), toggled by `ThemeToggle` and

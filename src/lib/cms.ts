@@ -176,6 +176,11 @@ export type SiteContent = {
     clients: string[];
     valuePills: { id: string; icon: string; fi: string; en: string }[];
     mediaPills: { id: string; icon: string; fi: string; en: string }[];
+    /**
+     * Logo artwork. An empty path means "use the file the site ships with",
+     * which is how the brand survives a CMS that nobody has filled in.
+     */
+    logo: { mark: string; wordmark: string; navVariant: "lockup" | "mark" | "wordmark" };
   };
   mediaAlt: Record<string, { fi: string; en: string }>;
   site: {
@@ -248,7 +253,9 @@ function fallbackContent(error?: string): SiteContent {
     code: { css: "", head: "", bodyEnd: "" },
     theme: { root: {}, dark: {} },
     motion: MOTION_DEFAULTS,
-    brand: { clients, valuePills, mediaPills },
+    // Empty logo paths mean the shipped artwork: public/logo-mark.svg and
+    // public/logo-animated.svg. Nothing to fall back to beyond that.
+    brand: { clients, valuePills, mediaPills, logo: { mark: "", wordmark: "", navVariant: "lockup" } },
     mediaAlt: {},
     site: {
       name: "NØRR3",
@@ -394,6 +401,13 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
       clients: nonEmpty(raw.brand?.clients, fallback.brand.clients),
       valuePills: nonEmpty(raw.brand?.valuePills, fallback.brand.valuePills),
       mediaPills: nonEmpty(raw.brand?.mediaPills, fallback.brand.mediaPills),
+      logo: {
+        mark: raw.brand?.logo?.mark || "",
+        wordmark: raw.brand?.logo?.wordmark || "",
+        navVariant: NAV_VARIANTS.includes(raw.brand?.logo?.navVariant as never)
+          ? (raw.brand!.logo!.navVariant as "lockup" | "mark" | "wordmark")
+          : "lockup",
+      },
     },
     mediaAlt: raw.media ?? {},
     site: {
@@ -403,6 +417,8 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     } as SiteContent["site"],
   };
 }
+
+const NAV_VARIANTS = ["lockup", "mark", "wordmark"] as const;
 
 function nonEmpty<T>(value: unknown, fallback: T): T {
   return Array.isArray(value) && value.length > 0 ? (value as unknown as T) : fallback;

@@ -54,6 +54,13 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ path: 
     headers: {
       "Content-Type": type,
       "Content-Length": String(stat.size),
+      // An SVG opened directly in a tab is a document, and a document on this
+      // origin can script it. Uploads only come from CMS users, but a logo is
+      // exactly the kind of file someone is asked to supply from outside, so
+      // the sandbox is worth the two headers: nothing may load, and the
+      // declared type may not be second-guessed.
+      "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+      "X-Content-Type-Options": "nosniff",
       // Uploads are content-addressed by a timestamp suffix, so a long cache is
       // safe — replacing an image produces a new filename.
       "Cache-Control": "public, max-age=31536000, immutable",

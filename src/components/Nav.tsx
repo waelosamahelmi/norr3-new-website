@@ -20,9 +20,12 @@ export function Nav({
   locale,
   dict,
   menu,
+  logo,
 }: {
   locale: Locale;
   dict: Dictionary;
+  /** Logo artwork and treatment, both editable in the CMS under Design. */
+  logo?: { mark: string; wordmark: string; navVariant: "lockup" | "mark" | "wordmark" };
   /**
    * Menu managed in the CMS. Order, labels and visibility are editable there;
    * when it is absent (CMS unreachable) the nav falls back to the seven routes
@@ -66,7 +69,11 @@ export function Nav({
           href={`/${locale}`}
           className={`shrink-0 rounded-sm transition-opacity hover:opacity-75 ${focusRing}`}
         >
-          <Logo className="dark:brightness-0 dark:invert" />
+          <Logo
+            variant={logo?.navVariant ?? "lockup"}
+            artwork={{ mark: logo?.mark, wordmark: logo?.wordmark }}
+            className="dark:brightness-0 dark:invert"
+          />
         </Link>
 
         {/* Figma nav: plain links, purple dot before the active page */}

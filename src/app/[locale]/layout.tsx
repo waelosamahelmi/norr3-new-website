@@ -95,7 +95,7 @@ export default async function LocaleLayout({
       <HtmlLangSync locale={locale} />
       <SmoothScroll />
       <RouteWipe />
-      <Nav locale={locale} dict={dict} menu={content.nav.header} />
+      <Nav locale={locale} dict={dict} menu={content.nav.header} logo={content.brand.logo} />
       <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
         {children}
       </main>
