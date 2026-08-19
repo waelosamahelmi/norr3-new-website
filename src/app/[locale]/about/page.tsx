@@ -16,6 +16,7 @@ import { TeamMarquee } from "@/components/TeamMarquee";
 import { ContactBanner } from "@/components/ContactBanner";
 import { StatGrid } from "@/components/StatGrid";
 import { Icon } from "@/components/Icon";
+import { MediaAsset } from "@/components/MediaAsset";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/about">) {
   const { locale } = await params;
@@ -102,7 +103,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
         <Container>
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <Reveal className="overflow-hidden rounded-card">
-              <img
+              <MediaAsset
                 src={storyPhoto.src}
                 width={2000}
                 height={1333}

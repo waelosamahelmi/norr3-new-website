@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MediaAsset } from "@/components/MediaAsset";
 
 /**
  * Subtle background-layer parallax (GSAP ScrollTrigger, scrub-driven).
@@ -20,7 +21,9 @@ export function ParallaxImage({
   className?: string;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
+  // Typed as the base element because the media may be a video, which GSAP
+  // tweens exactly the same way.
+  const imgRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -49,7 +52,7 @@ export function ParallaxImage({
 
   return (
     <div ref={wrapRef} className={`h-full w-full overflow-hidden ${className}`}>
-      <img
+      <MediaAsset
         ref={imgRef}
         src={src}
         alt={alt}

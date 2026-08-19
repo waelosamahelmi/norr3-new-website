@@ -116,6 +116,28 @@ Two things to know:
 - **Icons are generated, not live.** Changing the mark in the CMS does not
   rebuild the favicons; `node scripts/generate-icons.mjs` does.
 
+### Video in an image slot
+
+Any CMS media path may point at a video instead of an image.
+`src/components/MediaAsset.tsx` decides from the extension and renders either an
+`<img>` or a `<video>`; every slot that can hold CMS media goes through it — the
+three heroes with imagery, the six section slots, and `ParallaxImage`.
+
+The video attributes are one unit, and iOS is the reason:
+
+- `muted` — Safari will not autoplay anything with an audio track otherwise.
+- `playsInline` — without it, iPhone hands the video to the fullscreen player the
+  moment it starts, so a background loop becomes a fullscreen takeover.
+- `loop`, `autoPlay` — decoration, not something a viewer chose to watch.
+- `preload="metadata"` — the container header is enough to start, and a stack of
+  card videos should not pull every full file on load.
+
+**Byte ranges are required, not an optimisation.** Safari asks for the first
+bytes to read the container header and treats a 200-with-the-whole-file as an
+unseekable source, which on iOS is a black rectangle instead of a video. The
+uploads route (`src/app/uploads/[...path]/route.ts`) therefore answers `Range`
+with a 206, and the CMS's own preview route does the same.
+
 ### Dark mode
 
 Class-based (`@custom-variant dark` in `globals.css`), toggled by `ThemeToggle` and

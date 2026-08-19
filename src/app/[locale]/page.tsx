@@ -20,6 +20,7 @@ import { ContactBanner } from "@/components/ContactBanner";
 import { DashboardMock } from "@/components/DashboardMock";
 import { StatGrid } from "@/components/StatGrid";
 import { TeamMarquee } from "@/components/TeamMarquee";
+import { MediaAsset } from "@/components/MediaAsset";
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
@@ -235,7 +236,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           <div className="mt-14 grid items-stretch gap-card-gap lg:mt-16 lg:grid-cols-2">
             <Reveal delay={0.05} className="flex flex-col">
               <div className="overflow-hidden rounded-card">
-                <img
+                <MediaAsset
                   src={enginePhoto.src}
                   width={1500}
                   height={1000}

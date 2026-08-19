@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useReducedMotion, useScroll, useTransform, type PanInfo } from "framer-motion";
 import type { Locale } from "@/i18n/config";
+import { MediaAsset } from "@/components/MediaAsset";
 
 interface StackCard {
   id: number;
@@ -186,7 +187,11 @@ export function HeroCardStack({
                   {isFocus && <span aria-hidden className="absolute right-1 top-1 text-[13px] text-purple">↗</span>}
                 </div>
                 <div className={`relative w-full overflow-hidden rounded-[9px] ${imageRatio}`}>
-                  <img src={card.image} alt="" loading={isFocus ? "eager" : "lazy"} draggable={false} className="absolute inset-0 h-full w-full object-cover" />
+                  <MediaAsset
+                    src={card.image}
+                    loading={isFocus ? "eager" : "lazy"}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
                 </div>
               </motion.div>
             </motion.div>

@@ -25,6 +25,7 @@ import { AudienceChart } from "@/components/AudienceChart";
 import { StatGrid } from "@/components/StatGrid";
 import { Icon } from "@/components/Icon";
 import { PixelArt } from "@/components/PixelArt";
+import { MediaAsset } from "@/components/MediaAsset";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/services">) {
   const { locale } = await params;
@@ -174,7 +175,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
         <Container>
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <Reveal className="overflow-hidden rounded-card">
-              <img
+              <MediaAsset
                 src={collabPhoto.src}
                 width={1600}
                 height={1066}

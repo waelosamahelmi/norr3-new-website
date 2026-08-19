@@ -5,6 +5,7 @@ import { Bodies, Body, Composite, Engine, Events, Mouse, MouseConstraint, Runner
 import { useMotionAllowed } from "@/components/heroes/useMotionAllowed";
 import { DotGrid } from "@/components/DotGrid";
 import type { Locale } from "@/i18n/config";
+import { MediaAsset } from "@/components/MediaAsset";
 
 type Sticker = {
   body: MatterBody;
@@ -506,11 +507,9 @@ export function StickerHero({
         .sticker-bg-cycle { animation: sticker-bg-cycle 25s ease-in-out infinite; }
       `}</style>
       {stickerImages.map((src, index) => (
-        <img
+        <MediaAsset
           key={src}
           src={src}
-          alt=""
-          aria-hidden
           className={`pointer-events-none absolute inset-0 z-0 h-full w-full object-cover ${motionAllowed ? "sticker-bg-cycle" : ""}`}
           style={{
             opacity: motionAllowed ? undefined : index === 0 ? 1 : 0,

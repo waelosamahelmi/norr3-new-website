@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import { useMotionAllowed } from "@/components/heroes/useMotionAllowed";
 import { HeroCardStack } from "@/components/heroes/HeroCardStack";
 import type { Locale } from "@/i18n/config";
+import { MediaAsset } from "@/components/MediaAsset";
 
 /**
  * Cityscape hero — a layered Helsinki skyline parallax with a magnetic dot
@@ -314,9 +315,8 @@ export function CityHero({
                 : { inset: 0 }),
             }}
           >
-          <img
+          <MediaAsset
             src={layer.src}
-            alt=""
             className="h-full w-full"
             style={{
               objectFit: "cover",
@@ -324,7 +324,6 @@ export function CityHero({
             }}
             loading="eager"
             decoding="async"
-            aria-hidden
           />
           </div>
         );

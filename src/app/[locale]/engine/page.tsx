@@ -21,6 +21,7 @@ import { ContactBanner } from "@/components/ContactBanner";
 import { CaseCard } from "@/components/cards/CaseCard";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { Icon } from "@/components/Icon";
+import { MediaAsset } from "@/components/MediaAsset";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/engine">) {
   const { locale } = await params;
@@ -122,7 +123,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <Reveal>
               <div className="overflow-hidden rounded-card">
-                <img
+                <MediaAsset
                   src={workflowPhoto.src}
                   width={1600}
                   height={1066}

@@ -14,6 +14,7 @@ import { LeadContactCard } from "@/components/cards/LeadContactCard";
 import { LogoStrip } from "@/components/marquee/LogoStrip";
 import { PillButton } from "@/components/PillButton";
 import { Icon } from "@/components/Icon";
+import { MediaAsset } from "@/components/MediaAsset";
 
 /** The five people who take direct contact on this page. The rest of the
  *  roster lives on /team — this row is a routing aid, not a second roster. */
@@ -117,7 +118,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
           <Reveal>
             {/* Human face before the details — dims reserved so nothing shifts */}
             <div className="aspect-[3/2] w-full overflow-hidden rounded-card">
-              <img
+              <MediaAsset
                 src={contactPhoto.src}
                 alt={contactPhoto.alt}
                 width={1200}
