@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { Icon } from "@/components/Icon";
 import { LiveNumber } from "@/components/LiveNumber";
-import { channels } from "@/content/channels";
+import { channels as bundledChannels, type Channel } from "@/content/channels";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/content/dictionary";
 
@@ -41,9 +41,12 @@ function evenSplit(ids: string[]): Record<string, number> {
 export function MediaMixSimulator({
   locale,
   labels,
+  channels = bundledChannels,
 }: {
   locale: Locale;
   labels: Dictionary["engine"]["simulator"];
+  /** Channel list and CPM baselines from the CMS; bundled data is the fallback. */
+  channels?: Channel[];
 }) {
   const [budget, setBudget] = useState(DEFAULT_BUDGET);
   const [activeIds, setActiveIds] = useState<string[]>(DEFAULT_ACTIVE);

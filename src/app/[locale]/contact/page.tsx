@@ -2,6 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
+import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { ContactForm } from "@/components/ContactForm";
@@ -11,7 +12,6 @@ import { LeadContactCard } from "@/components/cards/LeadContactCard";
 import { LogoStrip } from "@/components/marquee/LogoStrip";
 import { PillButton } from "@/components/PillButton";
 import { Icon } from "@/components/Icon";
-import { team } from "@/content/team";
 
 /** The five people who take direct contact on this page. The rest of the
  *  roster lives on /team — this row is a routing aid, not a second roster. */
@@ -26,7 +26,7 @@ const LEAD_CONTACT_NAMES = [
 export async function generateMetadata({ params }: PageProps<"/[locale]/contact">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   return {
     title: dict.seo.contact.title,
     description: dict.seo.contact.description,
@@ -62,7 +62,10 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
 export default async function ContactPage({ params }: PageProps<"/[locale]/contact">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
+  const content = await getSiteContent();
+  const { clients } = content.brand;
+  const dict = content.dictionaries[locale];
+  const team = content.team;
 
   // Ordered by the list above, not by roster order, and silently skipping a
   // name that ever leaves team.ts rather than rendering a hole.
@@ -192,7 +195,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
               {dict.contact.formHeading}
             </h2>
             <div className="mt-6">
-              <ContactForm dict={dict.contact} />
+              <ContactForm dict={dict.contact} locale={locale} />
             </div>
             <p className="mt-4 flex items-start gap-2 text-xs leading-relaxed text-ink/55 dark:text-white/55">
               <Icon name="lock" style={{ fontSize: "16px" }} />
@@ -234,7 +237,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
         </Container>
       </section>
 
-      <LogoStrip />
+      <LogoStrip clients={clients} />
     </>
   );
 }

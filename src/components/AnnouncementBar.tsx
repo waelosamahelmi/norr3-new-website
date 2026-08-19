@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Icon } from "@/components/Icon";
 import { useLocalStorageItem } from "@/lib/useLocalStorageItem";
 import type { Dictionary } from "@/content/dictionary";
@@ -18,9 +19,15 @@ const STORAGE_KEY = "norr3-announcement-dismissed";
 export function AnnouncementBar({
   locale,
   dict,
+  message,
+  href = "/engine",
 }: {
   locale: Locale;
   dict: Dictionary["announcement"];
+  /** Live message from the CMS; falls back to the dictionary copy. */
+  message?: string;
+  /** Where the bar links to — also editable in the CMS. */
+  href?: string;
 }) {
   // serverValue null keeps the bar in the SSR HTML; errorValue null keeps it
   // when storage throws (private mode, blocked cookies).
@@ -28,17 +35,20 @@ export function AnnouncementBar({
     serverValue: null,
     errorValue: null,
   });
+  // Hidden in the page editor's preview frame: it belongs to the site chrome,
+  // not to the page being composed, and it eats vertical space in a narrow frame.
+  const inEditorPreview = usePathname().includes("/cms-preview");
 
-  if (dismissed) return null;
+  if (dismissed || inEditorPreview) return null;
 
   return (
     <div className="relative z-[60] bg-ink px-6 py-2.5 text-center text-sm text-white dark:border-b dark:border-white/10">
       <Link
-        href={`/${locale}/engine`}
+        href={`/${locale}${href.startsWith("/") ? href : `/${href}`}`}
         className="inline-flex items-center gap-2 rounded-sm transition-colors hover:text-light-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
       >
         <Icon name="auto_awesome" className="text-[18px]" />
-        {dict.message}
+        {message || dict.message}
       </Link>
       <button
         type="button"

@@ -1,72 +1,73 @@
 import type { MetadataRoute } from "next";
+import { getSiteContent } from "@/lib/cms";
 
 const BASE = "https://norr3.fi";
 const LOCALES = ["fi", "en"] as const;
 
-// Static top-level routes (dynamic [slug] routes are appended below)
-const ROUTES = ["", "services", "engine", "cases", "about", "careers", "team", "insights", "contact", "privacy", "terms"];
+/** Routes this repo renders with its own React components. */
+const CODED_ROUTES = [
+  "",
+  "services",
+  "engine",
+  "cases",
+  "about",
+  "careers",
+  "team",
+  "insights",
+  "contact",
+  "brief",
+  "privacy",
+  "terms",
+];
 
-// Case + insight slugs — kept in sync with src/content/{cases,insights}.ts
-const CASE_SLUGS = ["flow-festival", "oomi", "suun-terveystalo", "kokkola", "st1", "kiinteistomaailma"];
-const INSIGHT_SLUGS = ["voittava-mediamix-2026", "data-jahta-mittaa", "some-uutiset-2026", "dooh-toimii"];
-
-function buildEntries() {
-  const entries: MetadataRoute.Sitemap = [];
+/**
+ * The sitemap is derived from the CMS rather than hand-listed.
+ *
+ * The slug lists here used to be maintained by hand and had already drifted —
+ * three of the four article URLs pointed at posts that no longer existed, and
+ * newly published ones were missing. Reading the live content means publishing a
+ * case, a post or a block page puts it in the sitemap with no second edit.
+ */
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const content = await getSiteContent();
   const now = new Date();
 
-  for (const route of ROUTES) {
-    for (const locale of LOCALES) {
-      entries.push({
-        url: `${BASE}/${locale}${route ? `/${route}` : ""}`,
-        lastModified: now,
+  const entry = (
+    path: string,
+    options: { lastModified?: Date; changeFrequency?: "weekly" | "monthly"; priority?: number } = {}
+  ) =>
+    LOCALES.map((locale) => ({
+      url: `${BASE}/${locale}${path ? `/${path}` : ""}`,
+      lastModified: options.lastModified ?? now,
+      changeFrequency: options.changeFrequency ?? ("monthly" as const),
+      priority: options.priority ?? 0.8,
+      alternates: {
+        languages: Object.fromEntries(
+          LOCALES.map((l) => [l === "fi" ? "fi-FI" : "en-US", `${BASE}/${l}${path ? `/${path}` : ""}`])
+        ),
+      },
+    }));
+
+  return [
+    ...CODED_ROUTES.flatMap((route) =>
+      entry(route, {
         changeFrequency: route === "" ? "weekly" : "monthly",
         priority: route === "" ? 1 : 0.8,
-        alternates: {
-          languages: Object.fromEntries(
-            LOCALES.map((l) => [l === "fi" ? "fi-FI" : "en-US", `${BASE}/${l}${route ? `/${route}` : ""}`])
-          ),
-        },
-      });
-    }
-  }
-
-  // Case detail pages
-  for (const slug of CASE_SLUGS) {
-    for (const locale of LOCALES) {
-      entries.push({
-        url: `${BASE}/${locale}/cases/${slug}`,
-        lastModified: now,
-        changeFrequency: "monthly",
-        priority: 0.6,
-        alternates: {
-          languages: Object.fromEntries(
-            LOCALES.map((l) => [l === "fi" ? "fi-FI" : "en-US", `${BASE}/${l}/cases/${slug}`])
-          ),
-        },
-      });
-    }
-  }
-
-  // Insight article pages
-  for (const slug of INSIGHT_SLUGS) {
-    for (const locale of LOCALES) {
-      entries.push({
-        url: `${BASE}/${locale}/insights/${slug}`,
-        lastModified: now,
-        changeFrequency: "monthly",
+      })
+    ),
+    ...content.cases.flatMap((study) => entry(`cases/${study.slug}`, { priority: 0.6 })),
+    ...content.posts.flatMap((post) =>
+      entry(`insights/${post.slug}`, {
         priority: 0.5,
-        alternates: {
-          languages: Object.fromEntries(
-            LOCALES.map((l) => [l === "fi" ? "fi-FI" : "en-US", `${BASE}/${l}/insights/${slug}`])
-          ),
-        },
-      });
-    }
-  }
-
-  return entries;
-}
-
-export default function sitemap(): MetadataRoute.Sitemap {
-  return buildEntries();
+        lastModified: post.isoDate ? new Date(post.isoDate) : now,
+      })
+    ),
+    // Pages composed in the CMS page editor.
+    ...content.pages.flatMap((page) =>
+      entry(page.slug, {
+        priority: 0.6,
+        lastModified: page.updatedAt ? new Date(page.updatedAt.replace(" ", "T")) : now,
+      })
+    ),
+  ];
 }

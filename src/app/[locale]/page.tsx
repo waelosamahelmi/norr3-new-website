@@ -1,6 +1,6 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
-import { getDictionary } from "@/lib/dictionary";
+import { getSiteContent } from "@/lib/cms";
 import { Container } from "@/components/Container";
 import { DotGrid } from "@/components/DotGrid";
 import { HomeHero } from "@/components/HomeHero";
@@ -20,14 +20,17 @@ import { ContactBanner } from "@/components/ContactBanner";
 import { DashboardMock } from "@/components/DashboardMock";
 import { StatGrid } from "@/components/StatGrid";
 import { TeamMarquee } from "@/components/TeamMarquee";
-import { serviceCards, valuePills } from "@/content/services";
-import { cases } from "@/content/cases";
-import { insights } from "@/content/insights";
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
+  const content = await getSiteContent();
+  const { clients } = content.brand;
+  const dict = content.dictionaries[locale];
+  const serviceCards = content.services;
+  const cases = content.cases;
+  const insights = content.posts;
+  const { valuePills } = content.brand;
 
   // Alt text for the hero's three rotating cards: 01 Plan / 02 Execute / 03 Grow.
   const heroAlts: [string, string, string] =
@@ -43,11 +46,13 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           "The NØRR3 team celebrating growth with arms raised",
         ];
 
+  // The home page leads with three named cases; if one is unpublished in the
+  // CMS the grid backfills from the top of the list rather than leaving a hole.
+  const preferredCases = ["flow-festival", "kokkola", "st1"];
   const featuredCases = [
-    cases.find((c) => c.slug === "flow-festival")!,
-    cases.find((c) => c.slug === "kokkola")!,
-    cases.find((c) => c.slug === "st1")!,
-  ];
+    ...preferredCases.map((slug) => cases.find((c) => c.slug === slug)).filter((c) => c !== undefined),
+    ...cases.filter((c) => !preferredCases.includes(c.slug)),
+  ].slice(0, 3);
 
   const inNumbers = [
     { value: 360, suffix: "°", label: locale === "fi" ? "Strategisesti aktiivinen insight- ja mediatoimisto" : "A strategically active insight and media agency" },
@@ -110,7 +115,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         heroBody={dict.home.heroBody}
         contactLabel={dict.common.contactUs}
         contactHref={`/${locale}/contact`}
-        logoStrip={<LogoStrip />}
+        logoStrip={<LogoStrip clients={clients} />}
       />
 
       {/*
@@ -180,9 +185,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </Container>
       </section>
 
-      <HighlightsBand label={dict.common.highlights} />
+      <HighlightsBand label={dict.common.highlights} clients={clients} />
 
-      <LogoStrip />
+      <LogoStrip clients={clients} />
 
       {/* Marketing Engine */}
       <section className="bg-pastel-purple/40 py-24 lg:py-32 dark:bg-white/[0.04]">
@@ -288,7 +293,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               </h3>
               <p className="text-[15px] leading-relaxed text-ink/70 dark:text-white/70">{dict.home.people.body}</p>
             </Reveal>
-            <TeamMarquee locale={locale} />
+            <TeamMarquee locale={locale} members={content.team} />
             <div className="mt-8 flex justify-center">
               <PillButton href={`/${locale}/team`} variant="secondary">{dict.common.meetTeam}</PillButton>
             </div>
@@ -310,7 +315,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             ctaHref={`/${locale}/insights`}
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-            {insights.map((post) => (
+            {insights.slice(0, 3).map((post) => (
               <BlogCard
                 key={post.slug}
                 post={post}

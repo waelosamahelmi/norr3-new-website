@@ -14,13 +14,14 @@ export function BlogCard({
   readMoreLabel,
   minReadLabel,
 }: {
-  post: Insight;
+  /** CMS posts carry a derived `readingMinutes`; bundled ones do not. */
+  post: Insight & { readingMinutes?: number };
   locale: Locale;
   readMoreLabel: string;
   minReadLabel?: string;
 }) {
   const content = post[locale];
-  const minutes = readingMinutes(content.body);
+  const minutes = post.readingMinutes ?? readingMinutes(content.body);
   return (
     <Link
       href={`/${locale}/insights/${post.slug}`}

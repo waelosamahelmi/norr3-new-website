@@ -1,6 +1,7 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
+import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { ArrowsDeliver } from "@/components/heroes/ArrowsDeliver";
@@ -17,13 +18,11 @@ import { ContactBanner } from "@/components/ContactBanner";
 import { CaseCard } from "@/components/cards/CaseCard";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { Icon } from "@/components/Icon";
-import { mediaPills } from "@/content/services";
-import { cases } from "@/content/cases";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/engine">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   return {
     title: dict.seo.engine.title,
     description: dict.seo.engine.description,
@@ -44,7 +43,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/engine">
 export default async function EnginePage({ params }: PageProps<"/[locale]/engine">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
+  const content = await getSiteContent();
+  const { clients } = content.brand;
+  const dict = content.dictionaries[locale];
+  const cases = content.cases;
+  const { mediaPills } = content.brand;
   const e = dict.engine;
 
   const pills = mediaPills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }));
@@ -197,7 +200,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         <Container>
           <SectionHeader heading={e.simulator.heading} body={e.simulator.body} tone="light" />
           <Reveal delay={0.1} className="mx-auto mt-14 max-w-5xl lg:mt-16">
-            <MediaMixSimulator locale={locale} labels={e.simulator} />
+            <MediaMixSimulator locale={locale} labels={e.simulator} channels={content.channels} />
           </Reveal>
         </Container>
       </section>
@@ -255,7 +258,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         </Container>
       </section>
 
-      <LogoStrip />
+      <LogoStrip clients={clients} />
 
       {/* Related cases */}
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">

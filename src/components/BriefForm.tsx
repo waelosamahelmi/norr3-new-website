@@ -96,6 +96,8 @@ function RadioGroup({
 export function BriefForm({ locale, dict }: { locale: Locale; dict: BriefDict }) {
   const [step, setStep] = useState(0);
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
   const [aiSuggestion, setAiSuggestion] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const channels = locale === "fi" ? CHANNELS_FI : CHANNELS_EN;
@@ -413,6 +415,12 @@ export function BriefForm({ locale, dict }: { locale: Locale; dict: BriefDict })
         </div>
       )}
 
+      {sendError && (
+        <p role="alert" className="mt-8 text-sm text-accent-magenta dark:text-accent-pink">
+          {sendError}
+        </p>
+      )}
+
       {/* Navigation buttons */}
       <div className="mt-10 flex items-center justify-between">
         <button
@@ -433,14 +441,37 @@ export function BriefForm({ locale, dict }: { locale: Locale; dict: BriefDict })
         ) : (
           <button
             type="button"
-            onClick={() => {
-              // No backend yet — log the full payload for now (wired to email/CRM later)
-              console.log("Brief submitted:", { form, channelPrefs, services });
-              setSent(true);
+            disabled={sending}
+            onClick={async () => {
+              if (sending) return;
+              setSending(true);
+              setSendError("");
+              try {
+                // Posts to the site's own route, which forwards the whole answer
+                // set into the CMS inbox with the shared ingest secret.
+                const res = await fetch("/api/brief", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ form, channelPrefs, services, locale }),
+                });
+                const data = (await res.json().catch(() => ({}))) as { error?: string };
+                if (!res.ok) throw new Error(data.error || "Could not send the brief.");
+                setSent(true);
+              } catch (error) {
+                setSendError(
+                  error instanceof Error
+                    ? error.message
+                    : locale === "fi"
+                      ? "Briefin lähetys ei onnistunut. Lähetä se osoitteeseen info@norr3.fi."
+                      : "We could not send the brief. Please email info@norr3.fi instead."
+                );
+              } finally {
+                setSending(false);
+              }
             }}
-            className="rounded-full bg-ink px-7 py-3 text-sm font-medium uppercase tracking-wide text-white transition-colors hover:bg-purple dark:bg-purple dark:hover:bg-violet"
+            className="rounded-full bg-ink px-7 py-3 text-sm font-medium uppercase tracking-wide text-white transition-colors hover:bg-purple disabled:cursor-not-allowed disabled:opacity-60 dark:bg-purple dark:hover:bg-violet"
           >
-            {dict.send}
+            {sending ? (locale === "fi" ? "Lähetetään…" : "Sending…") : dict.send}
           </button>
         )}
       </div>

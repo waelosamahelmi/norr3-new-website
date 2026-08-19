@@ -13,20 +13,43 @@ import type { Locale } from "@/i18n/config";
 const focusRing =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus-visible:outline-light-purple";
 
-export function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+/** One menu entry as the CMS stores it: locale labels and a locale-relative href. */
+export type NavEntry = { label: Record<Locale, string>; href: string };
+
+export function Nav({
+  locale,
+  dict,
+  menu,
+}: {
+  locale: Locale;
+  dict: Dictionary;
+  /**
+   * Menu managed in the CMS. Order, labels and visibility are editable there;
+   * when it is absent (CMS unreachable) the nav falls back to the seven routes
+   * the site has always shipped, labelled from the dictionary.
+   */
+  menu?: NavEntry[];
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const other: Locale = locale === "fi" ? "en" : "fi";
 
-  const items = [
-    { key: "services", label: dict.nav.services, href: `/${locale}/services` },
-    { key: "engine", label: dict.nav.engine, href: `/${locale}/engine` },
-    { key: "cases", label: dict.nav.cases, href: `/${locale}/cases` },
-    { key: "insights", label: dict.nav.insights, href: `/${locale}/insights` },
-    { key: "contact", label: dict.nav.contact, href: `/${locale}/contact` },
-    { key: "about", label: dict.nav.about, href: `/${locale}/about` },
-    { key: "careers", label: dict.nav.careers, href: `/${locale}/careers` },
-  ];
+  const items =
+    menu && menu.length > 0
+      ? menu.map((entry) => ({
+          key: entry.href,
+          label: entry.label[locale] || entry.label.fi,
+          href: `/${locale}${entry.href.startsWith("/") ? entry.href : `/${entry.href}`}`,
+        }))
+      : ([
+          { key: "services", label: dict.nav.services, href: `/${locale}/services` },
+          { key: "engine", label: dict.nav.engine, href: `/${locale}/engine` },
+          { key: "cases", label: dict.nav.cases, href: `/${locale}/cases` },
+          { key: "insights", label: dict.nav.insights, href: `/${locale}/insights` },
+          { key: "contact", label: dict.nav.contact, href: `/${locale}/contact` },
+          { key: "about", label: dict.nav.about, href: `/${locale}/about` },
+          { key: "careers", label: dict.nav.careers, href: `/${locale}/careers` },
+        ] as const);
 
   const otherPath = pathname.replace(`/${locale}`, `/${other}`);
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);

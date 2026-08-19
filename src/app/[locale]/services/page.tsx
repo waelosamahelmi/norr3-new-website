@@ -1,6 +1,7 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
+import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { ChessStrategy } from "@/components/heroes/ChessStrategy";
@@ -21,14 +22,11 @@ import { AudienceChart } from "@/components/AudienceChart";
 import { StatGrid } from "@/components/StatGrid";
 import { Icon } from "@/components/Icon";
 import { PixelArt } from "@/components/PixelArt";
-import { serviceCards, mediaPills } from "@/content/services";
-import { cases } from "@/content/cases";
-import { insights } from "@/content/insights";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/services">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   return {
     title: dict.seo.services.title,
     description: dict.seo.services.description,
@@ -49,7 +47,13 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/services
 export default async function ServicesPage({ params }: PageProps<"/[locale]/services">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
+  const content = await getSiteContent();
+  const { clients } = content.brand;
+  const dict = content.dictionaries[locale];
+  const serviceCards = content.services;
+  const cases = content.cases;
+  const insights = content.posts;
+  const { mediaPills } = content.brand;
   const s = dict.services;
 
   const pills = mediaPills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }));
@@ -138,7 +142,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
         tone="yellow"
       />
 
-      <LogoStrip />
+      <LogoStrip clients={clients} />
 
       {/* Why choose Media Insights */}
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
@@ -292,7 +296,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
         </Container>
       </section>
 
-      <HighlightsBand label={dict.common.highlights} />
+      <HighlightsBand label={dict.common.highlights} clients={clients} />
 
       {/* Related posts — now has the same "all insights" exit as every other
           card grid on the site, instead of dead-ending. */}
@@ -305,7 +309,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             ctaHref={`/${locale}/insights`}
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-            {insights.map((post) => (
+            {insights.slice(0, 3).map((post) => (
               <BlogCard
                 key={post.slug}
                 post={post}

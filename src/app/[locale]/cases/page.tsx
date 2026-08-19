@@ -1,6 +1,7 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
+import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
@@ -12,8 +13,6 @@ import { CaseCard } from "@/components/cards/CaseCard";
 import { CaseFeature } from "@/components/cards/CaseFeature";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
-import { cases, getCase } from "@/content/cases";
-import { insights } from "@/content/insights";
 
 /** Editorial widths for the hero collage — varied, so the strip reads as a
  *  magazine contact sheet rather than a uniform row of thumbnails. */
@@ -22,7 +21,7 @@ const TILE_WIDTHS = ["w-40 sm:w-56", "w-32 sm:w-44", "w-36 sm:w-52", "w-32 sm:w-
 export async function generateMetadata({ params }: PageProps<"/[locale]/cases">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   return {
     title: dict.seo.cases.title,
     description: dict.seo.cases.description,
@@ -43,16 +42,22 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/cases">)
 export default async function CasesPage({ params }: PageProps<"/[locale]/cases">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
+  const content = await getSiteContent();
+  const { clients } = content.brand;
+  const dict = content.dictionaries[locale];
+  const cases = content.cases;
+  const insights = content.posts;
   const c = dict.cases;
 
-  const featured = getCase("flow-festival")!;
-  const rest = cases.filter((x) => x.slug !== featured.slug);
+  // Which case opens the index is an editorial choice now: the CMS marks one as
+  // featured, and Flow Festival stays the default when nothing is marked.
+  const featured =
+    cases.find((x) => x.featured) ?? cases.find((x) => x.slug === "flow-festival") ?? cases[0];
+  const rest = cases.filter((x) => x.slug !== featured?.slug);
 
-  // The purple stat tile in the collage is sourced from a real case metric
-  // (Suun Terveystalo's cost per booking) instead of a decorative number, and
-  // reads it off `cases.ts` so it can never drift from the case page itself.
-  const statCase = getCase("suun-terveystalo")!;
+  // The purple stat tile in the collage carries a real case metric rather than a
+  // decorative number, read off the case itself so the two can never disagree.
+  const statCase = cases.find((x) => x.slug === "suun-terveystalo") ?? featured;
 
   return (
     <>
@@ -122,7 +127,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
         </Reveal>
       </Container>
 
-      <LogoStrip />
+      <LogoStrip clients={clients} />
 
       {/* Cases — one promoted feature, then the rest as an even photo grid.
           The old layout put a single orphan card in a three-column row below
@@ -164,7 +169,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
             ctaHref={`/${locale}/insights`}
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-            {insights.map((post) => (
+            {insights.slice(0, 3).map((post) => (
               <BlogCard
                 key={post.slug}
                 post={post}

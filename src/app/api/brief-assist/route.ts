@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const OLLAMA_URL = "http://localhost:11434/v1/chat/completions";
-const MODEL = "glm-5.2:cloud";
+import { getSiteContent } from "@/lib/cms";
 
 const SYSTEM_PROMPT = `You are NØRR3, a Nordic media agency. A client is filling a campaign brief form. Based on the partial data, give ONE short suggestion (max 3 sentences) about their campaign: channels to consider, budget allocation, or measurement. Plain-spoken, confident, no jargon. Reply in the same language as the input data.`;
 
@@ -16,11 +14,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid brief" }, { status: 400 });
     }
 
-    const response = await fetch(OLLAMA_URL, {
+    const { site } = await getSiteContent();
+    if (!site.ai.enabled || !site.ai.url) throw new Error("AI assist is switched off in the CMS");
+
+    const response = await fetch(site.ai.url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: MODEL,
+        model: site.ai.model,
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: summary },

@@ -1,6 +1,6 @@
 import { Icon } from "@/components/Icon";
 import { HoverLift } from "@/components/HoverLift";
-import { houseBio, type TeamMember } from "@/content/team";
+import { houseBio as bundledHouseBio, type TeamMember } from "@/content/team";
 import type { Locale } from "@/i18n/config";
 
 const COMPANY_LINKEDIN = "https://www.linkedin.com/company/norr3/";
@@ -25,16 +25,25 @@ export function TeamMemberCard({
   locale,
   linkedinLabel,
   emailLabel,
+  houseBio = bundledHouseBio,
 }: {
   member: TeamMember;
   locale: Locale;
   linkedinLabel: string;
   emailLabel: string;
+  /**
+   * The line every member shares until they get a real bio. Cards skip it — 17
+   * identical paragraphs read as filler — so it has to be the same value the
+   * roster carries, which the CMS derives from the roster itself.
+   */
+  houseBio?: { fi: string; en: string };
 }) {
   const linkedinHref = member.linkedin ?? COMPANY_LINKEDIN;
   const emailHref = `mailto:${member.email ?? "info@norr3.fi"}`;
   // Only a bio written for this person earns space on the card.
-  const ownBio = member.bio === houseBio ? null : member.bio[locale];
+  // Compared by value, not identity: the roster arrives from the CMS as fresh
+  // objects, so a reference check would treat the shared house line as a real bio.
+  const ownBio = member.bio[locale] === houseBio[locale] ? null : member.bio[locale];
   return (
     <HoverLift className="h-full" lift={4} scale={1.01}>
       <article className="group/member flex h-full flex-col">

@@ -7,12 +7,12 @@ import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
-import { insights, readingMinutes } from "@/content/insights";
+import { getPosts } from "@/lib/cms";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/insights">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   return {
     title: dict.seo.insights.title,
     description: dict.seo.insights.description,
@@ -43,12 +43,14 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/insights
 export default async function InsightsPage({ params }: PageProps<"/[locale]/insights">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
+  const posts = await getPosts();
 
-  const featured = insights[0];
-  const fc = featured[locale];
-  const featuredMinutes = readingMinutes(fc.body);
-  const rest = insights.slice(1);
+  // The CMS marks one post as the lead; without one the newest post takes the
+  // slot, which is what the index did before posts became editable.
+  const featured = posts.find((post) => post.featured) ?? posts[0];
+  const fc = featured?.[locale];
+  const rest = posts.filter((post) => post.slug !== featured?.slug);
 
   return (
     <>
@@ -72,6 +74,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
 
       {/* Featured article — the magazine opener, mirroring the cases index's
           CaseFeature: photo left, meta / title / excerpt / CTA pill right. */}
+      {featured && fc && (
       <Container className="pb-24 pt-14 lg:pb-32 lg:pt-16">
         <Reveal>
           <Link
@@ -100,7 +103,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
                   {dict.insights.featuredLabel}
                 </span>
                 <span className="text-xs text-ink/50 dark:text-white/50">
-                  {featured.date} · {featuredMinutes} {dict.insights.minRead}
+                  {featured.date} · {featured.readingMinutes} {dict.insights.minRead}
                 </span>
               </div>
               <h2 className="mt-5 text-4xl font-medium leading-[1.05] tracking-tight text-ink transition-colors group-hover:text-purple lg:text-5xl dark:text-white dark:group-hover:text-light-purple">
@@ -118,6 +121,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
           </Link>
         </Reveal>
       </Container>
+      )}
 
       {/* The rest of the archive under a hairline index header */}
       <Container className="pb-24 lg:pb-32">
@@ -126,7 +130,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
             {dict.common.allInsights}
           </h2>
           <p className="text-xs text-ink/50 dark:text-white/50">
-            {insights.length} {dict.insights.articlesLabel}
+            {posts.length} {dict.insights.articlesLabel}
           </p>
         </Reveal>
         <StaggerGrid className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">

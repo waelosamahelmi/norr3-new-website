@@ -27,6 +27,11 @@ export type CaseStudy = {
   kpi: CaseMetric;
   /** When true, the case-detail hero image uses the parallax scroll effect. */
   parallax?: boolean;
+  /**
+   * Marks the case the index opens with. Set in the CMS rather than here — the
+   * bundled fallback leaves it unset and the index falls back to Flow Festival.
+   */
+  featured?: boolean;
 };
 
 // Case imagery: real campaign photography from norr3.fi — each case leads with

@@ -1,7 +1,7 @@
-import { clients } from "@/content/services";
+import { clients as bundledClients } from "@/content/services";
 
 /** Grayscale client "logo" strip — slow marquee, matching the design's ● Logo row. */
-export function LogoStrip() {
+export function LogoStrip({ clients = bundledClients }: { clients?: string[] }) {
   const row = (
     <div className="flex shrink-0 items-center">
       {clients.map((name) => (

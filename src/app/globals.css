@@ -156,3 +156,159 @@ html[data-city-hero-active] .site-nav img[alt="NØRR3"] {
 html[data-city-hero-active] .site-nav .bg-ink {
   background-color: var(--color-purple) !important;
 }
+
+/**
+ * Long-form article body, rendered from the CMS as HTML.
+ *
+ * The rules mirror what the hand-written article column used before the body
+ * became rich text: 17px at 1.75, the first paragraph reading as a lead, and
+ * body copy a notch brighter in dark mode so a full article stays comfortable.
+ */
+.article-prose {
+  font-size: 17px;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--foreground) 80%, transparent);
+}
+
+.article-prose > * + * {
+  margin-top: 1.65rem;
+}
+
+.article-prose > p:first-child {
+  font-size: 20px;
+  line-height: 1.6;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+
+@media (min-width: 1024px) {
+  .article-prose > p:first-child {
+    font-size: 24px;
+  }
+}
+
+.dark .article-prose {
+  color: color-mix(in srgb, var(--foreground) 85%, transparent);
+}
+
+.article-prose h2 {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  margin-top: 2.75rem;
+  color: var(--foreground);
+}
+
+.article-prose h3 {
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-top: 2.25rem;
+  color: var(--foreground);
+}
+
+.article-prose h4 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 2rem;
+  color: var(--foreground);
+}
+
+.article-prose a {
+  color: var(--color-purple);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-purple) 35%, transparent);
+  text-underline-offset: 3px;
+}
+
+.dark .article-prose a {
+  color: var(--color-light-purple);
+}
+
+.article-prose strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.article-prose ul,
+.article-prose ol {
+  padding-left: 1.5rem;
+}
+
+.article-prose ul { list-style: disc; }
+.article-prose ol { list-style: decimal; }
+.article-prose li + li { margin-top: 0.5rem; }
+
+.article-prose blockquote {
+  border-left: 3px solid var(--color-purple);
+  padding-left: 1.25rem;
+  font-size: 19px;
+  line-height: 1.6;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.article-prose img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-card);
+}
+
+.article-prose figure { margin-top: 2.25rem; }
+
+.article-prose figcaption {
+  margin-top: 0.7rem;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--foreground) 55%, transparent);
+}
+
+.article-prose hr {
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+  margin: 3rem 0;
+}
+
+/* Rich-text blocks inside a composed page use the same rules. */
+.cms-richtext {
+  font-size: 16px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--foreground) 80%, transparent);
+}
+
+.cms-richtext > * + * { margin-top: 1.2rem; }
+
+.cms-richtext h2,
+.cms-richtext h3 {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+
+.cms-richtext h2 { font-size: 28px; line-height: 1.2; margin-top: 2.5rem; }
+.cms-richtext h3 { font-size: 21px; line-height: 1.3; margin-top: 2rem; }
+
+.cms-richtext a {
+  color: var(--color-purple);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dark .cms-richtext a { color: var(--color-light-purple); }
+
+.cms-richtext ul { list-style: disc; padding-left: 1.5rem; }
+.cms-richtext ol { list-style: decimal; padding-left: 1.5rem; }
+
+.cms-richtext blockquote {
+  border-left: 3px solid var(--color-purple);
+  padding-left: 1.25rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.cms-richtext img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-card);
+}

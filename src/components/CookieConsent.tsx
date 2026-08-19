@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Icon } from "@/components/Icon";
 import { useLocalStorageItem } from "@/lib/useLocalStorageItem";
@@ -17,7 +18,11 @@ export function CookieConsent({ dict, locale }: { dict: Dictionary["cookies"]; l
     serverValue: "pending",
     errorValue: "pending",
   });
-  const visible = choice === null;
+  // The page editor's live preview renders the site inside an iframe. A consent
+  // dialog over an editor is noise, and dismissing it there would silently opt
+  // the editor's own browser in, so the box sits out the preview route.
+  const inEditorPreview = usePathname().includes("/cms-preview");
+  const visible = choice === null && !inEditorPreview;
 
   return (
     <AnimatePresence>

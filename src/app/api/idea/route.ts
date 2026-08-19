@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const OLLAMA_URL = "http://localhost:11434/v1/chat/completions";
-const MODEL = "glm-5.2:cloud";
+import { getSiteContent, submitToCms } from "@/lib/cms";
 
 // Include NØRR3's real services so the AI can connect ideas to what we do
 const SYSTEM_PROMPT = `You are NØRR3, a Nordic media agency. A visitor typed an idea. Reply with ONE short phrase (max 10 words) connecting their idea to what NØRR3 actually offers.
@@ -21,11 +19,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid idea" }, { status: 400 });
     }
 
-    const response = await fetch(OLLAMA_URL, {
+    const { site } = await getSiteContent();
+    if (!site.ai.enabled || !site.ai.url) throw new Error("AI assist is switched off in the CMS");
+
+    const response = await fetch(site.ai.url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: MODEL,
+        model: site.ai.model,
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: idea },
@@ -54,8 +55,12 @@ export async function POST(req: NextRequest) {
       reply = fallbacks;
     }
 
+    // Every idea a visitor types is a lead signal, so it lands in the CMS inbox
+    // alongside the reply they were shown. Recording must never block the reply.
+    void submitToCms("idea", { idea, reply, locale });
+
     return NextResponse.json({ reply });
-  } catch (error) {
+  } catch {
     const fallback = locale === "fi" ? "Kasvatetaan yhdessä" : "Let's grow it together";
     return NextResponse.json({ reply: fallback });
   }

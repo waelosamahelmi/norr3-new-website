@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { MotionConfig } from "framer-motion";
 import { locales, isLocale } from "@/i18n/config";
 import { getDictionary } from "@/lib/dictionary";
+import { getSiteContent } from "@/lib/cms";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -17,7 +18,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   return {
     title: dict.meta.title,
     description: dict.meta.description,
@@ -61,7 +62,8 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const dict = getDictionary(locale);
+  const content = await getSiteContent();
+  const dict = content.dictionaries[locale];
 
   return (
     <MotionConfig reducedMotion="user">
@@ -73,11 +75,16 @@ export default async function LocaleLayout({
         {dict.common.skipToContent}
       </a>
       {/* Sits in normal flow above the sticky nav, so it scrolls away. */}
-      <AnnouncementBar locale={locale} dict={dict.announcement} />
+      <AnnouncementBar
+        locale={locale}
+        dict={dict.announcement}
+        message={content.announcement?.message[locale]}
+        href={content.announcement?.href || "/engine"}
+      />
       <HtmlLangSync locale={locale} />
       <SmoothScroll />
       <RouteWipe />
-      <Nav locale={locale} dict={dict} />
+      <Nav locale={locale} dict={dict} menu={content.nav.header} />
       <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
         {children}
       </main>

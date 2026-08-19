@@ -6,7 +6,7 @@ import { LegalArticle } from "@/components/LegalArticle";
 export async function generateMetadata({ params }: PageProps<"/[locale]/privacy">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   return {
     title: dict.seo.privacy.title,
     description: dict.seo.privacy.description,
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/privacy"
 export default async function PrivacyPage({ params }: PageProps<"/[locale]/privacy">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   const legal = dict.legal;
 
   return (

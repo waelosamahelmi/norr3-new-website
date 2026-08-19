@@ -2,6 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
+import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
@@ -12,13 +13,11 @@ import { BenefitCard } from "@/components/cards/BenefitCard";
 import { PhotoInterstitial } from "@/components/PhotoInterstitial";
 import { ContactBanner } from "@/components/ContactBanner";
 import { Icon } from "@/components/Icon";
-import { valuePills } from "@/content/services";
-import { openRoles } from "@/content/team";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/careers">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   return {
     title: dict.seo.careers.title,
     description: dict.seo.careers.description,
@@ -39,7 +38,10 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/careers"
 export default async function CareersPage({ params }: PageProps<"/[locale]/careers">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
+  const content = await getSiteContent();
+  const dict = content.dictionaries[locale];
+  const openRoles = content.openRoles;
+  const { valuePills } = content.brand;
   const c = dict.careers;
 
   return (

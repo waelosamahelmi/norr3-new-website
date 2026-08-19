@@ -10,24 +10,29 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { ShareRow } from "@/components/ShareRow";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
-import { insights, getInsight, readingMinutes } from "@/content/insights";
+import { getPost, getPosts } from "@/lib/cms";
 
-export function generateStaticParams() {
-  return insights.map((i) => ({ slug: i.slug }));
+/**
+ * Pre-render the posts the CMS has published at build time. New posts written
+ * after a deploy are still served — the route falls through to on-demand
+ * rendering and the CMS's publish hook drops the cached copy.
+ */
+export async function generateStaticParams() {
+  return (await getPosts()).map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/insights/[slug]">) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) return {};
-  const post = getInsight(slug);
+  const post = await getPost(slug);
   if (!post) return {};
 
   const content = post[locale];
   const image = post.image ?? "/images/brand/space-arch.webp";
 
   return {
-    title: `${content.title} — NØRR3`,
-    description: content.excerpt,
+    title: post.seo[locale].title || `${content.title} — NØRR3`,
+    description: post.seo[locale].description || content.excerpt,
     alternates: {
       canonical: `/${locale}/insights/${slug}`,
       languages: {
@@ -58,13 +63,13 @@ export default async function InsightArticlePage({
 }: PageProps<"/[locale]/insights/[slug]">) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
-  const post = getInsight(slug);
+  const dict = await getDictionary(locale);
+  const post = await getPost(slug);
   if (!post) notFound();
 
   const content = post[locale];
-  const others = insights.filter((i) => i.slug !== slug).slice(0, 3);
-  const minutes = readingMinutes(content.body);
+  const others = (await getPosts()).filter((entry) => entry.slug !== slug).slice(0, 3);
+  const minutes = post.readingMinutes;
   const url = `https://norr3.fi/${locale}/insights/${slug}`;
 
   return (
@@ -123,20 +128,13 @@ export default async function InsightArticlePage({
       <Container className="pb-24 pt-14 lg:pb-32 lg:pt-16">
         <article className="mx-auto max-w-2xl">
           <Reveal>
-            {content.body.map((paragraph, i) => (
-              <p
-                key={i}
-                className={
-                  i === 0
-                    ? "text-xl font-medium leading-relaxed tracking-tight text-ink lg:text-2xl dark:text-white"
-                    : // Long-form body sits a notch brighter than the site's /80 body
-                      // copy — at 17px/1.75 over a full article, /85 keeps it comfortable.
-                      "mt-7 text-[17px] leading-[1.75] text-ink/80 dark:text-white/85"
-                }
-              >
-                {paragraph}
-              </p>
-            ))}
+            {/* Authored in the CMS and sanitised there against a narrow tag
+                allowlist; `.article-prose` carries the typography the hand-built
+                paragraph list used to apply inline. */}
+            <div
+              className="article-prose"
+              dangerouslySetInnerHTML={{ __html: content.html }}
+            />
           </Reveal>
 
           <Reveal delay={0.05} className="mt-12 flex flex-col items-start gap-6 border-t border-black/10 pt-8 dark:border-white/10">

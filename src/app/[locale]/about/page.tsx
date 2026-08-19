@@ -1,6 +1,7 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
+import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
@@ -13,12 +14,11 @@ import { TeamMarquee } from "@/components/TeamMarquee";
 import { ContactBanner } from "@/components/ContactBanner";
 import { StatGrid } from "@/components/StatGrid";
 import { Icon } from "@/components/Icon";
-import { valuePills } from "@/content/services";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/about">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   return {
     title: dict.seo.about.title,
     description: dict.seo.about.description,
@@ -39,7 +39,10 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/about">)
 export default async function AboutPage({ params }: PageProps<"/[locale]/about">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
+  const content = await getSiteContent();
+  const { clients } = content.brand;
+  const dict = content.dictionaries[locale];
+  const { valuePills } = content.brand;
   const a = dict.about;
 
   const pills = valuePills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }));
@@ -78,7 +81,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
         </Reveal>
       </Container>
 
-      <LogoStrip />
+      <LogoStrip clients={clients} />
 
       {/* The story — photo left, narrative right */}
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
@@ -171,7 +174,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
           <SectionHeader heading={a.team.heading} body={a.team.body} />
         </Container>
         <div className="mt-14 lg:mt-16">
-          <TeamMarquee locale={locale} />
+          <TeamMarquee locale={locale} members={content.team} />
         </div>
         <Container className="mt-12 flex justify-center">
           <PillButton href={`/${locale}/team`}>{dict.common.meetTeam}</PillButton>

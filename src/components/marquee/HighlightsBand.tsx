@@ -1,5 +1,5 @@
 import { Icon } from "@/components/Icon";
-import { clients } from "@/content/services";
+import { clients as bundledClients } from "@/content/services";
 
 const PILL_TONES = [
   "bg-white text-ink",
@@ -10,7 +10,13 @@ const PILL_TONES = [
 const CHIP_ICONS = ["interests", "trending_up", "monitoring", "bar_chart"];
 
 /** The "Highlights" band: client pills scrolling over a soft violet surface. */
-export function HighlightsBand({ label }: { label: string }) {
+export function HighlightsBand({
+  label,
+  clients = bundledClients,
+}: {
+  label: string;
+  clients?: string[];
+}) {
   const row = (
     <div className="flex shrink-0 items-center gap-4 pr-4">
       {clients.map((name, i) => (

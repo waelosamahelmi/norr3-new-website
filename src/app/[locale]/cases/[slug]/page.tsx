@@ -12,16 +12,16 @@ import { StatGrid } from "@/components/StatGrid";
 import { CountUpStat } from "@/components/CountUpStat";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { Icon } from "@/components/Icon";
-import { cases, getCase } from "@/content/cases";
+import { getCase, getCases } from "@/lib/cms";
 
-export function generateStaticParams() {
-  return cases.map((c) => ({ slug: c.slug }));
+export async function generateStaticParams() {
+  return (await getCases()).map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/cases/[slug]">) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) return {};
-  const study = getCase(slug);
+  const study = await getCase(slug);
   if (!study) return {};
   const title = locale === "fi" ? `${study.client} — NØRR3-case` : `${study.client} — NØRR3 case`;
   const description = study.tagline[locale];
@@ -48,12 +48,12 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/cases/[s
 export default async function CaseDetailPage({ params }: PageProps<"/[locale]/cases/[slug]">) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   const d = dict.cases.detail;
-  const study = getCase(slug);
+  const study = await getCase(slug);
   if (!study) notFound();
 
-  const related = cases.filter((c) => c.slug !== slug).slice(0, 3);
+  const related = (await getCases()).filter((c) => c.slug !== slug).slice(0, 3);
 
   // Narrative blocks share one editorial layout: the numbered heading holds a
   // column of its own, the prose sits beside it. Titles keep their Figma

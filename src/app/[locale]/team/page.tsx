@@ -2,6 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
+import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
@@ -15,13 +16,11 @@ import { ContactBanner } from "@/components/ContactBanner";
 import { StatGrid } from "@/components/StatGrid";
 import { CountUpStat } from "@/components/CountUpStat";
 import { Icon } from "@/components/Icon";
-import { valuePills } from "@/content/services";
-import { team, openRoles } from "@/content/team";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/team">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   return {
     title: dict.seo.team.title,
     description: dict.seo.team.description,
@@ -42,7 +41,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/team">) 
 export default async function TeamPage({ params }: PageProps<"/[locale]/team">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
+  const content = await getSiteContent();
+  const dict = content.dictionaries[locale];
+  const team = content.team;
+  const openRoles = content.openRoles;
+  const { valuePills } = content.brand;
   const t = dict.team;
 
   const inNumbers = [
@@ -86,7 +89,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
         </Reveal>
       </Container>
       <div className="mt-10 lg:mt-12">
-        <TeamMarquee locale={locale} />
+        <TeamMarquee locale={locale} members={team} />
       </div>
       <Container className="pb-24 pt-12 lg:pb-32">
         <Reveal className="flex flex-col items-start gap-6">
@@ -191,6 +194,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 xl:grid-cols-4">
             {team.map((m) => (
               <TeamMemberCard
+                houseBio={content.houseBio}
                 key={m.id}
                 member={m}
                 locale={locale}

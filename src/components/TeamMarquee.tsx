@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Icon } from "./Icon";
-import { team } from "@/content/team";
+import { team as bundledTeam, type TeamMember } from "@/content/team";
 import type { Locale } from "@/i18n/config";
 
 /**
@@ -26,9 +26,9 @@ const CHIP_TONES = [
 
 const CHIP_ICONS = ["trending_up", "interests", "monitoring", "bolt"];
 
-function buildStrip(): StripItem[] {
+function buildStrip(count: number): StripItem[] {
   const items: StripItem[] = [];
-  team.forEach((_, i) => {
+  Array.from({ length: count }).forEach((_, i) => {
     items.push({ kind: "member", memberIndex: i });
     if (i === 3) {
       items.push({ kind: "dashboard" });
@@ -43,7 +43,6 @@ function buildStrip(): StripItem[] {
   return items;
 }
 
-const STRIP = buildStrip();
 
 function MiniDashboard() {
   return (
@@ -69,12 +68,22 @@ function MiniDashboard() {
   );
 }
 
-export function TeamMarquee({ locale }: { locale: Locale }) {
+export function TeamMarquee({
+  locale,
+  members = bundledTeam,
+}: {
+  locale: Locale;
+  /** Roster from the CMS; the bundled list is the fallback. */
+  members?: TeamMember[];
+}) {
   const [active, setActive] = useState<number | null>(null);
+  // The strip pattern depends on how many people are in the roster, which the
+  // CMS can change, so it is derived per render rather than at module load.
+  const strip = useMemo(() => buildStrip(members.length), [members.length]);
 
   const renderStrip = (copy: number) => (
     <div className="flex shrink-0 items-stretch gap-4 pr-4" aria-hidden={copy > 0}>
-      {STRIP.map((item, i) => {
+      {strip.map((item, i) => {
         if (item.kind === "chip") {
           return (
             <span
@@ -88,7 +97,7 @@ export function TeamMarquee({ locale }: { locale: Locale }) {
         if (item.kind === "dashboard") {
           return <MiniDashboard key={`${copy}-${i}`} />;
         }
-        const member = team[item.memberIndex];
+        const member = members[item.memberIndex];
         const isActive = active === item.memberIndex;
         const tall = item.memberIndex % 3 === 0;
         return (

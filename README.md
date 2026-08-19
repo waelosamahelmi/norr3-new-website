@@ -13,6 +13,7 @@ Bilingual (Finnish / English), fully static, and built to the NØRR3 brand guide
 | Icons      | Google Material Symbols — **outlined only**, via the `material-symbols` package |
 | Typeface   | Host Grotesk, self-hosted through `next/font` |
 | i18n       | Hand-rolled dictionary keyed by locale (`next-intl` is installed but routing/copy is local) |
+| Content    | NØRR3 CMS on port 3848 — see [Content](#content) below; `src/content/*` is the fallback |
 
 ## Commands
 
@@ -83,12 +84,55 @@ black pills become `purple` in dark mode, and elevated surfaces become
 
 **Every visual change must be checked in both themes.**
 
+## Content
+
+Copy and collections come from the **NØRR3 CMS** (`/root/norr3-cms`, port 3848),
+not from the files in `src/content/`. Those files are still the source of the
+*types* and the fallback data:
+
+```
+src/lib/cms.ts            fetches the CMS bundle, merges it over src/content/*
+src/lib/dictionary.ts     getDictionary(locale) — now async
+src/components/blocks/    BlockRenderer: draws CMS-composed pages
+src/app/[locale]/[...slug]  serves pages built in the CMS page editor
+src/app/[locale]/cms-preview  live preview target for that editor
+src/app/api/revalidate    the CMS calls this on publish
+src/app/api/cms-status    reports whether we are on CMS or fallback content
+src/app/api/contact|brief forward form submissions into the CMS inbox
+```
+
+Two properties this layer guarantees:
+
+1. **The site never goes dark.** If the CMS is unreachable or answers with
+   something malformed, every accessor falls back to the committed content.
+   `curl localhost:3847/api/cms-status` tells you which is in use.
+2. **A missing key cannot crash a render.** The CMS payload is merged *over* the
+   bundled dictionary, so a value nobody has filled in resolves to the committed
+   string rather than `undefined`.
+
+Configuration lives in `.env.local`:
+
+```
+NORR3_CMS_URL=http://127.0.0.1:3848
+NORR3_CMS_REVALIDATE_SECRET=…    # must match the CMS's Settings → Website connection
+NORR3_CMS_INGEST_SECRET=…        # ditto
+```
+
+Static routes always beat the catch-all, so every hand-built page here keeps
+winning and `[...slug]` only picks up slugs this repo has no code for. That is
+what lets an editor publish a new page without a deploy.
+
+`next.config.ts` sets `allowedDevOrigins` for the VPS IP: without it `next dev`
+answers 403 for its own JS chunks when the site is opened over anything but
+`localhost`, the page never hydrates, and every scroll-reveal stays at opacity 0.
+
 ## Internationalisation
 
-Finnish is the default locale; `/` redirects to `/fi`. All copy lives in
-`src/content/dictionary.ts` as two objects, `fi` and `en`, where `en` is typed as
-`Dictionary = typeof fi` — so a missing or renamed key is a build error, and
-**FI/EN parity is enforced by the compiler**. Longer-form content (cases, insights,
+Finnish is the default locale; `/` redirects to `/fi`. The *shape* of the copy is
+defined in `src/content/dictionary.ts` as two objects, `fi` and `en`, where `en`
+is typed as `Dictionary = typeof fi` — so a missing or renamed key is a build
+error, and **FI/EN parity is still enforced by the compiler**. The *values* are
+edited in the CMS under Site copy and merged over this file at request time. Longer-form content (cases, insights,
 team, services) lives in the other `src/content/*.ts` files with `fi` / `en` fields
 per entry.
 
