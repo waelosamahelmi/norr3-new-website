@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
 import { getSiteContent } from "@/lib/cms";
+import { companyStats, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
@@ -48,14 +49,8 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
   const { valuePills } = content.brand;
   const t = dict.team;
 
-  const inNumbers = [
-    { value: 360, suffix: "°", label: locale === "fi" ? "Strategisesti aktiivinen insight- ja mediatoimisto" : "A strategically active insight and media agency" },
-    { value: 2019, grouping: false, label: locale === "fi" ? "Perustettu" : "Founded" },
-    { value: 20, label: locale === "fi" ? "Vakituista omaa työntekijää, kaikki kokeneita ja lähes kaikki partnereita" : "Permanent employees — all experienced, nearly all partners" },
-    { value: 83, label: "NPS 2026" },
-    { value: 800, suffix: "+", label: locale === "fi" ? "Ammattilaista tukena ympäri maailmaa" : "Professionals supporting us worldwide" },
-    { value: 15.5, suffix: " M€", label: locale === "fi" ? "Liikevaihtomme 2025" : "Our revenue 2025" },
-  ];
+  // The same dataset the home page reads, so the two can never disagree.
+  const inNumbers = dataset(content.datasets, "companyStats", locale, companyStats[locale]);
 
   const pillarAlts = locale === "fi"
     ? [

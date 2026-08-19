@@ -28,6 +28,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { StickerHero } from "@/components/heroes/StickerHero";
 import { CityHero } from "@/components/heroes/CityHero";
 import { heroFor, heroImages, heroList, heroNumber, heroWords } from "@/content/heroes";
+import { audienceChannels, dashboardData, dataset } from "@/content/datasets";
 import { HeroCardStack } from "@/components/heroes/HeroCardStack";
 import { ArrowsDeliver } from "@/components/heroes/ArrowsDeliver";
 import { ChessStrategy } from "@/components/heroes/ChessStrategy";
@@ -674,6 +675,7 @@ function BlockSwitch({
           {(t("heading") || t("body")) && <SectionHeader heading={t("heading")} body={t("body") || undefined} />}
           <div className="mt-12">
             <AudienceChart
+              channels={dataset(context.datasets, "audienceChannels", locale, audienceChannels)}
               legendMen={t("legendMen") || dict.services.insights.legendMen}
               legendWomen={t("legendWomen") || dict.services.insights.legendWomen}
               description={t("chartAlt") || dict.services.insights.chartAlt}
@@ -700,7 +702,11 @@ function BlockSwitch({
         <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && <SectionHeader heading={t("heading")} body={t("body") || undefined} />}
           <div className="mt-12">
-            <DashboardMock locale={locale} labels={dict.engine.dashboard} />
+            <DashboardMock
+              locale={locale}
+              labels={dict.engine.dashboard}
+              data={dataset(context.datasets, "dashboard", locale, dashboardData)}
+            />
           </div>
         </Container>
       );

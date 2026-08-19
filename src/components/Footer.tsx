@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
 
-const LETTERS = ["N", "Ø", "R", "R", "3"];
 
 export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (

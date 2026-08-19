@@ -5,6 +5,7 @@ import { CountUpStat } from "./CountUpStat";
 import { Icon } from "./Icon";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/content/dictionary";
+import { dashboardData, type DashboardData } from "@/content/datasets";
 
 type Labels = Dictionary["engine"]["dashboard"];
 
@@ -20,7 +21,16 @@ type Labels = Dictionary["engine"]["dashboard"];
  * assistive tech as a single labelled image (same treatment as AudienceChart):
  * one honest description beats a screen reader reading out a fake dataset.
  */
-export function DashboardMock({ locale, labels }: { locale: Locale; labels: Labels }) {
+export function DashboardMock({
+  locale,
+  labels,
+  data = dashboardData,
+}: {
+  locale: Locale;
+  labels: Labels;
+  /** Figures from the CMS; the bundled mock is the fallback. */
+  data?: DashboardData;
+}) {
   // Deltas are numbers, not strings, so the decimal separator follows the
   // locale (fi: "+2,1" / en: "+2.1") like every other figure on the site.
   const nf = (value: number, decimals = 0) =>
@@ -29,25 +39,30 @@ export function DashboardMock({ locale, labels }: { locale: Locale; labels: Labe
       maximumFractionDigits: decimals,
     });
 
-  const kpis = [
-    { label: labels.kpi.campaigns, value: 24, decimals: 0, suffix: "", delta: nf(3), color: "text-accent-green" },
-    { label: labels.kpi.impressions, value: 2.4, decimals: 1, suffix: " M", delta: `${nf(18)} %`, color: "text-accent-blue" },
-    { label: labels.kpi.ctr, value: 14.2, decimals: 1, suffix: " %", delta: nf(2.1, 1), color: "text-accent-pink" },
-    { label: labels.kpi.conversions, value: 847, decimals: 0, suffix: "", delta: nf(64), color: "text-accent-orange" },
-    { label: labels.kpi.spend, value: 12.4, decimals: 1, suffix: " k€", delta: `${nf(9)} %`, color: "text-yellow" },
-  ];
+  // The dataset carries the figures; the labels stay in the dictionary, matched
+  // by the KPI's key so reordering the figures cannot mislabel a tile.
+  const kpiLabels: Record<string, string> = {
+    campaigns: labels.kpi.campaigns,
+    impressions: labels.kpi.impressions,
+    ctr: labels.kpi.ctr,
+    conversions: labels.kpi.conversions,
+    spend: labels.kpi.spend,
+  };
+  const kpis = data.kpis.map((kpi) => ({
+    label: kpiLabels[kpi.key] ?? kpi.key,
+    value: kpi.value,
+    decimals: kpi.decimals ?? 0,
+    suffix: kpi.suffix ?? "",
+    delta: `${nf(kpi.delta ?? 0, kpi.deltaDecimals ?? 0)}${kpi.deltaSuffix ?? ""}`,
+    color: kpi.color ?? "text-accent-green",
+  }));
 
   // Shares and channel tags are mock data; the campaign names are localized.
   // The mock drives the row count, so a shorter label list degrades to an
   // unnamed row rather than crashing the page.
-  const campaigns = [
-    { tags: ["Meta", "Display", "PDOOH"], pct: 96.2 },
-    { tags: ["Meta", "Display"], pct: 78.8 },
-    { tags: ["Meta", "PDOOH"], pct: 72.4 },
-    { tags: ["Display", "PDOOH"], pct: 58.1 },
-  ].map((row, i) => ({ ...row, name: labels.campaigns[i] ?? "" }));
+  const campaigns = data.campaigns.map((row, i) => ({ ...row, name: labels.campaigns[i] ?? "" }));
 
-  const bars = [42, 68, 50, 82, 58, 96, 74];
+  const bars = data.trend;
 
   return (
     <figure

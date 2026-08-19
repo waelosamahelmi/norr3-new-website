@@ -1,6 +1,8 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
+import { getSiteContent } from "@/lib/cms";
+import { briefChannels, dataset } from "@/content/datasets";
 import { Container } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { BriefForm } from "@/components/BriefForm";
@@ -22,7 +24,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function BriefPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = await getDictionary(locale);
+  const content = await getSiteContent();
+  const dict = content.dictionaries[locale];
 
   return (
     <>
@@ -48,7 +51,11 @@ export default async function BriefPage({ params }: { params: Promise<{ locale: 
       {/* Form */}
       <Container className="pb-24 pt-12 lg:pb-32">
         <div className="rounded-[25px] bg-white p-8 ring-1 ring-black/5 sm:p-10 dark:bg-white/[0.04] dark:ring-white/10">
-          <BriefForm locale={locale} dict={dict.brief} />
+          <BriefForm
+            locale={locale}
+            dict={dict.brief}
+            channels={dataset(content.datasets, "briefChannels", locale, briefChannels[locale])}
+          />
         </div>
       </Container>
     </>

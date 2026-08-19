@@ -2,6 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
 import { getSiteContent } from "@/lib/cms";
+import { dashboardData, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { ArrowsDeliver } from "@/components/heroes/ArrowsDeliver";
@@ -148,7 +149,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         <Container>
           <SectionHeader heading={e.demo.heading} body={e.demo.body} />
           <Reveal delay={0.1} className="mx-auto mt-14 max-w-5xl lg:mt-16">
-            <DashboardMock locale={locale} labels={e.dashboard} />
+            <DashboardMock locale={locale} labels={e.dashboard} data={dataset(content.datasets, "dashboard", locale, dashboardData)} />
             {/* Sample data, said plainly — evidence-first tone means labelling
                 the mock instead of implying it is a live client account. */}
             <p className="mt-4 text-center text-xs text-ink/50 dark:text-white/50">{e.demo.note}</p>

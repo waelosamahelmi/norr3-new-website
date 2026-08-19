@@ -1,9 +1,8 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getSiteContent } from "@/lib/cms";
+import { companyStats, dashboardData, dataset } from "@/content/datasets";
 import { Container } from "@/components/Container";
-import { DotGrid } from "@/components/DotGrid";
-import { HomeHero } from "@/components/HomeHero";
 import { HeroRandomizer } from "@/components/heroes/HeroRandomizer";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
@@ -54,14 +53,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
     ...cases.filter((c) => !preferredCases.includes(c.slug)),
   ].slice(0, 3);
 
-  const inNumbers = [
-    { value: 360, suffix: "°", label: locale === "fi" ? "Strategisesti aktiivinen insight- ja mediatoimisto" : "A strategically active insight and media agency" },
-    { value: 2019, grouping: false, label: locale === "fi" ? "Perustettu" : "Founded" },
-    { value: 20, label: locale === "fi" ? "Vakituista omaa työntekijää, kaikki kokeneita ja lähes kaikki partnereita" : "Permanent employees — all experienced, nearly all partners" },
-    { value: 83, label: "NPS 2026" },
-    { value: 800, suffix: "+", label: locale === "fi" ? "Ammattilaista tukena ympäri maailmaa" : "Professionals supporting us worldwide" },
-    { value: 15.5, suffix: " M€", label: locale === "fi" ? "Liikevaihtomme 2025" : "Our revenue 2025" },
-  ];
+  // One dataset, shared with the team page — the two used to keep their own copy
+  // of these figures and could disagree.
+  const inNumbers = dataset(content.datasets, "companyStats", locale, companyStats[locale]);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -218,7 +212,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               <p className="mt-3 text-sm leading-relaxed text-ink/70 dark:text-white/70">{dict.home.engine.photoCaption}</p>
             </Reveal>
             <Reveal delay={0.15}>
-              <DashboardMock locale={locale} labels={dict.engine.dashboard} />
+              <DashboardMock locale={locale} labels={dict.engine.dashboard} data={dataset(content.datasets, "dashboard", locale, dashboardData)} />
             </Reveal>
           </div>
         </Container>

@@ -4,26 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/content/dictionary";
+import { briefChannels } from "@/content/datasets";
 
 type BriefDict = Dictionary["brief"];
 
-const CHANNELS_FI = [
-  "TV", "Suomalaiset suoratoistopalvelut, video", "YouTube", "Perinteinen radio",
-  "Digitaalinen audio; Spotify, podcastit, jne.", "Printtimainonta", "Display-mainonta",
-  "Natiivimainonta", "Ulkomainonta", "Elokuvamainonta leffateattereissa",
-  "Vaikuttajamainonta", "PR", "Hakukonemarkkinointi", "Applikaatiomainonta (Android, iOS)",
-  "Facebook-mainonta", "Instagram-mainonta", "LinkedIn-mainonta", "Jodel-mainonta",
-  "TikTok-mainonta", "Snapchat-mainonta", "Orgaaninen FB & IG",
-];
-
-const CHANNELS_EN = [
-  "TV", "Finnish streaming services, video", "YouTube", "Traditional radio",
-  "Digital audio; Spotify, podcasts, etc.", "Print advertising", "Display advertising",
-  "Native advertising", "Out-of-home", "Cinema advertising",
-  "Influencer marketing", "PR", "Search engine marketing", "App advertising (Android, iOS)",
-  "Facebook advertising", "Instagram advertising", "LinkedIn advertising", "Jodel advertising",
-  "TikTok advertising", "Snapchat advertising", "Organic FB & IG",
-];
 
 const inputClass =
   "mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-purple";
@@ -93,14 +77,23 @@ function RadioGroup({
   );
 }
 
-export function BriefForm({ locale, dict }: { locale: Locale; dict: BriefDict }) {
+export function BriefForm({
+  locale,
+  dict,
+  channels: channelOverride,
+}: {
+  locale: Locale;
+  dict: BriefDict;
+  /** The channel checklist, from the CMS. Falls back to the bundled list. */
+  channels?: string[];
+}) {
   const [step, setStep] = useState(0);
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState("");
   const [aiSuggestion, setAiSuggestion] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
-  const channels = locale === "fi" ? CHANNELS_FI : CHANNELS_EN;
+  const channels = channelOverride?.length ? channelOverride : briefChannels[locale];
   const [form, setForm] = useState<Record<string, string>>({});
   const [channelPrefs, setChannelPrefs] = useState<Record<string, number>>({});
   const [services, setServices] = useState<string[]>([]);

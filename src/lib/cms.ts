@@ -161,6 +161,8 @@ export type SiteContent = {
   announcement: CmsAnnouncement;
   pages: CmsPageSummary[];
   heroes: CmsHero[];
+  /** Widget datasets — chart channels, dashboard figures, company stats, brief channels. */
+  datasets: Record<string, { fi: unknown; en: unknown }>;
   /** Design-token overrides, emitted as CSS custom properties by the root layout. */
   theme: { root: Record<string, string>; dark: Record<string, string> };
   motion: MotionSettings;
@@ -234,6 +236,7 @@ function fallbackContent(error?: string): SiteContent {
     // No hero rows means the components use their own built-in content, which is
     // what the site shipped before heroes became editable.
     heroes: [],
+    datasets: {},
     theme: { root: {}, dark: {} },
     motion: MOTION_DEFAULTS,
     brand: { clients, valuePills, mediaPills },
@@ -304,6 +307,7 @@ type RawBundle = {
   announcement?: unknown;
   pages?: unknown[];
   heroes?: unknown[];
+  datasets?: Record<string, { fi: unknown; en: unknown }>;
   theme?: { root?: Record<string, string>; dark?: Record<string, string> };
   motion?: Partial<MotionSettings>;
   brand?: Partial<SiteContent["brand"]>;
@@ -359,6 +363,7 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     announcement: (raw.announcement as CmsAnnouncement) ?? null,
     pages: (raw.pages ?? []) as CmsPageSummary[],
     heroes: (raw.heroes ?? []) as CmsHero[],
+    datasets: raw.datasets ?? {},
     theme: { root: raw.theme?.root ?? {}, dark: raw.theme?.dark ?? {} },
     motion: {
       ...MOTION_DEFAULTS,

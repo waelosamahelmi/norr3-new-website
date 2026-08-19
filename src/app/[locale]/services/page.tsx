@@ -2,6 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
 import { getSiteContent } from "@/lib/cms";
+import { audienceChannels, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { ChessStrategy } from "@/components/heroes/ChessStrategy";
@@ -126,6 +127,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           />
           <Reveal delay={0.1} className="mx-auto mt-14 max-w-4xl lg:mt-16">
             <AudienceChart
+              channels={dataset(content.datasets, "audienceChannels", locale, audienceChannels)}
               legendMen={s.insights.legendMen}
               legendWomen={s.insights.legendWomen}
               description={s.insights.chartAlt}

@@ -56,9 +56,12 @@ export function MediaMixSimulator({
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReduced = useReducedMotion();
 
+  // `channels` is a prop now (the CMS owns the list), so it belongs in the
+  // dependencies — otherwise editing a channel would leave the simulator working
+  // from the set it first rendered with.
   const activeChannels = useMemo(
     () => channels.filter((c) => activeIds.includes(c.id)),
-    [activeIds]
+    [activeIds, channels]
   );
 
   const nf = (value: number, decimals = 0) =>

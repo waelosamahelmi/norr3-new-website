@@ -28,6 +28,7 @@ export type BlockContext = {
   mediaGroups: { id: string; icon: string; fi: string; en: string }[];
   clients: string[];
   heroes: CmsHero[];
+  datasets: Record<string, { fi: unknown; en: unknown }>;
 };
 
 export function buildBlockContext(content: SiteContent, locale: Locale): BlockContext {
@@ -44,5 +45,6 @@ export function buildBlockContext(content: SiteContent, locale: Locale): BlockCo
     mediaGroups: content.mediaGroups,
     clients: content.brand.clients,
     heroes: content.heroes,
+    datasets: content.datasets,
   };
 }
