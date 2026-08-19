@@ -10,6 +10,7 @@ import { RouteWipe } from "@/components/RouteWipe";
 import { HtmlLangSync } from "@/components/HtmlLangSync";
 import { CookieConsent } from "@/components/CookieConsent";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { MotionSettingsProvider } from "@/components/MotionSettingsProvider";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -66,7 +67,10 @@ export default async function LocaleLayout({
   const dict = content.dictionaries[locale];
 
   return (
+    // reducedMotion="user" is not configurable: the OS setting always wins over
+    // whatever is set in the CMS.
     <MotionConfig reducedMotion="user">
+      <MotionSettingsProvider value={content.motion}>
       {/* Keyboard users otherwise cross ~16 tab stops of chrome per page. */}
       <a
         href="#main-content"
@@ -90,6 +94,7 @@ export default async function LocaleLayout({
       </main>
       <Footer locale={locale} dict={dict} />
       <CookieConsent dict={dict.cookies} locale={locale} />
+      </MotionSettingsProvider>
     </MotionConfig>
   );
 }

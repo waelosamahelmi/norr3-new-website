@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 import gsap from "gsap";
+import { useMotionSettings } from "./MotionSettingsProvider";
 
 /**
  * Standard hover-lift micro-interaction (GSAP quickTo), per the UX Pro Max
@@ -19,26 +20,30 @@ import gsap from "gsap";
 export function HoverLift({
   children,
   className = "",
-  lift = 4,
+  lift,
   scale = 1.02,
 }: {
   children: ReactNode;
   className?: string;
+  /** Overrides the lift configured in the CMS for this one card. */
   lift?: number;
   scale?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const { enabled, hoverLift } = useMotionSettings();
+  const distance = lift ?? hoverLift;
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (!enabled || distance === 0) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const yTo = gsap.quickTo(el, "y", { duration: 0.25, ease: "power2.out" });
     const scaleTo = gsap.quickTo(el, "scale", { duration: 0.25, ease: "power2.out" });
 
     const enter = () => {
-      yTo(-lift);
+      yTo(-distance);
       scaleTo(scale);
       gsap.to(el, { boxShadow: "0 16px 32px rgba(0,0,0,0.14)", duration: 0.25, ease: "power2.out" });
     };
@@ -54,7 +59,7 @@ export function HoverLift({
       el.removeEventListener("mouseenter", enter);
       el.removeEventListener("mouseleave", leave);
     };
-  }, [lift, scale]);
+  }, [distance, scale, enabled]);
 
   return (
     <div

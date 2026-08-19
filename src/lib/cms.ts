@@ -84,6 +84,26 @@ export type CmsCareer = {
   requirements: Record<Locale, string[]>;
 };
 
+export type MotionSettings = {
+  enabled: boolean;
+  reveal: { distance: number; duration: number; stagger: number; margin: number };
+  hoverLift: number;
+  marquee: { logos: number; pills: number; team: number };
+  routeWipe: boolean;
+};
+
+/**
+ * What the site animates with when the CMS has nothing to say. These are the
+ * values the components were written with, so a fallback render is the design.
+ */
+export const MOTION_DEFAULTS: MotionSettings = {
+  enabled: true,
+  reveal: { distance: 24, duration: 0.55, stagger: 0.08, margin: 80 },
+  hoverLift: 6,
+  marquee: { logos: 55, pills: 40, team: 60 },
+  routeWipe: true,
+};
+
 export type CmsPageSummary = {
   slug: string;
   title: Record<Locale, string>;
@@ -109,6 +129,9 @@ export type SiteContent = {
   ctas: CmsCta[];
   announcement: CmsAnnouncement;
   pages: CmsPageSummary[];
+  /** Design-token overrides, emitted as CSS custom properties by the root layout. */
+  theme: { root: Record<string, string>; dark: Record<string, string> };
+  motion: MotionSettings;
   brand: {
     clients: string[];
     valuePills: { id: string; icon: string; fi: string; en: string }[];
@@ -176,6 +199,8 @@ function fallbackContent(error?: string): SiteContent {
       label: { fi: "", en: "" },
     },
     pages: [],
+    theme: { root: {}, dark: {} },
+    motion: MOTION_DEFAULTS,
     brand: { clients, valuePills, mediaPills },
     mediaAlt: {},
     site: {
@@ -243,6 +268,8 @@ type RawBundle = {
   ctas?: unknown[];
   announcement?: unknown;
   pages?: unknown[];
+  theme?: { root?: Record<string, string>; dark?: Record<string, string> };
+  motion?: Partial<MotionSettings>;
   brand?: Partial<SiteContent["brand"]>;
   media?: Record<string, { fi: string; en: string }>;
   site?: Partial<SiteContent["site"]>;
@@ -295,6 +322,13 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     ctas: nonEmpty(raw.ctas, fallback.ctas) as CmsCta[],
     announcement: (raw.announcement as CmsAnnouncement) ?? null,
     pages: (raw.pages ?? []) as CmsPageSummary[],
+    theme: { root: raw.theme?.root ?? {}, dark: raw.theme?.dark ?? {} },
+    motion: {
+      ...MOTION_DEFAULTS,
+      ...(raw.motion ?? {}),
+      reveal: { ...MOTION_DEFAULTS.reveal, ...(raw.motion?.reveal ?? {}) },
+      marquee: { ...MOTION_DEFAULTS.marquee, ...(raw.motion?.marquee ?? {}) },
+    },
     brand: {
       clients: nonEmpty(raw.brand?.clients, fallback.brand.clients),
       valuePills: nonEmpty(raw.brand?.valuePills, fallback.brand.valuePills),

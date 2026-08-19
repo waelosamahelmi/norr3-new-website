@@ -48,6 +48,56 @@ export function rows(value: unknown): Record<string, unknown>[] {
   return Array.isArray(value) ? (value as Record<string, unknown>[]) : [];
 }
 
+/**
+ * The style controls every block carries. Mirrors `STYLE_FIELDS` in the CMS;
+ * defaults mean "inherit the design system", so an untouched block renders
+ * exactly as the brand intends.
+ */
+export type BlockStyle = {
+  tone: string;
+  spacing: string;
+  width: string;
+  align: string;
+  radius: string;
+  animation: string;
+  animationDelay: number;
+};
+
+export const DEFAULT_STYLE: BlockStyle = {
+  tone: "none",
+  spacing: "normal",
+  width: "container",
+  align: "left",
+  radius: "",
+  animation: "inherit",
+  animationDelay: 0,
+};
+
+/**
+ * Read a block's style, tolerating documents written before it was nested and
+ * clamping anything unexpected back to the default.
+ */
+export function styleOf(props: Record<string, unknown>): BlockStyle {
+  const nested = (props.style ?? {}) as Record<string, unknown>;
+  const pick = (key: keyof BlockStyle) => (nested[key] !== undefined ? nested[key] : props[key]);
+  const text = (key: keyof BlockStyle, allowed: string[]) => {
+    const raw = pick(key);
+    const value = raw === "start" ? "left" : String(raw ?? "");
+    return allowed.includes(value) ? value : (DEFAULT_STYLE[key] as string);
+  };
+  const delay = Number(pick("animationDelay"));
+  return {
+    tone: text("tone", ["none", "lavender", "pastel", "grey", "violet", "ink", "yellow"]),
+    spacing: text("spacing", ["none", "tight", "normal", "loose"]),
+    width: text("width", ["container", "wide", "prose", "full"]),
+    align: text("align", ["left", "center"]),
+    // A length, or empty for "brand default". Anything else is ignored.
+    radius: /^(\d+(\.\d+)?(px|rem|em|%)|9999px)$/.test(String(pick("radius") ?? "")) ? String(pick("radius")) : "",
+    animation: text("animation", ["inherit", "none", "fade", "rise", "far"]),
+    animationDelay: Number.isFinite(delay) ? Math.min(3, Math.max(0, delay)) : 0,
+  };
+}
+
 /** A container block's nested slots. */
 export function slots(value: unknown): Block[][] {
   if (!Array.isArray(value)) return [];

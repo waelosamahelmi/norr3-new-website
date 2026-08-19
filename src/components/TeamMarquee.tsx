@@ -154,7 +154,7 @@ export function TeamMarquee({
   return (
     <div
       className="marquee-paused h-56 overflow-hidden sm:h-64"
-      style={{ ["--marquee-duration" as string]: "50s" }}
+      style={{ ["--marquee-duration" as string]: "var(--marquee-team, 50s)" }}
     >
       <div className="marquee-track h-full items-stretch">
         {renderStrip(0)}

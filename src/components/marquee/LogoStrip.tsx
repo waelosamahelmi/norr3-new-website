@@ -17,7 +17,7 @@ export function LogoStrip({ clients = bundledClients }: { clients?: string[] }) 
   );
 
   return (
-    <div className="overflow-hidden border-y border-black/5 py-5 dark:border-white/10" style={{ ["--marquee-duration" as string]: "55s" }}>
+    <div className="overflow-hidden border-y border-black/5 py-5 dark:border-white/10" style={{ ["--marquee-duration" as string]: "var(--marquee-logos, 55s)" }}>
       <div className="marquee-track">
         {row}
         {row}

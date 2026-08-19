@@ -30,7 +30,8 @@ import { CityHero } from "@/components/heroes/CityHero";
 import { HeroCardStack } from "@/components/heroes/HeroCardStack";
 import { ArrowsDeliver } from "@/components/heroes/ArrowsDeliver";
 import { ChessStrategy } from "@/components/heroes/ChessStrategy";
-import { bool, num, rows, slots, str, text, type Block } from "@/content/blocks";
+import { bool, num, rows, slots, str, styleOf, text, type Block } from "@/content/blocks";
+import { BLOCK_TONE, StyleScope, TONE_IS_DARK, TONE_IS_PALE, pad } from "./BlockShell";
 import { cx } from "@/lib/cx";
 import type { BlockContext } from "./context";
 
@@ -64,11 +65,26 @@ export function BlockRenderer({
         .filter((block) => !block.hidden)
         .map((block) => (
           <BlockFrame key={block.id} block={block} selectable={selectable} onSelect={onSelect}>
-            <BlockSwitch block={block} context={context} selectable={selectable} onSelect={onSelect} />
+            <StyleScope style={scopeStyle(block)}>
+              <BlockSwitch block={block} context={context} selectable={selectable} onSelect={onSelect} />
+            </StyleScope>
           </BlockFrame>
         ))}
     </>
   );
+}
+
+/**
+ * Blocks that paint their own full-width surface. StyleScope must not also draw
+ * the tone for these or the band would be doubled — the closing CTA keeps a pale
+ * lavender in dark mode by design, and the highlights band is a violet strip.
+ */
+const SELF_SURFACED = new Set(["cta.banner", "highlights.band"]);
+
+/** The style StyleScope should apply, minus anything the block draws itself. */
+function scopeStyle(block: Block) {
+  const style = styleOf(block.props);
+  return SELF_SURFACED.has(block.type) ? { ...style, tone: "none" } : style;
 }
 
 function BlockFrame({
@@ -97,35 +113,6 @@ function BlockFrame({
   );
 }
 
-const SPACING: Record<string, string> = {
-  none: "",
-  tight: "py-8 lg:py-10",
-  normal: "py-16 lg:py-24",
-  loose: "py-24 lg:py-32",
-};
-
-/**
- * Section surfaces.
- *
- * The pastel tints swap to an elevated dark surface rather than staying pale:
- * blocks like the stat grid are built from shared components that carry their
- * own `dark:text-white` variants, and white text on a lavender band is
- * unreadable. Blocks that hard-code ink-toned text (the CTA banner) keep the
- * pale surface in both themes, which is the house treatment for those bands.
- */
-const TONE_SURFACE: Record<string, string> = {
-  none: "",
-  lavender: "bg-pastel-purple/60 dark:bg-white/[0.05]",
-  pastel: "bg-light-purple/60 dark:bg-white/[0.04]",
-  violet: "bg-violet text-white",
-  ink: "bg-ink text-white",
-  grey: "bg-grey dark:bg-white/[0.04]",
-  yellow: "bg-yellow text-ink",
-};
-
-/** Surfaces that stay pale in dark mode, so descendants must not go white. */
-const LIGHT_IN_DARK = new Set(["yellow"]);
-
 function BlockSwitch({
   block,
   context,
@@ -139,6 +126,10 @@ function BlockSwitch({
 }) {
   const { locale, dict } = context;
   const p = block.props;
+  // Background, radius and animation are applied by StyleScope around this
+  // switch; spacing, width and alignment are resolved per block below, because
+  // "normal" means whatever rhythm the block was designed with.
+  const st = styleOf(p);
   const t = (key: string) => text(p[key], locale);
   const href = (value: unknown) => localeHref(str(value), locale);
 
@@ -153,7 +144,7 @@ function BlockSwitch({
           ) : visual === "city" ? (
             <CityHero locale={locale} />
           ) : (
-            <Container className="pt-12 lg:pt-20">
+            <Container className={pad(st, "pt-12 lg:pt-20")}>
               <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
                 <div>
                   <Reveal>
@@ -204,9 +195,9 @@ function BlockSwitch({
     }
 
     case "hero.page": {
-      const centered = str(p.align, "left") === "center";
+      const centered = st.align === "center";
       return (
-        <Container className="pt-12 lg:pt-20">
+        <Container className={pad(st, "pt-12 lg:pt-20")}>
           <div className={centered ? "mx-auto max-w-3xl text-center" : ""}>
             {t("pill") && (
               <Reveal>
@@ -244,7 +235,7 @@ function BlockSwitch({
     /* ------------------------------------------------------------------ text */
     case "section.header":
       return (
-        <Container className={SPACING[str(p.spacing, "normal")] || SPACING.normal}>
+        <Container className={pad(st, "py-16 lg:py-24")}>
           <SectionHeader
             heading={t("heading")}
             body={t("body") || undefined}
@@ -256,9 +247,9 @@ function BlockSwitch({
 
     case "richtext": {
       const width =
-        str(p.width, "prose") === "full" ? "" : str(p.width) === "wide" ? "max-w-4xl" : "mx-auto max-w-2xl";
+        st.width === "full" ? "" : st.width === "wide" ? "mx-auto max-w-4xl" : "mx-auto max-w-2xl";
       return (
-        <Container className={SPACING[str(p.spacing, "normal")] || SPACING.normal}>
+        <Container className={pad(st, "py-16 lg:py-24")}>
           <Reveal>
             <article
               className={`cms-richtext ${width}`}
@@ -272,15 +263,14 @@ function BlockSwitch({
 
     case "quote": {
       const clauses = rows(p.clauses).map((row) => text(row.text, locale)).filter(Boolean);
-      const tone = str(p.tone, "none");
+      const onDark = TONE_IS_DARK.has(st.tone);
       return (
-        <section className={TONE_SURFACE[tone] ?? ""}>
-          <Container className="py-16 lg:py-24">
+          <Container className={pad(st, "py-16 lg:py-24")}>
             <Reveal className="mx-auto max-w-4xl text-center">
               {clauses.length > 0 && (
                 <p
                   className={`text-3xl font-medium leading-[1.15] tracking-tight lg:text-h3 ${
-                    tone === "violet" || tone === "ink" ? "text-white" : "text-ink dark:text-white"
+                    onDark ? "text-white" : "text-ink dark:text-white"
                   }`}
                 >
                   {clauses.map((clause, i) => (
@@ -293,7 +283,7 @@ function BlockSwitch({
               {t("body") && (
                 <p
                   className={`mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed ${
-                    tone === "violet" || tone === "ink" ? "text-white/75" : "text-ink/75 dark:text-white/75"
+                    onDark ? "text-white/75" : "text-ink/75 dark:text-white/75"
                   }`}
                 >
                   {t("body")}
@@ -305,8 +295,7 @@ function BlockSwitch({
                 </p>
               )}
             </Reveal>
-          </Container>
-        </section>
+        </Container>
       );
     }
 
@@ -314,7 +303,7 @@ function BlockSwitch({
       const items = rows(p.items);
       if (items.length === 0) return null;
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {t("heading") && (
             <Reveal>
               <h2 className="mb-8 text-3xl font-medium tracking-tight text-ink lg:text-h3 dark:text-white">
@@ -373,7 +362,7 @@ function BlockSwitch({
       return width === "bleed" ? (
         <section className="py-10 lg:py-14">{body}</section>
       ) : (
-        <Container className="py-10 lg:py-14">{body}</Container>
+        <Container className={pad(st, "py-10 lg:py-14")}>{body}</Container>
       );
     }
 
@@ -382,7 +371,7 @@ function BlockSwitch({
       const right = str(p.right);
       if (!left && !right) return null;
       return (
-        <Container className="py-10 lg:py-14">
+        <Container className={pad(st, "py-10 lg:py-14")}>
           <Reveal>
             <figure>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -414,7 +403,7 @@ function BlockSwitch({
       const embed = embedUrl(str(p.url));
       if (!embed) return null;
       return (
-        <Container className="py-10 lg:py-14">
+        <Container className={pad(st, "py-10 lg:py-14")}>
           <Reveal className="mx-auto max-w-4xl">
             <figure>
               <div className="aspect-video w-full overflow-hidden rounded-card bg-ink">
@@ -456,7 +445,7 @@ function BlockSwitch({
       const items = limit > 0 ? context.services.slice(0, limit) : context.services;
       if (items.length === 0) return null;
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && (
             <SectionHeader
               heading={t("heading")}
@@ -490,7 +479,7 @@ function BlockSwitch({
       const items = limit > 0 ? all.slice(0, limit) : all;
       if (items.length === 0) return null;
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && (
             <SectionHeader
               heading={t("heading")}
@@ -521,7 +510,7 @@ function BlockSwitch({
       const items = limit > 0 ? filtered.slice(0, limit) : filtered;
       if (items.length === 0) return null;
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && (
             <SectionHeader
               heading={t("heading")}
@@ -551,7 +540,7 @@ function BlockSwitch({
       const items = limit > 0 ? pool.slice(0, limit) : pool;
       if (items.length === 0) return null;
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && <SectionHeader heading={t("heading")} body={t("body") || undefined} />}
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {items.map((member) => (
@@ -584,7 +573,7 @@ function BlockSwitch({
     case "careers.list": {
       const roles = context.openRoles;
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && <SectionHeader heading={t("heading")} body={t("body") || undefined} />}
           {roles.length === 0 ? (
             <p className="mt-10 text-[15px] text-ink/60 dark:text-white/60">{t("note")}</p>
@@ -620,13 +609,10 @@ function BlockSwitch({
         label: text(row.label, locale),
       }));
       if (stats.length === 0) return null;
-      const tone = str(p.tone, "none");
       return (
-        <section className={TONE_SURFACE[tone] ?? ""}>
-          <Container className="py-16 lg:py-24">
-            <StatGrid stats={stats} locale={locale} label={t("heading") || undefined} columns={stats.length >= 4 ? 3 : 2} />
-          </Container>
-        </section>
+        <Container className={pad(st, "py-16 lg:py-24")}>
+          <StatGrid stats={stats} locale={locale} label={t("heading") || undefined} columns={stats.length >= 4 ? 3 : 2} />
+        </Container>
       );
     }
 
@@ -636,7 +622,7 @@ function BlockSwitch({
       const columns = str(p.columns, "3");
       const grid = columns === "2" ? "sm:grid-cols-2" : columns === "4" ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-2 lg:grid-cols-3";
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && <SectionHeader heading={t("heading")} body={t("body") || undefined} />}
           <StaggerGrid className={`mt-14 grid gap-card ${grid}`}>
             {items.map((row, i) => (
@@ -656,7 +642,7 @@ function BlockSwitch({
       const items = rows(p.items);
       if (items.length === 0) return null;
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && <SectionHeader heading={t("heading")} body={t("body") || undefined} />}
           <StaggerGrid className="mt-14 grid gap-card sm:grid-cols-2 lg:grid-cols-3">
             {items.map((row, i) => (
@@ -675,7 +661,7 @@ function BlockSwitch({
 
     case "audience.chart":
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && <SectionHeader heading={t("heading")} body={t("body") || undefined} />}
           <div className="mt-12">
             <AudienceChart
@@ -689,7 +675,7 @@ function BlockSwitch({
 
     case "engine.simulator":
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && <SectionHeader heading={t("heading")} body={t("body") || undefined} />}
           <div className="mt-12">
             <MediaMixSimulator locale={locale} labels={dict.engine.simulator} channels={context.channels} />
@@ -702,7 +688,7 @@ function BlockSwitch({
 
     case "engine.dashboard":
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && <SectionHeader heading={t("heading")} body={t("body") || undefined} />}
           <div className="mt-12">
             <DashboardMock locale={locale} labels={dict.engine.dashboard} />
@@ -730,11 +716,9 @@ function BlockSwitch({
     case "columns": {
       const count = num(p.count, 2);
       const children = slots(p.children);
-      const align = str(p.align, "start") === "center" ? "lg:items-center" : "lg:items-start";
-      const tone = str(p.tone, "none");
+      const align = st.align === "center" ? "lg:items-center" : "lg:items-start";
       return (
-        <section className={TONE_SURFACE[tone] ?? ""}>
-          <Container className="py-10 lg:py-14">
+          <Container className={pad(st, "py-10 lg:py-14")}>
             <div
               className={`grid gap-8 lg:gap-12 ${align} ${count === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}
             >
@@ -749,8 +733,7 @@ function BlockSwitch({
                 </div>
               ))}
             </div>
-          </Container>
-        </section>
+        </Container>
       );
     }
 
@@ -761,7 +744,7 @@ function BlockSwitch({
 
     case "divider":
       return (
-        <Container className="py-6">
+        <Container className={pad(st, "py-6")}>
           <div className="flex items-center gap-4">
             <span className="h-px flex-1 bg-black/10 dark:bg-white/10" />
             {t("label") && (
@@ -776,16 +759,18 @@ function BlockSwitch({
 
     /* ------------------------------------------------------------ conversion */
     case "cta.banner": {
-      const tone = str(p.tone, "lavender");
-      const dark = tone === "violet" || tone === "ink";
-      // This band keeps its pale surface in both themes (the house treatment for
-      // the closing CTA), so its own text stays ink rather than following the
-      // page's dark variant.
+      // The closing CTA is the one band that keeps a pale surface in dark mode —
+      // that is the house treatment for it — so it paints its own background
+      // instead of taking StyleScope's dark-adapting tint, and its text stays ink.
+      const tone = st.tone === "none" ? "lavender" : st.tone;
+      const dark = TONE_IS_DARK.has(tone);
       const surface =
-        tone === "lavender" ? "bg-pastel-purple/60 dark:bg-pastel-purple" : TONE_SURFACE[tone] ?? TONE_SURFACE.lavender;
+        tone === "lavender" || tone === "pastel"
+          ? "bg-pastel-purple/60 dark:bg-pastel-purple"
+          : BLOCK_TONE[tone] ?? "bg-pastel-purple/60 dark:bg-pastel-purple";
       return (
-        <section className={cx(surface, LIGHT_IN_DARK.has(tone) && "text-ink")}>
-          <Container className="py-14 lg:py-16">
+        <section className={cx(surface, TONE_IS_PALE.has(tone) && "text-ink")}>
+          <Container className={pad(st, "py-14 lg:py-16")}>
             <Reveal className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
               <h2
                 className={`max-w-xl text-3xl font-medium leading-[1.15] tracking-[-0.015em] lg:text-h3 ${
@@ -814,7 +799,7 @@ function BlockSwitch({
 
     case "form.contact":
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               {t("heading") && (
@@ -838,7 +823,7 @@ function BlockSwitch({
 
     case "form.brief":
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           <div className="mx-auto max-w-2xl text-center">
             {t("heading") && (
               <h2 className="text-3xl font-medium tracking-tight text-ink lg:text-h3 dark:text-white">
@@ -861,7 +846,7 @@ function BlockSwitch({
       const leads = context.team.filter((member) => member.role).slice(0, 3);
       if (leads.length === 0) return null;
       return (
-        <Container className="py-16 lg:py-24">
+        <Container className={pad(st, "py-16 lg:py-24")}>
           {(t("heading") || t("body")) && (
             <SectionHeader
               heading={t("heading")}
@@ -889,7 +874,7 @@ function BlockSwitch({
       // An unknown type means the CMS is ahead of this deploy. Skip it quietly
       // in production; surface it in the editor preview so the gap is visible.
       return selectable ? (
-        <Container className="py-6">
+        <Container className={pad(st, "py-6")}>
           <p className="rounded-card border border-dashed border-purple/40 px-5 py-4 text-[13px] text-ink/55 dark:text-white/55">
             The website does not know how to render a “{block.type}” block yet.
           </p>

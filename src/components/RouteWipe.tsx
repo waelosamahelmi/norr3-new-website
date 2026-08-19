@@ -1,10 +1,17 @@
 "use client";
 
+import { useMotionSettings } from "./MotionSettingsProvider";
+
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
 export function RouteWipe() {
   const pathname = usePathname();
+  const { enabled, routeWipe } = useMotionSettings();
+
+  // Switched off in the CMS, the wipe is simply not mounted — leaving a
+  // zero-duration overlay in the tree would still cover the page for a frame.
+  if (!enabled || !routeWipe) return null;
 
   return (
     <motion.div

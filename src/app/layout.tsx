@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Host_Grotesk } from "next/font/google";
 import "material-symbols/outlined.css";
 import "./globals.css";
+import { ThemeStyle } from "@/components/ThemeStyle";
 
 const hostGrotesk = Host_Grotesk({
   variable: "--font-host-grotesk",
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
  */
 const THEME_SCRIPT = `try{var t=localStorage.getItem("norr3-theme");var d=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d)}catch(e){}`;
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // suppressHydrationWarning: the script above mutates <html>'s class list
     // before React hydrates, so the client class never matches the SSR one.
@@ -66,6 +67,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* Design-token overrides from the CMS, after the stylesheet so they win. */}
+        <ThemeStyle />
       </head>
       <body className="min-h-full flex flex-col bg-offwhite text-ink dark:bg-background dark:text-foreground">
         {children}

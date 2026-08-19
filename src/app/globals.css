@@ -18,7 +18,19 @@
   --foreground: #f9f8f6;
 }
 
-@theme inline {
+/*
+ * Plain `@theme`, not `@theme inline`.
+ *
+ * `inline` bakes each token's literal value into the generated utilities
+ * (`.bg-purple{background-color:#7a06d3}`), which makes the design system
+ * immutable at runtime. Without it the utilities reference the custom property
+ * (`.bg-purple{background-color:var(--color-purple)}`), so the CMS theme editor
+ * can override any token by emitting a `:root` block — see ThemeStyle in the
+ * root layout. Values that are themselves `var()` references (background,
+ * foreground, the font stack) still resolve, and per-scope redefinition under
+ * `.dark` keeps working.
+ */
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-host-grotesk), "Host Grotesk", ui-sans-serif, system-ui, sans-serif;

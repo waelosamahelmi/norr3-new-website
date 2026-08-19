@@ -44,7 +44,7 @@ export function HighlightsBand({
       <p className="mb-8 text-center text-xs font-medium uppercase tracking-[0.14em] text-white/60">
         {label}
       </p>
-      <div className="marquee-paused overflow-hidden" style={{ ["--marquee-duration" as string]: "45s" }}>
+      <div className="marquee-paused overflow-hidden" style={{ ["--marquee-duration" as string]: "var(--marquee-pills, 45s)" }}>
         <div className="marquee-track items-center">
           {row}
           {row}

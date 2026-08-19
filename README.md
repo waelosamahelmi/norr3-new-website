@@ -55,6 +55,14 @@ a `"use client"` component under `src/components/`.
 
 The design system is the NØRR3 brand bible; the short version:
 
+The design system is **editable from the CMS at runtime**. `globals.css` declares
+the theme with plain `@theme` (not `@theme inline`) so every utility compiles to
+`var(--color-purple)` rather than a baked `#7a06d3`; `ThemeStyle` in the root
+layout emits a `:root` block for whatever the CMS has customised, and an
+unlayered rule beats Tailwind's `@layer theme` without needing `!important`.
+Colours, the dark theme, `--radius-card`, card padding/gap and the type scale are
+all reachable from CMS → Design. Anything untouched there injects nothing.
+
 - **Colours are Tailwind tokens, never raw hex in JSX.** Defined in `globals.css`:
   `purple` (#7a06d3, the primary — links and accents), `violet` (dark sections and
   icon tiles), `light-purple` / `pastel-purple` (card tints), `grey`, `ink` (black
@@ -83,6 +91,19 @@ black pills become `purple` in dark mode, and elevated surfaces become
 `dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10`.
 
 **Every visual change must be checked in both themes.**
+
+### Motion
+
+Scroll reveals, card hover and the marquee speeds are configured in the CMS and
+reach the components two ways: the marquees read CSS custom properties
+(`--marquee-logos` and friends), and `Reveal`, `StaggerGrid`, `HoverLift` and
+`RouteWipe` read `MotionSettingsProvider` context. `MotionConfig` stays on
+`reducedMotion="user"` and that is not configurable — honouring the OS setting is
+not an editorial decision.
+
+Per-block overrides come from the page editor's Style tab and are applied by
+`StyleScope` in `src/components/blocks/BlockShell.tsx`, which also scopes a block's
+corner radius by setting `--radius-card` on its subtree.
 
 ## Content
 

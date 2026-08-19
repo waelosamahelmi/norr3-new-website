@@ -26,10 +26,11 @@ const CHIP_TONES = [
 export function PillMarquee({
   items,
   className = "",
-  duration = "35s",
+  duration = "var(--marquee-pills, 35s)",
 }: {
   items: PillItem[];
   className?: string;
+  /** Any CSS time. Defaults to the speed configured in the CMS theme. */
   duration?: string;
 }) {
   const row = (
