@@ -3,6 +3,7 @@ import { MotionConfig } from "framer-motion";
 import { locales, isLocale } from "@/i18n/config";
 import { getDictionary } from "@/lib/dictionary";
 import { getSiteContent } from "@/lib/cms";
+import { pageSeo } from "@/lib/pageSeo";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -20,9 +21,15 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
-  return {
+  // The home route's SEO, owned by the CMS Pages screen.
+  const seo = await pageSeo("home", locale, {
     title: dict.meta.title,
     description: dict.meta.description,
+    image: "/images/brand/og-image.jpg",
+  });
+  return {
+    title: seo.title,
+    description: seo.description,
     alternates: {
       canonical: `/${locale}`,
       languages: { "fi-FI": "/fi", "en-US": "/en" },
@@ -34,11 +41,11 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
       siteName: "NØRR3",
       url: `https://norr3.fi/${locale}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: dict.meta.title,
-      description: dict.meta.description,
+      title: seo.title,
+      description: seo.description,
       images: [
         {
-          url: "/images/brand/og-image.jpg",
+          url: seo.image,
           width: 1200,
           height: 630,
           alt: "The NØRR3 team in the Helsinki studio",
@@ -49,9 +56,9 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
       // Shallow-merged like openGraph — repeat the card + image and localize
       // title/description so /fi doesn't inherit the root's English strings.
       card: "summary_large_image" as const,
-      title: dict.meta.title,
-      description: dict.meta.description,
-      images: ["/images/brand/og-image.jpg"],
+      title: seo.title,
+      description: seo.description,
+      images: [seo.image],
     },
   };
 }

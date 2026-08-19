@@ -1,7 +1,9 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
+import { pageSeo } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
+import { imageSlot } from "@/content/imageSlots";
 import { audienceChannels, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
@@ -28,20 +30,27 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/services
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
-  return {
+  // CMS-owned SEO for this route, falling back to the dictionary entry and the
+  // page's own social image so an untouched row changes nothing.
+  const seo = await pageSeo("services", locale, {
     title: dict.seo.services.title,
     description: dict.seo.services.description,
+    image: "/images/brand/services-planning.webp",
+  });
+  return {
+    title: seo.title,
+    description: seo.description,
     alternates: { canonical: `/${locale}/services`, languages: { "fi-FI": "/fi/services", "en-US": "/en/services" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
       url: `https://norr3.fi/${locale}/services`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: dict.seo.services.title,
-      description: dict.seo.services.description,
-      images: [{ url: "/images/brand/services-planning.webp", width: 1600, height: 1066, alt: "NØRR3 planners reviewing a media plan" }],
+      title: seo.title,
+      description: seo.description,
+      images: [{ url: seo.image, width: 1600, height: 1066, alt: "NØRR3 planners reviewing a media plan" }],
     },
-    twitter: { card: "summary_large_image" as const, title: dict.seo.services.title, description: dict.seo.services.description, images: ["/images/brand/services-planning.webp"] },
+    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [seo.image] },
   };
 }
 
@@ -51,6 +60,20 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
   const content = await getSiteContent();
   const { clients } = content.brand;
   const dict = content.dictionaries[locale];
+  const collabPhoto = imageSlot(content, "services.collab", locale, {
+    src: "/images/brand/services-collab.webp",
+    alt:
+      locale === "fi"
+        ? "Kaksi NØRR3:n kollegaa jakaa kampanjan tuloksen hymyillen"
+        : "Two NØRR3 colleagues sharing a campaign result with a smile",
+  });
+  const planningPhoto = imageSlot(content, "services.planning", locale, {
+    src: "/images/brand/services-planning.webp",
+    alt:
+      locale === "fi"
+        ? "NØRR3:n suunnittelijat tarkastelevat mediasuunnitelmaa läppäriltä valoisassa neuvotteluhuoneessa"
+        : "NØRR3 planners reviewing a media plan on a laptop in a bright meeting room",
+  });
   const serviceCards = content.services;
   const cases = content.cases;
   const insights = content.posts;
@@ -152,10 +175,10 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <Reveal className="overflow-hidden rounded-card">
               <img
-                src="/images/brand/services-collab.webp"
+                src={collabPhoto.src}
                 width={1600}
                 height={1066}
-                alt={locale === "fi" ? "Kaksi NØRR3:n kollegaa jakaa kampanjan tuloksen hymyillen" : "Two NØRR3 colleagues sharing a campaign result with a smile"}
+                alt={collabPhoto.alt}
                 className="h-full w-full object-cover"
                 loading="lazy"
               />
@@ -177,8 +200,8 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
 
       <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
-          image="/images/brand/services-planning.webp"
-          alt={locale === "fi" ? "NØRR3:n suunnittelijat tarkastelevat mediasuunnitelmaa läppäriltä valoisassa neuvotteluhuoneessa" : "NØRR3 planners reviewing a media plan on a laptop in a bright meeting room"}
+          image={planningPhoto.src}
+          alt={planningPhoto.alt}
           caption={s.photoCaption}
           pills={pills}
         />

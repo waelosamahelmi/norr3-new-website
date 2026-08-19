@@ -2,7 +2,9 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
+import { pageSeo } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
+import { imageSlot } from "@/content/imageSlots";
 import { companyStats, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
 import { PillButton } from "@/components/PillButton";
@@ -22,20 +24,27 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/team">) 
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
-  return {
+  // CMS-owned SEO for this route, falling back to the dictionary entry and the
+  // page's own social image so an untouched row changes nothing.
+  const seo = await pageSeo("team", locale, {
     title: dict.seo.team.title,
     description: dict.seo.team.description,
+    image: "/images/brand/group.webp",
+  });
+  return {
+    title: seo.title,
+    description: seo.description,
     alternates: { canonical: `/${locale}/team`, languages: { "fi-FI": "/fi/team", "en-US": "/en/team" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
       url: `https://norr3.fi/${locale}/team`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: dict.seo.team.title,
-      description: dict.seo.team.description,
-      images: [{ url: "/images/brand/group.webp", width: 2000, height: 1333, alt: "The NØRR3 team in the Helsinki studio" }],
+      title: seo.title,
+      description: seo.description,
+      images: [{ url: seo.image, width: 2000, height: 1333, alt: "The NØRR3 team in the Helsinki studio" }],
     },
-    twitter: { card: "summary_large_image" as const, title: dict.seo.team.title, description: dict.seo.team.description, images: ["/images/brand/group.webp"] },
+    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [seo.image] },
   };
 }
 
@@ -44,6 +53,18 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
   if (!isLocale(locale)) notFound();
   const content = await getSiteContent();
   const dict = content.dictionaries[locale];
+  const pillarPhotos = ["team.pillar1", "team.pillar2", "team.pillar3"].map((key, i) =>
+    imageSlot(content, key, locale, {
+      src: ["/images/brand/team-attitude.webp", "/images/brand/team-technology.webp", "/images/brand/team-talent.webp"][i],
+    })
+  );
+  const teamValuesPhoto = imageSlot(content, "team.values", locale, {
+    src: "/images/brand/team-energy.webp",
+    alt:
+      locale === "fi"
+        ? "NØRR3-tiimi juhlii yhteistä saavutusta"
+        : "The NØRR3 team celebrating a shared achievement",
+  });
   const team = content.team;
   const openRoles = content.openRoles;
   const { valuePills } = content.brand;
@@ -111,8 +132,8 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
               <Reveal key={pillar.title} className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
                 <div className={`aspect-[4/3] overflow-hidden rounded-card ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                   <img
-                    src={["/images/brand/team-attitude.webp", "/images/brand/team-technology.webp", "/images/brand/team-talent.webp"][i]}
-                    alt={pillarAlts[i]}
+                    src={pillarPhotos[i].src}
+                    alt={pillarPhotos[i].alt || pillarAlts[i]}
                     width={1600}
                     height={1066}
                     className="h-full w-full object-cover"
@@ -173,8 +194,8 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
 
       <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
-          image="/images/brand/team-energy.webp"
-          alt={locale === "fi" ? "NØRR3-tiimi juhlii yhteistä saavutusta" : "The NØRR3 team celebrating a shared achievement"}
+          image={teamValuesPhoto.src}
+          alt={teamValuesPhoto.alt}
           caption={t.valuesCaption}
           pills={valuePills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }))}
         />

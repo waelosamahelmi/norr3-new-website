@@ -1,6 +1,7 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
+import { pageSeo } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
 import { PillButton } from "@/components/PillButton";
@@ -22,20 +23,27 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/cases">)
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
-  return {
+  // CMS-owned SEO for this route, falling back to the dictionary entry and the
+  // page's own social image so an untouched row changes nothing.
+  const seo = await pageSeo("cases", locale, {
     title: dict.seo.cases.title,
     description: dict.seo.cases.description,
+    image: "/images/cases/flow-festival.webp",
+  });
+  return {
+    title: seo.title,
+    description: seo.description,
     alternates: { canonical: `/${locale}/cases`, languages: { "fi-FI": "/fi/cases", "en-US": "/en/cases" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
       url: `https://norr3.fi/${locale}/cases`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: dict.seo.cases.title,
-      description: dict.seo.cases.description,
-      images: [{ url: "/images/cases/flow-festival.webp", width: 1600, height: 1066, alt: "NØRR3 case work" }],
+      title: seo.title,
+      description: seo.description,
+      images: [{ url: seo.image, width: 1600, height: 1066, alt: "NØRR3 case work" }],
     },
-    twitter: { card: "summary_large_image" as const, title: dict.seo.cases.title, description: dict.seo.cases.description, images: ["/images/cases/flow-festival.webp"] },
+    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [seo.image] },
   };
 }
 

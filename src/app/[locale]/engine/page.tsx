@@ -1,7 +1,9 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
+import { pageSeo } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
+import { imageSlot } from "@/content/imageSlots";
 import { dashboardData, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
@@ -24,20 +26,27 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/engine">
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
-  return {
+  // CMS-owned SEO for this route, falling back to the dictionary entry and the
+  // page's own social image so an untouched row changes nothing.
+  const seo = await pageSeo("engine", locale, {
     title: dict.seo.engine.title,
     description: dict.seo.engine.description,
+    image: "/images/brand/engine-team.webp",
+  });
+  return {
+    title: seo.title,
+    description: seo.description,
     alternates: { canonical: `/${locale}/engine`, languages: { "fi-FI": "/fi/engine", "en-US": "/en/engine" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
       url: `https://norr3.fi/${locale}/engine`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: dict.seo.engine.title,
-      description: dict.seo.engine.description,
-      images: [{ url: "/images/brand/engine-team.webp", width: 1500, height: 1000, alt: "The team behind the NØRR3 Marketing Engine" }],
+      title: seo.title,
+      description: seo.description,
+      images: [{ url: seo.image, width: 1500, height: 1000, alt: "The team behind the NØRR3 Marketing Engine" }],
     },
-    twitter: { card: "summary_large_image" as const, title: dict.seo.engine.title, description: dict.seo.engine.description, images: ["/images/brand/engine-team.webp"] },
+    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [seo.image] },
   };
 }
 
@@ -47,6 +56,15 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
   const content = await getSiteContent();
   const { clients } = content.brand;
   const dict = content.dictionaries[locale];
+  const workflowPhoto = imageSlot(content, "engine.workflow", locale, {
+    src: "/images/brand/engine-workflow.webp",
+    alt:
+      locale === "fi"
+        ? "NØRR3:n asiantuntija työskentelee Marketing Enginessä läppärillä"
+        : "A NØRR3 specialist working in the Marketing Engine on a laptop",
+  });
+  // Decorative parallax band — alt stays empty unless someone sets one.
+  const enginePhoto = imageSlot(content, "engine.team", locale, { src: "/images/brand/engine-team.webp" });
   const cases = content.cases;
   const { mediaPills } = content.brand;
   const e = dict.engine;
@@ -105,10 +123,10 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
             <Reveal>
               <div className="overflow-hidden rounded-card">
                 <img
-                  src="/images/brand/engine-workflow.webp"
+                  src={workflowPhoto.src}
                   width={1600}
                   height={1066}
-                  alt={locale === "fi" ? "NØRR3:n asiantuntija työskentelee Marketing Enginessä läppärillä" : "A NØRR3 specialist working in the Marketing Engine on a laptop"}
+                  alt={workflowPhoto.alt}
                   className="h-full w-full object-cover"
                   loading="lazy"
                 />
@@ -230,8 +248,8 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
       {/* Book a demo — the page's conversion close, with parallax bg image */}
       <section className="relative overflow-hidden pb-24 lg:pb-32">
         <ParallaxImage
-          src="/images/brand/engine-team.webp"
-          alt=""
+          src={enginePhoto.src}
+          alt={enginePhoto.alt}
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-violet/85" />

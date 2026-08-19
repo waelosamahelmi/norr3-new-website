@@ -2,7 +2,9 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
+import { pageSeo } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
+import { imageSlot } from "@/content/imageSlots";
 import { Container, HeroPill } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { ContactForm } from "@/components/ContactForm";
@@ -27,9 +29,16 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
-  return {
+  // CMS-owned SEO for this route, falling back to the dictionary entry and the
+  // page's own social image so an untouched row changes nothing.
+  const seo = await pageSeo("contact", locale, {
     title: dict.seo.contact.title,
     description: dict.seo.contact.description,
+    image: "/images/brand/group.webp",
+  });
+  return {
+    title: seo.title,
+    description: seo.description,
     alternates: {
       canonical: `/${locale}/contact`,
       languages: { "fi-FI": "/fi/contact", "en-US": "/en/contact" },
@@ -39,11 +48,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
       siteName: "NØRR3",
       url: `https://norr3.fi/${locale}/contact`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: dict.seo.contact.title,
-      description: dict.seo.contact.description,
+      title: seo.title,
+      description: seo.description,
       images: [
         {
-          url: "/images/brand/group.webp",
+          url: seo.image,
           width: 1200,
           height: 800,
           alt: dict.contact.photoAlt,
@@ -52,9 +61,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
     },
     twitter: {
       card: "summary_large_image" as const,
-      title: dict.seo.contact.title,
-      description: dict.seo.contact.description,
-      images: ["/images/brand/group.webp"],
+      title: seo.title,
+      description: seo.description,
+      images: [seo.image],
     },
   };
 }
@@ -65,6 +74,10 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
   const content = await getSiteContent();
   const { clients } = content.brand;
   const dict = content.dictionaries[locale];
+  const contactPhoto = imageSlot(content, "contact.portrait", locale, {
+    src: "/images/brand/group.webp",
+    alt: dict.contact.photoAlt,
+  });
   const team = content.team;
 
   // Ordered by the list above, not by roster order, and silently skipping a
@@ -105,8 +118,8 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
             {/* Human face before the details — dims reserved so nothing shifts */}
             <div className="aspect-[3/2] w-full overflow-hidden rounded-card">
               <img
-                src="/images/brand/group.webp"
-                alt={dict.contact.photoAlt}
+                src={contactPhoto.src}
+                alt={contactPhoto.alt}
                 width={1200}
                 height={800}
                 loading="lazy"

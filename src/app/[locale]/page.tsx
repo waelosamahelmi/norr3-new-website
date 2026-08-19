@@ -1,6 +1,7 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getSiteContent } from "@/lib/cms";
+import { imageSlot } from "@/content/imageSlots";
 import { companyStats, dashboardData, dataset } from "@/content/datasets";
 import { Container } from "@/components/Container";
 import { HeroRandomizer } from "@/components/heroes/HeroRandomizer";
@@ -47,6 +48,48 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
   // The home page leads with three named cases; if one is unpublished in the
   // CMS the grid backfills from the top of the list rather than leaving a hole.
+  // Section photography comes from named slots so it can be repointed in the CMS;
+  // each falls back to the path and alt this page shipped with.
+  const slot = (key: string, src: string, alt: string, caption?: string) =>
+    imageSlot(content, key, locale, { src, alt, caption });
+
+  const valuesPhoto = slot(
+    "home.values",
+    "/images/brand/space-lounge.webp",
+    locale === "fi"
+      ? "NØRR3:n studiolounge Helsingissä — avoin, valoisa ja rento"
+      : "The NØRR3 studio lounge in Helsinki — open, bright and relaxed",
+    dict.home.valuesCaption
+  );
+  const enginePhoto = slot(
+    "home.engine",
+    "/images/brand/engine-team.webp",
+    locale === "fi"
+      ? "NØRR3:n asiantuntijat työskentelevät yhdessä läppärin ääressä"
+      : "NØRR3 specialists collaborating around a laptop"
+  );
+  const joinPhoto = slot(
+    "home.join",
+    "/images/brand/team-energy.webp",
+    locale === "fi"
+      ? "NØRR3:n tiimi juhlii kädet ilmassa studion NORR3-kirjainten alla"
+      : "The NØRR3 team celebrating with arms raised under the studio's NORR3 letters"
+  );
+  const teamPhoto = slot(
+    "home.team",
+    "/images/brand/team-couch.webp",
+    locale === "fi"
+      ? "NØRR3:n tiimi nauramassa yhdessä studion sohvalla"
+      : "The NØRR3 team laughing together on the studio sofa"
+  );
+  const agencyPhoto = slot(
+    "home.agency",
+    "/images/brand/award.webp",
+    locale === "fi"
+      ? "NØRR3:n tiimi alan palkinnon kanssa studion loungessa"
+      : "The NØRR3 team with an industry award in the studio lounge"
+  );
+
   const preferredCases = ["flow-festival", "kokkola", "st1"];
   const featuredCases = [
     ...preferredCases.map((slug) => cases.find((c) => c.slug === slug)).filter((c) => c !== undefined),
@@ -149,13 +192,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       {/* Values photo with pill overlay */}
       <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
-          image="/images/brand/space-lounge.webp"
-          alt={
-            locale === "fi"
-              ? "NØRR3:n studiolounge Helsingissä — avoin, valoisa ja rento"
-              : "The NØRR3 studio lounge in Helsinki — open, bright and relaxed"
-          }
-          caption={dict.home.valuesCaption}
+          image={valuesPhoto.src}
+          alt={valuesPhoto.alt}
+          caption={valuesPhoto.caption}
           pills={valuePills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }))}
         />
       </Container>
@@ -197,14 +236,10 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             <Reveal delay={0.05} className="flex flex-col">
               <div className="overflow-hidden rounded-card">
                 <img
-                  src="/images/brand/engine-team.webp"
+                  src={enginePhoto.src}
                   width={1500}
                   height={1000}
-                  alt={
-                    locale === "fi"
-                      ? "NØRR3:n asiantuntijat työskentelevät yhdessä läppärin ääressä"
-                      : "NØRR3 specialists collaborating around a laptop"
-                  }
+                  alt={enginePhoto.alt}
                   className="h-full w-full object-cover"
                   loading="lazy"
                 />
@@ -240,12 +275,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           <div className="mt-14 grid gap-x-6 gap-y-12 lg:mt-16 lg:grid-cols-2">
             <PhotoLinkCard
               href={`/${locale}/team`}
-              image="/images/brand/team-energy.webp"
-              alt={
-                locale === "fi"
-                  ? "NØRR3:n tiimi juhlii kädet ilmassa studion NORR3-kirjainten alla"
-                  : "The NØRR3 team celebrating with arms raised under the studio's NORR3 letters"
-              }
+              image={joinPhoto.src}
+              alt={joinPhoto.alt}
               title={dict.home.about.joinTitle}
               body={dict.home.about.joinBody}
               ctaLabel={dict.common.openJobs}
@@ -254,24 +285,16 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2">
               <PhotoLinkCard
                 href={`/${locale}/team`}
-                image="/images/brand/team-couch.webp"
-                alt={
-                  locale === "fi"
-                    ? "NØRR3:n tiimi nauramassa yhdessä studion sohvalla"
-                    : "The NØRR3 team laughing together on the studio sofa"
-                }
+                image={teamPhoto.src}
+                alt={teamPhoto.alt}
                 title={dict.home.about.teamTitle}
                 body={dict.home.about.teamBody}
                 ctaLabel={dict.common.readMore}
               />
               <PhotoLinkCard
                 href={`/${locale}/team`}
-                image="/images/brand/award.webp"
-                alt={
-                  locale === "fi"
-                    ? "NØRR3:n tiimi alan palkinnon kanssa studion loungessa"
-                    : "The NØRR3 team with an industry award in the studio lounge"
-                }
+                image={agencyPhoto.src}
+                alt={agencyPhoto.alt}
                 title={dict.home.about.agencyTitle}
                 body={dict.home.about.agencyBody}
                 ctaLabel={dict.common.readMore}

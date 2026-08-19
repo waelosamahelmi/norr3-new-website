@@ -2,6 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
+import { pageSeo } from "@/lib/pageSeo";
 import { Container, HeroPill } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
@@ -13,9 +14,16 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/insights
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
-  return {
+  // CMS-owned SEO for this route, falling back to the dictionary entry and the
+  // page's own social image so an untouched row changes nothing.
+  const seo = await pageSeo("insights", locale, {
     title: dict.seo.insights.title,
     description: dict.seo.insights.description,
+    image: "/images/brand/space-arch.webp",
+  });
+  return {
+    title: seo.title,
+    description: seo.description,
     alternates: {
       canonical: `/${locale}/insights`,
       languages: { "fi-FI": "/fi/insights", "en-US": "/en/insights" },
@@ -25,17 +33,17 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/insights
       siteName: "NØRR3",
       url: `https://norr3.fi/${locale}/insights`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: dict.seo.insights.title,
-      description: dict.seo.insights.description,
+      title: seo.title,
+      description: seo.description,
       images: [
-        { url: "/images/brand/space-arch.webp", width: 1600, height: 1066, alt: "NØRR3 insights" },
+        { url: seo.image, width: 1600, height: 1066, alt: "NØRR3 insights" },
       ],
     },
     twitter: {
       card: "summary_large_image" as const,
-      title: dict.seo.insights.title,
-      description: dict.seo.insights.description,
-      images: ["/images/brand/space-arch.webp"],
+      title: seo.title,
+      description: seo.description,
+      images: [seo.image],
     },
   };
 }

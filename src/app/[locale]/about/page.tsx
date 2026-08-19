@@ -1,7 +1,9 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
+import { pageSeo } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
+import { imageSlot } from "@/content/imageSlots";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
@@ -19,20 +21,27 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/about">)
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
-  return {
+  // CMS-owned SEO for this route, falling back to the dictionary entry and the
+  // page's own social image so an untouched row changes nothing.
+  const seo = await pageSeo("about", locale, {
     title: dict.seo.about.title,
     description: dict.seo.about.description,
+    image: "/images/brand/group.webp",
+  });
+  return {
+    title: seo.title,
+    description: seo.description,
     alternates: { canonical: `/${locale}/about`, languages: { "fi-FI": "/fi/about", "en-US": "/en/about" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
       url: `https://norr3.fi/${locale}/about`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: dict.seo.about.title,
-      description: dict.seo.about.description,
-      images: [{ url: "/images/brand/group.webp", width: 2000, height: 1333, alt: "The NØRR3 team in the Helsinki studio" }],
+      title: seo.title,
+      description: seo.description,
+      images: [{ url: seo.image, width: 2000, height: 1333, alt: "The NØRR3 team in the Helsinki studio" }],
     },
-    twitter: { card: "summary_large_image" as const, title: dict.seo.about.title, description: dict.seo.about.description, images: ["/images/brand/group.webp"] },
+    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [seo.image] },
   };
 }
 
@@ -42,6 +51,11 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
   const content = await getSiteContent();
   const { clients } = content.brand;
   const dict = content.dictionaries[locale];
+  // Alt falls back to the dictionary value this page already used.
+  const storyPhoto = imageSlot(content, "about.story", locale, {
+    src: "/images/brand/group.webp",
+    alt: dict.about.story.photoAlt,
+  });
   const { valuePills } = content.brand;
   const a = dict.about;
 
@@ -89,10 +103,10 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <Reveal className="overflow-hidden rounded-card">
               <img
-                src="/images/brand/group.webp"
+                src={storyPhoto.src}
                 width={2000}
                 height={1333}
-                alt={a.story.photoAlt}
+                alt={storyPhoto.alt}
                 className="h-full w-full object-cover"
                 loading="lazy"
               />

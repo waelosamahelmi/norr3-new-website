@@ -2,7 +2,9 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
+import { pageSeo } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
+import { imageSlot } from "@/content/imageSlots";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
@@ -18,20 +20,27 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/careers"
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
-  return {
+  // CMS-owned SEO for this route, falling back to the dictionary entry and the
+  // page's own social image so an untouched row changes nothing.
+  const seo = await pageSeo("careers", locale, {
     title: dict.seo.careers.title,
     description: dict.seo.careers.description,
+    image: "/images/brand/team-energy.webp",
+  });
+  return {
+    title: seo.title,
+    description: seo.description,
     alternates: { canonical: `/${locale}/careers`, languages: { "fi-FI": "/fi/careers", "en-US": "/en/careers" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
       url: `https://norr3.fi/${locale}/careers`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: dict.seo.careers.title,
-      description: dict.seo.careers.description,
-      images: [{ url: "/images/brand/team-energy.webp", width: 1600, height: 1066, alt: "The NØRR3 team celebrating a shared achievement" }],
+      title: seo.title,
+      description: seo.description,
+      images: [{ url: seo.image, width: 1600, height: 1066, alt: "The NØRR3 team celebrating a shared achievement" }],
     },
-    twitter: { card: "summary_large_image" as const, title: dict.seo.careers.title, description: dict.seo.careers.description, images: ["/images/brand/team-energy.webp"] },
+    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [seo.image] },
   };
 }
 
@@ -40,6 +49,13 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/caree
   if (!isLocale(locale)) notFound();
   const content = await getSiteContent();
   const dict = content.dictionaries[locale];
+  const careersValuesPhoto = imageSlot(content, "careers.values", locale, {
+    src: "/images/brand/team-energy.webp",
+    alt:
+      locale === "fi"
+        ? "NØRR3-tiimi juhlii yhteistä saavutusta"
+        : "The NØRR3 team celebrating a shared achievement",
+  });
   const openRoles = content.openRoles;
   const { valuePills } = content.brand;
   const c = dict.careers;
@@ -107,8 +123,8 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/caree
 
       <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
-          image="/images/brand/team-energy.webp"
-          alt={locale === "fi" ? "NØRR3-tiimi juhlii yhteistä saavutusta" : "The NØRR3 team celebrating a shared achievement"}
+          image={careersValuesPhoto.src}
+          alt={careersValuesPhoto.alt}
           pills={valuePills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }))}
         />
       </Container>

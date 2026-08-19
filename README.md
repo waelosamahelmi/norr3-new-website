@@ -131,6 +131,21 @@ Two properties this layer guarantees:
    bundled dictionary, so a value nobody has filled in resolves to the committed
    string rather than `undefined`.
 
+What comes from the CMS, beyond the dictionary and the collections:
+
+| Area | Where it lands |
+| --- | --- |
+| Heroes | `src/content/heroes.ts` helpers; every hero component takes its words, imagery and copy as props with its shipped values as the default |
+| Widget datasets | `src/content/datasets.ts` — chart channels, dashboard figures, company stats, brief channels |
+| Section images | `src/content/imageSlots.ts` — named slots on the hand-built pages, alt text and captions per locale |
+| Coded-route SEO | `src/lib/pageSeo.ts` — title, description and social image per route |
+| Design tokens | `src/components/ThemeStyle.tsx` — emitted as CSS custom properties |
+| Motion | `src/components/MotionSettingsProvider.tsx` |
+
+Every one of these falls back to a bundled value, individually. A blank field in
+the CMS keeps the designed content; an unreachable CMS renders the site as
+committed.
+
 Configuration lives in `.env.local`:
 
 ```
