@@ -109,6 +109,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           forces the nav into dark-mode styling via data-city-hero-active. */}
       <HeroRandomizer
         locale={locale}
+        heroes={content.heroes}
         left={dict.home.heroLeft}
         accent={dict.home.heroAccent}
         alts={heroAlts}

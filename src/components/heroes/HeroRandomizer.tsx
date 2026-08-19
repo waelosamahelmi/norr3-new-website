@@ -2,19 +2,32 @@
 
 import { useState, useEffect } from "react";
 import { HomeHero } from "@/components/HomeHero";
-import { CityHero } from "@/components/heroes/CityHero";
+import { CityHero, type CityLayer } from "@/components/heroes/CityHero";
 import { StickerHero } from "@/components/heroes/StickerHero";
+import { HeroCardStack } from "@/components/heroes/HeroCardStack";
 import { DotGrid } from "@/components/DotGrid";
 import { Container } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { PillButton } from "@/components/PillButton";
+import { heroAlt, heroImages, heroList, heroLocalised, heroNumber, heroText, heroWords, pickHero } from "@/content/heroes";
+import type { CmsHero } from "@/lib/cms";
 import type { Locale } from "@/i18n/config";
 
 /**
- * Picks one of the three heroes at random on each page load.
- * When a dark hero is shown, it adds `data-city-hero-active` to <html> so the
- * nav can force its dark-mode styling regardless of the theme toggle.
+ * Shows one hero per visit, chosen from the ones enabled in the CMS.
+ *
+ * Which variants take part, how likely each is, the rotating words, the imagery
+ * and the copy are all configured there — see the Heroes collection. The draw is
+ * weighted, and a variant set to weight 0 stays configured but never appears.
+ * With nothing eligible it falls back to the rotating card stack rather than
+ * rendering an empty page.
+ *
+ * When a dark hero is shown it sets `data-city-hero-active` on <html> so the nav
+ * forces its dark styling regardless of the theme toggle.
  */
+
+const DARK_VARIANTS = new Set(["city", "sticker"]);
+
 export function HeroRandomizer({
   locale,
   left,
@@ -24,6 +37,7 @@ export function HeroRandomizer({
   contactLabel,
   contactHref,
   logoStrip,
+  heroes,
 }: {
   locale: Locale;
   left: string;
@@ -33,59 +47,151 @@ export function HeroRandomizer({
   contactLabel: string;
   contactHref: string;
   logoStrip: React.ReactNode;
+  heroes: CmsHero[];
 }) {
-  const [variant, setVariant] = useState<"home" | "city" | "sticker" | null>(null);
+  const [hero, setHero] = useState<CmsHero | null | "pending">("pending");
 
   useEffect(() => {
-    const roll = Math.random();
-    const pick = roll < 1 / 3 ? "home" : roll < 2 / 3 ? "city" : "sticker";
+    const chosen = pickHero(heroes, Math.random());
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setVariant(pick);
-    if (pick === "city" || pick === "sticker") {
-      document.documentElement.setAttribute("data-city-hero-active", "");
-    } else {
-      document.documentElement.removeAttribute("data-city-hero-active");
-    }
-  }, []);
+    setHero(chosen);
+    const dark = chosen ? DARK_VARIANTS.has(chosen.variant) : false;
+    document.documentElement.toggleAttribute("data-city-hero-active", dark);
+  }, [heroes]);
 
-  // Pre-hydration: render nothing (avoids flash of wrong hero)
-  if (variant === null) return <div className="h-[100svh] min-h-[620px]" />;
+  // Pre-hydration: hold the space rather than flash the wrong hero.
+  if (hero === "pending") return <div className="h-[100svh] min-h-[620px]" />;
+
+  const variant = hero?.variant ?? "home";
+  const words = heroWords(hero ?? undefined, locale, [accent]);
+  const rotateEvery = heroNumber(hero ?? undefined, "rotateEvery", 2400, 400, 30000);
 
   if (variant === "city") {
+    const layers = heroImages(hero ?? undefined, []).map((image) => ({
+      src: image.src,
+      speed: Number(image.speed) || 0,
+      z: Number(image.z) || 0,
+      className: typeof image.className === "string" ? image.className : undefined,
+    })) as CityLayer[];
+
     return (
       <>
-        <CityHero locale={locale} />
+        <CityHero
+          locale={locale}
+          rotateEvery={rotateEvery}
+          layers={layers.length > 0 ? layers : undefined}
+          content={{
+            eyebrow: hero?.eyebrow[locale],
+            titlePrefix: hero?.headline[locale],
+            words,
+            body: hero?.body[locale],
+            cta: hero?.cta.label[locale],
+            ctaHref: hero?.cta.href,
+          }}
+        />
         <div className="relative z-10 bg-offwhite dark:bg-background">{logoStrip}</div>
       </>
     );
   }
 
   if (variant === "sticker") {
+    const quotes = heroList<Record<string, string[]>>(hero ?? undefined, "quotes", [])[0] as
+      | Record<string, string[]>
+      | undefined;
+    const configQuotes = (hero?.config?.quotes as Record<string, string[]> | undefined)?.[locale];
+
     return (
       <>
-        <StickerHero locale={locale} />
+        <StickerHero
+          locale={locale}
+          content={{
+            headline: hero?.headline[locale],
+            words,
+            body: hero?.body[locale],
+            addLabel: hero?.cta.label[locale],
+            inputPlaceholder: heroLocalised(hero ?? undefined, "inputPlaceholder", locale, ""),
+            hud: {
+              impressions: nestedHud(hero, "impressions", locale),
+              conversions: nestedHud(hero, "conversions", locale),
+              streak: nestedHud(hero, "streak", locale),
+            },
+            quotes: configQuotes ?? quotes?.[locale],
+            glyphs: heroList<string>(hero ?? undefined, "glyphs", []),
+            colors: heroList<string>(hero ?? undefined, "colors", []),
+            images: heroImages(hero ?? undefined, []).map((image) => image.src),
+            maxStickers: heroNumber(hero ?? undefined, "maxStickers", 34, 4, 200),
+          }}
+        />
         <div className="relative z-10 bg-offwhite dark:bg-background">{logoStrip}</div>
       </>
     );
   }
 
+  if (variant === "cards") {
+    const configCards = (hero?.config?.cards ?? []) as { title?: Record<string, string>; body?: Record<string, string> }[];
+    const images = heroImages(hero ?? undefined, []);
+    return (
+      <>
+        <section className="relative -mt-20 flex min-h-[calc(100svh-4.25rem)] flex-col overflow-hidden bg-offwhite pt-20 dark:bg-background">
+          <div className="relative flex flex-1 flex-col justify-center overflow-hidden pt-4 sm:pt-6 lg:pt-0">
+            <DotGrid />
+            <Container className="relative z-10 py-8">
+              <HeroCardStack
+                locale={locale}
+                cards={images.map((image, index) => ({
+                  title: configCards[index]?.title?.[locale],
+                  body: configCards[index]?.body?.[locale],
+                  image: image.src,
+                  orientation: typeof image.orientation === "string" ? image.orientation : undefined,
+                }))}
+              />
+            </Container>
+          </div>
+          <div className="relative z-10">{logoStrip}</div>
+        </section>
+      </>
+    );
+  }
+
+  // The rotating card stack, and the fallback when nothing is eligible.
+  const cardConfig = (hero?.config?.cards ?? []) as { number?: string; icon?: string }[];
+  const images = heroImages(hero ?? undefined, []);
+
   return (
-    <>
-      <section className="relative -mt-20 flex min-h-[calc(100svh-4.25rem)] flex-col overflow-hidden bg-offwhite pt-20 dark:bg-background">
-        <div className="relative flex flex-1 flex-col justify-start overflow-hidden pt-4 sm:pt-6 lg:justify-center lg:pt-0">
-          <DotGrid />
-          <Container className="relative z-10 py-8">
-            <HomeHero left={left} accent={accent} alts={alts} />
-            <Reveal delay={0.3} className="mt-7 flex flex-col items-start gap-5 lg:mt-8">
-              <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
-                {heroBody}
-              </p>
-              <PillButton href={contactHref}>{contactLabel}</PillButton>
-            </Reveal>
-          </Container>
-        </div>
-        <div className="relative z-10">{logoStrip}</div>
-      </section>
-    </>
+    <section className="relative -mt-20 flex min-h-[calc(100svh-4.25rem)] flex-col overflow-hidden bg-offwhite pt-20 dark:bg-background">
+      <div className="relative flex flex-1 flex-col justify-start overflow-hidden pt-4 sm:pt-6 lg:justify-center lg:pt-0">
+        <DotGrid />
+        <Container className="relative z-10 py-8">
+          <HomeHero
+            left={heroText(hero?.headline, locale, left)}
+            accent={words[words.length - 1] ?? accent}
+            alts={alts}
+            rotateEvery={rotateEvery}
+            cards={images.map((image, index) => ({
+              word: words[index],
+              src: image.src,
+              alt: heroAlt(image, locale, alts[index] ?? ""),
+              number: cardConfig[index]?.number,
+              icon: cardConfig[index]?.icon,
+            }))}
+          />
+          <Reveal delay={0.3} className="mt-7 flex flex-col items-start gap-5 lg:mt-8">
+            <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
+              {heroText(hero?.body, locale, heroBody)}
+            </p>
+            <PillButton href={hero?.cta.href ? `/${locale}${hero.cta.href.replace(/^\/?/, "/")}` : contactHref}>
+              {heroText(hero?.cta.label, locale, contactLabel)}
+            </PillButton>
+          </Reveal>
+        </Container>
+      </div>
+      <div className="relative z-10">{logoStrip}</div>
+    </section>
   );
+}
+
+/** A per-locale HUD label out of the sticker hero's config. */
+function nestedHud(hero: CmsHero | null, key: string, locale: Locale): string | undefined {
+  const hud = hero?.config?.hud as Record<string, Record<string, string>> | undefined;
+  return hud?.[key]?.[locale];
 }

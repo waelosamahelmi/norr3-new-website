@@ -104,6 +104,37 @@ export const MOTION_DEFAULTS: MotionSettings = {
   routeWipe: true,
 };
 
+/**
+ * One hero variant, as configured in the CMS.
+ *
+ * `images` and `config` are intentionally loose: the six variants draw quite
+ * different things (the city skyline layers four parallax plates, the card stack
+ * wants an orientation per card), and forcing them into one shape would mean
+ * mostly-empty fields. Each hero component reads the keys it understands and
+ * falls back to its built-in defaults for anything absent.
+ */
+export type CmsHero = {
+  key: string;
+  variant: string;
+  label: string;
+  enabled: boolean;
+  weight: number;
+  eyebrow: Record<Locale, string>;
+  headline: Record<Locale, string>;
+  words: Record<Locale, string[]>;
+  body: Record<Locale, string>;
+  cta: { label: Record<Locale, string>; href: string };
+  images: HeroImage[];
+  config: Record<string, unknown>;
+};
+
+export type HeroImage = {
+  src: string;
+  alt_fi?: string;
+  alt_en?: string;
+  [key: string]: unknown;
+};
+
 export type CmsPageSummary = {
   slug: string;
   title: Record<Locale, string>;
@@ -129,6 +160,7 @@ export type SiteContent = {
   ctas: CmsCta[];
   announcement: CmsAnnouncement;
   pages: CmsPageSummary[];
+  heroes: CmsHero[];
   /** Design-token overrides, emitted as CSS custom properties by the root layout. */
   theme: { root: Record<string, string>; dark: Record<string, string> };
   motion: MotionSettings;
@@ -199,6 +231,9 @@ function fallbackContent(error?: string): SiteContent {
       label: { fi: "", en: "" },
     },
     pages: [],
+    // No hero rows means the components use their own built-in content, which is
+    // what the site shipped before heroes became editable.
+    heroes: [],
     theme: { root: {}, dark: {} },
     motion: MOTION_DEFAULTS,
     brand: { clients, valuePills, mediaPills },
@@ -268,6 +303,7 @@ type RawBundle = {
   ctas?: unknown[];
   announcement?: unknown;
   pages?: unknown[];
+  heroes?: unknown[];
   theme?: { root?: Record<string, string>; dark?: Record<string, string> };
   motion?: Partial<MotionSettings>;
   brand?: Partial<SiteContent["brand"]>;
@@ -322,6 +358,7 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     ctas: nonEmpty(raw.ctas, fallback.ctas) as CmsCta[],
     announcement: (raw.announcement as CmsAnnouncement) ?? null,
     pages: (raw.pages ?? []) as CmsPageSummary[],
+    heroes: (raw.heroes ?? []) as CmsHero[],
     theme: { root: raw.theme?.root ?? {}, dark: raw.theme?.dark ?? {} },
     motion: {
       ...MOTION_DEFAULTS,

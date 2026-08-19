@@ -17,7 +17,6 @@ import type { Locale } from "@/i18n/config";
  * canvas sits behind the buildings. Reduced-motion users get static layers.
  */
 
-const EASE = [0.16, 1, 0.3, 1] as const;
 
 // ─── Magnetic dot grid (ported verbatim from the user's JS) ──────────────
 const SPACING = 22;
@@ -179,43 +178,72 @@ const LAYERS: { src: string; speed: number; z: number; className?: string }[] = 
 const TITLE_SPEED = -0.36;
 
 // ─── Main component ───────────────────────────────────────────────────────
-export function CityHero({ locale }: { locale: Locale }) {
+/** One parallax plate: a source, its scroll rate and its stacking order. */
+export type CityLayer = { src: string; speed: number; z: number; className?: string };
+
+export function CityHero({
+  locale,
+  content: override,
+  layers: layerOverride,
+  rotateEvery,
+}: {
+  locale: Locale;
+  /**
+   * Copy from the CMS. Each field falls back to the value the hero shipped with,
+   * so an empty field in the CMS is not an empty hero.
+   */
+  content?: { eyebrow?: string; titlePrefix?: string; words?: string[]; body?: string; cta?: string; ctaHref?: string };
+  /** Skyline plates, back to front. */
+  layers?: CityLayer[];
+  rotateEvery?: number;
+}) {
   const heroRef = useRef<HTMLElement>(null);
   const motionAllowed = useMotionAllowed();
   const layerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
-  // Cycling accent word — same Plan → Act → Grow as the HomeHero
-  const CYCLE = locale === "fi"
-    ? ["Suunnittele", "Toimi", "Kasva"]
-    : ["Plan", "Act", "Grow"];
+  // The cycling accent word. Managed in the CMS alongside the other heroes so
+  // the three that share it cannot drift apart; these are the shipped defaults.
+  const FALLBACK_CYCLE = locale === "fi" ? ["Suunnittele", "Toimi", "Kasva"] : ["Plan", "Act", "Grow"];
+  const CYCLE = override?.words?.length ? override.words : FALLBACK_CYCLE;
+  const rotateMs = rotateEvery && rotateEvery > 0 ? rotateEvery : 2400;
   const [wordIdx, setWordIdx] = useState(0);
 
   useEffect(() => {
     if (!motionAllowed) return;
     const interval = setInterval(() => {
       setWordIdx((i) => (i + 1) % CYCLE.length);
-    }, 2400);
+    }, rotateMs);
     return () => clearInterval(interval);
-  }, [motionAllowed, CYCLE]);
+  }, [motionAllowed, CYCLE.length, rotateMs]);
 
-  // NØRR3-adapted copy
+  // The copy this hero shipped with, overridden field by field from the CMS so a
+  // blank field there leaves the designed line in place rather than an empty one.
   const content = useMemo(() => {
-    if (locale === "fi") {
-      return {
-        eyebrow: "Mediaa kasvun moottorina",
-        titlePrefix: "Uusi tapa",
-        body: "Yhdistämme haastajan asenteen, viimeisimmän teknologian ja osaamisen — jokaisella eurolla mitattavaa tulosta.",
-        cta: "Tutustu toimintaan",
-      };
-    }
+    const shipped =
+      locale === "fi"
+        ? {
+            eyebrow: "Mediaa kasvun moottorina",
+            titlePrefix: "Uusi tapa",
+            body: "Yhdistämme haastajan asenteen, viimeisimmän teknologian ja osaamisen — jokaisella eurolla mitattavaa tulosta.",
+            cta: "Tutustu toimintaan",
+          }
+        : {
+            eyebrow: "Making media a growth engine",
+            titlePrefix: "A new way to",
+            body: "We combine a challenger attitude, the latest technology and deep expertise — turning every euro of media into measurable growth.",
+            cta: "See how we work",
+          };
     return {
-      eyebrow: "Making media a growth engine",
-      titlePrefix: "A new way to",
-      body: "We combine a challenger attitude, the latest technology and deep expertise — turning every euro of media into measurable growth.",
-      cta: "See how we work",
+      eyebrow: override?.eyebrow?.trim() || shipped.eyebrow,
+      titlePrefix: override?.titlePrefix?.trim() || shipped.titlePrefix,
+      body: override?.body?.trim() || shipped.body,
+      cta: override?.cta?.trim() || shipped.cta,
     };
-  }, [locale]);
+  }, [locale, override?.eyebrow, override?.titlePrefix, override?.body, override?.cta]);
+
+  // Skyline plates: the CMS list when it has one, otherwise the shipped set.
+  const layers = layerOverride?.length ? layerOverride : LAYERS;
 
   // Scroll parallax
   useEffect(() => {
@@ -270,8 +298,8 @@ export function CityHero({ locale }: { locale: Locale }) {
       />
 
       {/* Parallax image layers */}
-      {LAYERS.map((layer, i) => {
-        const isFrontBuildings = i === LAYERS.length - 1;
+      {layers.map((layer, i) => {
+        const isFrontBuildings = i === layers.length - 1;
         return (
           <div
             key={i}
@@ -286,7 +314,6 @@ export function CityHero({ locale }: { locale: Locale }) {
                 : { inset: 0 }),
             }}
           >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={layer.src}
             alt=""
@@ -338,7 +365,7 @@ export function CityHero({ locale }: { locale: Locale }) {
           {content.body}
         </p>
         <a
-          href={`/${locale}/services`}
+          href={`/${locale}${(override?.ctaHref || "/services").replace(/^\/?/, "/")}`}
           className="mt-7 inline-flex items-center gap-4 rounded-full border border-white/55 px-[18px] py-3.5 text-sm font-bold text-white transition-colors hover:bg-white hover:text-[#17131d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           {content.cta}

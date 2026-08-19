@@ -56,8 +56,29 @@ const SLOTS_MOBILE: Slot[] = [
 const SPRING = { type: "spring" as const, stiffness: 280, damping: 26 };
 const RING = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow";
 
-export function HeroCardStack({ locale }: { locale: Locale }) {
-  const cards = STACK_CARDS[locale];
+export function HeroCardStack({
+  locale,
+  cards: override,
+}: {
+  locale: Locale;
+  /**
+   * Cards from the CMS, index-aligned with the shipped set. Each field falls
+   * back individually, so an entry that only changes the image keeps its copy.
+   */
+  cards?: { title?: string; body?: string; image?: string; orientation?: string }[];
+}) {
+  const shipped = STACK_CARDS[locale];
+  const cards: StackCard[] = shipped.map((card, index) => {
+    const patch = override?.[index];
+    if (!patch) return card;
+    return {
+      ...card,
+      title: patch.title?.trim() || card.title,
+      body: patch.body?.trim() || card.body,
+      image: patch.image || card.image,
+      orientation: patch.orientation === "landscape" || patch.orientation === "portrait" ? patch.orientation : card.orientation,
+    };
+  });
   const [order, setOrder] = useState(cards.map((card) => card.id));
   const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);

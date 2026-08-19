@@ -3,7 +3,7 @@ import type { ServiceCard } from "@/content/services";
 import type { CaseStudy } from "@/content/cases";
 import type { TeamMember, OpenRole } from "@/content/team";
 import type { Channel } from "@/content/channels";
-import type { CmsPost, SiteContent } from "@/lib/cms";
+import type { CmsHero, CmsPost, SiteContent } from "@/lib/cms";
 import type { Locale } from "@/i18n/config";
 
 /**
@@ -27,6 +27,7 @@ export type BlockContext = {
   channels: Channel[];
   mediaGroups: { id: string; icon: string; fi: string; en: string }[];
   clients: string[];
+  heroes: CmsHero[];
 };
 
 export function buildBlockContext(content: SiteContent, locale: Locale): BlockContext {
@@ -42,5 +43,6 @@ export function buildBlockContext(content: SiteContent, locale: Locale): BlockCo
     channels: content.channels,
     mediaGroups: content.mediaGroups,
     clients: content.brand.clients,
+    heroes: content.heroes,
   };
 }

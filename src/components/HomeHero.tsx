@@ -63,6 +63,11 @@ type HeroCard = {
   pixel: string;
 };
 
+/**
+ * The three cards as the site shipped them. The CMS overrides the word, the
+ * image and its alt text per card; the icon tile and pixel accent stay here
+ * because they are brand decisions, not content.
+ */
 const CARDS: HeroCard[] = [
   {
     word: "Plan",
@@ -107,13 +112,35 @@ export function HomeHero({
   left,
   accent,
   alts,
+  cards,
+  rotateEvery,
 }: {
   left: string;
   accent: string;
   alts: [string, string, string];
+  /**
+   * Cards from the CMS. Each entry overrides the word, image and alt of the
+   * card at the same index; anything missing keeps the built-in value, so the
+   * hero renders the shipped design when the CMS has nothing to say.
+   */
+  cards?: { word?: string; src?: string; alt?: string; number?: string; icon?: string }[];
+  rotateEvery?: number;
 }) {
   const motion = useMotionAllowed();
   const parallax = useParallaxAllowed();
+
+  const deck: HeroCard[] = CARDS.map((card, index) => {
+    const override = cards?.[index];
+    return {
+      ...card,
+      word: override?.word?.trim() || card.word,
+      src: override?.src || card.src,
+      number: override?.number?.trim() || card.number,
+      icon: override?.icon?.trim() || card.icon,
+    };
+  });
+  const altText = (index: number) => cards?.[index]?.alt?.trim() || alts[index];
+  const rotateMs = rotateEvery && rotateEvery > 0 ? rotateEvery : ROTATE_EVERY;
 
   /** Slot assignment as card indices: [back, mid, front]. */
   const [order, setOrder] = useState<number[]>(INITIAL_ORDER);
@@ -129,7 +156,7 @@ export function HomeHero({
 
   const typing = motion && typed < left.length;
   /** True while the cards are still popping in (after typing, before rotation). */
-  const popping = motion && !typing && popped < CARDS.length;
+  const popping = motion && !typing && popped < deck.length;
 
   // Type the left word out, once, on the first render that allows motion.
   useEffect(() => {
@@ -146,10 +173,10 @@ export function HomeHero({
   // "Pop pop pop" — once the left word is typed, reveal the three cards one by
   // one (back → mid → front), then hand off to the rotation + accent word.
   useEffect(() => {
-    if (!motion || typing || popped >= CARDS.length) return;
+    if (!motion || typing || popped >= deck.length) return;
     const t = window.setTimeout(() => setPopped((n) => n + 1), POP_STAGGER);
     return () => window.clearTimeout(t);
-  }, [motion, typing, popped]);
+  }, [motion, typing, popped, deck.length]);
 
   // The rotating stack — starts once all three cards have popped in.
   useEffect(() => {
@@ -157,22 +184,22 @@ export function HomeHero({
     const rot = window.setInterval(() => {
       // front → back, back → mid, mid → front
       setOrder(([back, mid, front]) => [front, back, mid]);
-    }, ROTATE_EVERY);
+    }, rotateMs);
     return () => window.clearInterval(rot);
-  }, [motion, typing, popping]);
+  }, [motion, typing, popping, rotateMs]);
 
   // Pointer parallax: every card drifts by its slot depth, the front one most.
   useEffect(() => {
     if (!parallax) return;
-    const cards = stageRef.current?.querySelectorAll<HTMLElement>("[data-depth]");
-    if (!cards?.length) return;
+    const stageCards = stageRef.current?.querySelectorAll<HTMLElement>("[data-depth]");
+    if (!stageCards?.length) return;
     let raf = 0;
     let cx = 0;
     let cy = 0;
     const loop = () => {
       cx += (pointer.current.x - cx) * 0.07;
       cy += (pointer.current.y - cy) * 0.07;
-      cards.forEach((el) => {
+      stageCards.forEach((el) => {
         const depth = Number(el.dataset.depth) || 0;
         el.style.setProperty("--px", `${(cx * SHIFT * depth).toFixed(1)}px`);
         el.style.setProperty("--py", `${(cy * SHIFT * depth).toFixed(1)}px`);
@@ -197,10 +224,10 @@ export function HomeHero({
   };
 
   /** Which slot each card currently sits in. */
-  const slotOf = CARDS.map((_, card) => order.indexOf(card));
+  const slotOf = deck.map((_, card) => order.indexOf(card));
   // The accent word holds off until the cards finish popping in; then it tracks
   // whichever card holds the front slot.
-  const accentWord = typing || popping || !motion ? accent : CARDS[order[2]].word;
+  const accentWord = typing || popping || !motion ? accent : deck[order[2]].word;
   /** Accent word is hidden during typing and the pop-in sequence. */
   const accentHidden = typing || popping;
 
@@ -264,7 +291,7 @@ export function HomeHero({
           ref={stageRef}
           className="relative mx-auto h-[320px] max-h-[42svh] w-[min(300px,80vw)] select-none [--card:210px] [--spread:0.72] sm:h-[480px] sm:w-full sm:max-w-md sm:[--card:340px] sm:[--spread:0.85] lg:mx-4 lg:h-[380px] lg:max-h-[52svh] lg:w-[360px] lg:[--card:360px] lg:[--spread:1]"
         >
-          {CARDS.map((card, index) => {
+          {deck.map((card, index) => {
             const slotIndex = slotOf[index];
             const slot = SLOTS[slotIndex];
             // During the intro, a card is hidden until its turn in the pop
@@ -300,7 +327,7 @@ export function HomeHero({
                 >
                   <img
                     src={card.src}
-                    alt={alts[index]}
+                    alt={altText(index)}
                     loading={index === 1 ? "eager" : "lazy"}
                     fetchPriority={index === 1 ? "high" : undefined}
                     className="absolute inset-0 h-full w-full object-cover"
@@ -338,7 +365,7 @@ export function HomeHero({
         style={{ opacity: accentHidden ? 0 : 1 }}
       >
         <span className="inline-grid justify-items-start">
-          {[accent, ...CARDS.map((card) => card.word)].map((word, index) => (
+          {[accent, ...deck.map((card) => card.word)].map((word, index) => (
             <span key={`ghost-${index}`} className="invisible col-start-1 row-start-1 hidden lg:block" aria-hidden>
               <span className="text-ink dark:text-white">_</span>
               {word}

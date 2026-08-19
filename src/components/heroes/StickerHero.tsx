@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { Bodies, Body, Composite, Engine, Events, Mouse, MouseConstraint, Runner, type Body as MatterBody } from "matter-js";
 import { useMotionAllowed } from "@/components/heroes/useMotionAllowed";
 import { DotGrid } from "@/components/DotGrid";
@@ -82,7 +82,33 @@ function measureSticker(ctx: CanvasRenderingContext2D, text: string) {
   };
 }
 
-export function StickerHero({ locale }: { locale: Locale }) {
+export type StickerContent = {
+  headline?: string;
+  words?: string[];
+  body?: string;
+  addLabel?: string;
+  inputPlaceholder?: string;
+  hud?: { impressions?: string; conversions?: string; streak?: string };
+  quotes?: string[];
+  glyphs?: string[];
+  colors?: string[];
+  images?: string[];
+  maxStickers?: number;
+  rotateEvery?: number;
+};
+
+export function StickerHero({
+  locale,
+  content,
+}: {
+  locale: Locale;
+  /**
+   * Everything this hero says and draws, from the CMS. Each field falls back to
+   * the value it shipped with, so a partially filled hero row still renders the
+   * designed experience rather than gaps.
+   */
+  content?: StickerContent;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -91,7 +117,54 @@ export function StickerHero({ locale }: { locale: Locale }) {
   const motionAllowed = useMotionAllowed();
   const [accentIndex, setAccentIndex] = useState(2);
   const [displayedAccent, setDisplayedAccent] = useState("Grow");
-  const accentWords = locale === "fi" ? ["Suunnittele", "Toimi", "Kasva"] : ["Plan", "Act", "Grow"];
+  const shippedWords = locale === "fi" ? ["Suunnittele", "Toimi", "Kasva"] : ["Plan", "Act", "Grow"];
+  const headline = content?.headline?.trim() || (locale === "fi" ? "Uusi tapa" : "A New Way to");
+
+  /**
+   * The sticker set the canvas builds itself from.
+   *
+   * Memoised because the physics effect below takes them as dependencies: derived
+   * arrays rebuilt on every render would tear the simulation down and restart it
+   * continuously. Each is keyed on a joined string of its own contents, so an
+   * edit in the CMS rebuilds the wall once and an unrelated re-render never does.
+   */
+  const wordsKey = (content?.words ?? []).join("|");
+  const quotesKey = (content?.quotes ?? []).join("|");
+  const glyphsKey = (content?.glyphs ?? []).join("|");
+  const colorsKey = (content?.colors ?? []).join("|");
+  const imagesKey = (content?.images ?? []).join("|");
+
+  const accentWords = useMemo(
+    () => (wordsKey ? wordsKey.split("|") : shippedWords),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [wordsKey, locale]
+  );
+  const stickerQuotes = useMemo(
+    () => (quotesKey ? quotesKey.split("|") : QUOTES[locale]),
+    [quotesKey, locale]
+  );
+  const stickerGlyphs = useMemo(() => (glyphsKey ? glyphsKey.split("|") : EMOJIS), [glyphsKey]);
+  const stickerColors = useMemo(() => (colorsKey ? colorsKey.split("|") : COLORS), [colorsKey]);
+  const stickerImages = useMemo(() => (imagesKey ? imagesKey.split("|") : BACKGROUND_IMAGES), [imagesKey]);
+
+  const maxStickers = content?.maxStickers && content.maxStickers > 0 ? content.maxStickers : MAX_STICKERS;
+
+  /**
+   * HUD labels live in a ref, not a dependency: they are read every frame by the
+   * draw loop, and a label change should repaint rather than rebuild the world.
+   */
+  const hud = useMemo(
+    () => ({
+      impressions: content?.hud?.impressions?.trim() || (locale === "fi" ? "VAIKUTUKSET" : "IMPRESSIONS"),
+      conversions: content?.hud?.conversions?.trim() || (locale === "fi" ? "KONVERSIOITA" : "CONVERSIONS"),
+      streak: content?.hud?.streak?.trim() || (locale === "fi" ? "Putki" : "Streak"),
+    }),
+    [content?.hud?.impressions, content?.hud?.conversions, content?.hud?.streak, locale]
+  );
+  const hudRef = useRef(hud);
+  useEffect(() => {
+    hudRef.current = hud;
+  }, [hud]);
   const accentWord = accentWords[accentIndex];
 
   useEffect(() => {
@@ -207,7 +280,6 @@ export function StickerHero({ locale }: { locale: Locale }) {
     let bounceStreak = 0;
     let conversions = 0;
     let lastBounceTime = 0;
-    let comboTimer = 0;
     const STREAK_TARGET = 10;
 
     function onCollision(event: { pairs: { bodyA: MatterBody; bodyB: MatterBody }[] }) {
@@ -246,8 +318,8 @@ export function StickerHero({ locale }: { locale: Locale }) {
     let mouseConstraint: ReturnType<typeof MouseConstraint.create> | null = null;
 
     resize();
-    QUOTES[locale].forEach((quote, index) => addSticker(quote, width * (0.08 + (index % 6) * 0.17), 95 + Math.floor(index / 6) * 76, COLORS[index % COLORS.length], false, false));
-    EMOJIS.forEach((emoji, index) => addSticker(emoji, width * (0.06 + (index % 9) * 0.11), 145 + Math.floor(index / 9) * 82, COLORS[(index + 3) % COLORS.length], true, false));
+    stickerQuotes.forEach((quote, index) => addSticker(quote, width * (0.08 + (index % 6) * 0.17), 95 + Math.floor(index / 6) * 76, stickerColors[index % stickerColors.length], false, false));
+    stickerGlyphs.forEach((glyph, index) => addSticker(glyph, width * (0.06 + (index % 9) * 0.11), 145 + Math.floor(index / 9) * 82, stickerColors[(index + 3) % stickerColors.length], true, false));
 
     if (motionAllowed) {
       runner = Runner.create();
@@ -325,7 +397,7 @@ export function StickerHero({ locale }: { locale: Locale }) {
         // Label
         ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
         ctx.font = "500 10px 'Host Grotesk', sans-serif";
-        ctx.fillText(locale === "fi" ? "VAIKUTUKSET" : "IMPRESSIONS", 28, hudY + 12);
+        ctx.fillText(hudRef.current.impressions, 28, hudY + 12);
 
         // Big number
         ctx.fillStyle = "#F6FF4F";
@@ -336,7 +408,7 @@ export function StickerHero({ locale }: { locale: Locale }) {
         if (bounceStreak > 0) {
           ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
           ctx.font = "500 11px 'Host Grotesk', sans-serif";
-          ctx.fillText(locale === "fi" ? `Putki ${bounceStreak}/${STREAK_TARGET}` : `Streak ${bounceStreak}/${STREAK_TARGET}`, 28, hudY + 58);
+          ctx.fillText(`${hudRef.current.streak} ${bounceStreak}/${STREAK_TARGET}`, 28, hudY + 58);
         }
 
         // Conversions (appears when > 0, with flash effect)
@@ -354,7 +426,7 @@ export function StickerHero({ locale }: { locale: Locale }) {
           ctx.fillStyle = `rgba(255, 151, 232, ${0.5 + flashAlpha * 0.3})`;
           ctx.font = "500 10px 'Host Grotesk', sans-serif";
           ctx.textAlign = "right";
-          ctx.fillText(locale === "fi" ? "KONVERSIOITA" : "CONVERSIONS", width - 28, hudY + 12);
+          ctx.fillText(hudRef.current.conversions, width - 28, hudY + 12);
 
           ctx.fillStyle = comboFlash > 0
             ? `rgba(255, 151, 232, ${Math.min(1, 0.85 + flashAlpha)})`
@@ -373,8 +445,8 @@ export function StickerHero({ locale }: { locale: Locale }) {
     const handleStickerAdd = (event: Event) => {
       const value = (event as CustomEvent<string>).detail;
       if (!value || !engine || !width || !height) return;
-      addSticker(value, width / 2, -30, COLORS[Math.floor(Math.random() * COLORS.length)]);
-      if (stickers.length > MAX_STICKERS) {
+      addSticker(value, width / 2, -30, stickerColors[Math.floor(Math.random() * stickerColors.length)]);
+      if (stickers.length > maxStickers) {
         const oldest = stickers.shift();
         if (oldest) Composite.remove(engine.world, oldest.body);
       }
@@ -395,7 +467,7 @@ export function StickerHero({ locale }: { locale: Locale }) {
       }
       stickers.splice(0, stickers.length);
     };
-  }, [locale, motionAllowed]);
+  }, [locale, motionAllowed, maxStickers, stickerColors, stickerGlyphs, stickerQuotes]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -433,7 +505,7 @@ export function StickerHero({ locale }: { locale: Locale }) {
         @keyframes sticker-bg-cycle { 0%, 16% { opacity: 1; } 20%, 96% { opacity: 0; } 100% { opacity: 1; } }
         .sticker-bg-cycle { animation: sticker-bg-cycle 25s ease-in-out infinite; }
       `}</style>
-      {BACKGROUND_IMAGES.map((src, index) => (
+      {stickerImages.map((src, index) => (
         <img
           key={src}
           src={src}
@@ -453,8 +525,8 @@ export function StickerHero({ locale }: { locale: Locale }) {
       <div className="pointer-events-none absolute inset-0 z-[4] bg-[radial-gradient(circle_at_50%_38%,rgba(122,6,211,.18),transparent_56%)]" />
       <div className="pointer-events-none relative z-10 flex min-h-[calc(100svh-4.25rem)] flex-col items-center justify-center px-6 pb-24 text-center">
         <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-yellow">NØRR3 / Media in motion</p>
-        <h1 aria-label={`${locale === "fi" ? "Uusi tapa" : "A New Way to"} ${accentWord}`} className="max-w-4xl text-[clamp(2.8rem,8vw,7.5rem)] font-medium leading-[0.88] tracking-[-0.04em]">
-          {locale === "fi" ? "Uusi tapa" : "A New Way to"}{" "}
+        <h1 aria-label={`${headline} ${accentWord}`} className="max-w-4xl text-[clamp(2.8rem,8vw,7.5rem)] font-medium leading-[0.88] tracking-[-0.04em]">
+          {headline}{" "}
           <span className="inline-grid justify-items-start align-baseline text-yellow">
             {accentWords.map((word) => (
               <span key={`ghost-${word}`} className="invisible col-start-1 row-start-1 whitespace-nowrap" aria-hidden>
@@ -468,11 +540,14 @@ export function StickerHero({ locale }: { locale: Locale }) {
           </span>
         </h1>
         <p className="mt-5 max-w-md text-base leading-relaxed text-white/75">
-          {locale === "fi" ? "Heitä ajatuksesi seinälle. Suunnittelemme, testaamme ja kasvatamme yhdessä." : "Put an idea on the wall. We plan, test and grow it together."}
+          {content?.body?.trim() ||
+            (locale === "fi"
+              ? "Heitä ajatuksesi seinälle. Suunnittelemme, testaamme ja kasvatamme yhdessä."
+              : "Put an idea on the wall. We plan, test and grow it together.")}
         </p>
         <form onSubmit={onSubmit} className="pointer-events-auto mt-7 flex w-full max-w-md items-center gap-2 rounded-full border border-white/35 bg-black/25 p-1.5 backdrop-blur-sm">
-          <input ref={inputRef} maxLength={52} placeholder={locale === "fi" ? "Kirjoita ajatus..." : "Write an idea..."} className="min-w-0 flex-1 bg-transparent px-4 py-2 text-sm text-white outline-none placeholder:text-white/50" aria-label={locale === "fi" ? "Kirjoita ajatus" : "Write an idea"} />
-          <button type="submit" className="rounded-full bg-yellow px-5 py-2.5 text-xs font-medium uppercase tracking-[0.1em] text-ink transition-transform hover:-translate-y-0.5">{locale === "fi" ? "Lisää" : "Add"}</button>
+          <input ref={inputRef} maxLength={52} placeholder={content?.inputPlaceholder?.trim() || (locale === "fi" ? "Kirjoita ajatus..." : "Write an idea...")} className="min-w-0 flex-1 bg-transparent px-4 py-2 text-sm text-white outline-none placeholder:text-white/50" aria-label={locale === "fi" ? "Kirjoita ajatus" : "Write an idea"} />
+          <button type="submit" className="rounded-full bg-yellow px-5 py-2.5 text-xs font-medium uppercase tracking-[0.1em] text-ink transition-transform hover:-translate-y-0.5">{content?.addLabel?.trim() || (locale === "fi" ? "Lisää" : "Add")}</button>
         </form>
       </div>
     </section>

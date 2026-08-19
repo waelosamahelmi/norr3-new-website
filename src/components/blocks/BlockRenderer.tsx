@@ -27,6 +27,7 @@ import { LeadContactCard } from "@/components/cards/LeadContactCard";
 import { ContactForm } from "@/components/ContactForm";
 import { StickerHero } from "@/components/heroes/StickerHero";
 import { CityHero } from "@/components/heroes/CityHero";
+import { heroFor, heroImages, heroList, heroNumber, heroWords } from "@/content/heroes";
 import { HeroCardStack } from "@/components/heroes/HeroCardStack";
 import { ArrowsDeliver } from "@/components/heroes/ArrowsDeliver";
 import { ChessStrategy } from "@/components/heroes/ChessStrategy";
@@ -139,10 +140,18 @@ function BlockSwitch({
       const visual = str(p.visual, "none");
       return (
         <section>
+          {/* Hero visuals read the matching row from the Heroes collection, so a
+              composed page's hero is configured in the same place as the home
+              page's rather than being a second, separate set of content. */}
           {visual === "stickers" ? (
-            <StickerHero locale={locale} />
+            <StickerHero locale={locale} content={stickerContent(context, locale)} />
           ) : visual === "city" ? (
-            <CityHero locale={locale} />
+            <CityHero
+              locale={locale}
+              layers={cityLayers(context)}
+              rotateEvery={heroNumber(heroFor(context.heroes, "city"), "rotateEvery", 2400, 400, 30000)}
+              content={{ words: heroWords(heroFor(context.heroes, "city"), locale, []) }}
+            />
           ) : (
             <Container className={pad(st, "pt-12 lg:pt-20")}>
               <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
@@ -884,6 +893,36 @@ function BlockSwitch({
 }
 
 /* --------------------------------------------------------------- primitives */
+
+/** The sticker hero's configured content, for use inside a hero block. */
+function stickerContent(context: BlockContext, locale: "fi" | "en") {
+  const hero = heroFor(context.heroes, "sticker");
+  if (!hero) return undefined;
+  const quotes = (hero.config?.quotes as Record<string, string[]> | undefined)?.[locale];
+  return {
+    headline: hero.headline[locale],
+    words: heroWords(hero, locale, []),
+    body: hero.body[locale],
+    addLabel: hero.cta.label[locale],
+    quotes,
+    glyphs: heroList<string>(hero, "glyphs", []),
+    colors: heroList<string>(hero, "colors", []),
+    images: heroImages(hero, []).map((image) => image.src),
+    maxStickers: heroNumber(hero, "maxStickers", 34, 4, 200),
+  };
+}
+
+/** The city hero's configured skyline plates, or undefined to use the shipped set. */
+function cityLayers(context: BlockContext) {
+  const images = heroImages(heroFor(context.heroes, "city"), []);
+  if (images.length === 0) return undefined;
+  return images.map((image) => ({
+    src: image.src,
+    speed: Number(image.speed) || 0,
+    z: Number(image.z) || 0,
+    className: typeof image.className === "string" ? image.className : undefined,
+  }));
+}
 
 /** CMS links are locale-relative; external and anchor links pass through. */
 function localeHref(value: string, locale: "fi" | "en"): string {
