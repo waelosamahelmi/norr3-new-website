@@ -31,6 +31,7 @@ import { HeroCardStack } from "@/components/heroes/HeroCardStack";
 import { ArrowsDeliver } from "@/components/heroes/ArrowsDeliver";
 import { ChessStrategy } from "@/components/heroes/ChessStrategy";
 import { bool, num, rows, slots, str, text, type Block } from "@/content/blocks";
+import { cx } from "@/lib/cx";
 import type { BlockContext } from "./context";
 
 /**
@@ -103,15 +104,27 @@ const SPACING: Record<string, string> = {
   loose: "py-24 lg:py-32",
 };
 
+/**
+ * Section surfaces.
+ *
+ * The pastel tints swap to an elevated dark surface rather than staying pale:
+ * blocks like the stat grid are built from shared components that carry their
+ * own `dark:text-white` variants, and white text on a lavender band is
+ * unreadable. Blocks that hard-code ink-toned text (the CTA banner) keep the
+ * pale surface in both themes, which is the house treatment for those bands.
+ */
 const TONE_SURFACE: Record<string, string> = {
   none: "",
-  lavender: "bg-pastel-purple/60 dark:bg-pastel-purple",
-  pastel: "bg-light-purple/60 dark:bg-white/[0.05]",
+  lavender: "bg-pastel-purple/60 dark:bg-white/[0.05]",
+  pastel: "bg-light-purple/60 dark:bg-white/[0.04]",
   violet: "bg-violet text-white",
   ink: "bg-ink text-white",
   grey: "bg-grey dark:bg-white/[0.04]",
   yellow: "bg-yellow text-ink",
 };
+
+/** Surfaces that stay pale in dark mode, so descendants must not go white. */
+const LIGHT_IN_DARK = new Set(["yellow"]);
 
 function BlockSwitch({
   block,
@@ -765,8 +778,13 @@ function BlockSwitch({
     case "cta.banner": {
       const tone = str(p.tone, "lavender");
       const dark = tone === "violet" || tone === "ink";
+      // This band keeps its pale surface in both themes (the house treatment for
+      // the closing CTA), so its own text stays ink rather than following the
+      // page's dark variant.
+      const surface =
+        tone === "lavender" ? "bg-pastel-purple/60 dark:bg-pastel-purple" : TONE_SURFACE[tone] ?? TONE_SURFACE.lavender;
       return (
-        <section className={TONE_SURFACE[tone] ?? TONE_SURFACE.lavender}>
+        <section className={cx(surface, LIGHT_IN_DARK.has(tone) && "text-ink")}>
           <Container className="py-14 lg:py-16">
             <Reveal className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
               <h2
