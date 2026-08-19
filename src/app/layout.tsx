@@ -3,6 +3,7 @@ import { Host_Grotesk } from "next/font/google";
 import "material-symbols/outlined.css";
 import "./globals.css";
 import { ThemeStyle } from "@/components/ThemeStyle";
+import { CustomBodyEnd, CustomHead } from "@/components/CustomCode";
 
 const hostGrotesk = Host_Grotesk({
   variable: "--font-host-grotesk",
@@ -69,9 +70,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         {/* Design-token overrides from the CMS, after the stylesheet so they win. */}
         <ThemeStyle />
+        {/* Admin-written CSS and head snippet, after the tokens so it can override them. */}
+        <CustomHead />
       </head>
       <body className="min-h-full flex flex-col bg-offwhite text-ink dark:bg-background dark:text-foreground">
         {children}
+        <CustomBodyEnd />
       </body>
     </html>
   );

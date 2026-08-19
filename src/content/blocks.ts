@@ -61,6 +61,10 @@ export type BlockStyle = {
   radius: string;
   animation: string;
   animationDelay: number;
+  /** Extra classes on the block wrapper. */
+  className: string;
+  /** Custom CSS, scoped to the block by the renderer. */
+  css: string;
 };
 
 export const DEFAULT_STYLE: BlockStyle = {
@@ -71,6 +75,8 @@ export const DEFAULT_STYLE: BlockStyle = {
   radius: "",
   animation: "inherit",
   animationDelay: 0,
+  className: "",
+  css: "",
 };
 
 /**
@@ -95,6 +101,10 @@ export function styleOf(props: Record<string, unknown>): BlockStyle {
     radius: /^(\d+(\.\d+)?(px|rem|em|%)|9999px)$/.test(String(pick("radius") ?? "")) ? String(pick("radius")) : "",
     animation: text("animation", ["inherit", "none", "fade", "rise", "far"]),
     animationDelay: Number.isFinite(delay) ? Math.min(3, Math.max(0, delay)) : 0,
+    // Both are validated on write in the CMS; re-clamped here because this is
+    // the boundary the browser actually receives them through.
+    className: typeof pick("className") === "string" ? String(pick("className")).slice(0, 500) : "",
+    css: typeof pick("css") === "string" ? String(pick("css")).slice(0, 8000) : "",
   };
 }
 

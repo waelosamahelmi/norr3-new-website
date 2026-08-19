@@ -34,6 +34,7 @@ import { ArrowsDeliver } from "@/components/heroes/ArrowsDeliver";
 import { ChessStrategy } from "@/components/heroes/ChessStrategy";
 import { bool, num, rows, slots, str, styleOf, text, type Block } from "@/content/blocks";
 import { BLOCK_TONE, StyleScope, TONE_IS_DARK, TONE_IS_PALE, pad } from "./BlockShell";
+import { CodeEmbed } from "./CodeEmbed";
 import { cx } from "@/lib/cx";
 import type { BlockContext } from "./context";
 
@@ -67,7 +68,7 @@ export function BlockRenderer({
         .filter((block) => !block.hidden)
         .map((block) => (
           <BlockFrame key={block.id} block={block} selectable={selectable} onSelect={onSelect}>
-            <StyleScope style={scopeStyle(block)}>
+            <StyleScope style={scopeStyle(block)} blockId={block.id}>
               <BlockSwitch block={block} context={context} selectable={selectable} onSelect={onSelect} />
             </StyleScope>
           </BlockFrame>
@@ -752,6 +753,21 @@ function BlockSwitch({
       );
     }
 
+    case "code.embed":
+      return (
+        <Container className={pad(st, "py-10 lg:py-14")}>
+          <div className={frameClass(st)}>
+            <CodeEmbed
+              blockId={block.id}
+              html={str(p.html)}
+              css={str(p.css)}
+              js={str(p.js)}
+              caption={t("caption") || undefined}
+            />
+          </div>
+        </Container>
+      );
+
     case "spacer": {
       const size = str(p.size, "md");
       return <div aria-hidden className={size === "sm" ? "h-8" : size === "lg" ? "h-32" : "h-16"} />;
@@ -899,6 +915,14 @@ function BlockSwitch({
 }
 
 /* --------------------------------------------------------------- primitives */
+
+/** Width and alignment classes for a block's inner column. */
+function frameClass(style: { width: string; align: string }): string {
+  const width =
+    style.width === "prose" ? "mx-auto max-w-2xl" : style.width === "wide" ? "mx-auto max-w-4xl" : "";
+  const align = style.align === "center" ? "text-center" : "";
+  return [width, align].filter(Boolean).join(" ");
+}
 
 /** The sticker hero's configured content, for use inside a hero block. */
 function stickerContent(context: BlockContext, locale: "fi" | "en") {

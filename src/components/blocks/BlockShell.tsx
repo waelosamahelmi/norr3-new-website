@@ -2,6 +2,7 @@
 
 import { MotionSettingsProvider, useMotionSettings } from "@/components/MotionSettingsProvider";
 import { DEFAULT_STYLE, type BlockStyle } from "@/content/blocks";
+import { scopeCss } from "./scopeCss";
 import type { MotionSettings } from "@/lib/cms";
 
 /**
@@ -78,9 +79,12 @@ function scopedMotion(base: MotionSettings, style: BlockStyle): MotionSettings |
 
 export function StyleScope({
   style,
+  blockId,
   children,
 }: {
   style?: Partial<BlockStyle>;
+  /** Used to scope the block's custom CSS to its own wrapper. */
+  blockId?: string;
   children: React.ReactNode;
 }) {
   const resolved: BlockStyle = { ...DEFAULT_STYLE, ...(style ?? {}) };
@@ -92,11 +96,26 @@ export function StyleScope({
   // block renders picks it up — including ones nested in a columns block.
   const vars = resolved.radius ? ({ "--radius-card": resolved.radius } as React.CSSProperties) : undefined;
 
+  const custom = resolved.css.trim();
+  const scopeClass = blockId ? `cms-block-${blockId}` : "";
+  const extra = resolved.className.trim();
+
   // Nothing to do: render the block untouched rather than adding a wrapper that
   // would change the document for no reason.
-  if (!tone && !vars && !override) return <>{children}</>;
+  if (!tone && !vars && !override && !custom && !extra) return <>{children}</>;
 
-  const section = tone || vars ? <section className={tone} style={vars}>{children}</section> : <>{children}</>;
+  const className = [tone, extra, custom ? scopeClass : ""].filter(Boolean).join(" ");
+
+  const section = (
+    <section className={className || undefined} style={vars}>
+      {/* Scoped so a block's own CSS cannot reach the rest of the page. */}
+      {custom && scopeClass && (
+        <style dangerouslySetInnerHTML={{ __html: scopeCss(custom, `.${scopeClass}`) }} />
+      )}
+      {children}
+    </section>
+  );
+
   if (!override) return section;
   return <MotionSettingsProvider value={override}>{section}</MotionSettingsProvider>;
 }

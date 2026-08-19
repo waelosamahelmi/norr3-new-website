@@ -146,6 +146,33 @@ Every one of these falls back to a bundled value, individually. A blank field in
 the CMS keeps the designed content; an unreachable CMS renders the site as
 committed.
 
+### Code from the CMS
+
+The CMS can send code, not just content, and three places on this side render it:
+
+```
+src/components/blocks/CodeEmbed.tsx   a code block: HTML + scoped CSS + JS
+src/components/blocks/scopeCss.ts     prefixes selectors with the block's scope
+src/components/CustomCode.tsx         site-wide CSS, <head> and end-of-body HTML
+```
+
+`scopeCss` is a single-pass tokeniser rather than a regex, because a `}` inside
+`content: "}"` or a `{` inside `url("a{b.png")` silently unscopes every rule that
+follows it. It tracks a nesting stack so `@media` contents get scoped while
+`@keyframes` percentages are left alone.
+
+`CustomCode` inserts its two HTML snippets with a small inline script instead of
+rendering them directly, for two reasons that both bite otherwise: a wrapper
+`<div>` inside `<head>` is invalid HTML, so the browser relocates it and
+hydration fails (React #418); and a `<script>` inserted via `innerHTML` never
+executes, so a pasted analytics snippet would silently do nothing. The
+consequence to know about is that these two snippets are applied client-side and
+are **not** in the server-rendered HTML — a crawler that does not run JavaScript
+will not see them.
+
+None of this is sanitised. It is gated on the CMS side, where only an admin can
+write a code field; this app renders what it is given.
+
 Configuration lives in `.env.local`:
 
 ```

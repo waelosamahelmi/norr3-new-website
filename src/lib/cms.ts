@@ -167,6 +167,8 @@ export type SiteContent = {
   imageSlots: Record<string, { src: string; alt: Record<Locale, string>; caption: Record<Locale, string> }>;
   /** SEO the CMS owns for the hand-built routes, keyed by slug ("home" for /). */
   pageSeo: Record<string, { title: Record<Locale, string>; description: Record<Locale, string>; ogImage: string }>;
+  /** Site-wide custom code, written by an admin in the CMS. */
+  code: { css: string; head: string; bodyEnd: string };
   /** Design-token overrides, emitted as CSS custom properties by the root layout. */
   theme: { root: Record<string, string>; dark: Record<string, string> };
   motion: MotionSettings;
@@ -243,6 +245,7 @@ function fallbackContent(error?: string): SiteContent {
     datasets: {},
     imageSlots: {},
     pageSeo: {},
+    code: { css: "", head: "", bodyEnd: "" },
     theme: { root: {}, dark: {} },
     motion: MOTION_DEFAULTS,
     brand: { clients, valuePills, mediaPills },
@@ -316,6 +319,7 @@ type RawBundle = {
   datasets?: Record<string, { fi: unknown; en: unknown }>;
   imageSlots?: SiteContent["imageSlots"];
   pageSeo?: SiteContent["pageSeo"];
+  code?: { css?: string; head?: string; bodyEnd?: string };
   theme?: { root?: Record<string, string>; dark?: Record<string, string> };
   motion?: Partial<MotionSettings>;
   brand?: Partial<SiteContent["brand"]>;
@@ -374,6 +378,11 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     datasets: raw.datasets ?? {},
     imageSlots: raw.imageSlots ?? {},
     pageSeo: raw.pageSeo ?? {},
+    code: {
+      css: raw.code?.css ?? "",
+      head: raw.code?.head ?? "",
+      bodyEnd: raw.code?.bodyEnd ?? "",
+    },
     theme: { root: raw.theme?.root ?? {}, dark: raw.theme?.dark ?? {} },
     motion: {
       ...MOTION_DEFAULTS,
