@@ -168,7 +168,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
         tone="yellow"
       />
 
-      <LogoStrip clients={clients} />
+      <LogoStrip clients={clients} locale={locale} />
 
       {/* Why choose Media Insights */}
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">

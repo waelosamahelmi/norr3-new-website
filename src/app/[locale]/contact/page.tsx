@@ -251,7 +251,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
         </Container>
       </section>
 
-      <LogoStrip clients={clients} />
+      <LogoStrip clients={clients} locale={locale} />
     </>
   );
 }

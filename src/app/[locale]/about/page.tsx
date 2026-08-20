@@ -96,7 +96,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
         </Reveal>
       </Container>
 
-      <LogoStrip clients={clients} />
+      <LogoStrip clients={clients} locale={locale} />
 
       {/* The story — photo left, narrative right */}
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">

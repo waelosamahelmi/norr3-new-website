@@ -135,7 +135,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
         </Reveal>
       </Container>
 
-      <LogoStrip clients={clients} />
+      <LogoStrip clients={clients} locale={locale} />
 
       {/* Cases — one promoted feature, then the rest as an even photo grid.
           The old layout put a single orphan card in a three-column row below

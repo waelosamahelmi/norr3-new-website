@@ -278,7 +278,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         </Container>
       </section>
 
-      <LogoStrip clients={clients} />
+      <LogoStrip clients={clients} locale={locale} />
 
       {/* Related cases */}
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">

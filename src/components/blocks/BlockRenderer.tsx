@@ -446,7 +446,7 @@ function BlockSwitch({
               </p>
             </Container>
           )}
-          <LogoStrip clients={context.clients} />
+          <LogoStrip clients={context.clients} locale={context.locale} />
         </section>
       );
 

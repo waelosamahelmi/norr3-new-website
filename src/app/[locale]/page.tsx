@@ -154,7 +154,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         heroBody={dict.home.heroBody}
         contactLabel={dict.common.contactUs}
         contactHref={`/${locale}/contact`}
-        logoStrip={<LogoStrip clients={clients} />}
+        logoStrip={<LogoStrip clients={clients} locale={locale} />}
       />
 
       {/*
@@ -222,7 +222,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       <HighlightsBand label={dict.common.highlights} clients={clients} />
 
-      <LogoStrip clients={clients} />
+      <LogoStrip clients={clients} locale={locale} />
 
       {/* Marketing Engine */}
       <section className="bg-pastel-purple/40 py-24 lg:py-32 dark:bg-white/[0.04]">
