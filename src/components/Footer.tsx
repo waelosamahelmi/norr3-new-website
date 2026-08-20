@@ -6,13 +6,23 @@ import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
 
 
-export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+export function Footer({
+  locale,
+  dict,
+  logo,
+}: {
+  locale: Locale;
+  dict: Dictionary;
+  /** Wordmark override, editable in the CMS under Design. */
+  logo?: { wordmark: string };
+}) {
+  const wordmarkSrc = logo?.wordmark?.trim() || "/logo-wordmark.svg";
   return (
     <footer className="bg-purple text-white">
-      {/* Giant logo wordmark — uses the real NØRR3 animated SVG so the
-          wordmark matches the brand exactly (incl. the 3→Δ morph). The SVG
-          is black-on-purple (the footer bg), same as the nav logo on white.
-          Letters rise in on scroll for the reveal. */}
+      {/* Giant logo wordmark — the static SVG (no morph, no loop), so it does not
+          idle-animate every time it scrolls into view. Black-on-purple (the
+          footer bg), same treatment as the nav logo on white. Letters still
+          rise in on scroll for the reveal itself. */}
       <motion.div
         aria-hidden
         initial={{ opacity: 0 }}
@@ -22,7 +32,7 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
         className="mx-auto flex max-w-[1600px] items-end justify-center overflow-hidden px-6 pt-16 lg:px-14"
       >
         <img
-          src="/logo-animated.svg"
+          src={wordmarkSrc}
           alt=""
           className="h-auto w-full max-w-[1400px] select-none"
           style={{ filter: "brightness(0)" }}

@@ -1,42 +1,49 @@
 /**
- * Regenerates the favicons and app icons from the logo mark.
+ * Regenerates the favicons and app icons: an "N", cropped from the wordmark.
  *
- * Run with `node scripts/generate-icons.mjs` after changing public/logo-mark.svg.
+ * Run with `node scripts/generate-icons.mjs` after changing the wordmark artwork.
  *
- * The icons used to be the wordmark shrunk into a square, which is unreadable
- * below about 128px — five letterforms cannot survive a 16px tab strip. The mark
- * is the shape that does, which is what a mark is for.
+ * The icons used to be the full wordmark shrunk into a square, which is
+ * unreadable below about 128px — five letterforms cannot survive a 16px tab
+ * strip. A single letter can, so this crops the "N" the wordmark already draws
+ * rather than inventing a separate mark: two polygons taken verbatim from
+ * `public/logo-wordmark.svg`, shifted so the letter's own bounding box starts
+ * at the origin.
  *
- * White mark on brand purple, rather than purple on transparent: a transparent
- * icon disappears against whichever colour the browser or OS puts behind it, and
- * both Safari's tab strip and Android's launcher do put something there.
+ * White glyph on brand purple, rather than purple on transparent: a
+ * transparent icon disappears against whichever colour the browser or OS puts
+ * behind it, and both Safari's tab strip and Android's launcher do put
+ * something there.
  */
 import sharp from "sharp";
 import { writeFile } from "node:fs/promises";
 
 const PURPLE = "#7016cb";
-const MARK = "M103 0 206 178.4H0Zm0 64.4-47.23 81.8h94.46Z";
+const GLYPH_W = 153.29;
+const GLYPH_H = 178.45;
+const GLYPH = [
+  "36.34 178.37 0 178.44 0 0 36.34 0 36.34 178.37",
+  "116.78 178.45 53.76 79.89 53.83 16.97 119.18 120.65 119.24 0.01 153.29 0 153.29 178.39 116.78 178.45",
+];
 
 /**
- * `inset` is the share of the canvas left as margin around the mark. Favicons
- * get very little, because at 16px every pixel of the glyph counts; app icons
- * get more, because a launcher draws them large and may round the corners.
+ * `inset` is the share of the canvas left as margin around the glyph.
+ * Favicons get very little, because at 16px every pixel counts; app icons get
+ * more, because a launcher draws them large and may round the corners.
  */
 function svg(size, inset, { transparent = false } = {}) {
   const box = size * (1 - inset * 2);
-  // The mark is wider than it is tall, so height is the limiting dimension only
-  // after scaling by the aspect ratio.
-  const scale = Math.min(box / 206, box / 178.4);
-  const w = 206 * scale;
-  const h = 178.4 * scale;
+  const scale = Math.min(box / GLYPH_W, box / GLYPH_H);
+  const w = GLYPH_W * scale;
+  const h = GLYPH_H * scale;
   const x = (size - w) / 2;
   const y = (size - h) / 2;
+  const fill = transparent ? PURPLE : "#ffffff";
+  const polygons = GLYPH.map((points) => `<polygon fill="${fill}" points="${points}"/>`).join("");
   return Buffer.from(
     `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">` +
       (transparent ? "" : `<rect width="${size}" height="${size}" fill="${PURPLE}"/>`) +
-      `<g transform="translate(${x} ${y}) scale(${scale})">` +
-      `<path fill="${transparent ? PURPLE : "#ffffff"}" fill-rule="evenodd" d="${MARK}"/>` +
-      `</g></svg>`
+      `<g transform="translate(${x} ${y}) scale(${scale})">${polygons}</g></svg>`
   );
 }
 
@@ -73,12 +80,12 @@ async function ico(sizes, inset) {
 }
 
 const targets = [
-  ["public/favicon-16.png", 16, 0.06],
-  ["public/favicon-32.png", 32, 0.08],
-  ["public/favicon-48.png", 48, 0.1],
-  ["public/icon-180.png", 180, 0.18],
-  ["public/icon-192.png", 192, 0.18],
-  ["public/icon-512.png", 512, 0.18],
+  ["public/favicon-16.png", 16, 0.1],
+  ["public/favicon-32.png", 32, 0.12],
+  ["public/favicon-48.png", 48, 0.14],
+  ["public/icon-180.png", 180, 0.22],
+  ["public/icon-192.png", 192, 0.22],
+  ["public/icon-512.png", 512, 0.22],
 ];
 
 for (const [path, size, inset] of targets) {
@@ -86,5 +93,5 @@ for (const [path, size, inset] of targets) {
   console.log(`  ${path} ${size}×${size}`);
 }
 
-await writeFile("public/favicon.ico", await ico([16, 32, 48], 0.08));
+await writeFile("public/favicon.ico", await ico([16, 32, 48], 0.12));
 console.log("  public/favicon.ico 16/32/48");

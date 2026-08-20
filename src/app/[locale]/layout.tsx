@@ -99,7 +99,7 @@ export default async function LocaleLayout({
       <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
         {children}
       </main>
-      <Footer locale={locale} dict={dict} />
+      <Footer locale={locale} dict={dict} logo={content.brand.logo} />
       <CookieConsent dict={dict.cookies} locale={locale} />
       </MotionSettingsProvider>
     </MotionConfig>

@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# media uploaded through the CMS at runtime — not source, and can be large
+/public/uploads/

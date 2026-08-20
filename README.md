@@ -82,39 +82,33 @@ all reachable from CMS → Design. Anything untouched there injects nothing.
 
 ### The logo
 
-The logo has two parts, and the distinction matters because they fail in
-different places:
+Wordmark only — there used to be a triangle mark shown beside it in the nav, and
+the wordmark used to be a self-animating SMIL SVG that morphed the numeral 3
+into that triangle on a 6.2s loop. Both were removed: the mark is not part of
+the logo as the site uses it, and a shape looping in the header of every page
+was more motion than the brand wanted.
 
 ```
-public/logo-mark.svg       the triangle, as a standalone asset
-public/logo-animated.svg   the wordmark; a self-animating SMIL SVG (170KB)
-src/components/Logo.tsx    <Logo variant="lockup" | "mark" | "wordmark" />
-scripts/generate-icons.mjs regenerates every favicon and app icon from the mark
+public/logo-animated.svg   the original, still self-animating — source only
+public/logo-wordmark.svg   the shipped file: logo-animated.svg with every
+                            <animate> element stripped (171KB down to 6KB)
+src/components/Logo.tsx    <Logo artwork={{ wordmark }} />
+scripts/generate-icons.mjs regenerates every favicon and app icon
 ```
 
-The wordmark stays an `<img>` so its 170KB of morph keyframes stay out of every
-page's HTML and cache as one asset. The mark is *inlined* by `Logo`, because it
-is a single path — that costs nothing and buys `currentColor`, which is how it
-turns white on the dark theme without the `brightness-0 invert` filter the
-wordmark needs.
+The wordmark stays an `<img>` rather than being inlined: it is one asset shared
+and cached across every page, and it recolours for dark mode with a
+`brightness-0 invert` filter rather than `currentColor`.
 
-The mark's geometry is an equilateral triangle outline of uniform thickness. It
-was measured off the held state of the wordmark's own 3→triangle morph and then
-re-authored cleanly, so it is the same shape the animation resolves to but 686
-bytes rather than 4KB of polyline points.
+It is replaceable from the CMS (Design → Logo). An empty setting means the
+shipped file.
 
-Both slots are replaceable from the CMS (Design → Logo), and the nav treatment
-is a setting. An empty setting means the shipped file.
-
-Two things to know:
-
-- **Two purples.** The logo artwork is `#7016cb`; the brand's `--color-purple`
-  token is `#7a06d3`. `Logo` draws the mark in the artwork's purple so the two
-  halves of the lockup match each other, and deliberately does not follow the
-  theme token — recolouring the UI should not recolour the logo. Worth resolving
-  upstream at some point, in one direction or the other.
-- **Icons are generated, not live.** Changing the mark in the CMS does not
-  rebuild the favicons; `node scripts/generate-icons.mjs` does.
+**Favicons crop the wordmark's own "N"** rather than reusing a separate mark —
+two polygons taken verbatim from `public/logo-wordmark.svg`. A full wordmark
+shrunk to 16px is unreadable; one letter reads fine, and it avoids inventing
+brand geometry that has to match a wordmark rendered right next to it. Icons
+are generated, not live: `node scripts/generate-icons.mjs` rebuilds them, and
+nothing in the CMS does it automatically if the wordmark artwork changes.
 
 ### Video in an image slot
 
