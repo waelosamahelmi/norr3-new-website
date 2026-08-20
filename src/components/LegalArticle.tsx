@@ -10,7 +10,7 @@ export type LegalSection = { title: string; body: string[] };
  *
  * Deliberately quieter than the marketing pages — no marquees, no saturated
  * accents (BRAND_GUIDELINES §2 keeps yellow/lime for infographics) — but still
- * on-brand: Host Grotesk, purple index numbers and links, 25px card radius,
+ * on-brand: Host Grotesk, purple index numbers and links, the brand card radius,
  * and a measure capped near 68ch so long legal prose stays readable.
  */
 export function LegalArticle({

@@ -50,7 +50,7 @@ export default async function BriefPage({ params }: { params: Promise<{ locale: 
 
       {/* Form */}
       <Container className="pb-24 pt-12 lg:pb-32">
-        <div className="rounded-[25px] bg-white p-8 ring-1 ring-black/5 sm:p-10 dark:bg-white/[0.04] dark:ring-white/10">
+        <div className="rounded-card bg-white p-8 ring-1 ring-black/5 sm:p-10 dark:bg-white/[0.04] dark:ring-white/10">
           <BriefForm
             locale={locale}
             dict={dict.brief}

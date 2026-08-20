@@ -53,8 +53,12 @@
   --color-accent-blue: #46a8ff;
   --color-ink: #000000;
 
-  /* Component tokens — BRAND_GUIDELINES.md §5 */
-  --radius-card: 25px;
+  /* Component tokens — BRAND_GUIDELINES.md §5. Cards, images and panels get a
+     near-square corner (3px) — enough to soften a hard edge without reading as
+     "rounded". Pills/CTAs are a separate, unrelated `rounded-full` utility used
+     directly on buttons; they are not driven by this token and stay fully
+     rounded regardless of what this is set to. */
+  --radius-card: 3px;
   --spacing-card-pad: 36px;
   --spacing-card-gap: 26px;
 

@@ -13,7 +13,7 @@ export function BenefitCard({
 }) {
   return (
     <HoverLift className="h-full" lift={3} scale={1.015}>
-      {/* 25px card radius / 36px padding per BRAND_GUIDELINES §5. The 64px tile
+      {/* brand card radius / 36px padding per BRAND_GUIDELINES §5. The 64px tile
           is the deliberate secondary scale — the 100px tile belongs to the
           numbered service cards, which outrank these. */}
       <div className="flex h-full flex-col gap-6 rounded-card bg-grey/70 p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">

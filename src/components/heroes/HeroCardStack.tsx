@@ -169,7 +169,7 @@ export function HeroCardStack({
               drag={isFocus ? "x" : false}
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.65}
-              className={`absolute w-[180px] rounded-[14px] outline-none sm:w-[230px] ${isFocus ? "" : RING}`}
+              className={`absolute w-[180px] rounded-card outline-none sm:w-[230px] ${isFocus ? "" : RING}`}
               style={{ cursor: isFocus ? "grab" : "pointer", zIndex: slot.zIndex }}
               initial={reduceMotion ? false : { opacity: 0, scale: 0.6, y: 40 }}
               animate={{ x: slot.x, y: slot.y, rotate: slot.rotate, scale: slot.scale, opacity: 1 }}
@@ -177,7 +177,7 @@ export function HeroCardStack({
               whileTap={isFocus ? { cursor: "grabbing" } : undefined}
             >
               <motion.div
-                className="relative overflow-hidden rounded-[14px] bg-white p-2 ring-1 ring-black/10"
+                className="relative overflow-hidden rounded-card bg-white p-2 ring-1 ring-black/10"
                 style={{ boxShadow: isFocus ? "0 20px 40px rgba(0,0,0,.34)" : "0 10px 24px rgba(0,0,0,.24)" }}
                 animate={reduceMotion ? undefined : { y: isFocus ? [0, -5, 0] : [0, -3, 0] }}
                 transition={reduceMotion ? { duration: 0 } : { duration: 6 + card.id * 0.5, repeat: Infinity, ease: "easeInOut" }}
@@ -186,7 +186,7 @@ export function HeroCardStack({
                   <p className="pr-2 text-left text-[12px] font-medium leading-tight text-ink sm:text-[14px]">{card.title}</p>
                   {isFocus && <span aria-hidden className="absolute right-1 top-1 text-[13px] text-purple">↗</span>}
                 </div>
-                <div className={`relative w-full overflow-hidden rounded-[9px] ${imageRatio}`}>
+                <div className={`relative w-full overflow-hidden rounded-card ${imageRatio}`}>
                   <MediaAsset
                     src={card.image}
                     loading={isFocus ? "eager" : "lazy"}
