@@ -9,7 +9,7 @@ const PILL_TONES = [
 
 const CHIP_ICONS = ["interests", "trending_up", "monitoring", "bar_chart"];
 
-/** The "Highlights" band: client pills scrolling over a soft violet surface. */
+/** The "Highlights" band: client pills scrolling over a solid black surface. */
 export function HighlightsBand({
   label,
   clients = bundledClients,
@@ -38,7 +38,7 @@ export function HighlightsBand({
   );
 
   return (
-    <section className="bg-violet py-12 dark:bg-white/[0.04] dark:border-y dark:border-white/10">
+    <section className="bg-ink py-12 dark:bg-white/[0.04] dark:border-y dark:border-white/10">
       {/* Same uppercase eyebrow treatment as the StatGrid label, so every
           small section label on the site reads as one system. */}
       <p className="mb-8 text-center text-xs font-medium uppercase tracking-[0.14em] text-white/60">

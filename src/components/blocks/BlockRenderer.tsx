@@ -80,7 +80,7 @@ export function BlockRenderer({
 /**
  * Blocks that paint their own full-width surface. StyleScope must not also draw
  * the tone for these or the band would be doubled — the closing CTA keeps a pale
- * lavender in dark mode by design, and the highlights band is a violet strip.
+ * lavender in dark mode by design, and the highlights band is a solid black strip.
  */
 const SELF_SURFACED = new Set(["cta.banner", "highlights.band"]);
 
