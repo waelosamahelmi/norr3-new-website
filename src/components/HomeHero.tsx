@@ -273,23 +273,27 @@ export function HomeHero({
   return (
     <h1
       aria-label={`${left} ${accent}`}
-      className="flex w-full flex-wrap items-center justify-center gap-x-1 gap-y-1 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:justify-start lg:gap-2 dark:text-white"
+      className="relative flex w-full flex-wrap items-center justify-center gap-x-1 gap-y-1 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:justify-start lg:gap-2 dark:text-white"
       onPointerMove={parallax ? handlePointerMove : undefined}
       onPointerLeave={parallax ? handlePointerLeave : undefined}
     >
       {/* Left word — types itself in, with the blinking caret trailing it.
           When not typing the caret collapses to zero width so it doesn't add a
           phantom gap before the accent word on mobile. */}
-      <span aria-hidden className="block whitespace-nowrap text-[7.5vw] lg:text-[6.5vw]">
+      <span aria-hidden className="relative z-10 block whitespace-nowrap text-[7.5vw] lg:text-[6.5vw]">
         {motion ? left.slice(0, typed) : left}
         <span className={typing ? "caret-blink" : "inline-block w-0 overflow-hidden opacity-0"}>_</span>
       </span>
 
-      {/* The rotating portrait stack. */}
-      <span aria-hidden className="order-3 mt-10 block w-full lg:order-none lg:mt-0 lg:w-auto lg:min-w-0 lg:shrink-0">
+      {/* The rotating portrait stack. Sits behind the text (z-0, its own
+          stacking context as a flex item) — the enlarged 9:16 cards spill
+          past the stage box on the sides once popped and offset, and without
+          this the card's explicit z-index (1–3 below) would otherwise let it
+          paint over the neighbouring words, which have none. */}
+      <span aria-hidden className="relative z-0 order-3 mt-10 block w-full lg:order-none lg:mt-0 lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
           ref={stageRef}
-          className="relative mx-auto h-[320px] max-h-[42svh] w-[min(300px,80vw)] select-none [--card:210px] [--spread:0.72] sm:h-[480px] sm:w-full sm:max-w-md sm:[--card:340px] sm:[--spread:0.85] lg:mx-4 lg:h-[380px] lg:max-h-[52svh] lg:w-[360px] lg:[--card:360px] lg:[--spread:1]"
+          className="relative mx-auto h-[460px] max-h-[56svh] w-[min(320px,84vw)] select-none [--card:210px] [--spread:0.72] sm:h-[700px] sm:max-h-[62svh] sm:w-full sm:max-w-lg sm:[--card:340px] sm:[--spread:0.85] lg:mx-4 lg:h-[560px] lg:max-h-[62svh] lg:w-[420px] lg:[--card:360px] lg:[--spread:1]"
         >
           {deck.map((card, index) => {
             const slotIndex = slotOf[index];
@@ -310,11 +314,11 @@ export function HomeHero({
                 }}
               >
                 <div
-                  className="absolute left-1/2 top-1/2 aspect-[3/4] overflow-hidden rounded-md shadow-[0_14px_34px_rgba(0,0,0,0.22)]"
+                  className="absolute left-1/2 top-1/2 aspect-[9/16] overflow-hidden rounded-md shadow-[0_14px_34px_rgba(0,0,0,0.22)]"
                   style={{
                     // Card width as a share of the stage (percentage-based) so
-                    // it scales cleanly at every breakpoint; front card = 72%.
-                    width: `calc(${slot.scale} * 72%)`,
+                    // it scales cleanly at every breakpoint; front card = 76%.
+                    width: `calc(${slot.scale} * 76%)`,
                     opacity: isPopped ? slot.opacity : 0,
                     // Pop-in: scale from 0 to 1 (springy) as each card appears.
                     transform: `translate(-50%, -50%) scale(${isPopped ? 1 : 0})`,
@@ -361,7 +365,7 @@ export function HomeHero({
           the collage rather than pushed to the far right. */}
       <span
         aria-hidden
-        className="block whitespace-nowrap text-[7.5vw] transition-opacity duration-[400ms] lg:text-[6.5vw]"
+        className="relative z-10 block whitespace-nowrap text-[7.5vw] transition-opacity duration-[400ms] lg:text-[6.5vw]"
         style={{ opacity: accentHidden ? 0 : 1 }}
       >
         <span className="inline-grid justify-items-start">
