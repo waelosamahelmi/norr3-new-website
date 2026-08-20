@@ -475,7 +475,6 @@ function BlockSwitch({
                 body={service[locale].body}
                 items={bool(p.showItems) ? service.items?.map((item) => item[locale]) : undefined}
                 readMoreLabel={dict.common.readMore}
-                highlighted={service.highlighted}
                 href={`/${locale}/services`}
               />
             ))}

@@ -1,7 +1,6 @@
 export type ServiceCard = {
   number: string;
   icon: string;
-  highlighted?: boolean;
   fi: { title: string; body: string };
   en: { title: string; body: string };
   /**
@@ -16,8 +15,9 @@ export type ServiceCard = {
   items?: { fi: string; en: string }[];
 };
 
-// The six service categories per Antti's service map — card 02 is the purple
-// highlighted variant carried over from the Figma "Services" grid.
+// The six service categories per Antti's service map. The purple treatment
+// once pinned to card 02 by a flag here is now a hover state on every card
+// (see ServiceCard.tsx) — no card is special-cased any more.
 export const serviceCards: ServiceCard[] = [
   {
     number: "01",
@@ -33,7 +33,6 @@ export const serviceCards: ServiceCard[] = [
   {
     number: "02",
     icon: "monitoring",
-    highlighted: true,
     fi: { title: "Data & Mittaus", body: "Optimaalisen mediastrategian rakentaminen alkaa datasta — ja päättyy siihen, että tulos on todennettu." },
     en: { title: "Data & Measurement", body: "Building an optimal media strategy starts with data — and ends with the result actually verified." },
     items: [

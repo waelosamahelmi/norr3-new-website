@@ -182,7 +182,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 title={card[locale].title}
                 body={card[locale].body}
                 readMoreLabel={dict.common.readMore}
-                highlighted={card.highlighted}
                 href={`/${locale}/services`}
               />
             ))}
