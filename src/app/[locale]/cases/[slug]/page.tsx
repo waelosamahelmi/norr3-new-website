@@ -13,6 +13,7 @@ import { CountUpStat } from "@/components/CountUpStat";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { Icon } from "@/components/Icon";
 import { getCase, getCases } from "@/lib/cms";
+import { linkTo } from "@/lib/links";
 
 export async function generateStaticParams() {
   return (await getCases()).map((c) => ({ slug: c.slug }));
@@ -29,13 +30,13 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/cases/[s
     title,
     description,
     alternates: {
-      canonical: `/${locale}/cases/${slug}`,
-      languages: { "fi-FI": `/fi/cases/${slug}`, "en-US": `/en/cases/${slug}` },
+      canonical: linkTo(locale, `/cases/${slug}`),
+      languages: { "fi-FI": `/cases/${slug}`, "en-US": `/en/cases/${slug}` },
     },
     openGraph: {
       type: "article" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/cases/${slug}`,
+      url: `https://norr3.fi${linkTo(locale, `/cases/${slug}`)}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title,
       description,
@@ -100,12 +101,12 @@ export default async function CaseDetailPage({ params }: PageProps<"/[locale]/ca
             <Reveal delay={0.12} className="mt-5 flex flex-col items-start gap-6">
               <p className="max-w-xl text-base leading-relaxed text-white/85 lg:text-lg">{study.tagline[locale]}</p>
               <div className="flex flex-wrap gap-3">
-                <PillButton href={`/${locale}/contact`} variant="lavender">
+                <PillButton href={linkTo(locale, "/contact")} variant="lavender">
                   {dict.common.contactUs}
                 </PillButton>
                 {/* A way back to the index from a case that was landed on
                     directly — previously the nav was the only exit. */}
-                <PillButton href={`/${locale}/cases`} variant="outlineLight">
+                <PillButton href={linkTo(locale, "/cases")} variant="outlineLight">
                   {dict.common.allCases}
                 </PillButton>
               </div>
@@ -249,7 +250,7 @@ export default async function CaseDetailPage({ params }: PageProps<"/[locale]/ca
       {/* More cases */}
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
         <Container>
-          <SectionHeader heading={d.moreCases} body={dict.cases.body} cta={dict.common.allCases} ctaHref={`/${locale}/cases`} />
+          <SectionHeader heading={d.moreCases} body={dict.cases.body} cta={dict.common.allCases} ctaHref={linkTo(locale, "/cases")} />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {related.map((c) => (
               <CaseCard key={c.slug} study={c} locale={locale} ctaLabel={dict.common.readCase} />

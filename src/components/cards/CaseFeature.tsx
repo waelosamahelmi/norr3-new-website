@@ -3,6 +3,7 @@ import { CountUpStat } from "@/components/CountUpStat";
 import { Reveal } from "@/components/Reveal";
 import type { CaseStudy } from "@/content/cases";
 import type { Locale } from "@/i18n/config";
+import { linkTo } from "@/lib/links";
 
 /**
  * The magazine opener for the cases index: one case promoted to a two-column
@@ -29,7 +30,7 @@ export function CaseFeature({
   return (
     <Reveal>
       <Link
-        href={`/${locale}/cases/${study.slug}`}
+        href={linkTo(locale, `/cases/${study.slug}`)}
         className="group grid gap-8 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple lg:grid-cols-2 lg:items-center lg:gap-14 dark:focus-visible:outline-light-purple"
       >
         <div className="overflow-hidden rounded-card">

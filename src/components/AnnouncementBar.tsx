@@ -6,6 +6,7 @@ import { Icon } from "@/components/Icon";
 import { useLocalStorageItem } from "@/lib/useLocalStorageItem";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
+import { linkTo } from "@/lib/links";
 
 const STORAGE_KEY = "norr3-announcement-dismissed";
 
@@ -44,7 +45,7 @@ export function AnnouncementBar({
   return (
     <div className="relative z-[60] bg-ink px-6 py-2.5 text-center text-sm text-white dark:border-b dark:border-white/10">
       <Link
-        href={`/${locale}${href.startsWith("/") ? href : `/${href}`}`}
+        href={linkTo(locale, `${href.startsWith("/") ? href : `/${href}`}`)}
         className="inline-flex items-center gap-2 rounded-sm transition-colors hover:text-light-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
       >
         <Icon name="auto_awesome" className="text-[18px]" />

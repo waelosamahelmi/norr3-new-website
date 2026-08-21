@@ -12,6 +12,7 @@ import { PillButton } from "@/components/PillButton";
 import { heroAlt, heroImages, heroList, heroLocalised, heroNumber, heroText, heroWords, pickHero } from "@/content/heroes";
 import type { CmsHero } from "@/lib/cms";
 import type { Locale } from "@/i18n/config";
+import { linkTo } from "@/lib/links";
 
 /**
  * Shows one hero per visit, chosen from the ones enabled in the CMS.
@@ -179,7 +180,7 @@ export function HeroRandomizer({
             <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
               {heroText(hero?.body, locale, heroBody)}
             </p>
-            <PillButton href={hero?.cta.href ? `/${locale}${hero.cta.href.replace(/^\/?/, "/")}` : contactHref}>
+            <PillButton href={hero?.cta.href ? linkTo(locale, `${hero.cta.href.replace(/^\/?/, "/")}`) : contactHref}>
               {heroText(hero?.cta.label, locale, contactLabel)}
             </PillButton>
           </Reveal>

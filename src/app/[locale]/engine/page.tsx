@@ -21,6 +21,7 @@ import { CaseCard } from "@/components/cards/CaseCard";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { Icon } from "@/components/Icon";
 import { MediaAsset } from "@/components/MediaAsset";
+import { linkTo } from "@/lib/links";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/engine">) {
   const { locale } = await params;
@@ -36,11 +37,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/engine">
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: `/${locale}/engine`, languages: { "fi-FI": "/fi/engine", "en-US": "/en/engine" } },
+    alternates: { canonical: linkTo(locale, "/engine"), languages: { "fi-FI": "/engine", "en-US": "/en/engine" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/engine`,
+      url: `https://norr3.fi${linkTo(locale, "/engine")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -106,7 +107,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
             </p>
             <div className="flex flex-wrap gap-3">
               <PillButton href="#simulator">{dict.common.accessDemo}</PillButton>
-              <PillButton href={`/${locale}/contact`} variant="secondary">
+              <PillButton href={linkTo(locale, "/contact")} variant="secondary">
                 {dict.common.contactUs}
               </PillButton>
             </div>
@@ -269,7 +270,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
               ))}
             </ul>
             <div className="flex flex-wrap justify-center gap-3">
-              <PillButton href={`/${locale}/contact`} variant="lavender">{dict.common.bookDemo}</PillButton>
+              <PillButton href={linkTo(locale, "/contact")} variant="lavender">{dict.common.bookDemo}</PillButton>
               <PillButton href="#simulator" variant="outlineLight">{dict.common.accessDemo}</PillButton>
             </div>
           </Reveal>
@@ -285,7 +286,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
             heading={dict.services.relatedCases}
             body={dict.cases.body}
             cta={dict.common.allCases}
-            ctaHref={`/${locale}/cases`}
+            ctaHref={linkTo(locale, "/cases")}
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {related.map((c) => (

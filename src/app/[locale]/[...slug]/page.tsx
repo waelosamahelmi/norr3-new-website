@@ -3,6 +3,7 @@ import { isLocale } from "@/i18n/config";
 import { getCmsPage, getSiteContent } from "@/lib/cms";
 import { buildBlockContext } from "@/components/blocks/context";
 import { BlockRenderer } from "@/components/blocks/BlockRenderer";
+import { linkTo } from "@/lib/links";
 
 /**
  * Serves pages composed in the CMS page editor.
@@ -30,13 +31,13 @@ export async function generateMetadata({ params }: Params) {
     title,
     description,
     alternates: {
-      canonical: `/${locale}/${path}`,
-      languages: { "fi-FI": `/fi/${path}`, "en-US": `/en/${path}` },
+      canonical: linkTo(locale, `/${path}`),
+      languages: { "fi-FI": `/${path}`, "en-US": `/en/${path}` },
     },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/${path}`,
+      url: `https://norr3.fi${linkTo(locale, `/${path}`)}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title,
       description,

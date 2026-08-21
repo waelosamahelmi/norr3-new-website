@@ -36,6 +36,7 @@ import { bool, num, rows, slots, str, styleOf, text, type Block } from "@/conten
 import { BLOCK_TONE, StyleScope, TONE_IS_DARK, TONE_IS_PALE, pad } from "./BlockShell";
 import { CodeEmbed } from "./CodeEmbed";
 import { cx } from "@/lib/cx";
+import { linkTo } from "@/lib/links";
 import type { BlockContext } from "./context";
 
 /**
@@ -475,7 +476,7 @@ function BlockSwitch({
                 body={service[locale].body}
                 items={bool(p.showItems) ? service.items?.map((item) => item[locale]) : undefined}
                 readMoreLabel={dict.common.readMore}
-                href={`/${locale}/services`}
+                href={linkTo(locale, "/services")}
               />
             ))}
           </StaggerGrid>
@@ -595,7 +596,7 @@ function BlockSwitch({
                     <p className="text-xl font-medium text-ink dark:text-white">{role.title[locale]}</p>
                     <p className="mt-1 text-sm text-ink/55 dark:text-white/55">{role.location[locale]}</p>
                   </div>
-                  <PillButton href={`/${locale}/careers`} variant="secondary">
+                  <PillButton href={linkTo(locale, "/careers")} variant="secondary">
                     {t("applyLabel") || dict.common.readMore}
                   </PillButton>
                 </li>
@@ -865,7 +866,7 @@ function BlockSwitch({
                 {t("body")}
               </p>
             )}
-            <PillButton href={`/${locale}/brief`} variant="primary" className="mt-8">
+            <PillButton href={linkTo(locale, "/brief")} variant="primary" className="mt-8">
               {dict.common.briefUs}
             </PillButton>
           </div>
@@ -955,11 +956,11 @@ function cityLayers(context: BlockContext) {
 
 /** CMS links are locale-relative; external and anchor links pass through. */
 function localeHref(value: string, locale: "fi" | "en"): string {
-  if (!value) return `/${locale}`;
+  if (!value) return linkTo(locale);
   if (/^(https?:|mailto:|tel:|#)/.test(value)) return value;
   const path = value.startsWith("/") ? value : `/${value}`;
-  if (path === `/${locale}` || path.startsWith(`/${locale}/`)) return path;
-  return `/${locale}${path}`;
+  const stripped = path.replace(/^\/(?:en|fi)(?=\/|$)/, "");
+  return linkTo(locale, stripped || "/");
 }
 
 function buttonVariant(value: string): "primary" | "secondary" | "text" {

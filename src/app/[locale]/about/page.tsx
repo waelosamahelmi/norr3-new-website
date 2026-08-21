@@ -17,6 +17,7 @@ import { ContactBanner } from "@/components/ContactBanner";
 import { StatGrid } from "@/components/StatGrid";
 import { Icon } from "@/components/Icon";
 import { MediaAsset } from "@/components/MediaAsset";
+import { linkTo } from "@/lib/links";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/about">) {
   const { locale } = await params;
@@ -32,11 +33,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/about">)
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: `/${locale}/about`, languages: { "fi-FI": "/fi/about", "en-US": "/en/about" } },
+    alternates: { canonical: linkTo(locale, "/about"), languages: { "fi-FI": "/about", "en-US": "/en/about" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/about`,
+      url: `https://norr3.fi${linkTo(locale, "/about")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -88,8 +89,8 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
             {a.heroBody}
           </p>
           <div className="flex flex-wrap gap-3">
-            <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
-            <PillButton href={`/${locale}/careers`} variant="secondary">
+            <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
+            <PillButton href={linkTo(locale, "/careers")} variant="secondary">
               {dict.common.openJobs}
             </PillButton>
           </div>
@@ -192,7 +193,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
           <TeamMarquee locale={locale} members={content.team} />
         </div>
         <Container className="mt-12 flex justify-center">
-          <PillButton href={`/${locale}/team`}>{dict.common.meetTeam}</PillButton>
+          <PillButton href={linkTo(locale, "/team")}>{dict.common.meetTeam}</PillButton>
         </Container>
       </section>
 

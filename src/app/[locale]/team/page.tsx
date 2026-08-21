@@ -19,6 +19,7 @@ import { ContactBanner } from "@/components/ContactBanner";
 import { StatGrid } from "@/components/StatGrid";
 import { CountUpStat } from "@/components/CountUpStat";
 import { Icon } from "@/components/Icon";
+import { linkTo } from "@/lib/links";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/team">) {
   const { locale } = await params;
@@ -34,11 +35,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/team">) 
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: `/${locale}/team`, languages: { "fi-FI": "/fi/team", "en-US": "/en/team" } },
+    alternates: { canonical: linkTo(locale, "/team"), languages: { "fi-FI": "/team", "en-US": "/en/team" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/team`,
+      url: `https://norr3.fi${linkTo(locale, "/team")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -113,10 +114,10 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
             {t.heroBody}
           </p>
           <div className="flex flex-wrap gap-3">
-            <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
+            <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
             {/* The roles section is the second reason people open this page —
                 give it a route in from the fold instead of a long scroll. */}
-            <PillButton href={`/${locale}/team#open-roles`} variant="secondary">
+            <PillButton href={linkTo(locale, "/team#open-roles")} variant="secondary">
               {dict.common.openJobs}
             </PillButton>
           </div>
@@ -237,7 +238,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
             {openRoles.map((role) => (
               <Link
                 key={role.id}
-                href={`/${locale}/contact`}
+                href={linkTo(locale, "/contact")}
                 className="group flex h-full flex-col rounded-card bg-yellow p-8 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus-visible:outline-light-purple"
               >
                 <span className="flex h-[64px] w-[64px] items-center justify-center rounded-[5px] bg-white/60 text-ink">

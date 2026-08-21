@@ -15,6 +15,7 @@ import { LogoStrip } from "@/components/marquee/LogoStrip";
 import { PillButton } from "@/components/PillButton";
 import { Icon } from "@/components/Icon";
 import { MediaAsset } from "@/components/MediaAsset";
+import { linkTo } from "@/lib/links";
 
 /** The five people who take direct contact on this page. The rest of the
  *  roster lives on /team — this row is a routing aid, not a second roster. */
@@ -41,13 +42,13 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
     title: seo.title,
     description: seo.description,
     alternates: {
-      canonical: `/${locale}/contact`,
-      languages: { "fi-FI": "/fi/contact", "en-US": "/en/contact" },
+      canonical: linkTo(locale, "/contact"),
+      languages: { "fi-FI": "/contact", "en-US": "/en/contact" },
     },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/contact`,
+      url: `https://norr3.fi${linkTo(locale, "/contact")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -216,7 +217,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
               <span>
                 {dict.contact.privacyNote}{" "}
                 <Link
-                  href={`/${locale}/privacy`}
+                  href={linkTo(locale, "/privacy")}
                   className="rounded-sm font-medium text-purple underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-light-purple dark:focus-visible:outline-light-purple"
                 >
                   {dict.footer.privacy}
@@ -244,7 +245,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
             ))}
           </StaggerGrid>
           <Reveal className="mt-12 flex justify-center">
-            <PillButton href={`/${locale}/team`} variant="secondary">
+            <PillButton href={linkTo(locale, "/team")} variant="secondary">
               {dict.contact.leads.fullTeam}
             </PillButton>
           </Reveal>

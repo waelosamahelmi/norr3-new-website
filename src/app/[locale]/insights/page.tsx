@@ -9,6 +9,7 @@ import { StaggerGrid } from "@/components/StaggerGrid";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
 import { getPosts } from "@/lib/cms";
+import { linkTo } from "@/lib/links";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/insights">) {
   const { locale } = await params;
@@ -25,13 +26,13 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/insights
     title: seo.title,
     description: seo.description,
     alternates: {
-      canonical: `/${locale}/insights`,
-      languages: { "fi-FI": "/fi/insights", "en-US": "/en/insights" },
+      canonical: linkTo(locale, "/insights"),
+      languages: { "fi-FI": "/insights", "en-US": "/en/insights" },
     },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/insights`,
+      url: `https://norr3.fi${linkTo(locale, "/insights")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -87,7 +88,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
       <Container className="pb-24 pt-14 lg:pb-32 lg:pt-16">
         <Reveal>
           <Link
-            href={`/${locale}/insights/${featured.slug}`}
+            href={linkTo(locale, `/insights/${featured.slug}`)}
             className="group grid gap-8 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple lg:grid-cols-2 lg:items-center lg:gap-14 dark:focus-visible:outline-light-purple"
           >
             <div className="aspect-[4/3] overflow-hidden rounded-card">

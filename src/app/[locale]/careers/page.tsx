@@ -15,6 +15,7 @@ import { BenefitCard } from "@/components/cards/BenefitCard";
 import { PhotoInterstitial } from "@/components/PhotoInterstitial";
 import { ContactBanner } from "@/components/ContactBanner";
 import { Icon } from "@/components/Icon";
+import { linkTo } from "@/lib/links";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/careers">) {
   const { locale } = await params;
@@ -30,11 +31,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/careers"
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: `/${locale}/careers`, languages: { "fi-FI": "/fi/careers", "en-US": "/en/careers" } },
+    alternates: { canonical: linkTo(locale, "/careers"), languages: { "fi-FI": "/careers", "en-US": "/en/careers" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/careers`,
+      url: `https://norr3.fi${linkTo(locale, "/careers")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -83,8 +84,8 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/caree
           <div className="flex flex-wrap gap-3">
             {/* Full path + hash, like the team page's roles CTA, so the link
                 resolves the same whether it is clicked or copied. */}
-            <PillButton href={`/${locale}/careers#open-roles`}>{dict.common.openJobs}</PillButton>
-            <PillButton href={`/${locale}/about`} variant="secondary">
+            <PillButton href={linkTo(locale, "/careers#open-roles")}>{dict.common.openJobs}</PillButton>
+            <PillButton href={linkTo(locale, "/about")} variant="secondary">
               {c.culture.cta}
             </PillButton>
           </div>
@@ -104,7 +105,7 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/caree
             {openRoles.map((role) => (
               <Link
                 key={role.id}
-                href={`/${locale}/contact`}
+                href={linkTo(locale, "/contact")}
                 className="group flex h-full flex-col rounded-card bg-yellow p-8 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus-visible:outline-light-purple"
               >
                 <span className="flex h-[64px] w-[64px] items-center justify-center rounded-[5px] bg-white/60 text-ink">
@@ -136,7 +137,7 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/caree
             heading={c.culture.heading}
             body={c.culture.body}
             cta={c.culture.cta}
-            ctaHref={`/${locale}/about`}
+            ctaHref={linkTo(locale, "/about")}
           />
           <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {c.culture.benefits.map((b) => (

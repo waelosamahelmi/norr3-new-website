@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getSiteContent } from "@/lib/cms";
+import { linkTo } from "@/lib/links";
 
 const BASE = "https://norr3.fi";
 const LOCALES = ["fi", "en"] as const;
@@ -37,14 +38,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     options: { lastModified?: Date; changeFrequency?: "weekly" | "monthly"; priority?: number } = {}
   ) =>
     LOCALES.map((locale) => ({
-      url: `${BASE}/${locale}${path ? `/${path}` : ""}`,
+      url: `${BASE}${linkTo(locale, path || "")}`,
       lastModified: options.lastModified ?? now,
       changeFrequency: options.changeFrequency ?? ("monthly" as const),
       priority: options.priority ?? 0.8,
       alternates: {
-        languages: Object.fromEntries(
-          LOCALES.map((l) => [l === "fi" ? "fi-FI" : "en-US", `${BASE}/${l}${path ? `/${path}` : ""}`])
-        ),
+        languages: {
+          "fi-FI": `${BASE}${linkTo("fi", path || "")}`,
+          "en-US": `${BASE}${linkTo("en", path || "")}`,
+        },
       },
     }));
 

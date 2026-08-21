@@ -11,6 +11,7 @@ import { ShareRow } from "@/components/ShareRow";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
 import { getPost, getPosts } from "@/lib/cms";
+import { linkTo } from "@/lib/links";
 
 /**
  * Pre-render the posts the CMS has published at build time. New posts written
@@ -34,16 +35,16 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/insights
     title: post.seo[locale].title || `${content.title} — NØRR3`,
     description: post.seo[locale].description || content.excerpt,
     alternates: {
-      canonical: `/${locale}/insights/${slug}`,
+      canonical: linkTo(locale, `/insights/${slug}`),
       languages: {
-        "fi-FI": `/fi/insights/${slug}`,
+        "fi-FI": `/insights/${slug}`,
         "en-US": `/en/insights/${slug}`,
       },
     },
     openGraph: {
       type: "article" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/insights/${slug}`,
+      url: `https://norr3.fi${linkTo(locale, `/insights/${slug}`)}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: content.title,
       description: content.excerpt,
@@ -70,7 +71,7 @@ export default async function InsightArticlePage({
   const content = post[locale];
   const others = (await getPosts()).filter((entry) => entry.slug !== slug).slice(0, 3);
   const minutes = post.readingMinutes;
-  const url = `https://norr3.fi/${locale}/insights/${slug}`;
+  const url = `https://norr3.fi${linkTo(locale, `/insights/${slug}`)}`;
 
   return (
     <>
@@ -78,7 +79,7 @@ export default async function InsightArticlePage({
       <Container className="pb-10 pt-12 lg:pt-20">
         <Reveal className="mx-auto max-w-3xl text-center">
           <Link
-            href={`/${locale}/insights`}
+            href={linkTo(locale, "/insights")}
             className="inline-flex items-center gap-1.5 rounded-sm text-xs font-medium text-ink/50 transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple dark:text-white/50 dark:hover:text-white dark:focus-visible:outline-light-purple"
           >
             <span aria-hidden>←</span> {dict.common.allInsights}
@@ -145,7 +146,7 @@ export default async function InsightArticlePage({
               copyLabel={dict.insights.copyLink}
               copiedLabel={dict.insights.linkCopied}
             />
-            <PillButton href={`/${locale}/insights`} variant="secondary">
+            <PillButton href={linkTo(locale, "/insights")} variant="secondary">
               {dict.common.allInsights}
             </PillButton>
           </Reveal>
@@ -158,7 +159,7 @@ export default async function InsightArticlePage({
             heading={dict.services.relatedPosts}
             body={dict.home.blog.body}
             cta={dict.common.allInsights}
-            ctaHref={`/${locale}/insights`}
+            ctaHref={linkTo(locale, "/insights")}
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-3 lg:mt-16">
             {others.map((p) => (

@@ -2,6 +2,7 @@ import { Container } from "./Container";
 import { PillButton } from "./PillButton";
 import { Reveal } from "./Reveal";
 import type { Locale } from "@/i18n/config";
+import { linkTo } from "@/lib/links";
 
 /**
  * The full-width contact band from the design — yellow mid-page, lavender
@@ -30,7 +31,7 @@ export function ContactBanner({
           </h2>
           <div className="max-w-md">
             <p className="text-[15px] leading-relaxed text-ink/80">{body}</p>
-            <PillButton href={`/${locale}/contact`} variant="outlineInk" className="mt-6">
+            <PillButton href={linkTo(locale, "/contact")} variant="outlineInk" className="mt-6">
               {cta}
             </PillButton>
           </div>

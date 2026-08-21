@@ -2,6 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
 import { LegalArticle } from "@/components/LegalArticle";
+import { linkTo } from "@/lib/links";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/terms">) {
   const { locale } = await params;
@@ -11,13 +12,13 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/terms">)
     title: dict.seo.terms.title,
     description: dict.seo.terms.description,
     alternates: {
-      canonical: `/${locale}/terms`,
-      languages: { "fi-FI": "/fi/terms", "en-US": "/en/terms" },
+      canonical: linkTo(locale, "/terms"),
+      languages: { "fi-FI": "/terms", "en-US": "/en/terms" },
     },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/terms`,
+      url: `https://norr3.fi${linkTo(locale, "/terms")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: dict.seo.terms.title,
       description: dict.seo.terms.description,
@@ -61,8 +62,8 @@ export default async function TermsPage({ params }: PageProps<"/[locale]/terms">
       sections={legal.terms.sections}
       relatedLabel={legal.relatedLabel}
       relatedLinks={[
-        { href: `/${locale}/privacy`, label: dict.footer.privacy },
-        { href: `/${locale}/contact`, label: dict.common.contactUs },
+        { href: linkTo(locale, "/privacy"), label: dict.footer.privacy },
+        { href: linkTo(locale, "/contact"), label: dict.common.contactUs },
       ]}
       reviewNote={legal.reviewNote}
     />

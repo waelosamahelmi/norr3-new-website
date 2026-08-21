@@ -12,6 +12,7 @@ import { HtmlLangSync } from "@/components/HtmlLangSync";
 import { CookieConsent } from "@/components/CookieConsent";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { MotionSettingsProvider } from "@/components/MotionSettingsProvider";
+import { linkTo } from "@/lib/links";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -31,15 +32,15 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
     title: seo.title,
     description: seo.description,
     alternates: {
-      canonical: `/${locale}`,
-      languages: { "fi-FI": "/fi", "en-US": "/en" },
+      canonical: linkTo(locale),
+      languages: { "fi-FI": "/", "en-US": "/en" },
     },
     openGraph: {
       // Metadata is merged shallowly, so this object replaces the root
       // layout's openGraph — type/siteName/images must be repeated here.
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}`,
+      url: `https://norr3.fi${linkTo(locale)}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,

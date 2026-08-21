@@ -5,6 +5,7 @@ import { useMotionAllowed } from "@/components/heroes/useMotionAllowed";
 import { HeroCardStack } from "@/components/heroes/HeroCardStack";
 import type { Locale } from "@/i18n/config";
 import { MediaAsset } from "@/components/MediaAsset";
+import { linkTo } from "@/lib/links";
 
 /**
  * Cityscape hero — a layered Helsinki skyline parallax with a magnetic dot
@@ -364,7 +365,7 @@ export function CityHero({
           {content.body}
         </p>
         <a
-          href={`/${locale}${(override?.ctaHref || "/services").replace(/^\/?/, "/")}`}
+          href={linkTo(locale, `${(override?.ctaHref || "/services").replace(/^\/?/, "/")}`)}
           className="mt-7 inline-flex items-center gap-4 rounded-full border border-white/55 px-[18px] py-3.5 text-sm font-bold text-white transition-colors hover:bg-white hover:text-[#17131d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           {content.cta}

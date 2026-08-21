@@ -6,6 +6,7 @@ import { briefChannels, dataset } from "@/content/datasets";
 import { Container } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { BriefForm } from "@/components/BriefForm";
+import { linkTo } from "@/lib/links";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -15,8 +16,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: dict.brief.metaTitle,
     description: dict.brief.metaDescription,
     alternates: {
-      canonical: `/${locale}/brief`,
-      languages: { "fi-FI": "/fi/brief", "en-US": "/en/brief" },
+      canonical: linkTo(locale, "/brief"),
+      languages: { "fi-FI": "/brief", "en-US": "/en/brief" },
     },
   };
 }

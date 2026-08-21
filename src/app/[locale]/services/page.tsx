@@ -25,6 +25,7 @@ import { StatGrid } from "@/components/StatGrid";
 import { Icon } from "@/components/Icon";
 import { PixelArt } from "@/components/PixelArt";
 import { MediaAsset } from "@/components/MediaAsset";
+import { linkTo } from "@/lib/links";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/services">) {
   const { locale } = await params;
@@ -40,11 +41,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/services
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: `/${locale}/services`, languages: { "fi-FI": "/fi/services", "en-US": "/en/services" } },
+    alternates: { canonical: linkTo(locale, "/services"), languages: { "fi-FI": "/services", "en-US": "/en/services" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/services`,
+      url: `https://norr3.fi${linkTo(locale, "/services")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -110,7 +111,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
             {s.heroBody}
           </p>
-          <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
+          <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
         </Reveal>
       </Container>
 
@@ -128,7 +129,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
                 body={card[locale].body}
                 items={card.items?.map((item) => item[locale])}
                 readMoreLabel={dict.common.readMore}
-                href={`/${locale}/contact`}
+                href={linkTo(locale, "/contact")}
               />
             ))}
           </StaggerGrid>
@@ -143,7 +144,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             heading={s.insights.heading}
             body={s.insights.body}
             cta={s.insights.cta}
-            ctaHref={`/${locale}/contact`}
+            ctaHref={linkTo(locale, "/contact")}
             tone="light"
           />
           <Reveal delay={0.1} className="mx-auto mt-14 max-w-4xl lg:mt-16">
@@ -309,7 +310,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             heading={s.relatedCases}
             body={dict.cases.body}
             cta={dict.common.allCases}
-            ctaHref={`/${locale}/cases`}
+            ctaHref={linkTo(locale, "/cases")}
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {relatedCases.map((c) => (
@@ -329,7 +330,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             heading={s.relatedPosts}
             body={dict.home.blog.body}
             cta={dict.common.allInsights}
-            ctaHref={`/${locale}/insights`}
+            ctaHref={linkTo(locale, "/insights")}
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
             {insights.slice(0, 3).map((post) => (

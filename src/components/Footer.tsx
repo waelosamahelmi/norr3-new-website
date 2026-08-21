@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
+import { linkTo } from "@/lib/links";
 
 
 export function Footer({
@@ -61,7 +62,7 @@ export function Footer({
             </div>
             <p className="pt-1">
               <Link
-                href={`/${locale}/contact`}
+                href={linkTo(locale, "/contact")}
                 className="rounded-sm underline decoration-white/40 underline-offset-2 transition-colors hover:text-white hover:decoration-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 {dict.footer.billing}
@@ -100,7 +101,7 @@ export function Footer({
             {dict.footer.joinLinks.map((item) => (
               <Link
                 key={item.key}
-                href={`/${locale}/${item.path}`}
+                href={linkTo(locale, `/${item.path}`)}
                 className="block w-fit rounded-sm transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 {item.label}
@@ -115,13 +116,13 @@ export function Footer({
         <p>{dict.footer.copyright}</p>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           <Link
-            href={`/${locale}/privacy`}
+            href={linkTo(locale, "/privacy")}
             className="rounded-sm underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {dict.footer.privacy}
           </Link>
           <Link
-            href={`/${locale}/terms`}
+            href={linkTo(locale, "/terms")}
             className="rounded-sm underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {dict.footer.terms}

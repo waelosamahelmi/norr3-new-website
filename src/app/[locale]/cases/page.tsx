@@ -15,6 +15,7 @@ import { CaseCard } from "@/components/cards/CaseCard";
 import { CaseFeature } from "@/components/cards/CaseFeature";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
+import { linkTo } from "@/lib/links";
 
 /** Editorial widths for the hero collage — varied, so the strip reads as a
  *  magazine contact sheet rather than a uniform row of thumbnails. */
@@ -34,11 +35,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/cases">)
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: `/${locale}/cases`, languages: { "fi-FI": "/fi/cases", "en-US": "/en/cases" } },
+    alternates: { canonical: linkTo(locale, "/cases"), languages: { "fi-FI": "/cases", "en-US": "/en/cases" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi/${locale}/cases`,
+      url: `https://norr3.fi${linkTo(locale, "/cases")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -132,7 +133,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
           <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
             {c.heroBody}
           </p>
-          <PillButton href={`/${locale}/contact`}>{dict.common.contactUs}</PillButton>
+          <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
         </Reveal>
       </Container>
 
@@ -175,7 +176,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
             heading={dict.services.relatedPosts}
             body={dict.home.blog.body}
             cta={dict.common.allInsights}
-            ctaHref={`/${locale}/insights`}
+            ctaHref={linkTo(locale, "/insights")}
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
             {insights.slice(0, 3).map((post) => (

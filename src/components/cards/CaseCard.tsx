@@ -2,6 +2,7 @@ import type { CaseStudy } from "@/content/cases";
 import type { Locale } from "@/i18n/config";
 import { PhotoLinkCard } from "./PhotoLinkCard";
 import { CountUpStat } from "@/components/CountUpStat";
+import { linkTo } from "@/lib/links";
 
 /**
  * Photo-led case card: image, headline result badge, client name, summary,
@@ -22,7 +23,7 @@ export function CaseCard({
 }) {
   return (
     <PhotoLinkCard
-      href={`/${locale}/cases/${study.slug}`}
+      href={linkTo(locale, `/cases/${study.slug}`)}
       image={study.image}
       alt={`${study.client} — ${study.tagline[locale]}`}
       title={study.client}

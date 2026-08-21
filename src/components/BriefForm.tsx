@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/content/dictionary";
 import { briefChannels } from "@/content/datasets";
+import { linkTo } from "@/lib/links";
 
 type BriefDict = Dictionary["brief"];
 
@@ -140,7 +141,7 @@ export function BriefForm({
         </h2>
         <p className="mt-4 max-w-md text-ink/70 dark:text-white/70">{dict.successBody}</p>
         <Link
-          href={`/${locale}`}
+          href={linkTo(locale)}
           className="mt-8 rounded-full bg-ink px-7 py-3.5 text-sm font-medium uppercase tracking-wide text-white transition-colors hover:bg-purple dark:bg-purple dark:hover:bg-violet"
         >
           {dict.successCta}

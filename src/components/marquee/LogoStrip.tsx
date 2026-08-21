@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import { clients as bundledClients } from "@/content/services";
+import { linkTo } from "@/lib/links";
 
 /**
  * Grayscale client "logo" strip — slow marquee, matching the design's ● Logo
@@ -17,7 +18,7 @@ export function LogoStrip({
   clients?: string[];
   locale: Locale;
 }) {
-  const href = `/${locale}/cases`;
+  const href = linkTo(locale, "/cases");
 
   // The marquee loops by rendering the row twice back to back; the second
   // copy exists purely for the seamless scroll and would otherwise double

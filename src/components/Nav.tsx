@@ -6,6 +6,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
+import { linkTo, otherLocaleHref } from "@/lib/links";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
 
@@ -35,26 +36,26 @@ export function Nav({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const other: Locale = locale === "fi" ? "en" : "fi";
 
   const items =
     menu && menu.length > 0
       ? menu.map((entry) => ({
           key: entry.href,
           label: entry.label[locale] || entry.label.fi,
-          href: `/${locale}${entry.href.startsWith("/") ? entry.href : `/${entry.href}`}`,
+          href: linkTo(locale, entry.href.startsWith("/") ? entry.href : `/${entry.href}`),
         }))
       : ([
-          { key: "services", label: dict.nav.services, href: `/${locale}/services` },
-          { key: "engine", label: dict.nav.engine, href: `/${locale}/engine` },
-          { key: "cases", label: dict.nav.cases, href: `/${locale}/cases` },
-          { key: "insights", label: dict.nav.insights, href: `/${locale}/insights` },
-          { key: "contact", label: dict.nav.contact, href: `/${locale}/contact` },
-          { key: "about", label: dict.nav.about, href: `/${locale}/about` },
-          { key: "careers", label: dict.nav.careers, href: `/${locale}/careers` },
+          { key: "services", label: dict.nav.services, href: linkTo(locale, "/services") },
+          { key: "engine", label: dict.nav.engine, href: linkTo(locale, "/engine") },
+          { key: "cases", label: dict.nav.cases, href: linkTo(locale, "/cases") },
+          { key: "insights", label: dict.nav.insights, href: linkTo(locale, "/insights") },
+          { key: "contact", label: dict.nav.contact, href: linkTo(locale, "/contact") },
+          { key: "about", label: dict.nav.about, href: linkTo(locale, "/about") },
+          { key: "careers", label: dict.nav.careers, href: linkTo(locale, "/careers") },
         ] as const);
 
-  const otherPath = pathname.replace(`/${locale}`, `/${other}`);
+  const other: Locale = locale === "fi" ? "en" : "fi";
+  const otherPath = otherLocaleHref(pathname, locale);
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
@@ -66,7 +67,7 @@ export function Nav({
         className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 lg:px-14"
       >
         <Link
-          href={`/${locale}`}
+          href={linkTo(locale)}
           className={`shrink-0 rounded-sm transition-opacity hover:opacity-75 ${focusRing}`}
         >
           <Logo artwork={{ wordmark: logo?.wordmark }} className="dark:brightness-0 dark:invert" />
@@ -104,14 +105,14 @@ export function Nav({
               black pill disappears into the base, so it becomes the brand
               primary accent (§8) instead. */}
           <Link
-            href={`/${locale}/engine`}
+            href={linkTo(locale, "/engine")}
             className={`hidden rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-purple lg:inline-flex dark:bg-purple dark:text-white dark:hover:bg-violet ${focusRing}`}
           >
             {dict.nav.engine}
           </Link>
           {/* Secondary CTA — Brief us (Antti's header CTA) */}
           <Link
-            href={`/${locale}/brief`}
+            href={linkTo(locale, "/brief")}
             className={`hidden rounded-full border border-ink/30 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white lg:inline-flex dark:border-white/30 dark:text-white dark:hover:bg-white dark:hover:text-ink ${focusRing}`}
           >
             {dict.common.briefUs}
@@ -149,14 +150,14 @@ export function Nav({
               </Link>
             ))}
             <Link
-              href={`/${locale}/engine`}
+              href={linkTo(locale, "/engine")}
               onClick={() => setOpen(false)}
               className={`mt-3 w-full rounded-full bg-ink px-5 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-purple dark:bg-purple dark:hover:bg-violet ${focusRing}`}
             >
               {dict.nav.engine}
             </Link>
             <Link
-              href={`/${locale}/brief`}
+              href={linkTo(locale, "/brief")}
               onClick={() => setOpen(false)}
               className={`mt-2 w-full rounded-full border border-ink/30 px-5 py-3 text-center text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-white dark:border-white/30 dark:text-white dark:hover:bg-white dark:hover:text-ink ${focusRing}`}
             >

@@ -7,6 +7,7 @@ import { Icon } from "@/components/Icon";
 import { useLocalStorageItem } from "@/lib/useLocalStorageItem";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
+import { linkTo } from "@/lib/links";
 
 const STORAGE_KEY = "norr3-cookie-consent";
 
@@ -43,7 +44,7 @@ export function CookieConsent({ dict, locale }: { dict: Dictionary["cookies"]; l
           <p className="mt-2 text-sm leading-relaxed text-ink/70 dark:text-white/70">
             {dict.body}{" "}
             <Link
-              href={`/${locale}/privacy`}
+              href={linkTo(locale, "/privacy")}
               className="rounded-sm text-ink underline underline-offset-2 hover:text-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-white dark:hover:text-light-purple dark:focus-visible:outline-light-purple"
             >
               {dict.privacyLink}

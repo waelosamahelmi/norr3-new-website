@@ -21,6 +21,7 @@ import { DashboardMock } from "@/components/DashboardMock";
 import { StatGrid } from "@/components/StatGrid";
 import { TeamMarquee } from "@/components/TeamMarquee";
 import { MediaAsset } from "@/components/MediaAsset";
+import { linkTo } from "@/lib/links";
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
@@ -153,7 +154,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         alts={heroAlts}
         heroBody={dict.home.heroBody}
         contactLabel={dict.common.contactUs}
-        contactHref={`/${locale}/contact`}
+        contactHref={linkTo(locale, "/contact")}
         logoStrip={<LogoStrip clients={clients} locale={locale} />}
       />
 
@@ -171,7 +172,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             heading={dict.home.services.heading}
             body={dict.home.services.body}
             cta={dict.common.allServices}
-            ctaHref={`/${locale}/services`}
+            ctaHref={linkTo(locale, "/services")}
           />
           <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {serviceCards.map((card) => (
@@ -182,7 +183,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 title={card[locale].title}
                 body={card[locale].body}
                 readMoreLabel={dict.common.readMore}
-                href={`/${locale}/services`}
+                href={linkTo(locale, "/services")}
               />
             ))}
           </StaggerGrid>
@@ -206,7 +207,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             heading={dict.home.cases.heading}
             body={dict.home.cases.body}
             cta={dict.common.allCases}
-            ctaHref={`/${locale}/cases`}
+            ctaHref={linkTo(locale, "/cases")}
           />
           <div className="mt-14 grid gap-x-6 gap-y-12 lg:mt-16 lg:grid-cols-2">
             <CaseCard study={featuredCases[0]} locale={locale} ctaLabel={dict.common.readCase} large />
@@ -230,7 +231,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             heading={dict.home.engine.heading}
             body={dict.home.engine.body}
             cta={dict.common.accessDemo}
-            ctaHref={`/${locale}/engine`}
+            ctaHref={linkTo(locale, "/engine")}
           />
           <div className="mt-14 grid items-stretch gap-card-gap lg:mt-16 lg:grid-cols-2">
             <Reveal delay={0.05} className="flex flex-col">
@@ -270,11 +271,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             heading={dict.home.about.heading}
             body={dict.home.about.body}
             cta={dict.common.allAboutUs}
-            ctaHref={`/${locale}/team`}
+            ctaHref={linkTo(locale, "/team")}
           />
           <div className="mt-14 grid gap-x-6 gap-y-12 lg:mt-16 lg:grid-cols-2">
             <PhotoLinkCard
-              href={`/${locale}/team`}
+              href={linkTo(locale, "/team")}
               image={joinPhoto.src}
               alt={joinPhoto.alt}
               title={dict.home.about.joinTitle}
@@ -284,7 +285,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             />
             <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2">
               <PhotoLinkCard
-                href={`/${locale}/team`}
+                href={linkTo(locale, "/team")}
                 image={teamPhoto.src}
                 alt={teamPhoto.alt}
                 title={dict.home.about.teamTitle}
@@ -292,7 +293,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 ctaLabel={dict.common.readMore}
               />
               <PhotoLinkCard
-                href={`/${locale}/team`}
+                href={linkTo(locale, "/team")}
                 image={agencyPhoto.src}
                 alt={agencyPhoto.alt}
                 title={dict.home.about.agencyTitle}
@@ -313,7 +314,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             </Reveal>
             <TeamMarquee locale={locale} members={content.team} />
             <div className="mt-8 flex justify-center">
-              <PillButton href={`/${locale}/team`} variant="secondary">{dict.common.meetTeam}</PillButton>
+              <PillButton href={linkTo(locale, "/team")} variant="secondary">{dict.common.meetTeam}</PillButton>
             </div>
           </div>
 
@@ -330,7 +331,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             heading={dict.home.blog.heading}
             body={dict.home.blog.body}
             cta={dict.common.allInsights}
-            ctaHref={`/${locale}/insights`}
+            ctaHref={linkTo(locale, "/insights")}
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
             {insights.slice(0, 3).map((post) => (
