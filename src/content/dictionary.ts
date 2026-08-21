@@ -716,6 +716,20 @@ const fi = {
     heading: "Ota yhteyttä",
     body: "Olipa asiasi sitten pieni tai iso, meitä kiinnostaa se kuulla. Olemme tunnettuja nopeasta ja ammattitaitoisesta palvelusta.",
   },
+  notFound: {
+    pill: "VIRHE 404",
+    left: "Sivua ei",
+    accent: "löytynyt",
+    body: "Anteeksi — sivu on joko muuttanut osoitetta tai poistunut kokonaan. Nämä ovat yhä olemassa:",
+    links: [
+      { key: "home", label: "Etusivu" },
+      { key: "services", label: "Palvelut" },
+      { key: "cases", label: "Caset" },
+      { key: "insights", label: "Insights" },
+      { key: "contact", label: "Yhteystiedot" },
+    ],
+    searchLabel: "Tai jatkoihin:",
+  },
   footer: {
     blurb1:
       "Luomme asiakkaillemme kilpailuetua maksetussa mediassa tehostamalla markkinointia yhdessä asiakkaan ja luovan kumppanin kanssa.",
@@ -1456,6 +1470,20 @@ const en: Dictionary = {
   banner: {
     heading: "Contact Us",
     body: "Whether your matter is small or large, we want to hear it. We're known for fast, professional service.",
+  },
+  notFound: {
+    pill: "ERROR 404",
+    left: "Page not",
+    accent: "found",
+    body: "Sorry — the page has either moved or no longer exists. These are still here:",
+    links: [
+      { key: "home", label: "Home" },
+      { key: "services", label: "Services" },
+      { key: "cases", label: "Cases" },
+      { key: "insights", label: "Insights" },
+      { key: "contact", label: "Contact" },
+    ],
+    searchLabel: "Or carry on:",
   },
   footer: {
     blurb1:

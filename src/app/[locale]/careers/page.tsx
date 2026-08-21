@@ -16,6 +16,7 @@ import { PhotoInterstitial } from "@/components/PhotoInterstitial";
 import { ContactBanner } from "@/components/ContactBanner";
 import { Icon } from "@/components/Icon";
 import { linkTo } from "@/lib/links";
+import { ogImage } from "@/lib/ogImage";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/careers">) {
   const { locale } = await params;
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/careers"
   const seo = await pageSeo("careers", locale, {
     title: dict.seo.careers.title,
     description: dict.seo.careers.description,
-    image: "/images/brand/team-energy.webp",
+    image: ogImage("/images/brand/team-energy.webp"),
   });
   return {
     title: seo.title,
@@ -39,9 +40,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/careers"
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
-      images: [{ url: seo.image, width: 1600, height: 1066, alt: "The NØRR3 team celebrating a shared achievement" }],
+      images: [{ url: ogImage(seo.image), width: 1600, height: 1066, alt: "The NØRR3 team celebrating a shared achievement" }],
     },
-    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [seo.image] },
+    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [ogImage(seo.image)] },
   };
 }
 

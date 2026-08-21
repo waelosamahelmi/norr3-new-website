@@ -1,19 +1,43 @@
 import { notFound } from "next/navigation";
 import { MotionConfig } from "framer-motion";
+import { Host_Grotesk } from "next/font/google";
+import "material-symbols/outlined.css";
+import "../globals.css";
+import { ThemeStyle } from "@/components/ThemeStyle";
+import { CustomBodyEnd, CustomHead } from "@/components/CustomCode";
 import { locales, isLocale } from "@/i18n/config";
 import { getDictionary } from "@/lib/dictionary";
 import { getSiteContent } from "@/lib/cms";
 import { pageSeo } from "@/lib/pageSeo";
+import { linkTo } from "@/lib/links";
+import { ogImage } from "@/lib/ogImage";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { RouteWipe } from "@/components/RouteWipe";
-import { HtmlLangSync } from "@/components/HtmlLangSync";
 import { CookieConsent } from "@/components/CookieConsent";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { MotionSettingsProvider } from "@/components/MotionSettingsProvider";
-import { linkTo } from "@/lib/links";
 
+const hostGrotesk = Host_Grotesk({
+  variable: "--font-host-grotesk",
+  subsets: ["latin", "latin-ext"],
+});
+
+/**
+ * Runs before first paint so the stored theme is on <html> ahead of hydration —
+ * without it the page paints light, then snaps to dark (FOUC). Kept
+ * dependency-free and tiny on purpose; it ships inside every document.
+ */
+const THEME_SCRIPT = `try{var t=localStorage.getItem("norr3-theme");var d=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d)}catch(e){}`;
+
+/**
+ * The locale segment IS the root layout: every page request routes through it
+ * (the proxy rewrites root-level paths to `/fi/…`), and nothing outside it
+ * renders a document — the rest are route handlers and metadata files. That
+ * keeps `<html lang>` correct per locale in the SSR output crawlers see, which
+ * the old root-layout setup could not do (it had no access to the locale).
+ */
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
@@ -28,7 +52,20 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
     description: dict.meta.description,
     image: "/images/brand/og-image.jpg",
   });
+  const homeUrl = `https://norr3.fi${linkTo(locale)}`;
   return {
+    metadataBase: new URL("https://norr3.fi"),
+    applicationName: "NØRR3",
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+        { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
+      ],
+      apple: [{ url: "/icon-180.png", sizes: "180x180", type: "image/png" }],
+    },
+    manifest: "/manifest.webmanifest",
+    robots: { index: true, follow: true },
     title: seo.title,
     description: seo.description,
     alternates: {
@@ -40,13 +77,13 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
       // layout's openGraph — type/siteName/images must be repeated here.
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi${linkTo(locale)}`,
+      url: homeUrl,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
       images: [
         {
-          url: seo.image,
+          url: ogImage(seo.image),
           width: 1200,
           height: 630,
           alt: "The NØRR3 team in the Helsinki studio",
@@ -55,11 +92,11 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
     },
     twitter: {
       // Shallow-merged like openGraph — repeat the card + image and localize
-      // title/description so /fi doesn't inherit the root's English strings.
+      // title/description so the Finnish pages don't inherit English strings.
       card: "summary_large_image" as const,
       title: seo.title,
       description: seo.description,
-      images: [seo.image],
+      images: [ogImage(seo.image)],
     },
   };
 }
@@ -75,34 +112,51 @@ export default async function LocaleLayout({
   const dict = content.dictionaries[locale];
 
   return (
-    // reducedMotion="user" is not configurable: the OS setting always wins over
-    // whatever is set in the CMS.
-    <MotionConfig reducedMotion="user">
-      <MotionSettingsProvider value={content.motion}>
-      {/* Keyboard users otherwise cross ~16 tab stops of chrome per page. */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-ink focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus:bg-purple dark:focus-visible:outline-light-purple"
-      >
-        {dict.common.skipToContent}
-      </a>
-      {/* Sits in normal flow above the sticky nav, so it scrolls away. */}
-      <AnnouncementBar
-        locale={locale}
-        dict={dict.announcement}
-        message={content.announcement?.message[locale]}
-        href={content.announcement?.href || "/engine"}
-      />
-      <HtmlLangSync locale={locale} />
-      <SmoothScroll />
-      <RouteWipe />
-      <Nav locale={locale} dict={dict} menu={content.nav.header} logo={content.brand.logo} />
-      <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
-        {children}
-      </main>
-      <Footer locale={locale} dict={dict} logo={content.brand.logo} />
-      <CookieConsent dict={dict.cookies} locale={locale} />
-      </MotionSettingsProvider>
-    </MotionConfig>
+    // suppressHydrationWarning: the theme script mutates <html>'s class list
+    // before React hydrates, so the client class never matches the SSR one.
+    <html
+      lang={locale}
+      className={`${hostGrotesk.variable} h-full`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* Design-token overrides from the CMS, after the stylesheet so they win. */}
+        <ThemeStyle />
+        {/* Admin-written CSS and head snippet, after the tokens so it can override them. */}
+        <CustomHead />
+      </head>
+      <body className="min-h-full flex flex-col bg-offwhite text-ink dark:bg-background dark:text-foreground">
+        {/* reducedMotion="user" is not configurable: the OS setting always wins over
+            whatever is set in the CMS. */}
+        <MotionConfig reducedMotion="user">
+          <MotionSettingsProvider value={content.motion}>
+          {/* Keyboard users otherwise cross ~16 tab stops of chrome per page. */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-ink focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus:bg-purple dark:focus-visible:outline-light-purple"
+          >
+            {dict.common.skipToContent}
+          </a>
+          {/* Sits in normal flow above the sticky nav, so it scrolls away. */}
+          <AnnouncementBar
+            locale={locale}
+            dict={dict.announcement}
+            message={content.announcement?.message[locale]}
+            href={content.announcement?.href || "/engine"}
+          />
+          <SmoothScroll />
+          <RouteWipe />
+          <Nav locale={locale} dict={dict} menu={content.nav.header} logo={content.brand.logo} />
+          <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+            {children}
+          </main>
+          <Footer locale={locale} dict={dict} logo={content.brand.logo} />
+          <CookieConsent dict={dict.cookies} locale={locale} />
+          </MotionSettingsProvider>
+        </MotionConfig>
+        <CustomBodyEnd />
+      </body>
+    </html>
   );
 }

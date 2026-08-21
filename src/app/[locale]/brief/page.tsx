@@ -12,12 +12,28 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
+  const url = `https://norr3.fi${linkTo(locale, "/brief")}`;
   return {
     title: dict.brief.metaTitle,
     description: dict.brief.metaDescription,
     alternates: {
       canonical: linkTo(locale, "/brief"),
       languages: { "fi-FI": "/brief", "en-US": "/en/brief" },
+    },
+    openGraph: {
+      type: "website" as const,
+      siteName: "NØRR3",
+      url,
+      locale: locale === "fi" ? "fi_FI" : "en_US",
+      title: dict.brief.metaTitle,
+      description: dict.brief.metaDescription,
+      images: [{ url: "/images/brand/og-image.jpg", width: 1200, height: 630, alt: "NØRR3" }],
+    },
+    twitter: {
+      card: "summary_large_image" as const,
+      title: dict.brief.metaTitle,
+      description: dict.brief.metaDescription,
+      images: ["/images/brand/og-image.jpg"],
     },
   };
 }

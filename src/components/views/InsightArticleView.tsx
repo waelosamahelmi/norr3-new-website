@@ -1,7 +1,10 @@
-import { isLocale } from "@/i18n/config";
-import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getDictionary } from "@/lib/dictionary";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/content/dictionary";
+import type { CmsPost } from "@/lib/cms";
+import { getPosts } from "@/lib/cms";
+import { linkTo } from "@/lib/links";
+import { ogImage } from "@/lib/ogImage";
 import { Container, HeroPill } from "@/components/Container";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
@@ -10,71 +13,54 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { ShareRow } from "@/components/ShareRow";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
-import { getPost, getPosts } from "@/lib/cms";
-import { linkTo } from "@/lib/links";
 
 /**
- * Pre-render the posts the CMS has published at build time. New posts written
- * after a deploy are still served — the route falls through to on-demand
- * rendering and the CMS's publish hook drops the cached copy.
+ * The insight-article page body. Lives at the domain root (`/isojen-ruutujen-
+ * trendit`) — the catch-all route resolves single-segment slugs against the
+ * posts collection and renders this view, so a post's URL is as short as it
+ * can be (matching the old WordPress site's structure).
  */
-export async function generateStaticParams() {
-  return (await getPosts()).map((post) => ({ slug: post.slug }));
-}
-
-export async function generateMetadata({ params }: PageProps<"/[locale]/insights/[slug]">) {
-  const { locale, slug } = await params;
-  if (!isLocale(locale)) return {};
-  const post = await getPost(slug);
-  if (!post) return {};
-
+export async function InsightArticleView({
+  post,
+  locale,
+  dict,
+}: {
+  post: CmsPost;
+  locale: Locale;
+  dict: Dictionary;
+}) {
   const content = post[locale];
-  const image = post.image ?? "/images/brand/space-arch.webp";
-
-  return {
-    title: post.seo[locale].title || `${content.title} — NØRR3`,
-    description: post.seo[locale].description || content.excerpt,
-    alternates: {
-      canonical: linkTo(locale, `/insights/${slug}`),
-      languages: {
-        "fi-FI": `/insights/${slug}`,
-        "en-US": `/en/insights/${slug}`,
-      },
-    },
-    openGraph: {
-      type: "article" as const,
-      siteName: "NØRR3",
-      url: `https://norr3.fi${linkTo(locale, `/insights/${slug}`)}`,
-      locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: content.title,
-      description: content.excerpt,
-      images: [{ url: image, width: 1600, height: 1066, alt: content.title }],
-    },
-    twitter: {
-      card: "summary_large_image" as const,
-      title: content.title,
-      description: content.excerpt,
-      images: [image],
-    },
-  };
-}
-
-export default async function InsightArticlePage({
-  params,
-}: PageProps<"/[locale]/insights/[slug]">) {
-  const { locale, slug } = await params;
-  if (!isLocale(locale)) notFound();
-  const dict = await getDictionary(locale);
-  const post = await getPost(slug);
-  if (!post) notFound();
-
-  const content = post[locale];
-  const others = (await getPosts()).filter((entry) => entry.slug !== slug).slice(0, 3);
+  const others = (await getPosts()).filter((entry) => entry.slug !== post.slug).slice(0, 3);
   const minutes = post.readingMinutes;
-  const url = `https://norr3.fi${linkTo(locale, `/insights/${slug}`)}`;
+  const url = `https://norr3.fi${linkTo(locale, `/${post.slug}`)}`;
 
   return (
     <>
+      {/* Article structured data — the post's own facts (title, date, author,
+          image), nothing invented. Home page already carries the Organization
+          graph; this marks the article up for rich results. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: content.title,
+            description: content.excerpt,
+            inLanguage: locale === "fi" ? "fi-FI" : "en-US",
+            ...(post.isoDate ? { datePublished: post.isoDate } : {}),
+            image: `https://norr3.fi${ogImage(post.image ?? "/images/brand/space-arch.webp")}`,
+            author: { "@type": "Organization", name: post.author || "NØRR3" },
+            publisher: {
+              "@type": "Organization",
+              name: "NØRR3",
+              logo: { "@type": "ImageObject", url: "https://norr3.fi/images/brand/og-image.jpg" },
+            },
+            mainEntityOfPage: { "@type": "WebPage", "@id": url },
+          }),
+        }}
+      />
+
       {/* Title block: back-link, pill, headline, hairline meta row. */}
       <Container className="pb-10 pt-12 lg:pt-20">
         <Reveal className="mx-auto max-w-3xl text-center">

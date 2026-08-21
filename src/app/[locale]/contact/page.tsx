@@ -16,6 +16,7 @@ import { PillButton } from "@/components/PillButton";
 import { Icon } from "@/components/Icon";
 import { MediaAsset } from "@/components/MediaAsset";
 import { linkTo } from "@/lib/links";
+import { ogImage } from "@/lib/ogImage";
 
 /** The five people who take direct contact on this page. The rest of the
  *  roster lives on /team — this row is a routing aid, not a second roster. */
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
   const seo = await pageSeo("contact", locale, {
     title: dict.seo.contact.title,
     description: dict.seo.contact.description,
-    image: "/images/brand/group.webp",
+    image: ogImage("/images/brand/group.webp"),
   });
   return {
     title: seo.title,
@@ -54,7 +55,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
       description: seo.description,
       images: [
         {
-          url: seo.image,
+          url: ogImage(seo.image),
           width: 1200,
           height: 800,
           alt: dict.contact.photoAlt,
@@ -65,7 +66,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
       card: "summary_large_image" as const,
       title: seo.title,
       description: seo.description,
-      images: [seo.image],
+      images: [ogImage(seo.image)],
     },
   };
 }

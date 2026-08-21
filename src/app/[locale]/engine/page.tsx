@@ -22,6 +22,7 @@ import { StaggerGrid } from "@/components/StaggerGrid";
 import { Icon } from "@/components/Icon";
 import { MediaAsset } from "@/components/MediaAsset";
 import { linkTo } from "@/lib/links";
+import { ogImage } from "@/lib/ogImage";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/engine">) {
   const { locale } = await params;
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/engine">
   const seo = await pageSeo("engine", locale, {
     title: dict.seo.engine.title,
     description: dict.seo.engine.description,
-    image: "/images/brand/engine-team.webp",
+    image: ogImage("/images/brand/engine-team.webp"),
   });
   return {
     title: seo.title,
@@ -45,9 +46,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/engine">
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
-      images: [{ url: seo.image, width: 1500, height: 1000, alt: "The team behind the NØRR3 Marketing Engine" }],
+      images: [{ url: ogImage(seo.image), width: 1500, height: 1000, alt: "The team behind the NØRR3 Marketing Engine" }],
     },
-    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [seo.image] },
+    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [ogImage(seo.image)] },
   };
 }
 

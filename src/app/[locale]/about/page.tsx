@@ -18,6 +18,7 @@ import { StatGrid } from "@/components/StatGrid";
 import { Icon } from "@/components/Icon";
 import { MediaAsset } from "@/components/MediaAsset";
 import { linkTo } from "@/lib/links";
+import { ogImage } from "@/lib/ogImage";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/about">) {
   const { locale } = await params;
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/about">)
   const seo = await pageSeo("about", locale, {
     title: dict.seo.about.title,
     description: dict.seo.about.description,
-    image: "/images/brand/group.webp",
+    image: ogImage("/images/brand/group.webp"),
   });
   return {
     title: seo.title,
@@ -41,9 +42,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/about">)
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
-      images: [{ url: seo.image, width: 2000, height: 1333, alt: "The NØRR3 team in the Helsinki studio" }],
+      images: [{ url: ogImage(seo.image), width: 2000, height: 1333, alt: "The NØRR3 team in the Helsinki studio" }],
     },
-    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [seo.image] },
+    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [ogImage(seo.image)] },
   };
 }
 

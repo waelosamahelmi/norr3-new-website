@@ -26,6 +26,7 @@ import { Icon } from "@/components/Icon";
 import { PixelArt } from "@/components/PixelArt";
 import { MediaAsset } from "@/components/MediaAsset";
 import { linkTo } from "@/lib/links";
+import { ogImage } from "@/lib/ogImage";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/services">) {
   const { locale } = await params;
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/services
   const seo = await pageSeo("services", locale, {
     title: dict.seo.services.title,
     description: dict.seo.services.description,
-    image: "/images/brand/services-planning.webp",
+    image: ogImage("/images/brand/services-planning.webp"),
   });
   return {
     title: seo.title,
@@ -49,9 +50,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/services
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
-      images: [{ url: seo.image, width: 1600, height: 1066, alt: "NØRR3 planners reviewing a media plan" }],
+      images: [{ url: ogImage(seo.image), width: 1600, height: 1066, alt: "NØRR3 planners reviewing a media plan" }],
     },
-    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [seo.image] },
+    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [ogImage(seo.image)] },
   };
 }
 

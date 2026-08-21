@@ -16,6 +16,7 @@ import { CaseFeature } from "@/components/cards/CaseFeature";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
 import { linkTo } from "@/lib/links";
+import { ogImage } from "@/lib/ogImage";
 
 /** Editorial widths for the hero collage — varied, so the strip reads as a
  *  magazine contact sheet rather than a uniform row of thumbnails. */
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/cases">)
   const seo = await pageSeo("cases", locale, {
     title: dict.seo.cases.title,
     description: dict.seo.cases.description,
-    image: "/images/cases/flow-festival.webp",
+    image: ogImage("/images/cases/flow-festival.webp"),
   });
   return {
     title: seo.title,
@@ -43,9 +44,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/cases">)
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
-      images: [{ url: seo.image, width: 1600, height: 1066, alt: "NØRR3 case work" }],
+      images: [{ url: ogImage(seo.image), width: 1600, height: 1066, alt: "NØRR3 case work" }],
     },
-    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [seo.image] },
+    twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [ogImage(seo.image)] },
   };
 }
 

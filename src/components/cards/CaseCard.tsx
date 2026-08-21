@@ -23,7 +23,7 @@ export function CaseCard({
 }) {
   return (
     <PhotoLinkCard
-      href={linkTo(locale, `/cases/${study.slug}`)}
+      href={linkTo(locale, `/${study.slug}`)}
       image={study.image}
       alt={`${study.client} — ${study.tagline[locale]}`}
       title={study.client}

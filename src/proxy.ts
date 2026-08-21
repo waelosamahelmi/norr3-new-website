@@ -9,6 +9,9 @@ import type { NextRequest } from "next/server";
  *    existing `[locale]` routes keep working while the public URL stays at the
  *    root (`norr3.fi/palvelut`-style URLs).
  *  - legacy `/fi/*` URLs (the previous scheme) 301 to their root equivalents.
+ *
+ * Both branches tag the request with `x-norr3-locale` so server components
+ * that sit outside the `[locale]` segment (the 404 page) know the language.
  */
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -22,13 +25,17 @@ export function proxy(request: NextRequest) {
 
   // English already carries its prefix.
   if (pathname === "/en" || pathname.startsWith("/en/")) {
-    return NextResponse.next();
+    const headers = new Headers(request.headers);
+    headers.set("x-norr3-locale", "en");
+    return NextResponse.next({ request: { headers } });
   }
 
   // Everything else is Finnish — serve the internal /fi route.
   const url = request.nextUrl.clone();
   url.pathname = `/fi${pathname}`;
-  return NextResponse.rewrite(url);
+  const headers = new Headers(request.headers);
+  headers.set("x-norr3-locale", "fi");
+  return NextResponse.rewrite(url, { request: { headers } });
 }
 
 export const config = {

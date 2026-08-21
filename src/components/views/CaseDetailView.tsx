@@ -1,6 +1,8 @@
-import { isLocale } from "@/i18n/config";
-import { notFound } from "next/navigation";
-import { getDictionary } from "@/lib/dictionary";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/content/dictionary";
+import type { CaseStudy } from "@/content/cases";
+import { getCases } from "@/lib/cms";
+import { linkTo } from "@/lib/links";
 import { Container } from "@/components/Container";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
@@ -12,49 +14,24 @@ import { StatGrid } from "@/components/StatGrid";
 import { CountUpStat } from "@/components/CountUpStat";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { Icon } from "@/components/Icon";
-import { getCase, getCases } from "@/lib/cms";
-import { linkTo } from "@/lib/links";
 
-export async function generateStaticParams() {
-  return (await getCases()).map((c) => ({ slug: c.slug }));
-}
-
-export async function generateMetadata({ params }: PageProps<"/[locale]/cases/[slug]">) {
-  const { locale, slug } = await params;
-  if (!isLocale(locale)) return {};
-  const study = await getCase(slug);
-  if (!study) return {};
-  const title = locale === "fi" ? `${study.client} — NØRR3-case` : `${study.client} — NØRR3 case`;
-  const description = study.tagline[locale];
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: linkTo(locale, `/cases/${slug}`),
-      languages: { "fi-FI": `/cases/${slug}`, "en-US": `/en/cases/${slug}` },
-    },
-    openGraph: {
-      type: "article" as const,
-      siteName: "NØRR3",
-      url: `https://norr3.fi${linkTo(locale, `/cases/${slug}`)}`,
-      locale: locale === "fi" ? "fi_FI" : "en_US",
-      title,
-      description,
-      images: [{ url: study.image, width: 1600, height: 1066, alt: `${study.client} — ${study.tagline[locale]}` }],
-    },
-    twitter: { card: "summary_large_image" as const, title, description, images: [study.image] },
-  };
-}
-
-export default async function CaseDetailPage({ params }: PageProps<"/[locale]/cases/[slug]">) {
-  const { locale, slug } = await params;
-  if (!isLocale(locale)) notFound();
-  const dict = await getDictionary(locale);
+/**
+ * The case-study detail page body. Lives at the domain root (`/st1`,
+ * `/kiinteistomaailma`) — the catch-all route resolves single-segment slugs
+ * against the case collection and renders this view, so a case's URL is as
+ * short as it can be (matching the old WordPress site's structure).
+ */
+export async function CaseDetailView({
+  study,
+  locale,
+  dict,
+}: {
+  study: CaseStudy;
+  locale: Locale;
+  dict: Dictionary;
+}) {
+  const related = (await getCases()).filter((c) => c.slug !== study.slug).slice(0, 3);
   const d = dict.cases.detail;
-  const study = await getCase(slug);
-  if (!study) notFound();
-
-  const related = (await getCases()).filter((c) => c.slug !== slug).slice(0, 3);
 
   // Narrative blocks share one editorial layout: the numbered heading holds a
   // column of its own, the prose sits beside it. Titles keep their Figma
@@ -66,6 +43,23 @@ export default async function CaseDetailPage({ params }: PageProps<"/[locale]/ca
 
   return (
     <>
+      {/* Breadcrumb structured data — lets Google show Home › Cases › Client
+          under the result instead of a bare URL. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "NØRR3", item: `https://norr3.fi${linkTo(locale)}` },
+              { "@type": "ListItem", position: 2, name: dict.cases.heading, item: `https://norr3.fi${linkTo(locale, "/cases")}` },
+              { "@type": "ListItem", position: 3, name: study.client },
+            ],
+          }),
+        }}
+      />
+
       {/* Editorial hero — magazine opener */}
       <section className="relative">
         <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/10] lg:aspect-[16/7]">

@@ -10,6 +10,7 @@ import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
 import { getPosts } from "@/lib/cms";
 import { linkTo } from "@/lib/links";
+import { ogImage } from "@/lib/ogImage";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/insights">) {
   const { locale } = await params;
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/insights
   const seo = await pageSeo("insights", locale, {
     title: dict.seo.insights.title,
     description: dict.seo.insights.description,
-    image: "/images/brand/space-arch.webp",
+    image: ogImage("/images/brand/space-arch.webp"),
   });
   return {
     title: seo.title,
@@ -37,14 +38,14 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/insights
       title: seo.title,
       description: seo.description,
       images: [
-        { url: seo.image, width: 1600, height: 1066, alt: "NØRR3 insights" },
+        { url: ogImage(seo.image), width: 1600, height: 1066, alt: "NØRR3 insights" },
       ],
     },
     twitter: {
       card: "summary_large_image" as const,
       title: seo.title,
       description: seo.description,
-      images: [seo.image],
+      images: [ogImage(seo.image)],
     },
   };
 }
@@ -88,7 +89,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
       <Container className="pb-24 pt-14 lg:pb-32 lg:pt-16">
         <Reveal>
           <Link
-            href={linkTo(locale, `/insights/${featured.slug}`)}
+            href={linkTo(locale, `/${featured.slug}`)}
             className="group grid gap-8 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple lg:grid-cols-2 lg:items-center lg:gap-14 dark:focus-visible:outline-light-purple"
           >
             <div className="aspect-[4/3] overflow-hidden rounded-card">

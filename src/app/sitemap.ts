@@ -31,15 +31,17 @@ const CODED_ROUTES = [
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const content = await getSiteContent();
-  const now = new Date();
 
+  // `lastModified` is only emitted when a real date is known (a post's publish
+  // date, a CMS page's update time). Stamping every build with "now" teaches
+  // crawlers to ignore the field entirely.
   const entry = (
     path: string,
     options: { lastModified?: Date; changeFrequency?: "weekly" | "monthly"; priority?: number } = {}
   ) =>
     LOCALES.map((locale) => ({
       url: `${BASE}${linkTo(locale, path || "")}`,
-      lastModified: options.lastModified ?? now,
+      ...(options.lastModified ? { lastModified: options.lastModified } : {}),
       changeFrequency: options.changeFrequency ?? ("monthly" as const),
       priority: options.priority ?? 0.8,
       alternates: {
@@ -57,18 +59,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: route === "" ? 1 : 0.8,
       })
     ),
-    ...content.cases.flatMap((study) => entry(`cases/${study.slug}`, { priority: 0.6 })),
+    ...content.cases.flatMap((study) => entry(study.slug, { priority: 0.6 })),
     ...content.posts.flatMap((post) =>
-      entry(`insights/${post.slug}`, {
+      entry(post.slug, {
         priority: 0.5,
-        lastModified: post.isoDate ? new Date(post.isoDate) : now,
+        lastModified: post.isoDate ? new Date(post.isoDate) : undefined,
       })
     ),
     // Pages composed in the CMS page editor.
     ...content.pages.flatMap((page) =>
       entry(page.slug, {
         priority: 0.6,
-        lastModified: page.updatedAt ? new Date(page.updatedAt.replace(" ", "T")) : now,
+        lastModified: page.updatedAt ? new Date(page.updatedAt.replace(" ", "T")) : undefined,
       })
     ),
   ];
