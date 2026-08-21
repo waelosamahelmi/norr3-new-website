@@ -7,7 +7,6 @@ import { imageSlot } from "@/content/imageSlots";
 import { audienceChannels, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
-import { ChessStrategy } from "@/components/heroes/ChessStrategy";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
@@ -101,7 +100,6 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           left={s.heroLeft}
           accent={s.heroAccent}
           className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
-          middle={<ChessStrategy />}
         />
       </Container>
       <div className="mt-10 lg:mt-12">

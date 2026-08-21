@@ -31,7 +31,7 @@ export function PhotoInterstitial({
           </p>
         )}
         <div className="absolute bottom-6 left-0 right-0">
-          <PillMarquee items={pills} duration="40s" />
+          <PillMarquee items={pills} duration="40s" monochrome />
         </div>
       </div>
     </Reveal>

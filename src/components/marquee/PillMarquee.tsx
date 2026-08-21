@@ -23,27 +23,50 @@ const CHIP_TONES = [
   "bg-ink text-white dark:bg-purple",
 ];
 
+// Black & white pill/chip tones — used when the marquee sits on top of a photo
+// (PhotoInterstitial) so the widgets read as a monochrome overlay instead of
+// competing with the image's colour.
+const MONO_PILL_TONES = [
+  "bg-ink text-white",
+  "bg-white text-ink ring-1 ring-black/10",
+  "bg-ink text-white",
+  "bg-white text-ink ring-1 ring-black/10",
+  "bg-ink text-white",
+];
+
+const MONO_CHIP_TONES = [
+  "bg-white text-ink ring-1 ring-black/10",
+  "bg-ink text-white",
+  "bg-white text-ink ring-1 ring-black/10",
+  "bg-ink text-white",
+];
+
 export function PillMarquee({
   items,
   className = "",
   duration = "var(--marquee-pills, 35s)",
+  monochrome = false,
 }: {
   items: PillItem[];
   className?: string;
   /** Any CSS time. Defaults to the speed configured in the CMS theme. */
   duration?: string;
+  /** Render the pills and chips in black & white (used over photos). */
+  monochrome?: boolean;
 }) {
+  const pillTones = monochrome ? MONO_PILL_TONES : PILL_TONES;
+  const chipTones = monochrome ? MONO_CHIP_TONES : CHIP_TONES;
   const row = (
     <div className="flex shrink-0 items-center gap-3 pr-3">
       {items.map((item, i) => (
         <span key={item.id} className="flex items-center gap-3">
           <span
-            className={`flex items-center whitespace-nowrap rounded-full px-6 py-3 text-base font-medium ${PILL_TONES[i % PILL_TONES.length]}`}
+            className={`flex items-center whitespace-nowrap rounded-full px-6 py-3 text-base font-medium ${pillTones[i % pillTones.length]}`}
           >
             {item.label}
           </span>
           <span
-            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${CHIP_TONES[i % CHIP_TONES.length]}`}
+            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${chipTones[i % chipTones.length]}`}
           >
             <Icon name={i % 2 === 0 ? item.icon : "arrow_forward"} className="text-[20px]" />
           </span>

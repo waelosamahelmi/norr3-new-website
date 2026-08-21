@@ -501,7 +501,8 @@ const fi = {
   },
   cases: {
     pill: "CUSTOMER CASES",
-    heroHeadline: "Making Media a Growth Engine",
+    heroLeft: "Making Media",
+    heroAccent: "a Growth Engine",
     heroBody:
       "Autamme pohjoismaisia edelläkävijäyrityksiä muuttamaan mediainvestoinnit kasvuksi ja kilpailueduksi.",
     featuredLabel: "Nostettu case",
@@ -1246,7 +1247,8 @@ const en: Dictionary = {
   },
   cases: {
     pill: "CUSTOMER CASES",
-    heroHeadline: "Making Media a Growth Engine",
+    heroLeft: "Making Media",
+    heroAccent: "a Growth Engine",
     heroBody:
       "We help progressive Nordic companies turn media investments into growth and competitive advantage.",
     featuredLabel: "Featured case",

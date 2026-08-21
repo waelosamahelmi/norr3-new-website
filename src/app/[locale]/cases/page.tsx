@@ -4,6 +4,7 @@ import { getDictionary } from "@/lib/dictionary";
 import { pageSeo } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
+import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
@@ -80,11 +81,11 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
         <Reveal>
           <HeroPill>{c.pill}</HeroPill>
         </Reveal>
-        <Reveal delay={0.05}>
-          <h1 className="mt-6 max-w-5xl text-[8vw] font-medium leading-[1.02] tracking-tight text-ink lg:text-[5.5rem] dark:text-white">
-            {c.heroHeadline}
-          </h1>
-        </Reveal>
+        <SplitHeadline
+          left={c.heroLeft}
+          accent={c.heroAccent}
+          className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
+        />
         {/* Photo collage strip — real case photography, one tile per case, with
             the client named on the tile so the strip is legible, not abstract. */}
         <div className="mt-10 flex items-end gap-3 overflow-hidden lg:mt-12">

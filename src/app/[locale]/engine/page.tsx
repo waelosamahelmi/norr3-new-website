@@ -7,7 +7,6 @@ import { imageSlot } from "@/content/imageSlots";
 import { dashboardData, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
-import { ArrowsDeliver } from "@/components/heroes/ArrowsDeliver";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -91,7 +90,6 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
           left={e.heroLeft}
           accent={e.heroAccent}
           className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
-          middle={<ArrowsDeliver />}
         />
       </Container>
       <div className="mt-10 lg:mt-12">

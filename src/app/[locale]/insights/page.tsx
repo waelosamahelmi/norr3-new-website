@@ -70,6 +70,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
         </Reveal>
         <Reveal delay={0.05}>
           <h1 className="mt-6 text-[10vw] font-medium leading-[0.95] tracking-tight text-ink lg:text-[6.5rem] dark:text-white">
+            <span aria-hidden className="caret-blink">_</span>
             {dict.insights.heading}
           </h1>
         </Reveal>
