@@ -102,6 +102,98 @@ export const insights: Insight[] = [
       ],
     },
   },
+  {
+    slug: "norr3-ja-kiinteistomaailma-yhteistyossa-marketing-engine-mullistaa-paikallismarkkinoinnin",
+    date: "28.3.2025",
+    image: "/images/cases/kiinteistomaailma.webp",
+    fi: {
+      title: "NØRR3 ja Kiinteistömaailma yhteistyössä — Marketing Engine mullistaa paikallismarkkinoinnin",
+      excerpt: "NØRR3 Marketing Engine automatisoi paikallismarkkinoinnin ja vähentää manuaalista työtä murto-osaan.",
+      body: [
+        "Insight- ja mediatoimisto NØRR3 on kehittänyt yhdessä Kiinteistömaailman kanssa NØRR3 Marketing Enginen, joka automatisoi paikallismarkkinointia ja vähentää manuaalista työtä murto-osaan.",
+        "NØRR3 Marketing Engine tuottaa ja jakaa personoidut, dynaamiset aineistot eri kanaviin automaattisesti yrittäjien valintojen mukaisesti — yrittäjä voi valita kampanjaan haluamansa asunnot, määrittää kampanja-alueen ja budjetin, ja työkalu luo mainosmateriaalit ajantasaisin asuntotiedoin.",
+        "Ratkaisu ei ole rajoitettu kiinteistöalaan — se soveltuu myös muille franchising- ja kivijalkaketjuille hyödyntäen tuote-, varasto- ja palveludataa.",
+      ],
+    },
+    en: {
+      title: "NØRR3 and Kiinteistömaailma — Marketing Engine revolutionises local marketing",
+      excerpt: "NØRR3 Marketing Engine automates local marketing and cuts manual work to a fraction.",
+      body: [
+        "Insight and media agency NØRR3 has developed, together with Kiinteistömaailma, the NØRR3 Marketing Engine — automating local marketing and cutting manual work to a fraction.",
+        "The Marketing Engine produces and distributes personalised, dynamic creatives to channels automatically based on each entrepreneur's choices — they pick the listings, define the campaign area and budget, and the tool builds the ads with up-to-date property details.",
+        "The solution isn't limited to real estate — it fits other franchise and brick-and-mortar chains by leveraging product, inventory and service data.",
+      ],
+    },
+  },
+  {
+    slug: "norr3-vuoden-toimisto-2023",
+    date: "6.3.2023",
+    ghost: "2023",
+    fi: {
+      title: "NØRR3 on vuoden toimisto 2023!",
+      excerpt: "NØRR3 nappasi alalla arvostetun Vuoden Toimisto -palkinnon — toista kertaa peräkkäin.",
+      body: [
+        "Viime vuoden tavoin NØRR3 nappasi itselleen alalla arvostetun laadun ja osaamisen mittarin — Vuoden Toimisto -palkinnon kategoriassa mediatoimistot 500t–2M€.",
+        "Yli toimialan keskiarvon nousimme asiakkaan liiketoiminnan tuntemuksessa, digitaalisessa osaamisessa, sitoutuneisuudessa, hallinnollisissa rutiineissa, toimitusvarmuudessa ja hinta-laatu-suhteessa.",
+        "64 % vastanneista asiakkaista antoi arvosanan 10 tai 9 liiketoiminnan tuntemuksesta, ja digitaalinen osaaminen ylsi lukemiin 8,91.",
+      ],
+    },
+    en: {
+      title: "NØRR3 is Agency of the Year 2023!",
+      excerpt: "NØRR3 won the industry's respected Agency of the Year award — for the second year running.",
+      body: [
+        "Just like last year, NØRR3 took home the industry's respected quality-and-expertise benchmark — the Agency of the Year award in the media agencies 500k–2M€ category.",
+        "We scored above the industry average in knowledge of the client's business, digital expertise, commitment, administrative routines, delivery reliability and value for money.",
+        "64 % of responding clients gave a 9 or 10 for business understanding, and our digital expertise reached 8.91.",
+      ],
+    },
+  },
+  {
+    slug: "nelja-pohjoismaata-yhdistavat-voimansa-uudessa-mediatoimistoverkostossa",
+    date: "8.2.2023",
+    ghost: "INN",
+    fi: {
+      title: "Neljä pohjoismaata yhdistävät voimansa uudessa mediatoimistoverkostossa",
+      excerpt: "HowCom, TRY Opt, Calibrate ja NØRR3 perustivat itsenäisen pohjoismaisen mediatoimistoverkoston.",
+      body: [
+        "Ruotsalainen HowCom, norjalainen TRY Opt, tanskalainen Calibrate ja NØRR3 perustivat mediatoimistoverkoston, jonka tavoitteena on tarjota pohjoismaisille mainostajille itsenäinen ja läpinäkyvä vaihtoehto mediatoimistokumppania valitessaan.",
+        "Liittouman, Independent Nordic Networkin (”INN”), muodostavat vahvat, paikalliset ja itsenäiset toimistot, jotka jakavat saman lähestymistavan ja intohimon tuottaa asiakkailleen lisäarvoa.",
+        "Verkosto tarjoaa ”one point of contact” -periaatteella paikalliset tiimit kaikista Pohjoismaista — yhteenlaskettu liikevaihto on yli 120 M€ ja verkosto työllistää yli 160 markkinoinnin ja media-alan ammattilaista.",
+      ],
+    },
+    en: {
+      title: "Four Nordic countries join forces in a new media agency network",
+      excerpt: "HowCom, TRY Opt, Calibrate and NØRR3 founded an independent Nordic media agency network.",
+      body: [
+        "Sweden's HowCom, Norway's TRY Opt, Denmark's Calibrate and NØRR3 founded a media agency network with the goal of offering Nordic advertisers an independent and transparent alternative when choosing a media agency partner.",
+        "The alliance, the Independent Nordic Network (”INN”), is made up of strong, local and independent agencies that share the same approach and passion for creating added value for their clients.",
+        "The network offers local teams across all the Nordics on a one-point-of-contact basis — with a combined revenue above €120M and more than 160 marketing and media professionals.",
+      ],
+    },
+  },
+  {
+    slug: "ai-and-the-creative-future",
+    date: "24.10.2024",
+    ghost: "AI",
+    fi: {
+      title: "AI & The Creative Future: Enhancing Performance and Customer Experience",
+      excerpt: "Aamutilaisuus, jossa alan johtavat asiantuntijat jakoivat strategioita tekoälyn hyödyntämiseen.",
+      body: [
+        "Tervetuloa inspiroivaan aamuun, jossa alan johtavat asiantuntijat jakavat strategioita suorituskyvyn parantamiseen saumattomalla tiimien välisellä integraatiolla.",
+        "Keynote-puhujina Antti Ujainen (NØRR3), Julia Rautakoski (Tre Kronor Media) ja Helena Dokken (Farmasiet), sekä paneelissa IAB Finlandin, Google Cloudin, Sherpan, MTV & TV4:n ja Alma Median edustajat.",
+        "Tapahtuma järjestettiin 24. lokakuuta klo 8–11 NØRR3:n studiolla Helsingissä, Pursimiehenkatu 26 C:ssä.",
+      ],
+    },
+    en: {
+      title: "AI & The Creative Future: Enhancing Performance and Customer Experience",
+      excerpt: "A morning event where leading industry experts shared strategies for leveraging AI.",
+      body: [
+        "An insightful morning where leading industry experts shared strategies to enhance performance through seamless integration across teams.",
+        "Keynotes by Antti Ujainen (NØRR3), Julia Rautakoski (Tre Kronor Media) and Helena Dokken (Farmasiet), plus a panel with IAB Finland, Google Cloud, Sherpa, MTV & TV4 and Alma Media.",
+        "The event ran on 24 October, 8–11 AM, at NØRR3's studio in Helsinki, Pursimiehenkatu 26 C.",
+      ],
+    },
+  },
 ];
 
 export function getInsight(slug: string) {

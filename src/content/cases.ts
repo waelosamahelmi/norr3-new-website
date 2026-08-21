@@ -282,6 +282,131 @@ export const cases: CaseStudy[] = [
     ],
     kpi: { value: 2024, label: { fi: "some-kampanja käynnissä", en: "social campaign live" } },
   },
+  {
+    slug: "frantsila",
+    client: "Frantsila",
+    image: "/images/cases/frantsila.webp",
+    size: "small",
+    summary: {
+      fi: "Frantsilan Terve Maa, Terve Iho -kampanja toi brändille näkyvyyttä printissä, ulkomainonnassa ja digissä — verkkokaupan myynti kasvoi 20 % ja kampanja keräsi lähes 8 000 uutta uutiskirjeen tilaajaa.",
+      en: "Frantsila's Healthy Soil, Healthy Skin campaign gave the brand visibility in print, out-of-home and digital — online-store sales grew 20 % and the campaign gathered nearly 8,000 new newsletter subscribers.",
+    },
+    tagline: {
+      fi: "Visuaalisesti vaikuttavalle mainoskonseptille näkyvyyttä",
+      en: "Visibility for a visually striking creative concept",
+    },
+    intro: {
+      fi: "NØRR3 tuli mukaan tukemaan Frantsilan brändiuudistusta ja kestävää kasvua syksyllä 2023 — alkaen Terve Maa, Terve Iho -kampanjan mediasuunnittelusta ja jalkautuksesta.",
+      en: "NØRR3 came on board in autumn 2023 to support Frantsila's brand renewal and sustainable growth — starting with the media planning and rollout of the Healthy Soil, Healthy Skin campaign.",
+    },
+    objectives: {
+      fi: "Frantsilan tavoitteena oli lisätä valtakunnallisesti preferenssiä ja myyntiä luonnonkosmetiikan käyttäjien keskuudessa, tavoittaa aiemmin tuntematonta kohderyhmää ja kasvattaa tunnettuutta.",
+      en: "Frantsila's goal was to grow preference and sales nationally among natural-cosmetics users, reach a previously unfamiliar audience and build awareness.",
+    },
+    solution: {
+      fi: "Mediasuunnitelman kantava ajatus oli tuoda Frantsilan brändi ja vaikuttava mainoskonsepti näyttäviin pintoihin: printtiä ja ulkomainontaa suurten kaupunkien keskustoissa ja kauppakeskuksissa, ja digillä vahva rooli verkkokaupan myynnissä ja uutiskirjeen hankinnassa.",
+      en: "The plan's core idea was to put Frantsila's brand and striking creative concept on premium surfaces: print and out-of-home in city centres and shopping malls, with digital playing a strong role in online-store sales and newsletter acquisition.",
+    },
+    methods: [
+      { icon: "campaign", fi: { title: "Mediasuunnittelu", body: "Näkyvät pinnat ja kanavat valittiin tukemaan brändiä ja kivijalkamyyntiä." }, en: { title: "Media planning", body: "Premium surfaces and channels chosen to support the brand and in-store sales." } },
+      { icon: "tune", fi: { title: "Neuvottelu ja buukkaus", body: "Mediat neuvoteltiin ja buukattiin taktisille, näkyville paikoille." }, en: { title: "Negotiation & booking", body: "Media negotiated and booked into tactical, high-visibility placements." } },
+      { icon: "analytics", fi: { title: "Optimointi ja raportointi", body: "Kampanjaa optimoitiin ja opit raportoitiin lennossa." }, en: { title: "Optimization & reporting", body: "The campaign was optimized and learnings reported in flight." } },
+    ],
+    results: {
+      fi: "Kampanjan tavoitteet saavutettiin erinomaisesti: verkkokaupan myynti kasvoi 20 %, huomioarvo oli 20 % ja kampanja keräsi lähes 8 000 uutta uutiskirjeen tilaajaa.",
+      en: "The campaign exceeded its targets: online-store sales grew 20 %, attention value reached 20 % and the campaign gathered nearly 8,000 new newsletter subscribers.",
+    },
+    metrics: [
+      { value: 20, suffix: " %", label: { fi: "Verkkokaupan myynnin kasvu", en: "Online-store sales growth" } },
+      { value: 20, suffix: " %", label: { fi: "Kampanjan huomioarvo", en: "Campaign attention value" } },
+      { value: 8000, label: { fi: "Uutta uutiskirjeen tilaajaa", en: "New newsletter subscribers" } },
+    ],
+    kpi: { value: 20, suffix: " %", label: { fi: "verkkokaupan myynnin kasvu", en: "online-store sales growth" } },
+  },
+  {
+    slug: "sambla-group",
+    client: "Sambla Group",
+    // Placeholder path — the campaign shot is still to come from the client.
+    image: "/images/cases/sambla-group.webp",
+    size: "small",
+    summary: {
+      fi: "Sambla Group valitsi NØRR3:n rakentamaan Rahalaitos- ja Omalaina-brändeille mediastrategian ja operoinnin — brändit nousivat nopeasti luottojen kilpailutuspalveluiden kärkeen.",
+      en: "Sambla Group chose NØRR3 to build the media strategy and operations for the Rahalaitos and Omalaina brands — the brands quickly rose to the top of loan-comparison services.",
+    },
+    tagline: {
+      fi: "Tuloksellista mainontaa Omalainalle ja Rahalaitokselle",
+      en: "Results-driven advertising for Omalaina and Rahalaitos",
+    },
+    intro: {
+      fi: "Sambla Group on ostanut Pohjoismaista noin 15 luottojen kilpailutuspalvelua. Vuonna 2022 Sambla valitsi NØRR3:n rakentamaan mediastrategian vuodelle 2023 sekä ostamaan ja operoimaan mediat.",
+      en: "Sambla Group has acquired around 15 loan-comparison services across the Nordics. In 2022 Sambla chose NØRR3 to build the 2023 media strategy and to buy and operate the media.",
+    },
+    objectives: {
+      fi: "Tavoitteena oli nostaa molemmat brändit tulosten kärkeen useilla mittareilla — syvällä strategisella osaamisella, nopealla operoinnilla ja erottuvilla mediaplaneilla.",
+      en: "The goal was to lift both brands to the top of results on several metrics — with deep strategic skill, fast operations and distinctive media plans.",
+    },
+    solution: {
+      fi: "NØRR3 ehdotti strategiaa, jossa Omalaina ja Rahalaitos tukevat toisiaan läpi vuoden mutta mediamixit eroavat kanavittain. Kilpailija-analyysi ja attribuutio-mallinnus paljastivat heti kilpailijoiden heikkoudet ja kanavien tehot.",
+      en: "NØRR3 proposed a strategy where Omalaina and Rahalaitos support each other through the year while the media mixes differ by channel. Competitor analysis and attribution modelling immediately revealed competitors' weaknesses and channel performance.",
+    },
+    methods: [
+      { icon: "track_changes", fi: { title: "Kilpailija-analyysi", body: "Kolmen vuoden kilpailijatutkimus medioittain ja viikoittain." }, en: { title: "Competitor analysis", body: "Three years of competitor research, by media and weekly." } },
+      { icon: "space_dashboard", fi: { title: "Mediastrategia", body: "Tarkka suunnitelma kanavaryhmittäin molemmille brändeille." }, en: { title: "Media strategy", body: "A precise plan by channel group for both brands." } },
+      { icon: "query_stats", fi: { title: "Attribuutio-mallinnus", body: "Mittaus ja jatkuva brändi- ja kilpailijaseuranta." }, en: { title: "Attribution modelling", body: "Measurement with continuous brand and competitor tracking." } },
+    ],
+    results: {
+      fi: "Rahalaitos ja Omalaina nousivat nopeasti Suomen tunnetuimmiksi brändeiksi luottojen kilpailutuspalveluissa — mm. top-of-mind, tunnettuus, harkinta ja preferointi.",
+      en: "Rahalaitos and Omalaina quickly became the best-known brands in Finnish loan-comparison services — including top-of-mind, awareness, consideration and preference.",
+    },
+    metrics: [
+      { value: 2, label: { fi: "Sijat halutuissa mittareissa", en: "Rankings in the key metrics" } },
+      { value: 33, suffix: " %", label: { fi: "Tunnettuuden kasvu (Omalaina)", en: "Awareness growth (Omalaina)" } },
+      { value: 20, suffix: " %", label: { fi: "Mainonnan muistettavuus (Omalaina)", en: "Ad recall (Omalaina)" } },
+    ],
+    kpi: { value: 33, suffix: " %", label: { fi: "tunnettuuden kasvu", en: "awareness growth" } },
+  },
+  {
+    slug: "esperi",
+    client: "Esperi",
+    // Placeholder path — the campaign shot is still to come from the client.
+    image: "/images/cases/esperi.webp",
+    size: "small",
+    summary: {
+      fi: "NØRR3 vahvisti Esperin bränditunnettuutta yhdeksän kuukauden strategialla — Esperistä tuli toimialan toiseksi tunnetuin toimija ja brändimittarit kehittyivät positiivisesti.",
+      en: "NØRR3 strengthened Esperi's brand awareness with a nine-month strategy — Esperi became the industry's second most-known player and its brand metrics improved positively.",
+    },
+    tagline: {
+      fi: "Esperi Care & NØRR3 — bränditunnettuuden rakentaminen",
+      en: "Esperi Care & NØRR3 — building brand awareness",
+    },
+    intro: {
+      fi: "NØRR3 aloitti yhteistyön Esperin bränditunnettuuden kehittämiseksi keväällä 2024 — vastuulla kokonaisvaltainen mediastrategia, suunnittelu, operointi sekä tulosten mittaaminen ja raportointi.",
+      en: "NØRR3 started working with Esperi to develop its brand awareness in spring 2024 — responsible for the full media strategy, planning, operations and the measurement and reporting of results.",
+    },
+    objectives: {
+      fi: "Tavoitteena oli vahvistaa brändin asemaa markkinoilla, lisätä tunnettuutta ja kasvattaa harkintaa alan palveluntarjoajien joukossa.",
+      en: "The goal was to strengthen the brand's market position, grow awareness and lift consideration among the industry's providers.",
+    },
+    solution: {
+      fi: "Yhteistyö käynnistyi perusteellisella analyysillä brändin nykytilasta ja markkinapositiosta, kilpailijoiden mediapanostusten kartoituksella sekä strategisella lähestymistavalla seuraavalle yhdeksälle kuukaudelle. Kampanjoissa hyödynnettiin liikkuvaa kuvaa ja emotionaalisesti vetoavaa viestintää — luovana kumppanina toimi Nord DDB.",
+      en: "The partnership started with a thorough analysis of the brand's current state and market position, a mapping of competitors' paid-media investment, and a strategic approach for the next nine months. The campaigns used moving image and emotionally resonant messaging — with Nord DDB as the creative partner.",
+    },
+    methods: [
+      { icon: "insights", fi: { title: "Brändianalyysi", body: "Nykytila, markkinapositio ja kilpailijoiden panostukset kartoitettiin." }, en: { title: "Brand analysis", body: "Current state, market position and competitors' investment mapped." } },
+      { icon: "space_dashboard", fi: { title: "Mediastrategia", body: "Strateginen lähestyminen seuraavalle yhdeksälle kuukaudelle." }, en: { title: "Media strategy", body: "A strategic approach for the next nine months." } },
+      { icon: "campaign", fi: { title: "Luova toteutus", body: "Liikkuva kuva ja kohderyhmälähtöinen viestintä Nord DDB:n kanssa." }, en: { title: "Creative execution", body: "Moving image and audience-led messaging with Nord DDB." } },
+    ],
+    results: {
+      fi: "Esperin brändimittarit kehittyivät positiivisesti: Esperistä tuli toimialan toiseksi tunnetuin toimija ja top-of-mind sekä harkinta nousivat kuuden kuukauden aikana.",
+      en: "Esperi's brand metrics developed positively: Esperi became the industry's second most-known player and top-of-mind and consideration rose over six months.",
+    },
+    metrics: [
+      { value: 2, label: { fi: "Toimialan toiseksi tunnetuin toimija", en: "2nd most-known player in the industry" } },
+      { value: 9, suffix: " kk", label: { fi: "Strategista suunnittelua", en: "Months of strategic planning" } },
+      { value: 6, suffix: " kk", label: { fi: "Brändimittarien kehitysjakso", en: "Brand-metric development window" } },
+    ],
+    kpi: { value: 2, label: { fi: "toimialan toiseksi tunnetuin", en: "2nd most known in the industry" } },
+  },
 ];
 
 export function getCase(slug: string) {
