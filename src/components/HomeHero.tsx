@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { Icon } from "./Icon";
 import { PixelArt } from "./PixelArt";
 
 /** ms per character for the "A New Way to" typewriter intro. */
@@ -10,23 +9,18 @@ const TYPE_SPEED = 70;
 const POP_STAGGER = 220;
 /** ms between stack rotations (front → back, back → mid, mid → front). */
 const ROTATE_EVERY = 2400;
-/** Max pointer-parallax travel, in px, at depth 1. */
-const SHIFT = 22;
 /** Easing shared by the stack transitions and the accent-word swap. */
 const EASE = "cubic-bezier(.16,1,.3,1)";
 
 const REDUCED = "(prefers-reduced-motion: reduce)";
-const COARSE = "(pointer: coarse)";
 
 function subscribeMedia(onChange: () => void) {
-  const lists = [window.matchMedia(REDUCED), window.matchMedia(COARSE)];
-  lists.forEach((list) => list.addEventListener("change", onChange));
-  return () => lists.forEach((list) => list.removeEventListener("change", onChange));
+  const list = window.matchMedia(REDUCED);
+  list.addEventListener("change", onChange);
+  return () => list.removeEventListener("change", onChange);
 }
 
 const motionSnapshot = () => !window.matchMedia(REDUCED).matches;
-const parallaxSnapshot = () =>
-  !window.matchMedia(REDUCED).matches && !window.matchMedia(COARSE).matches;
 /** Server (and pre-hydration) answer: no motion, so the resting state renders. */
 const staticSnapshot = () => false;
 
@@ -35,20 +29,14 @@ function useMotionAllowed() {
   return useSyncExternalStore(subscribeMedia, motionSnapshot, staticSnapshot);
 }
 
-/** As above, and additionally off on coarse pointers (touch). */
-function useParallaxAllowed() {
-  return useSyncExternalStore(subscribeMedia, parallaxSnapshot, staticSnapshot);
-}
-
 /**
  * The three stack slots, back → front. `x` is a share of the stage width so the
- * geometry holds at every breakpoint (the values match the 576px reference:
- * -150px, -40px, +96px); `y` stays in px. `depth` scales the pointer parallax.
+ * geometry holds at every breakpoint; `y` stays in px.
  */
 const SLOTS = [
-  { x: "-30%", y: "40px", scale: 0.66, opacity: 0.9, z: 1, depth: 0.3, front: false },
-  { x: "-14%", y: "10px", scale: 0.82, opacity: 0.97, z: 2, depth: 0.6, front: false },
-  { x: "2%", y: "-22px", scale: 1, opacity: 1, z: 3, depth: 1, front: true },
+  { x: "-72%", y: "40px", scale: 0.62, opacity: 0.9, z: 1, front: false },
+  { x: "-32%", y: "10px", scale: 0.78, opacity: 0.97, z: 2, front: false },
+  { x: "12%", y: "-22px", scale: 1, opacity: 1, z: 3, front: true },
 ] as const;
 
 type HeroCard = {
@@ -127,7 +115,6 @@ export function HomeHero({
   rotateEvery?: number;
 }) {
   const motion = useMotionAllowed();
-  const parallax = useParallaxAllowed();
 
   const deck: HeroCard[] = CARDS.map((card, index) => {
     const override = cards?.[index];
@@ -150,9 +137,6 @@ export function HomeHero({
   const [popped, setPopped] = useState(0);
   const displayedAccentRef = useRef(accent);
   const [displayedAccent, setDisplayedAccent] = useState(accent);
-
-  const pointer = useRef({ x: 0, y: 0 });
-  const stageRef = useRef<HTMLDivElement | null>(null);
 
   const typing = motion && typed < left.length;
   /** True while the cards are still popping in (after typing, before rotation). */
@@ -187,41 +171,6 @@ export function HomeHero({
     }, rotateMs);
     return () => window.clearInterval(rot);
   }, [motion, typing, popping, rotateMs]);
-
-  // Pointer parallax: every card drifts by its slot depth, the front one most.
-  useEffect(() => {
-    if (!parallax) return;
-    const stageCards = stageRef.current?.querySelectorAll<HTMLElement>("[data-depth]");
-    if (!stageCards?.length) return;
-    let raf = 0;
-    let cx = 0;
-    let cy = 0;
-    const loop = () => {
-      cx += (pointer.current.x - cx) * 0.07;
-      cy += (pointer.current.y - cy) * 0.07;
-      stageCards.forEach((el) => {
-        const depth = Number(el.dataset.depth) || 0;
-        el.style.setProperty("--px", `${(cx * SHIFT * depth).toFixed(1)}px`);
-        el.style.setProperty("--py", `${(cy * SHIFT * depth).toFixed(1)}px`);
-      });
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, [parallax]);
-
-  const handlePointerMove = (event: React.PointerEvent<HTMLElement>) => {
-    const rect = stageRef.current?.getBoundingClientRect();
-    if (!rect?.width || !rect.height) return;
-    pointer.current = {
-      x: (event.clientX - rect.left) / rect.width - 0.5,
-      y: (event.clientY - rect.top) / rect.height - 0.5,
-    };
-  };
-
-  const handlePointerLeave = () => {
-    pointer.current = { x: 0, y: 0 };
-  };
 
   /** Which slot each card currently sits in. */
   const slotOf = deck.map((_, card) => order.indexOf(card));
@@ -274,8 +223,6 @@ export function HomeHero({
     <h1
       aria-label={`${left} ${accent}`}
       className="relative flex w-full flex-wrap items-center justify-center gap-x-1 gap-y-1 font-medium leading-none tracking-tight text-ink lg:flex-nowrap lg:justify-start lg:gap-2 dark:text-white"
-      onPointerMove={parallax ? handlePointerMove : undefined}
-      onPointerLeave={parallax ? handlePointerLeave : undefined}
     >
       {/* Left word — types itself in, with the blinking caret trailing it.
           When not typing the caret collapses to zero width so it doesn't add a
@@ -292,7 +239,6 @@ export function HomeHero({
           paint over the neighbouring words, which have none. */}
       <span aria-hidden className="relative z-0 order-3 mt-10 block w-full lg:order-none lg:mt-0 lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
-          ref={stageRef}
           className="relative mx-auto h-[460px] max-h-[56svh] w-[min(320px,84vw)] select-none [--card:210px] [--spread:0.72] sm:h-[700px] sm:max-h-[62svh] sm:w-full sm:max-w-lg sm:[--card:340px] sm:[--spread:0.85] lg:mx-4 lg:h-[560px] lg:max-h-[62svh] lg:w-[420px] lg:[--card:360px] lg:[--spread:1]"
         >
           {deck.map((card, index) => {
@@ -305,10 +251,9 @@ export function HomeHero({
             return (
               <div
                 key={card.word}
-                data-depth={slot.depth}
                 className="absolute inset-0"
                 style={{
-                  transform: `translate(calc(${slot.x} * var(--spread, 1)), ${slot.y}) translate(var(--px, 0px), var(--py, 0px))`,
+                  transform: `translate(calc(${slot.x} * var(--spread, 1)), ${slot.y})`,
                   transition: motion ? `transform .8s ${EASE}` : undefined,
                   zIndex: slot.z,
                 }}
@@ -317,8 +262,8 @@ export function HomeHero({
                   className="absolute left-1/2 top-1/2 aspect-[9/16] overflow-hidden rounded-md shadow-[0_14px_34px_rgba(0,0,0,0.22)]"
                   style={{
                     // Card width as a share of the stage (percentage-based) so
-                    // it scales cleanly at every breakpoint; front card = 76%.
-                    width: `calc(${slot.scale} * 76%)`,
+                    // it scales cleanly at every breakpoint; front card = 60%.
+                    width: `calc(${slot.scale} * 60%)`,
                     opacity: isPopped ? slot.opacity : 0,
                     // Pop-in: scale from 0 to 1 (springy) as each card appears.
                     transform: `translate(-50%, -50%) scale(${isPopped ? 1 : 0})`,
@@ -342,14 +287,6 @@ export function HomeHero({
                     steps={4}
                     className="absolute -top-[8%] right-[-6%] z-[2] w-2/5 opacity-90"
                   />
-                  <span
-                    className={`absolute left-2 top-2 z-[3] flex size-7 items-center justify-center rounded-[5px] shadow-[0_4px_12px_rgba(0,0,0,0.25)] sm:size-9 lg:size-11 ${card.tile}`}
-                  >
-                    <Icon name={card.icon} className="text-[17px] sm:text-xl lg:text-[26px]" />
-                  </span>
-                  <span className="absolute bottom-1.5 left-2 z-[3] text-[11px] font-medium text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.6)]">
-                    {card.number} · {card.word}
-                  </span>
                 </div>
               </div>
             );
