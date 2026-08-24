@@ -15,6 +15,7 @@ export function Reveal({
   y,
   className = "",
   as = "div",
+  id,
 }: {
   children: ReactNode;
   delay?: number;
@@ -22,11 +23,13 @@ export function Reveal({
   y?: number;
   className?: string;
   as?: "div" | "li";
+  /** Forwarded so anchor links (sub-menus, hero text-links) can target a section. */
+  id?: string;
 }) {
   const Tag = as === "li" ? motion.li : motion.div;
   const props = useRevealProps({ distance: y, delay });
   return (
-    <Tag {...props} className={className}>
+    <Tag id={id} {...props} className={className}>
       {children}
     </Tag>
   );

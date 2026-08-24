@@ -6,6 +6,7 @@ import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
+import { TextCta } from "@/components/TextCta";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -134,7 +135,10 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
           <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
             {c.heroBody}
           </p>
-          <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
+          <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
+            <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
+            <TextCta href="#kaikki-caset">{dict.common.heroSeeCases}</TextCta>
+          </div>
         </Reveal>
       </Container>
 
@@ -145,7 +149,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/cases">
           the asymmetric block; a feature + full row reads as an edited index. */}
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
         <Container>
-          <SectionHeader heading={c.heading} body={c.body} />
+          <SectionHeader id="kaikki-caset" heading={c.heading} body={c.body} />
           <div className="mt-14 lg:mt-16">
             <CaseFeature
               study={featured}

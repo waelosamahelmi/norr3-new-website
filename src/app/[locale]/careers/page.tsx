@@ -8,6 +8,7 @@ import { imageSlot } from "@/content/imageSlots";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
+import { TextCta } from "@/components/TextCta";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -82,13 +83,14 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/caree
           <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
             {c.heroBody}
           </p>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
             {/* Full path + hash, like the team page's roles CTA, so the link
                 resolves the same whether it is clicked or copied. */}
             <PillButton href={linkTo(locale, "/careers#open-roles")}>{dict.common.openJobs}</PillButton>
             <PillButton href={linkTo(locale, "/about")} variant="secondary">
               {c.culture.cta}
             </PillButton>
+            <TextCta href="#open-roles">{dict.common.heroSeeOpenRoles}</TextCta>
           </div>
         </Reveal>
       </Container>

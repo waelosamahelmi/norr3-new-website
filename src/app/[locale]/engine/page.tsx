@@ -8,6 +8,7 @@ import { dashboardData, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
+import { TextCta } from "@/components/TextCta";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { TriadLine } from "@/components/TriadLine";
@@ -106,11 +107,12 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
             <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
               {e.heroBody}
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
               <PillButton href="#simulator">{dict.common.accessDemo}</PillButton>
               <PillButton href={linkTo(locale, "/contact")} variant="secondary">
                 {dict.common.contactUs}
               </PillButton>
+              <TextCta href="#toiminta">{dict.common.heroHowItWorks}</TextCta>
             </div>
           </Reveal>
           <TriadLine clauses={e.triad} className="text-3xl lg:text-4xl lg:text-right" />
@@ -166,7 +168,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
       {/* Product screenshot */}
       <section className="bg-pastel-purple/40 py-24 lg:py-32 dark:bg-white/[0.04]">
         <Container>
-          <SectionHeader heading={e.demo.heading} body={e.demo.body} />
+          <SectionHeader id="demo" heading={e.demo.heading} body={e.demo.body} />
           <Reveal delay={0.1} className="mx-auto mt-14 max-w-5xl lg:mt-16">
             <DashboardMock locale={locale} labels={e.dashboard} data={dataset(content.datasets, "dashboard", locale, dashboardData)} />
             {/* Sample data, said plainly — evidence-first tone means labelling
@@ -179,7 +181,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
       {/* How Engine works — 3 numbered steps */}
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
         <Container>
-          <SectionHeader heading={e.workflow.heading} />
+          <SectionHeader id="toiminta" heading={e.workflow.heading} />
           {/* A real ordered list, because the steps are a sequence — brief, then
               plan & buy, then prove. Reveal carries the stagger so the list
               stays an <ol>/<li> rather than a grid of divs. */}
@@ -218,7 +220,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
           scroll-mt keeps the heading clear of the sticky nav on the #simulator jump. */}
       <section id="simulator" className="scroll-mt-24 bg-ink py-24 lg:py-32 dark:border-y dark:border-white/10">
         <Container>
-          <SectionHeader heading={e.simulator.heading} body={e.simulator.body} tone="light" />
+          <SectionHeader id="simulaattori" heading={e.simulator.heading} body={e.simulator.body} tone="light" />
           <Reveal delay={0.1} className="mx-auto mt-14 max-w-5xl lg:mt-16">
             <MediaMixSimulator locale={locale} labels={e.simulator} channels={content.channels} />
           </Reveal>

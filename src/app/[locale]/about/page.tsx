@@ -7,6 +7,7 @@ import { imageSlot } from "@/content/imageSlots";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
+import { TextCta } from "@/components/TextCta";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -89,11 +90,12 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
           <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
             {a.heroBody}
           </p>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
             <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
             <PillButton href={linkTo(locale, "/careers")} variant="secondary">
               {dict.common.openJobs}
             </PillButton>
+            <TextCta href={linkTo(locale, "/team")}>{dict.common.heroMeetTeam}</TextCta>
           </div>
         </Reveal>
       </Container>

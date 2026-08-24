@@ -6,6 +6,7 @@ import { companyStats, dashboardData, dataset } from "@/content/datasets";
 import { Container } from "@/components/Container";
 import { HeroRandomizer } from "@/components/heroes/HeroRandomizer";
 import { PillButton } from "@/components/PillButton";
+import { TextCta } from "@/components/TextCta";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -196,6 +197,14 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </Container>
       </section>
 
+      {/* A quiet, non-button exit from the services grid: most readers want
+          proof next, not a form. */}
+      <Container className="pb-16 lg:pb-20">
+        <Reveal className="flex justify-center">
+          <TextCta href="#caset">{dict.common.heroSeeCases}</TextCta>
+        </Reveal>
+      </Container>
+
       {/* Values photo with pill overlay */}
       <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
@@ -207,7 +216,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       </Container>
 
       {/* Cases */}
-      <section className="pb-24 lg:pb-32">
+      <section id="caset" className="scroll-mt-24 pb-24 lg:pb-32">
         <Container>
           <SectionHeader
             heading={dict.home.cases.heading}
@@ -313,7 +322,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             <StatGrid stats={inNumbers} locale={locale} label={dict.common.inNumbers} />
           </div>
 
-          <div className="mt-24 lg:mt-28">
+          <div id="ihmiset" className="mt-24 scroll-mt-32 lg:mt-28">
             <Reveal className="mx-auto mb-10 flex max-w-3xl flex-col items-center gap-4 text-center">
               {/* Sub-section head: brand h3 (40px / 125% / -1.5%), one step below
                   the SectionHeader h2 above it. */}

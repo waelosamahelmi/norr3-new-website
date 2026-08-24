@@ -70,6 +70,30 @@ const fi = {
     contact: "Yhteystiedot",
     about: "Meistä",
     careers: "Rekry",
+    // Sub-menu labels — the header's dropdowns jump straight to these page sections.
+    servicesSub: {
+      areas: "Mitä teemme",
+      insights: "Media Insights",
+      data: "Data ja mittaus",
+      features: "Ominaisuudet",
+    },
+    engineSub: {
+      product: "Tuote",
+      workflow: "Näin se toimii",
+      simulator: "Kokeile simulaattoria",
+      demo: "Näytöt ja demot",
+    },
+    casesSub: {
+      all: "Kaikki caset",
+    },
+    insightsSub: {
+      all: "Kaikki artikkelit",
+    },
+    aboutSub: {
+      story: "Meistä",
+      team: "Tiimi",
+      careers: "Töihin meille",
+    },
   },
   brief: {
     metaTitle: "Briefaa kampanja NØRR3:lle",
@@ -162,6 +186,15 @@ const fi = {
     accessDemo: "Katso demo",
     readMore: "Lue lisää",
     whatYouGet: "Mitä saat",
+    // Hero text-CTAs — the secondary, non-button link under every page hero.
+    heroSeeServices: "Mitä oikeasti teemme",
+    heroSeeData: "Miten data todennetaan",
+    heroTrySimulator: "Kokeile mediamix-simulaattoria",
+    heroSeeCases: "Katso caset",
+    heroSeeInsights: "Lue ajatuksia",
+    heroMeetTeam: "Tutustu tiimiin",
+    heroSeeOpenRoles: "Katso avoimet paikat",
+    heroHowItWorks: "Näin Engine toimii",
     readCase: "Lue case",
     viewAll: "Katso kaikki",
     meetTeam: "Tutustu tiimiin",
@@ -831,6 +864,30 @@ const en: Dictionary = {
     contact: "Contact",
     about: "About Us",
     careers: "Careers",
+    // Sub-menu labels — the header's dropdowns jump straight to these page sections.
+    servicesSub: {
+      areas: "What we do",
+      insights: "Media Insights",
+      data: "Data & measurement",
+      features: "Features",
+    },
+    engineSub: {
+      product: "The product",
+      workflow: "How it works",
+      simulator: "Try the simulator",
+      demo: "Demos",
+    },
+    casesSub: {
+      all: "All cases",
+    },
+    insightsSub: {
+      all: "All articles",
+    },
+    aboutSub: {
+      story: "About us",
+      team: "Team",
+      careers: "Careers",
+    },
   },
   brief: {
     metaTitle: "Brief your campaign to NØRR3",
@@ -922,6 +979,15 @@ const en: Dictionary = {
     allAboutUs: "All about us",
     accessDemo: "Access demo",
     whatYouGet: "What you get",
+    // Hero text-CTAs — the secondary, non-button link under every page hero.
+    heroSeeServices: "What we actually do",
+    heroSeeData: "How the data gets verified",
+    heroTrySimulator: "Try the media-mix simulator",
+    heroSeeCases: "See the cases",
+    heroSeeInsights: "Read the thinking",
+    heroMeetTeam: "Meet the team",
+    heroSeeOpenRoles: "See open roles",
+    heroHowItWorks: "How Engine works",
     readMore: "Read more",
     readCase: "Read the case",
     viewAll: "View all",

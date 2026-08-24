@@ -9,15 +9,21 @@ export function SectionHeader({
   cta,
   ctaHref,
   tone = "dark",
+  id,
 }: {
   heading: ReactNode;
   body?: string;
   cta?: string;
   ctaHref?: string;
   tone?: "dark" | "light";
+  /** Anchor id: sub-menus and hero text-links jump straight to this section. */
+  id?: string;
 }) {
   return (
-    <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
+    <Reveal
+      id={id}
+      className="mx-auto flex max-w-3xl scroll-mt-32 flex-col items-center gap-6 text-center"
+    >
       <h2
         className={`text-4xl font-medium leading-[1.1] tracking-tight lg:text-5xl ${tone === "light" ? "text-white" : "text-ink dark:text-white"}`}
       >

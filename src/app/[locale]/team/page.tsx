@@ -114,7 +114,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
           <p className="max-w-md whitespace-pre-line text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
             {t.heroBody}
           </p>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
             <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
             {/* The roles section is the second reason people open this page —
                 give it a route in from the fold instead of a long scroll. */}
@@ -204,7 +204,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/team">) 
       </Container>
 
       {/* Management team — the full roster, the site's most human screen */}
-      <section className="pb-24 lg:pb-32">
+      <section id="tiimi" className="scroll-mt-24 pb-24 lg:pb-32">
         <Container>
           <SectionHeader heading={t.management.heading} body={t.management.body} />
           {/* Four columns from xl so 18 tiles read as one wall of faces rather

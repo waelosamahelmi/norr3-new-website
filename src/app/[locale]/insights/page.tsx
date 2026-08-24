@@ -6,6 +6,7 @@ import { pageSeo } from "@/lib/pageSeo";
 import { Container, HeroPill } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
+import { TextCta } from "@/components/TextCta";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
 import { getPosts } from "@/lib/cms";
@@ -76,10 +77,11 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
             {dict.insights.heading}
           </h1>
         </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-6 max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
+        <Reveal delay={0.15} className="mt-6 flex flex-col items-start gap-6">
+          <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
             {dict.insights.body}
           </p>
+          <TextCta href="#kaikki-artikkelit">{dict.common.heroSeeInsights}</TextCta>
         </Reveal>
       </Container>
 
@@ -136,7 +138,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
 
       {/* The rest of the archive under a hairline index header */}
       <Container className="pb-24 lg:pb-32">
-        <Reveal className="flex items-baseline justify-between gap-6 border-t border-black/10 pt-6 dark:border-white/10">
+        <Reveal id="kaikki-artikkelit" className="flex scroll-mt-32 items-baseline justify-between gap-6 border-t border-black/10 pt-6 dark:border-white/10">
           <h2 className="text-[11px] font-medium uppercase tracking-[0.14em] text-purple dark:text-light-purple">
             {dict.common.allInsights}
           </h2>

@@ -8,6 +8,7 @@ import { audienceChannels, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
+import { TextCta } from "@/components/TextCta";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -112,14 +113,17 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
             {s.heroBody}
           </p>
-          <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
+          <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
+            <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
+            <TextCta href="#palvelut-alueet">{dict.common.heroSeeServices}</TextCta>
+          </div>
         </Reveal>
       </Container>
 
       {/* Six service areas — the numbered brand service cards */}
       <section className="pb-24 lg:pb-32">
         <Container>
-          <SectionHeader heading={s.areas.heading} body={s.areas.body} />
+          <SectionHeader id="palvelut-alueet" heading={s.areas.heading} body={s.areas.body} />
           <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {serviceCards.map((card) => (
               <ServiceCard
@@ -147,6 +151,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       <section className="bg-ink py-24 lg:py-32 dark:border-y dark:border-white/10">
         <Container>
           <SectionHeader
+            id="media-insights"
             heading={s.insights.heading}
             body={s.insights.body}
             cta={s.insights.cta}
@@ -203,6 +208,13 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
         </Container>
       </section>
 
+      {/* Text-CTA bridge: from the promise ("why") to the proof ("data"). */}
+      <Container className="pb-16 lg:pb-20">
+        <Reveal className="flex justify-center">
+          <TextCta href="#data">{dict.common.heroSeeData}</TextCta>
+        </Reveal>
+      </Container>
+
       <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
           image={planningPhoto.src}
@@ -218,7 +230,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           Card radius/padding follow BRAND_GUIDELINES §5. */}
       <section className="pb-24 lg:pb-32">
         <Container>
-          <SectionHeader heading={s.data.heading} body={s.data.body} />
+          <SectionHeader id="data" heading={s.data.heading} body={s.data.body} />
           <StaggerGrid className="mt-14 grid gap-card-gap lg:mt-16 lg:grid-cols-3">
             {s.data.cards.map((card, i) => (
               <div
@@ -268,7 +280,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       {/* Features */}
       <section className="pb-24 lg:pb-32">
         <Container>
-          <SectionHeader heading={s.features.heading} body={s.features.body} />
+          <SectionHeader id="ominaisuudet" heading={s.features.heading} body={s.features.body} />
           <div className="mt-14 grid items-start gap-12 lg:mt-16 lg:grid-cols-2 lg:gap-16">
             {/* Decorative product visual — purely illustrative, so it is hidden
                 from assistive tech; the real chart above carries a description. */}
@@ -313,6 +325,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       <section className="pb-24 lg:pb-32">
         <Container>
           <SectionHeader
+            id="caset"
             heading={s.relatedCases}
             body={dict.cases.body}
             cta={dict.common.allCases}
