@@ -21,22 +21,30 @@ export function Footer({
   return (
     <footer className="bg-purple text-white">
       {/* Giant logo wordmark — the static SVG (no morph, no loop), so it does not
-          idle-animate every time it scrolls into view. Black-on-purple (the
-          footer bg), same treatment as the nav logo on white. Letters still
-          rise in on scroll for the reveal itself. */}
+          idle-animate every time it scrolls into view. Drawn through a CSS mask
+          in pastel purple (the reversed tint the lavender banners use), so the
+          colour is an exact brand token rather than a filter approximation.
+          Letters still rise in on scroll for the reveal itself. */}
       <motion.div
         aria-hidden
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="mx-auto flex max-w-[1600px] items-end justify-center overflow-hidden px-6 pt-16 lg:px-14"
+        className="mx-auto flex max-w-[1600px] items-end justify-center overflow-hidden px-6 pt-8 lg:px-14"
       >
-        <img
-          src={wordmarkSrc}
-          alt=""
-          className="h-auto w-full max-w-[1400px] select-none"
-          style={{ filter: "brightness(0)" }}
+        <div
+          className="aspect-[1145/305] w-full max-w-[1400px] select-none bg-pastel-purple"
+          style={{
+            WebkitMaskImage: `url("${wordmarkSrc}")`,
+            maskImage: `url("${wordmarkSrc}")`,
+            WebkitMaskSize: "contain",
+            maskSize: "contain",
+            WebkitMaskRepeat: "no-repeat",
+            maskRepeat: "no-repeat",
+            WebkitMaskPosition: "center bottom",
+            maskPosition: "center bottom",
+          }}
         />
       </motion.div>
 

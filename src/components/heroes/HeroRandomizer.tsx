@@ -64,7 +64,8 @@ export function HeroRandomizer({
   if (hero === "pending") return <div className="h-[100svh] min-h-[620px]" />;
 
   const variant = hero?.variant ?? "home";
-  const words = heroWords(hero ?? undefined, locale, [accent]);
+  // English always — see the note at <HomeHero> below.
+  const words = heroWords(hero ?? undefined, "en", [accent]);
   const rotateEvery = heroNumber(hero ?? undefined, "rotateEvery", 2400, 400, 30000);
 
   if (variant === "city") {
@@ -163,8 +164,13 @@ export function HeroRandomizer({
       <div className="relative flex flex-1 flex-col justify-start overflow-hidden pt-4 sm:pt-6 lg:justify-center lg:pt-0">
         <DotGrid />
         <Container className="relative z-10 py-8">
+          {/* The home hero stays in English on both locales — the brand line
+              "A New Way to _Grow" is the campaign device, not copy to localize
+              (Wael's call). So headline/words/body/CTA read the `en` fields of
+              the CMS hero even when the page is Finnish; the CTA still routes
+              through the locale-aware link. */}
           <HomeHero
-            left={heroText(hero?.headline, locale, left)}
+            left={heroText(hero?.headline, "en", left)}
             accent={words[words.length - 1] ?? accent}
             alts={alts}
             rotateEvery={rotateEvery}
@@ -178,10 +184,10 @@ export function HeroRandomizer({
           />
           <Reveal delay={0.3} className="mt-7 flex flex-col items-start gap-5 lg:mt-8">
             <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
-              {heroText(hero?.body, locale, heroBody)}
+              {heroText(hero?.body, "en", heroBody)}
             </p>
             <PillButton href={hero?.cta.href ? linkTo(locale, `${hero.cta.href.replace(/^\/?/, "/")}`) : contactHref}>
-              {heroText(hero?.cta.label, locale, contactLabel)}
+              {heroText(hero?.cta.label, "en", contactLabel)}
             </PillButton>
           </Reveal>
         </Container>

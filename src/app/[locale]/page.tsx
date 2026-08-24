@@ -178,10 +178,12 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             {serviceCards.map((card) => (
               <ServiceCard
                 key={card.number}
+                expandable
                 number={card.number}
                 icon={card.icon}
                 title={card[locale].title}
                 body={card[locale].body}
+                items={card.items?.map((item) => item[locale])}
                 readMoreLabel={dict.common.readMore}
                 href={linkTo(locale, "/services")}
               />
@@ -221,8 +223,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       </section>
 
       <HighlightsBand label={dict.common.highlights} clients={clients} />
-
-      <LogoStrip clients={clients} locale={locale} />
 
       {/* Marketing Engine */}
       <section className="bg-pastel-purple/40 py-24 lg:py-32 dark:bg-white/[0.04]">
@@ -303,6 +303,12 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             </div>
           </div>
 
+          {/* Numbers first, then the humans behind them — the stat row sets up
+              the "Meet the humans behind the numbers" line that follows. */}
+          <div className="mt-24 lg:mt-28">
+            <StatGrid stats={inNumbers} locale={locale} label={dict.common.inNumbers} />
+          </div>
+
           <div className="mt-24 lg:mt-28">
             <Reveal className="mx-auto mb-10 flex max-w-3xl flex-col items-center gap-4 text-center">
               {/* Sub-section head: brand h3 (40px / 125% / -1.5%), one step below
@@ -316,10 +322,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             <div className="mt-8 flex justify-center">
               <PillButton href={linkTo(locale, "/team")} variant="secondary">{dict.common.meetTeam}</PillButton>
             </div>
-          </div>
-
-          <div className="mt-24 lg:mt-28">
-            <StatGrid stats={inNumbers} locale={locale} label={dict.common.inNumbers} />
           </div>
         </Container>
       </section>

@@ -63,11 +63,11 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
   const { clients } = content.brand;
   const dict = content.dictionaries[locale];
   const collabPhoto = imageSlot(content, "services.collab", locale, {
-    src: "/images/brand/services-collab.webp",
+    src: "/images/brand/team-couch.webp",
     alt:
       locale === "fi"
-        ? "Kaksi NØRR3:n kollegaa jakaa kampanjan tuloksen hymyillen"
-        : "Two NØRR3 colleagues sharing a campaign result with a smile",
+        ? "NØRR3:n kollegat nauravat yhdessä studion sohvalla"
+        : "NØRR3 colleagues laughing together on the studio sofa",
   });
   const planningPhoto = imageSlot(content, "services.planning", locale, {
     src: "/images/brand/services-planning.webp",
@@ -124,6 +124,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             {serviceCards.map((card) => (
               <ServiceCard
                 key={card.number}
+                expandable
                 number={card.number}
                 icon={card.icon}
                 title={card[locale].title}
