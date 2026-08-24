@@ -88,10 +88,10 @@ export function DoohCreative({
         <img
           src={background}
           alt=""
-          className={`h-full w-full object-cover object-[50%_35%] transition-opacity duration-1000 ${decoded ? "opacity-40" : "opacity-10"}`}
+          className={`h-full w-full object-cover object-[50%_35%] transition-opacity duration-1000 ${decoded ? "opacity-60" : "opacity-20"}`}
         />
         {/* Vignette keeps the headline side readable regardless of the photo. */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/15" />
         <div
           className={`absolute inset-0 grid grid-cols-8 gap-[4%] transition-opacity duration-700 ${decoded ? "opacity-0" : "opacity-70"}`}
         >
@@ -116,7 +116,7 @@ export function DoohCreative({
           the empty space, exactly between the wordmark above and the marquee
           below. This is the elastic zone: it absorbs every aspect ratio. */}
       <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center gap-[3.5cqw] px-[6%] py-[10%] text-center">
-        <p className="text-[11cqw] font-medium leading-[1.02] tracking-[-0.02em] text-white [text-shadow:0_0_40px_rgba(0,0,0,0.6)]">
+        <p className="text-[8.5cqw] font-medium leading-[1.04] tracking-[-0.02em] text-white [text-shadow:0_0_40px_rgba(0,0,0,0.6)]">
           {lines[0]}
           <br />
           {lines[1]}

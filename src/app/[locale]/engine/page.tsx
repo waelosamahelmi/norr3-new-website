@@ -221,7 +221,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
       <section id="simulator" className="scroll-mt-24 bg-ink py-24 lg:py-32 dark:border-y dark:border-white/10">
         <Container>
           <SectionHeader id="simulaattori" heading={e.simulator.heading} body={e.simulator.body} tone="light" />
-          <Reveal delay={0.1} className="mx-auto mt-14 max-w-5xl lg:mt-16">
+          <Reveal delay={0.1} className="mt-14 lg:mt-16">
             <MediaMixSimulator locale={locale} labels={e.simulator} channels={content.channels} />
           </Reveal>
         </Container>
