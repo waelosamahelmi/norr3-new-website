@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { PixelArt } from "./PixelArt";
+import { MediaAsset } from "./MediaAsset";
 
 /** ms per character for the "A New Way to" typewriter intro. */
 const TYPE_SPEED = 70;
@@ -34,9 +35,9 @@ function useMotionAllowed() {
  * geometry holds at every breakpoint; `y` stays in px.
  */
 const SLOTS = [
-  { x: "-72%", y: "40px", scale: 0.62, opacity: 0.9, z: 1, front: false },
-  { x: "-32%", y: "10px", scale: 0.78, opacity: 0.97, z: 2, front: false },
-  { x: "12%", y: "-22px", scale: 1, opacity: 1, z: 3, front: true },
+  { x: "-56%", y: "40px", scale: 0.66, opacity: 0.9, z: 1, front: false },
+  { x: "-22%", y: "10px", scale: 0.82, opacity: 0.97, z: 2, front: false },
+  { x: "20%", y: "-22px", scale: 1, opacity: 1, z: 3, front: true },
 ] as const;
 
 type HeroCard = {
@@ -239,7 +240,7 @@ export function HomeHero({
           paint over the neighbouring words, which have none. */}
       <span aria-hidden className="relative z-0 order-3 mt-10 block w-full lg:order-none lg:mt-0 lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
-          className="relative mx-auto h-[460px] max-h-[56svh] w-[min(320px,84vw)] select-none [--card:210px] [--spread:0.72] sm:h-[700px] sm:max-h-[62svh] sm:w-full sm:max-w-lg sm:[--card:340px] sm:[--spread:0.85] lg:mx-4 lg:h-[560px] lg:max-h-[62svh] lg:w-[420px] lg:[--card:360px] lg:[--spread:1]"
+          className="relative mx-auto h-[460px] max-h-[56svh] w-[min(320px,84vw)] select-none [--card:210px] [--spread:0.72] sm:h-[700px] sm:max-h-[62svh] sm:w-full sm:max-w-lg sm:[--card:340px] sm:[--spread:0.85] lg:h-[560px] lg:max-h-[62svh] lg:w-[420px] lg:[--card:360px] lg:[--spread:1]"
         >
           {deck.map((card, index) => {
             const slotIndex = slotOf[index];
@@ -274,11 +275,13 @@ export function HomeHero({
                       : undefined,
                   }}
                 >
-                  <img
+                  {/* MediaAsset rather than a plain <img>: the CMS may point a
+                      card's image at a video (the DOOH loop), and this renders
+                      either without the card having to care. */}
+                  <MediaAsset
                     src={card.src}
                     alt={altText(index)}
                     loading={index === 1 ? "eager" : "lazy"}
-                    fetchPriority={index === 1 ? "high" : undefined}
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                   <span className="absolute inset-0 bg-gradient-to-b from-violet/15 to-ink/50" />
