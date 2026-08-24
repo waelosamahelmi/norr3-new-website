@@ -124,6 +124,23 @@ html {
   animation-play-state: paused;
 }
 
+/* The DOOH creative's chip strip (DoohCreative): sharp-cornered blocks
+   scrolling right-to-left, mirroring the master video's marquee. */
+@keyframes dooh-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.dooh-marquee {
+  animation: dooh-marquee 9s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dooh-marquee {
+    animation: none;
+  }
+}
+
 /* Pixel-dissolve corner art (Figma's stair-step motif) as layered squares */
 .pixel-steps {
   background-image:

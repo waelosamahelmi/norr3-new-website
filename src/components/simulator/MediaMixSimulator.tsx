@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { Icon } from "@/components/Icon";
+import { DoohCreative } from "./DoohCreative";
 import { LiveNumber } from "@/components/LiveNumber";
 import { channels as bundledChannels, type Channel } from "@/content/channels";
 import type { Locale } from "@/i18n/config";
@@ -15,12 +16,18 @@ const DEFAULT_BUDGET = 50000;
 /** One arrow-key press moves this many percentage points across a divider. */
 const KEY_STEP = 2;
 
-/** Creative formats the Engine auto-generates from one master design. */
+/**
+ * Creative formats the Engine auto-generates from one master design. Each picks
+ * the layout family that suits its shape: the media mosaic on the square and
+ * tall formats where it fits naturally, centred type on the squat Display and
+ * wide DOOH cards — with the Display banner carrying the click CTA, because a
+ * banner is the one format that asks for one.
+ */
 const CREATIVE_FORMATS = [
-  { id: "meta-square", label: "Meta 1:1", dimensions: "1080×1080", ratio: "1 / 1", previewWidth: "60px", icon: "grid_view" },
-  { id: "meta-story", label: "Meta Story", dimensions: "1080×1920", ratio: "9 / 16", previewWidth: "34px", icon: "mobile_friendly" },
-  { id: "display", label: "Display", dimensions: "300×250", ratio: "6 / 5", previewWidth: "60px", icon: "monitor" },
-  { id: "pdooh", label: "DOOH", dimensions: "1920×1080", ratio: "16 / 9", previewWidth: "80px", icon: "tv" },
+  { id: "meta-square", label: "Meta 1:1", dimensions: "1080×1080", ratio: "1 / 1", cta: false },
+  { id: "meta-story", label: "Meta Story", dimensions: "1080×1920", ratio: "9 / 16", cta: false },
+  { id: "display", label: "Display", dimensions: "300×250", ratio: "6 / 5", cta: true },
+  { id: "pdooh", label: "DOOH", dimensions: "1920×1080", ratio: "16 / 9", cta: false },
 ] as const;
 
 function evenSplit(ids: string[]): Record<string, number> {
@@ -53,6 +60,8 @@ export function MediaMixSimulator({
   const [allocations, setAllocations] = useState<Record<string, number>>(
     evenSplit(DEFAULT_ACTIVE)
   );
+  /** Which creative format the side preview shows (tabbed). */
+  const [formatIndex, setFormatIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReduced = useReducedMotion();
 
@@ -171,6 +180,8 @@ export function MediaMixSimulator({
 
   return (
     <div className="rounded-card bg-ink p-6 text-white ring-1 ring-white/10 sm:p-10">
+      <div className="grid items-start gap-10 xl:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="min-w-0">
       {/* Budget control */}
       <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
         <div>
@@ -280,7 +291,8 @@ export function MediaMixSimulator({
         </div>
       </div>
 
-      {/* Live output */}
+      {/* Live output — numbers and legend left, donut right. The automaatio
+          preview lives in the outer right column now, beside the whole tool. */}
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_auto]">
         <div className="flex flex-col gap-8">
           <div className="grid grid-cols-2 gap-6">
@@ -353,41 +365,61 @@ export function MediaMixSimulator({
             </PieChart>
           </ResponsiveContainer>
         </div>
+
+      </div>
       </div>
 
-      {/* Creative automation — Engine auto-generates creatives in multiple sizes */}
-      <div className="mt-10 border-t border-white/10 pt-8">
-        <div className="flex items-center gap-2">
-          <Icon name="auto_awesome" className="text-[18px] text-yellow" />
-          <p className={eyebrow}>{labels.creativesLabel}</p>
-        </div>
-        <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/60">
-          {labels.creativesBody}
-        </p>
-        <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {CREATIVE_FORMATS.map((fmt) => (
-            <div
-              key={fmt.id}
-              className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] p-4 transition-colors hover:border-white/25"
-            >
-              <div
-                className="mx-auto mb-3 flex items-center justify-center rounded-lg bg-gradient-to-br from-purple/30 to-violet/20"
-                style={{ aspectRatio: fmt.ratio, width: fmt.previewWidth }}
+      {/* Enginen automaatio, LIVE beside the tool: a tabbed preview of the
+          master design rendered at each channel's format. One design, every
+          size — the tabs make that a claim you can flip through, and the
+          preview rides next to the numbers the visitor is producing. Sticks
+          while the left column scrolls. */}
+      <div className="flex flex-col gap-4 xl:sticky xl:top-24">
+          <div className="flex items-center gap-2">
+            <Icon name="auto_awesome" className="text-[18px] text-yellow" />
+            <p className={eyebrow}>{labels.creativesLabel}</p>
+          </div>
+          <p className="text-sm leading-relaxed text-white/60">{labels.creativesBody}</p>
+
+          {/* Format tabs */}
+          <div role="tablist" aria-label={labels.creativesLabel} className="grid grid-cols-2 gap-1.5">
+            {CREATIVE_FORMATS.map((fmt, i) => (
+              <button
+                key={fmt.id}
+                type="button"
+                role="tab"
+                aria-selected={formatIndex === i}
+                onClick={() => setFormatIndex(i)}
+                className={`rounded-full px-2.5 py-1.5 text-center text-[10px] font-medium uppercase tracking-[0.04em] transition-colors ${focusRing} ${
+                  formatIndex === i
+                    ? "bg-white text-ink"
+                    : "border border-white/20 text-white/60 hover:border-white/50 hover:text-white"
+                }`}
               >
-                <span className="material-symbols-outlined text-[20px] text-white/40">
-                  {fmt.icon}
-                </span>
-              </div>
-              <p className="text-center text-xs font-medium text-white/80">{fmt.label}</p>
-              <p className="mt-0.5 text-center text-[10px] tabular-nums text-white/40">
-                {fmt.dimensions}
-              </p>
-            </div>
-          ))}
-        </div>
+                {fmt.label}
+              </button>
+            ))}
+          </div>
+
+          {/* The selected creative, with a max height so tall formats
+              (Story) don't stretch the panel — it scrolls internally if
+              someone shrinks the viewport. */}
+          <div className="overflow-hidden rounded-xl border border-white/10 bg-black">
+            <DoohCreative
+              aspect={CREATIVE_FORMATS[formatIndex].ratio}
+              headline={formatIndex % 2}
+              showCta={CREATIVE_FORMATS[formatIndex].cta}
+              className="mx-auto max-h-[420px] w-auto"
+              key={CREATIVE_FORMATS[formatIndex].id}
+            />
+          </div>
+          <p className="text-[10px] tabular-nums text-white/40">
+            {CREATIVE_FORMATS[formatIndex].dimensions} · {CREATIVE_FORMATS[formatIndex].label}
+          </p>
       </div>
 
       <p className="mt-10 max-w-2xl text-xs leading-relaxed text-white/40">{labels.note}</p>
+      </div>
     </div>
   );
 }
