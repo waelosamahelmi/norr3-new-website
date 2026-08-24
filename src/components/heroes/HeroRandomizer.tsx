@@ -9,6 +9,7 @@ import { DotGrid } from "@/components/DotGrid";
 import { Container } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { PillButton } from "@/components/PillButton";
+import { TextCta } from "@/components/TextCta";
 import { heroAlt, heroImages, heroList, heroLocalised, heroNumber, heroText, heroWords, pickHero } from "@/content/heroes";
 import type { CmsHero } from "@/lib/cms";
 import type { Locale } from "@/i18n/config";
@@ -186,9 +187,14 @@ export function HeroRandomizer({
             <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
               {heroText(hero?.body, "en", heroBody)}
             </p>
-            <PillButton href={hero?.cta.href ? linkTo(locale, `${hero.cta.href.replace(/^\/?/, "/")}`) : contactHref}>
-              {heroText(hero?.cta.label, "en", contactLabel)}
-            </PillButton>
+            {/* Primary pill + a non-button way down the page, like every other
+                hero: the pill is for buyers, the text link for browsers. */}
+            <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
+              <PillButton href={hero?.cta.href ? linkTo(locale, `${hero.cta.href.replace(/^\/?/, "/")}`) : contactHref}>
+                {heroText(hero?.cta.label, "en", contactLabel)}
+              </PillButton>
+              <TextCta href="#palvelut">{locale === "fi" ? "Mitä me oikeasti teemme" : "What we actually do"}</TextCta>
+            </div>
           </Reveal>
         </Container>
       </div>

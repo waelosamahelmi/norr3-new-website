@@ -167,7 +167,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       */}
 
       {/* Services */}
-      <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
+      <section id="palvelut" className="scroll-mt-24 pb-24 pt-24 lg:pb-32 lg:pt-32">
         <Container>
           <SectionHeader
             heading={dict.home.services.heading}
