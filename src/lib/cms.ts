@@ -363,7 +363,24 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
       fi: deepMerge(dictionaries.fi, dictionary?.fi) as Dictionary,
       en: deepMerge(dictionaries.en, dictionary?.en) as Dictionary,
     },
-    services: nonEmpty(raw.services, fallback.services) as ServiceCard[],
+    // Services: the CMS owns the labels, but the longer per-item descriptions
+    // and outcome lists only live in the bundled content — re-attach them by
+    // matching label so a CMS list doesn't silently strip the detail the
+    // expandable cards show.
+    services: nonEmpty(raw.services, fallback.services).map((service, index) => {
+      const shipped = fallback.services[index]?.number === service.number
+        ? fallback.services[index]
+        : fallback.services.find((s) => s.number === service.number);
+      const mergedItems = (service.items ?? []).map((item) => {
+        const match = shipped?.items?.find((candidate) => candidate.fi === item.fi || candidate.en === item.en);
+        return match ? { ...match, ...item } : item;
+      });
+      return {
+        ...service,
+        items: mergedItems.length > 0 ? mergedItems : shipped?.items,
+        outcomes: service.outcomes ?? shipped?.outcomes,
+      };
+    }) as ServiceCard[],
     cases: nonEmpty(raw.cases, fallback.cases) as CaseStudy[],
     posts: nonEmpty(raw.insights, fallback.posts) as CmsPost[],
     team: nonEmpty(raw.team, fallback.team) as TeamMember[],

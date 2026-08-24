@@ -474,8 +474,17 @@ function BlockSwitch({
                 icon={service.icon}
                 title={service[locale].title}
                 body={service[locale].body}
-                items={bool(p.showItems) ? service.items?.map((item) => item[locale]) : undefined}
+                items={
+                  bool(p.showItems)
+                    ? service.items?.map((item) => ({
+                        label: item[locale],
+                        desc: locale === "fi" ? item.desc_fi : item.desc_en,
+                      }))
+                    : undefined
+                }
+                outcomes={service.outcomes?.[locale]}
                 readMoreLabel={dict.common.readMore}
+                whatYouGetLabel={dict.common.whatYouGet}
                 href={linkTo(locale, "/services")}
               />
             ))}

@@ -124,13 +124,17 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             {serviceCards.map((card) => (
               <ServiceCard
                 key={card.number}
-                expandable
                 number={card.number}
                 icon={card.icon}
                 title={card[locale].title}
                 body={card[locale].body}
-                items={card.items?.map((item) => item[locale])}
+                items={card.items?.map((item) => ({
+                  label: item[locale],
+                  desc: locale === "fi" ? item.desc_fi : item.desc_en,
+                }))}
+                outcomes={card.outcomes?.[locale]}
                 readMoreLabel={dict.common.readMore}
+                whatYouGetLabel={dict.common.whatYouGet}
                 href={linkTo(locale, "/contact")}
               />
             ))}
