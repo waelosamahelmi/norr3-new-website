@@ -2,50 +2,50 @@ export type Dictionary = typeof fi;
 
 const fi = {
   meta: {
-    title: "NØRR3 — Making Media a Growth Engine",
+    title: "NØRR3 — Mediatoimisto, joka muuttaa median kasvuksi",
     description:
-      "NØRR3 on pohjoismainen mediatoimisto, joka muuttaa mediainvestoinnit kasvuksi ja kilpailueduksi.",
+      "Pohjoismainen insight- ja mediatoimisto Helsingissä. Tunnemme asiakkaasi: kanssamme markkinointi osuu ja uppoaa — ja jokainen mediaeuro mitataan.",
   },
   seo: {
     team: {
-      title: "Tiimi — NØRR3",
+      title: "Tiimi — Median moniosaajat Helsingissä | NØRR3",
       description:
-        "Tutustu NØRR3:n senioritiimiin — lähes kaikki partnereita, jotka suunnittelevat, ostavat ja todentavat jokaisen mediaeurosi.",
+        "Senioritiimi, jossa lähes kaikki ovat partnereita — ihmiset, jotka suunnittelevat, ostavat ja todentavat jokaisen mediaeurosi. 20 asiantuntijaa, 800+ verkosto.",
     },
     services: {
-      title: "Palvelut — NØRR3",
+      title: "Palvelut — Mediasuunnittelu, data ja mittaus | NØRR3",
       description:
-        "Insightistä ja strategiasta dataan ja maksettuun mediaan kaikissa kanavissa. Kuusi palvelualuetta, jotka muuttavat median kasvuksi.",
+        "Insight ja strategia, data, SEO, mediapalvelut ja performance — palvelut, jotka muuttavat mediainvestoinnit kasvuksi ja kilpailueduksi.",
     },
     engine: {
-      title: "Marketing Engine — NØRR3",
+      title: "Marketing Engine — Älykäs media-automaatio | NØRR3",
       description:
-        "NØRR3:n Marketing Engine yhdistää datan, tekoälyn ja monikanavaisen toteutuksen yhdeksi alustaksi — briiffistä mediaan ja tuloksiin.",
+        "Yksi alusta, joka yhdistää datan, tekoälyn ja monikanavaisen toteutuksen — briiffistä mediaan ja todennettuihin tuloksiin. Katso 30 minuutin demo.",
     },
     cases: {
-      title: "Caset — NØRR3",
+      title: "Asiakascaset — Aitoja tuloksia mediasta | NØRR3",
       description:
-        "Aitoja tuloksia: Flow Festival, Oomi, Suun Terveystalo, Kokkola, ST1 ja muut — näin NØRR3 muuttaa median kasvun moottoriksi.",
+        "Flow Festival, St1, Kiinteistömaailma, Frantsila, Esperi ja muut: katso, miten NØRR3 muuttaa mediainvestoinnit kasvuksi — numeroina, ei väitteinä.",
     },
     insights: {
-      title: "Insights — NØRR3",
+      title: "Blogi — Media, data ja kasvu | NØRR3",
       description:
-        "NØRR3:n ajatuksia mediasta, datasta ja kasvusta — ilman turhaa jargonia.",
+        "NØRR3:n asiantuntijat kirjoittavat mediasta, datasta ja kasvusta — ilman jargonia. Ajatuksia siitä, mikä oikeasti liikuttaa mediaeuroja.",
     },
     contact: {
-      title: "Yhteystiedot — NØRR3",
+      title: "Yhteystiedot — Sovitaanko treffit? | NØRR3",
       description:
-        "Ota yhteyttä NØRR3:een. Olipa asiasi pieni tai iso, meidät tunnetaan nopeasta ja ammattitaitoisesta palvelusta.",
+        "Olipa asiasi pieni tai iso — meidät tunnetaan nopeasta ja ammattitaitoisesta palvelusta. Soita, kirjoita tai briefaa: vastaamme yhdessä arkipäivässä.",
     },
     about: {
-      title: "Meistä — NØRR3",
+      title: "Meistä — Insight- ja mediatoimisto Helsingissä | NØRR3",
       description:
-        "NØRR3 on helsinkiläinen mediatoimisto, joka muuttaa mediainvestoinnit kasvuksi — haastajan asenteella, omalla teknologialla ja poikkeuksellisella osaamisella.",
+        "Helsinkiläinen mediatoimisto, joka muuttaa mediainvestoinnit kasvuksi — haastajan asenteella, omalla teknologialla ja poikkeuksellisella osaamisella.",
     },
     careers: {
-      title: "Rekry — NØRR3",
+      title: "Rekry — Avoimet työpaikat mediatoimistossa | NØRR3",
       description:
-        "NØRR3 kasvaa. Katso avoimet paikat ja tule mukaan kasvattamaan mediaa pohjoismaiden innovatiivisimpaan mediatoimistoon.",
+        "NØRR3 kasvaa. Matala hierarkia, itsenäisyys ja senioritiimi — tässä kehittyy Suomen strategisimmaksi median moniosaajaksi. Katso avoimet paikat.",
     },
     privacy: {
       title: "Tietosuojaseloste — NØRR3",
@@ -177,7 +177,7 @@ const fi = {
     heroLeft: "A New Way to",
     heroAccent: "Grow",
     heroBody:
-      "Kanssamme markkinointi osuu ja uppoaa kohderyhmään – luomme kilpailuetua maksetun mainonnan saralla.",
+      "Tunnemme asiakkaasi. Kanssamme markkinointi osuu ja uppoaa — ja jokainen mediaeuro tuottaa epäreilua kilpailuetua.",
     services: {
       heading: "Palvelut",
       body: "Autamme pohjoismaisia edelläkävijäyrityksiä muuttamaan mediainvestoinnit kasvuksi ja kilpailueduksi yhdistämällä haastajan asenteen, viimeisimmän teknologian ja poikkeuksellisen osaamisen.",
@@ -186,7 +186,7 @@ const fi = {
       "Arvomme. Uskomme vahvasti itsenäiseen ja kokeilevaan kulttuuriin, mutta myös yhdessä tekemisen voimaan.",
     cases: {
       heading: "Caset",
-      body: "Palveluportfoliomme kattaa markkinoinnin strategisen työn lisäksi kaikkien maksetun mainonnan kanavien operoinnin ja optimoinnin. Räätälöimme palveluistamme yrityksellesi sopivan mallin.",
+      body: "Tutustu töihimme: Flow Festival, St1, Kiinteistömaailma ja muut — aitoja tuloksia, numeroita ja sitä, miten ne saavutettiin.",
     },
     engine: {
       heading: "NØRR3 Marketing Engine",
@@ -208,7 +208,7 @@ const fi = {
     },
     people: {
       heading: "Numeroiden takana on ihmisiä",
-      body: "Neljätoista vakituista asiantuntijaa, lähes kaikki partnereita — ihmiset, jotka suunnittelevat, ostavat ja todentavat jokaisen mediaeurosi.",
+      body: "Kaksikymmentä vakituista asiantuntijaa, lähes kaikki partnereita — ihmiset, jotka suunnittelevat, ostavat ja todentavat jokaisen mediaeurosi.",
     },
     blog: {
       heading: "Blogi",
@@ -262,7 +262,7 @@ const fi = {
     },
     features: {
       heading: "Ominaisuudet",
-      body: "Palveluportfoliomme kattaa markkinoinnin strategisen työn lisäksi kaikkien maksetun mainonnan kanavien operoinnin ja optimoinnin. Räätälöimme palveluistamme yrityksellesi sopivan mallin.",
+      body: "Työkalupakkimme varmistaa, että jokainen päätös nojaa tutkittuun dataan — ja jokainen tulos todennetaan.",
       items: [
         { icon: "insights", title: "Customer Insight", body: "Meiltä saat tehokasta ja liiketoimintalähtöistä strategiatyötä kohderyhmä-, kilpailija- ja mediatarpeisiin." },
         { icon: "track_changes", title: "Media-analyysi", body: "Ihanteellisesti optimaalisen mediastrategian rakentaminen alkaa tutkimalla saatavilla olevaa dataa – ja dataa löytyy. Tärkeää onkin miettiä, mitä kaikkea on tarpeellista analysoida." },
@@ -509,7 +509,7 @@ const fi = {
     featuredLabel: "Nostettu case",
     resultLabel: "Tulos",
     heading: "Caset",
-    body: "Palveluportfoliomme kattaa markkinoinnin strategisen työn lisäksi kaikkien maksetun mainonnan kanavien operoinnin ja optimoinnin. Räätälöimme palveluistamme yrityksellesi sopivan mallin.",
+    body: "Aitoja tuloksia: kampanjat, jotka päättyvät numeroihin, ei väitteisiin. Tutustu töihimme — Flow Festivalista Kiinteistömaailmaan.",
     banner: {
       heading: "Haluatko sinäkin parempia tuloksia?",
       body: "Olipa asiasi sitten pieni tai iso, meitä kiinnostaa se kuulla. Olemme tunnettuja nopeasta ja ammattitaitoisesta palvelusta.",
@@ -763,50 +763,50 @@ const fi = {
 
 const en: Dictionary = {
   meta: {
-    title: "NØRR3 — Making Media a Growth Engine",
+    title: "NØRR3 — The Media Agency That Turns Media into Growth",
     description:
-      "NØRR3 is a Nordic media agency turning media investments into growth and competitive advantage.",
+      "A Nordic insight and media agency in Helsinki. We know your customer — with us, marketing hits home and sinks in, and every media euro is measured.",
   },
   seo: {
     team: {
-      title: "Team — NØRR3",
+      title: "Team — Senior Media Specialists in Helsinki | NØRR3",
       description:
-        "Meet the senior in-house specialists behind NØRR3 — nearly all partners, planning, buying and proving every euro of your media.",
+        "A senior team where nearly everyone is a partner — the people who plan, buy and prove every euro of your media. 20 specialists, 800+ network.",
     },
     services: {
-      title: "Services — NØRR3",
+      title: "Services — Media Planning, Data & Measurement | NØRR3",
       description:
-        "Insight, strategy, data and paid media across every channel. Six service areas that turn media investment into measurable growth.",
+        "Insight and strategy, data, SEO, media services and performance — the services that turn media investments into growth and competitive advantage.",
     },
     engine: {
-      title: "Marketing Engine — NØRR3",
+      title: "Marketing Engine — Intelligent Media Automation | NØRR3",
       description:
-        "NØRR3's Marketing Engine connects data, AI and multi-channel delivery into one platform — from brief to media to proven results.",
+        "One platform combining data, AI and multi-channel delivery — from brief to media to proven results. See the 30-minute demo.",
     },
     cases: {
-      title: "Cases — NØRR3",
+      title: "Client Cases — Real Results from Paid Media | NØRR3",
       description:
-        "Real results for Flow Festival, Oomi, Suun Terveystalo, Kokkola, ST1 and more — how NØRR3 turns media into a growth engine.",
+        "Flow Festival, St1, Kiinteistömaailma, Frantsila, Esperi and more: see how NØRR3 turns media investments into growth — in numbers, not claims.",
     },
     insights: {
-      title: "Insights — NØRR3",
+      title: "Blog — Media, Data & Growth | NØRR3",
       description:
-        "Thinking on media, data and growth from the NØRR3 team — without the jargon.",
+        "The NØRR3 team writes about media, data and growth — without the jargon. Thinking on what actually moves media euros.",
     },
     contact: {
-      title: "Contact — NØRR3",
+      title: "Contact — Shall We Set Up a Meeting? | NØRR3",
       description:
-        "Get in touch with NØRR3. Whether your matter is small or large, we're known for fast, professional service.",
+        "Big or small, we want to hear it — we're known for fast, professional service. Call, write or send a brief: we reply within one business day.",
     },
     about: {
-      title: "About Us — NØRR3",
+      title: "About Us — Insight & Media Agency in Helsinki | NØRR3",
       description:
-        "NØRR3 is a Helsinki-based media agency turning media investments into growth — with a challenger's attitude, our own technology and exceptional talent.",
+        "A Helsinki media agency turning media investments into growth — with a challenger's attitude, our own technology and exceptional talent.",
     },
     careers: {
-      title: "Careers — NØRR3",
+      title: "Careers — Open Roles at a Media Agency | NØRR3",
       description:
-        "NØRR3 is growing. See our open positions and come grow media with the most innovative media agency in the Nordics.",
+        "NØRR3 is growing. Flat hierarchy, independence and a senior team — this is where you become Finland's most strategic media all-rounder. See open roles.",
     },
     privacy: {
       title: "Privacy Policy — NØRR3",
@@ -938,7 +938,7 @@ const en: Dictionary = {
     heroLeft: "A New Way to",
     heroAccent: "Grow",
     heroBody:
-      "With us, marketing hits home and sinks in — we build competitive advantage in paid media.",
+      "We know your customer. With us, marketing hits home and sinks in — and every media euro produces an unfair competitive advantage.",
     services: {
       heading: "Services",
       body: "We help progressive Nordic companies turn media investments into growth and competitive advantage by combining a challenger's attitude, the latest technology and exceptional talent.",
@@ -947,7 +947,7 @@ const en: Dictionary = {
       "Our Values. We believe strongly in an independent, experimental culture — and in the power of doing things together.",
     cases: {
       heading: "Cases",
-      body: "Beyond strategic marketing work, our portfolio covers the operation and optimization of every paid advertising channel. We tailor our services into a model that fits your company.",
+      body: "See the work: Flow Festival, St1, Kiinteistömaailma and more — real results, the numbers, and how they were achieved.",
     },
     engine: {
       heading: "NØRR3 Marketing Engine",
@@ -969,7 +969,7 @@ const en: Dictionary = {
     },
     people: {
       heading: "Meet the humans behind the numbers",
-      body: "Fourteen permanent specialists, nearly all partners — the people who plan, buy and prove every euro of your media.",
+      body: "Twenty permanent specialists, nearly all partners — the people who plan, buy and prove every euro of your media.",
     },
     blog: {
       heading: "Blog",
@@ -1023,7 +1023,7 @@ const en: Dictionary = {
     },
     features: {
       heading: "Features",
-      body: "Beyond strategic marketing work, our portfolio covers the operation and optimization of every paid advertising channel. We tailor our services into a model that fits your company.",
+      body: "Our toolkit makes sure every decision rests on researched data — and every result gets verified.",
       items: [
         { icon: "insights", title: "Customer Insight", body: "Effective, business-driven strategy work for audience, competitor and media needs." },
         { icon: "track_changes", title: "Media Analysis", body: "Building an optimal media strategy starts by studying the available data — and there's plenty. The key is deciding what's actually worth analyzing." },
@@ -1270,7 +1270,7 @@ const en: Dictionary = {
     featuredLabel: "Featured case",
     resultLabel: "Result",
     heading: "Cases",
-    body: "Beyond strategic marketing work, our portfolio covers the operation and optimization of every paid advertising channel. We tailor our services into a model that fits your company.",
+    body: "Real results: campaigns that end in numbers, not claims. See our work — from Flow Festival to Kiinteistömaailma.",
     banner: {
       heading: "Want better results too?",
       body: "Whether your matter is small or large, we want to hear it. We're known for fast, professional service.",
