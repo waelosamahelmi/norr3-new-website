@@ -63,18 +63,19 @@ export const serviceCards: ServiceCard[] = [
   },
   {
     number: "03",
-    icon: "travel_explore",
-    fi: { title: "SEO, GEO & SEM", body: "Löydyt sieltä, mistä sinua etsitään — hakukoneista ja yhä useammin myös tekoälyn vastauksista." },
-    en: { title: "SEO, GEO & SEM", body: "Be found where you are searched for — in search engines and, increasingly, in AI answers too." },
+    icon: "neurology",
+    fi: { title: "Tekoäly & Integraatiot", body: "Tekoäly ei ole meillä slidellä — se on työkalu, joka ajaa suunnittelua, löydettävyyttä ja aineistojen automaatiota. Integraatiot yhdistävät systemsi samaan ketjuun." },
+    en: { title: "AI & Integrations", body: "AI isn't a slide in our deck — it's a tool driving planning, discoverability and creative automation. Integrations tie your systems into the same chain." },
     items: [
-      { fi: "Hakukonelöydettävyys", en: "Search engine discoverability", desc_fi: "Tekninen ja sisällöllinen SEO: sivustosi nousee sinne, missä päätökset tehdään.", desc_en: "Technical and content SEO: your site rises where the decisions are made." },
-      { fi: "AI-löydettävyys", en: "AI discoverability", desc_fi: "Tekoälyavustajat (ChatGPT, Gemini) suosittelevat yhä useammin — varmistetaan että ne suosittelevat sinua.", desc_en: "AI assistants (ChatGPT, Gemini) increasingly recommend brands — we make sure they recommend you." },
-      { fi: "Hakukonemainonta", en: "Search engine advertising", desc_fi: "Google- ja Bing-mainonta, joka nappaa kysynnän siellä missä se syntyy.", desc_en: "Google and Bing advertising that captures demand where it's born." },
-      { fi: "Auditit", en: "Audits", desc_fi: "Tekninen ja sisältöaudit: miksi et löydy — ja mitä korjataan ensin.", desc_en: "Technical and content audit: why you're not found — and what to fix first." },
+      { fi: "AI-löydettävyys (GEO)", en: "AI discoverability (GEO)", desc_fi: "Tekoälyavustajat (ChatGPT, Gemini) suosittelevat yhä useammin — varmistetaan että ne suosittelevat sinua.", desc_en: "AI assistants (ChatGPT, Gemini) increasingly recommend brands — we make sure they recommend you." },
+      { fi: "Tekoälyavusteinen suunnittelu", en: "AI-assisted planning", desc_fi: "Mallit jakavat panostukset uudelleen kesken lennon tutkitun yleisödatan pohjalta — sama logiikka kuin Marketing Enginessä.", desc_en: "Models reallocate spend mid-flight on researched audience data — the same logic that runs the Marketing Engine." },
+      { fi: "Aineistojen automaatio", en: "Creative automation", desc_fi: "Yksi master-suunnittelu tuhansiksi versioiksi: personoituja aineistoja tuote- ja asiakasdatasta, automaattisesti.", desc_en: "One master design into thousands of versions: personalized creatives from product and customer data, automatically." },
+      { fi: "Integraatiot", en: "Integrations", desc_fi: "Tuote-, varasto-, CRM- ja kampanjadata yhteen ketjuun — mediat ja systemsi puhuvat toisilleen ilman manuaalista kopiointia.", desc_en: "Product, inventory, CRM and campaign data into one chain — your media and your systems talk to each other without manual copying." },
+      { fi: "SEO & SEM", en: "SEO & SEM", desc_fi: "Tekninen ja sisällöllinen SEO sekä hakukonemainonta: löydyt sieltä, mistä sinua etsitään.", desc_en: "Technical and content SEO plus search advertising: be found where you are searched for." },
     ],
     outcomes: {
-      fi: ["Löydettävyysaudit ja korjauslista", "Näkyvyys kasvussa hakutuloksissa ja AI-vastauksissa", "Jatkuva seuranta ja raportointi"],
-      en: ["Discoverability audit and fix list", "Growth in search results and AI answers", "Continuous tracking and reporting"],
+      fi: ["Löydettävyysaudit ja korjauslista", "AI-vastauksissa kasvava näkyvyys", "Automaatio, joka poistaa manuaaliset vaiheet", "Datavirta systemeistä mediaan"],
+      en: ["Discoverability audit and fix list", "Growing visibility in AI answers", "Automation removing manual steps", "Data flow from your systems to media"],
     },
   },
   {
@@ -97,7 +98,7 @@ export const serviceCards: ServiceCard[] = [
     fi: { title: "Performance Marketing", body: "Tulospohjainen mainonta on tehokas tapa tavoittaa kohdeyleisö ja saada konkreettisia tuloksia." },
     en: { title: "Performance Marketing", body: "Performance-based advertising is an effective way to reach the target audience and get concrete results." },
     items: [
-      { fi: "Dynamisen markkinoinnin palvelut", en: "Dynamic marketing services", desc_fi: "Personoitu mainonta, joka rakentuu tuote- ja asiakasdatasta — tuhansia versioita yhdestä masterista.", desc_en: "Personalized advertising built from product and customer data — thousands of versions from one master." },
+      { fi: "Dynamisen markkinoinnin palvelut", en: "Dynamic marketing services", desc_fi: "Personoitu mainonta, joka rakentuu tuote- ja asiakasdatasta — tekoäly generoi tuhansia versioita yhdestä masterista.", desc_en: "Personalized advertising built from product and customer data — AI generates thousands of versions from one master." },
       { fi: "Performance markkinoinnin palvelut", en: "Performance marketing services", desc_fi: "Tulosvastuinen ostaminen: hinta per konversio, ei per näyttö.", desc_en: "Accountable buying: price per conversion, not per impression." },
     ],
     outcomes: {
@@ -113,6 +114,7 @@ export const serviceCards: ServiceCard[] = [
     items: [
       { fi: "Esittely & demo", en: "Presentation & demo", desc_fi: "30 minuuttia, oma mediallasi ajettuna läpi — ilman myyntiputkea.", desc_en: "30 minutes, run through with your own media — no sales funnel." },
       { fi: "Appit", en: "Apps", desc_fi: "Briiffistä toteutukseen: työkalut joilla kampanja rakennetaan, ostetaan ja todennetaan.", desc_en: "From brief to execution: the tools a campaign is built, bought and verified with." },
+      { fi: "Integraatiot", en: "Integrations", desc_fi: "Enginen liitännät tuote-, varasto- ja CRM-järjestelmiin: data virtaa, aineistot päivittyvät itsestään.", desc_en: "The Engine's connectors to product, inventory and CRM systems: data flows, creatives update themselves." },
       { fi: "Hinnoittelu", en: "Pricing", desc_fi: "Lisensoitava alusta, skaalautuu käyttöön — ei kertamaksua vaan jatkuva hyöty.", desc_en: "A licensable platform that scales with use — not a one-off fee but continuous value." },
     ],
     outcomes: {
