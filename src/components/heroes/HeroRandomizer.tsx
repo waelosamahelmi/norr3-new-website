@@ -187,13 +187,16 @@ export function HeroRandomizer({
             <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
               {heroText(hero?.body, "en", heroBody)}
             </p>
-            {/* Primary pill + a non-button way down the page, like every other
-                hero: the pill is for buyers, the text link for browsers. */}
+            {/* Primary pill + non-button ways down the page, like every other
+                hero: the pill is for buyers, the text links for browsers —
+                one into the services grid, one to the Marketing Engine. */}
             <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
               <PillButton href={hero?.cta.href ? linkTo(locale, `${hero.cta.href.replace(/^\/?/, "/")}`) : contactHref}>
                 {heroText(hero?.cta.label, "en", contactLabel)}
               </PillButton>
               <TextCta href="#palvelut">{locale === "fi" ? "Mitä me oikeasti teemme" : "What we actually do"}</TextCta>
+              <span aria-hidden className="hidden h-1 w-1 rounded-full bg-ink/30 dark:bg-white/30 sm:inline-block" />
+              <TextCta href="#engine">{locale === "fi" ? "Tutustu Marketing Engineen" : "Explore the Marketing Engine"}</TextCta>
             </div>
           </Reveal>
         </Container>

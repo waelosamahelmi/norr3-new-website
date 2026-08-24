@@ -235,10 +235,17 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </Container>
       </section>
 
+      {/* From proof to product: the Engine is what produced those numbers. */}
+      <Container className="pb-16 lg:pb-20">
+        <Reveal className="flex justify-center">
+          <TextCta href="#engine">{dict.common.heroSeeEngine}</TextCta>
+        </Reveal>
+      </Container>
+
       <HighlightsBand label={dict.common.highlights} clients={clients} />
 
       {/* Marketing Engine */}
-      <section className="bg-pastel-purple/40 py-24 lg:py-32 dark:bg-white/[0.04]">
+      <section id="engine" className="scroll-mt-24 bg-pastel-purple/40 py-24 lg:py-32 dark:bg-white/[0.04]">
         <Container>
           <SectionHeader
             heading={dict.home.engine.heading}
@@ -260,8 +267,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               </div>
               <p className="mt-3 text-sm leading-relaxed text-ink/70 dark:text-white/70">{dict.home.engine.photoCaption}</p>
             </Reveal>
-            <Reveal delay={0.15}>
+            <Reveal delay={0.15} className="flex flex-col gap-6">
               <DashboardMock locale={locale} labels={dict.engine.dashboard} data={dataset(content.datasets, "dashboard", locale, dashboardData)} />
+              <div className="flex justify-center">
+                <TextCta href={linkTo(locale, "/engine#simulator")}>{dict.common.heroTryEngineSim}</TextCta>
+              </div>
             </Reveal>
           </div>
         </Container>
@@ -278,7 +288,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       {/* About Us — the three blocks are now the same PhotoLinkCard the Cases
           grid above uses, so both grids share one photo/title/pill rhythm and
           the whole card (not just a small pill) is the click target. */}
-      <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
+      <section id="meista" className="scroll-mt-24 pb-24 pt-24 lg:pb-32 lg:pt-32">
         <Container>
           <SectionHeader
             heading={dict.home.about.heading}
@@ -320,6 +330,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               the "Meet the humans behind the numbers" line that follows. */}
           <div className="mt-24 lg:mt-28">
             <StatGrid stats={inNumbers} locale={locale} label={dict.common.inNumbers} />
+            <div className="mt-8 flex justify-center">
+              <TextCta href="#ihmiset">{dict.common.heroMeetTeam}</TextCta>
+            </div>
           </div>
 
           <div id="ihmiset" className="mt-24 scroll-mt-32 lg:mt-28">
@@ -332,15 +345,16 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               <p className="text-[15px] leading-relaxed text-ink/70 dark:text-white/70">{dict.home.people.body}</p>
             </Reveal>
             <TeamMarquee locale={locale} members={content.team} />
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
               <PillButton href={linkTo(locale, "/team")} variant="secondary">{dict.common.meetTeam}</PillButton>
+              <TextCta href="#blogi">{dict.common.heroReadBlog}</TextCta>
             </div>
           </div>
         </Container>
       </section>
 
       {/* Blog */}
-      <section className="pb-24 lg:pb-32">
+      <section id="blogi" className="scroll-mt-24 pb-24 lg:pb-32">
         <Container>
           <SectionHeader
             heading={dict.home.blog.heading}
