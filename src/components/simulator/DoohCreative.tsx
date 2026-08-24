@@ -41,7 +41,7 @@ const CHIPS: { label?: string; icon?: string; bg: string; fg: string }[] = [
 export function DoohCreative({
   aspect = "16 / 9",
   headline = 0,
-  background = "/images/brand/space-arch.webp",
+  background = "/images/brand/award.webp",
   showCta = false,
   className = "",
 }: {
@@ -57,14 +57,6 @@ export function DoohCreative({
 }) {
   const reduced = useReducedMotion();
   const [slot, setSlot] = useState(headline);
-  const [decoded, setDecoded] = useState(Boolean(reduced));
-
-  // Pixel-glitch decode, like the master: the background resolves in ~2.4s.
-  useEffect(() => {
-    if (reduced || decoded) return;
-    const t = window.setTimeout(() => setDecoded(true), 2400);
-    return () => window.clearTimeout(t);
-  }, [reduced, decoded]);
 
   // Headline cycling, like the master (~5.5s per slot).
   useEffect(() => {
@@ -83,26 +75,11 @@ export function DoohCreative({
     >
       {/* 1. Background — one full-bleed image for every format, heavily dimmed
           so the type owns the frame (the master's black ground with footage
-          ghosting under it). The glitch layer decodes away to reveal it. */}
+          ghosting under it). */}
       <div aria-hidden className="absolute inset-0 z-0">
-        <img
-          src={background}
-          alt=""
-          className={`h-full w-full object-cover object-[50%_35%] transition-opacity duration-1000 ${decoded ? "opacity-60" : "opacity-20"}`}
-        />
+        <img src={background} alt="" className="h-full w-full object-cover object-[50%_35%] opacity-60" />
         {/* Vignette keeps the headline side readable regardless of the photo. */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/15" />
-        <div
-          className={`absolute inset-0 grid grid-cols-8 gap-[4%] transition-opacity duration-700 ${decoded ? "opacity-0" : "opacity-70"}`}
-        >
-          {Array.from({ length: 12 }).map((_, i) => (
-            <span
-              key={i}
-              className={i % 3 === 0 ? "bg-purple" : i % 3 === 1 ? "bg-violet" : "bg-white/10"}
-              style={{ gridRow: (i % 6) + 1, opacity: 0.35 + (i % 4) * 0.1 }}
-            />
-          ))}
-        </div>
       </div>
 
       {/* 2. Wordmark — top-left, ~32% of the card width */}
