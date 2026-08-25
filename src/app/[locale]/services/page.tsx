@@ -102,6 +102,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
         <SplitHeadline
           left={s.heroLeft}
           accent={s.heroAccent}
+          accents={s.heroAccentWords}
           className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
         />
       </Container>
@@ -118,6 +119,18 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             <TextCta href="#palvelut-alueet">{s.heroServicesCta}</TextCta>
             <TextCta href="#ominaisuudet">{s.heroToolsCta}</TextCta>
           </div>
+          {/* The service spectrum as quiet brand chips — the same list the
+              cycling headline walks through, visible at a glance. */}
+          <ul className="flex flex-wrap gap-3">
+            {s.includes.map((label) => (
+              <li
+                key={label}
+                className="inline-flex items-center rounded-full border border-ink/20 bg-white px-5 py-2.5 text-sm font-medium text-ink dark:border-white/30 dark:bg-white/5 dark:text-white"
+              >
+                {label}
+              </li>
+            ))}
+          </ul>
         </Reveal>
       </Container>
 

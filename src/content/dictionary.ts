@@ -256,12 +256,14 @@ const fi = {
   },
   services: {
     pill: "SERVICES",
-    heroLeft: "Insight and",
-    heroAccent: "Strategy",
+    heroLeft: "Our services include",
+    heroAccent: "Insights",
+    heroAccentWords: ["Insights", "Strategies", "Data", "Measurement", "AI", "Dashboards", "Workshops", "Media activation", "Performance marketing", "Tools"],
     heroBody:
       "Määrittelemme miten ja mitkä mediat kuljettavat oikeat viestit perille oikeaan aikaan ja oikealle yleisölle vaikuttavasti, jotta kohderyhmän ajattelussa tai käytöksessä saadaan aikaan haluttu muutos.",
     heroServicesCta: "Palvelumme",
     heroToolsCta: "Työkalumme",
+    includes: ["Insightit", "Strategiat", "Data", "Mittaaminen", "AI", "Dashboardit", "Työpajat", "Mediaaktivointi", "Performance-markkinointi", "Työkalut"],
     areas: {
       heading: "Mitä teemme",
       body: "Kuusi palvelualuetta, yksi tiimi — insightistä ja strategiasta dataan ja mittaukseen, löydettävyyteen, mediapalveluihin, performanceen ja Marketing Engineen. Räätälöimme niistä yrityksellesi sopivan mallin.",
@@ -1058,12 +1060,14 @@ const en: Dictionary = {
   },
   services: {
     pill: "SERVICES",
-    heroLeft: "Insight and",
-    heroAccent: "Strategy",
+    heroLeft: "Our services include",
+    heroAccent: "Insights",
+    heroAccentWords: ["Insights", "Strategies", "Data", "Measurement", "AI", "Dashboards", "Workshops", "Media activation", "Performance marketing", "Tools"],
     heroBody:
       "We define how and which media deliver the right messages at the right time to the right audience — effectively enough to change how the target group thinks or acts.",
     heroServicesCta: "Our services",
     heroToolsCta: "Our tools",
+    includes: ["Insights", "Strategies", "Data", "Measurement", "AI", "Dashboards", "Workshops", "Media activation", "Performance marketing", "Tools"],
     areas: {
       heading: "What we do",
       body: "Six service areas, one team — from insight and strategy to data and measurement, discoverability, media services, performance and the Marketing Engine. We tailor them into a model that fits your business.",
