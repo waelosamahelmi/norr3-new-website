@@ -333,13 +333,52 @@ const fi = {
     heroLeft: "One Platform to",
     heroAccent: "Deliver",
     heroBody:
-      "Engine yhdistää datan, tekoälyn ja monikanavaisen toteutuksen yhdeksi alustaksi — briiffistä mediaan ja tuloksiin asti.",
-    // Brändin numeerinen triadi (PROMPT §2.2) — kolme lyhyttä lausetta, terävin viimeisenä.
-    triad: ["Yksi alusta.", "200+ kanavaa.", "Nolla turhaa klikkiä."],
-    demo: {
-      heading: "NØRR3 Marketing Engine",
-      body: "Älykäs markkinoinnin automaatio, joka yhdistää datan, tekoälyn ja monikanavaisen toteutuksen yhdeksi alustaksi.",
-      note: "Havainnekuva Enginen näkymästä — esimerkkidataa, ei asiakasdataa.",
+      "NØRR3 Marketing Engine on työkaluperhe, joka automatisoi markkinoinnin — ja tekee mediasta kasvun moottorin.",
+    family: {
+      heading: "Työkaluperhe, joka automatisoi markkinoinnin",
+      body: "Marketing Engine ei ole yksi tuote — se on perhe appeja, joista valitset juuri sen mitä tarvitset, meidän suosituksillamme. Tällä hetkellä tarjolla on viisi appia, ja rakennamme jatkuvasti lisää.",
+    },
+    apps: {
+      heading: "Viisi appia — yksi alusta",
+      body: "Jokainen appi ratkaisee yhden osan markkinoinnin ketjusta. Appit voi lisensoida erikseen — vaikka pelkkä Dashboard ensin, ja laajennat myöhemmin.",
+      items: [
+        { icon: "campaign", title: "Kampanjat", body: "Suunnittele, osta ja operoi kaikki kanavat yhdestä paikasta — briiffistä toteutukseen." },
+        { icon: "space_dashboard", title: "Dashboard", body: "Reaaliaikainen raportointi ja mittaus. Tulokset näkyvät, ei väitetä." },
+        { icon: "auto_awesome", title: "Luova-automaatio", body: "Tuhansia aineistoversioita yhdestä masterista — DCO ja syötepohjainen luova." },
+        { icon: "insights", title: "Media Insights", body: "Yleisö- ja mediankäyttödata suunnittelun pohjaksi — päätökset datalla, ei mutulla." },
+        { icon: "hub", title: "Integraatiot", body: "Data layer yhdistää tuote-, varasto- ja CRM-datan kampanjoihisi." },
+      ],
+    },
+    licensing: {
+      heading: "Lisensoi vain mitä tarvitset",
+      body: "Aloita siitä, mikä ratkaisee suurimman ongelman — ja laajenna kun se kannattaa.",
+      points: [
+        { icon: "payments", title: "Joustava hinnoittelu", body: "Hinta skaalautuu käyttäjämäärien, yhdistettyjen kanavien, appien määrän ja mediankäytön mukaan." },
+        { icon: "manage_accounts", title: "Käyttäjät ja oikeudet", body: "Eri käyttäjille eri appi- ja käyttöoikeudet — jokainen näkee sen, mihin hänellä on oikeus." },
+        { icon: "extension", title: "Laajenna myöhemmin", body: "Appit lisensoidaan erikseen: esimerkiksi vain Dashboard — ja laajennat käytön muihin appeihin kun tarvetta syntyy." },
+      ],
+    },
+    setup: {
+      heading: "Käyttöönotto",
+      body: "Setup-projekti on helppo ja vie yleensä 2–6 viikkoa riippuen tarpeesta.",
+      steps: [
+        { title: "Liiketoimintatarpeen määrittely" },
+        { title: "Kampanjaprosessin suunnittelu", desc: "Jos Campaign-appi on mukana." },
+        { title: "Datan tuominen Marketing Engineen" },
+        { title: "Datan yhtenäistäminen tarpeeseen" },
+        { title: "Raportoinnin suunnittelu", desc: "Ja Dashboard, jos se on mukana." },
+        { title: "Käyttäjien suunnittelu oikeuksineen" },
+        { title: "Työkalun jalkauttaminen ja koulutus sisäisille sidosryhmille" },
+      ],
+    },
+    benefit: {
+      heading: "Liiketoimintahyöty",
+      body: "Yksi alusta korvaa kymmenen erillistä työkalua — vähemmän manuaalityötä, enemmän mitattavaa kasvua.",
+      points: [
+        { icon: "bolt", label: "Vähemmän manuaalityötä" },
+        { icon: "verified", label: "Jokainen euro todennettu" },
+        { icon: "trending_up", label: "Skaalautuu kasvun mukana" },
+      ],
     },
     dashboard: {
       alt: "Havainnekuva Enginen kampanjanäkymästä: viisi KPI-korttia, aktiivisten kampanjoiden edistymispalkit, CTR-kehityksen pylväskaavio ja AI-havaintojen kortti.",
@@ -379,40 +418,6 @@ const fi = {
       note: "Havainnollistava laskelma NØRR3:n mediadatan tyypillisistä suhteista — ei takuu tietylle kampanjalle.",
       creativesLabel: "Enginen automaatio",
       creativesBody: "Engine tuottaa mainosluovat eri muodoissa ja kokoissa automaattisesti yhdestä master-suunnittelusta — Meta, Display ja DOOH mukaan lukien.",
-    },
-    quote: {
-      // Kiinteistömaailman triadi lauseina, jotta jokainen isku voi paljastua omassa tahdissaan.
-      clauses: ["150 toimistoa.", "1 brändi.", "0 manuaalia."],
-      client: "Kiinteistömaailma",
-      body: "Yksi keskitetty brändi- ja kampanjalogiikka generoi paikallisen markkinoinnin joka toimistolle automaattisesti — yksi alusta korvasi kymmenet erilliset prosessit.",
-    },
-    product: {
-      heading: "Yksi alusta, rakennettu talon sisällä",
-      body: "Engine ei ole lisensoitu ohjelmisto — rakensimme sen itse, joten se taipuu sinun mediaasi, ei toisin päin.",
-      features: [
-        { icon: "bolt", title: "Reaaliaikainen optimointi", body: "Budjetti siirtyy sinne, mikä toimii, jo kampanjan ollessa käynnissä." },
-        { icon: "hub", title: "Yksi yhtenäinen alusta", body: "Briiffi, suunnittelu, ostaminen ja todentaminen — kaikki kanavat yhdessä paikassa kymmenen työkalun sijaan." },
-        { icon: "neurology", title: "Tekoälyavusteinen suunnittelu", body: "Mallit jakavat panostukset uudelleen kesken lennon tutkitun yleisödatan, ei mutun, perusteella." },
-        { icon: "verified", title: "Todentaminen sisäänrakennettuna", body: "Jokainen euro mitataan ja raportoidaan — tulokset näytetään, ei väitetä." },
-      ],
-    },
-    workflow: {
-      heading: "Näin Engine toimii",
-      caption: "Enginen takana oleva tiimi — rakennettu talon sisällä, ei lisensoitu.",
-      steps: [
-        { icon: "description", title: "Briiffi", body: "Tavoitteesi ja yleisösi sisään; tutkittu data raamittaa suunnitelman." },
-        { icon: "tune", title: "Suunnittele & osta", body: "Engine rakentaa mediamixin ja operoi kaikki kanavat yhdestä paikasta." },
-        { icon: "insights", title: "Todenna", body: "Live-dashboardit näyttävät tavoittavuuden, hinnan ja konversiot reaaliajassa." },
-      ],
-    },
-    bookDemo: {
-      heading: "Näe Engine omalla mediallasi",
-      body: "Varaa 30 minuutin demo, niin ajamme kanavasi alustan läpi livenä.",
-      points: [
-        { icon: "schedule", label: "30 minuuttia, ei myyntiputkea" },
-        { icon: "insights", label: "Oma mediasi alustan läpi ajettuna" },
-        { icon: "verified", label: "Kerromme myös, jos et tarvitse meitä" },
-      ],
     },
   },
   team: {
@@ -579,6 +584,9 @@ const fi = {
   },
   insights: {
     pill: "INSIGHTS",
+    heroLeft: "Our thoughts about.",
+    heroAccent: "AI",
+    heroAccentWords: ["AI", "Programmatic", "DCO", "Marketing", "Media", "Feeds", "Tools", "Search", "Trends"],
     heading: "Blogi",
     body: "Ajatuksia mediasta, datasta ja kasvusta — ilman turhaa jargonia.",
     minRead: "min lukuaika",
@@ -607,8 +615,13 @@ const fi = {
     mapLink: "Avaa kartalla",
     privacyNote: "Käsittelemme yhteystietosi luottamuksellisesti.",
     photoAlt: "Ystävällinen NØRR3:n kollega valmiina auttamaan Helsingin studiolla",
+    invoicingHeading: "Laskutustiedot",
+    invoicing: [
+      { label: "Verkkolaskuosoite", value: "003729620748" },
+      { label: "Verkkolaskuoperaattori", value: "003721291126 (Maventa)" },
+    ],
     leads: {
-      heading: "Johtoryhmä",
+      heading: "Kuinka voimme auttaa?",
       body: "Nämä viisi vastaavat asiakkuuksista, konsepteista ja koko toimiston tekemisestä. Ota yhteyttä suoraan — tai kirjoita yhteiseen postilaatikkoomme, niin ohjaamme viestin oikealle ihmiselle.",
       fullTeam: "Katso koko tiimi",
     },
@@ -1147,13 +1160,52 @@ const en: Dictionary = {
     heroLeft: "One Platform to",
     heroAccent: "Deliver",
     heroBody:
-      "Engine connects data, AI and multi-channel delivery into one platform — from brief to media to results.",
-    // The brand's numeric triad (PROMPT §2.2) — three short clauses, sharpest last.
-    triad: ["One platform.", "200+ channels.", "Zero wasted clicks."],
-    demo: {
-      heading: "NØRR3 Marketing Engine",
-      body: "Intelligent marketing automation that connects data, AI, and multi-channel delivery into one unified platform.",
-      note: "An illustrative view of the Engine dashboard — sample data, not client data.",
+      "The NØRR3 Marketing Engine is a family of tools that automates marketing — making media a growth engine.",
+    family: {
+      heading: "A family of tools that automates marketing",
+      body: "The Marketing Engine isn't one product — it's a family of apps. You choose what you need, with our recommendations. Five apps are available today, and we're constantly building more.",
+    },
+    apps: {
+      heading: "Five apps — one platform",
+      body: "Each app solves one part of the marketing chain. Apps can be licensed separately — just the Dashboard first, and extend later.",
+      items: [
+        { icon: "campaign", title: "Campaigns", body: "Plan, buy and operate every channel from one place — from brief to execution." },
+        { icon: "space_dashboard", title: "Dashboard", body: "Real-time reporting and measurement. Results shown, not claimed." },
+        { icon: "auto_awesome", title: "Creative automation", body: "Thousands of creative versions from one master — DCO and feed-driven creative." },
+        { icon: "insights", title: "Media Insights", body: "Audience and media-usage data as the planning foundation — data over guesswork." },
+        { icon: "hub", title: "Integrations", body: "A data layer connecting product, inventory and CRM data to your campaigns." },
+      ],
+    },
+    licensing: {
+      heading: "Licence only what you need",
+      body: "Start with the app that solves your biggest problem — and extend when it pays off.",
+      points: [
+        { icon: "payments", title: "Flexible pricing", body: "Scaled by user count, connected channels, number of apps and media usage." },
+        { icon: "manage_accounts", title: "Users and rights", body: "Different users get different app- and user-rights — everyone sees what they're entitled to." },
+        { icon: "extension", title: "Extend later", body: "Apps are licensed separately: just the Dashboard to start, then grow into more apps as needs arise." },
+      ],
+    },
+    setup: {
+      heading: "Setup",
+      body: "A setup project is easy and usually takes 2–6 weeks depending on the need.",
+      steps: [
+        { title: "Stating the business need" },
+        { title: "Designing the campaigning process", desc: "If the Campaign app is included." },
+        { title: "Getting data into the Marketing Engine" },
+        { title: "Unifying data to need" },
+        { title: "Designing reporting", desc: "And the Dashboard, if included." },
+        { title: "Designing users with rights" },
+        { title: "Marketing the tool to internal stakeholders and training them" },
+      ],
+    },
+    benefit: {
+      heading: "The business benefit",
+      body: "One platform replaces ten separate tools — less manual work, more measurable growth.",
+      points: [
+        { icon: "bolt", label: "Less manual work" },
+        { icon: "verified", label: "Every euro proven" },
+        { icon: "trending_up", label: "Scales with growth" },
+      ],
     },
     dashboard: {
       alt: "An illustrative view of the Engine campaign dashboard: five KPI cards, progress bars for active campaigns, a CTR trend bar chart and an AI insights card.",
@@ -1193,40 +1245,6 @@ const en: Dictionary = {
       note: "An illustrative model based on typical ratios in NØRR3's media data — not a guarantee for any specific campaign.",
       creativesLabel: "Engine automation",
       creativesBody: "Engine generates ad creatives in multiple formats and sizes automatically from one master design — including Meta, Display and DOOH.",
-    },
-    quote: {
-      // The Kiinteistömaailma triad as clauses, so each beat can land on its own.
-      clauses: ["150 offices.", "1 brand.", "0 manual work."],
-      client: "Kiinteistömaailma",
-      body: "One centralized brand and campaign logic generates local marketing for every office automatically — one platform replaced dozens of separate processes.",
-    },
-    product: {
-      heading: "One platform, built in-house",
-      body: "Engine isn't licensed software — we built it ourselves, so it bends to your media, not the other way around.",
-      features: [
-        { icon: "bolt", title: "Real-time optimisation", body: "Budget shifts toward whatever is working while the campaign is still live." },
-        { icon: "hub", title: "One unified platform", body: "Brief, plan, buy and prove — every channel in a single place instead of a dozen tools." },
-        { icon: "neurology", title: "AI-assisted planning", body: "Models reallocate spend mid-flight on researched audience data, not gut feel." },
-        { icon: "verified", title: "Proof built in", body: "Every euro is measured and reported, so results are shown — not claimed." },
-      ],
-    },
-    workflow: {
-      heading: "How Engine works",
-      caption: "The team behind the Engine — built in-house, not licensed.",
-      steps: [
-        { icon: "description", title: "Brief", body: "Your goal and audience go in; researched data frames the plan." },
-        { icon: "tune", title: "Plan & buy", body: "Engine builds the media mix and operates every channel from one place." },
-        { icon: "insights", title: "Prove", body: "Live dashboards show reach, cost and conversions as they happen." },
-      ],
-    },
-    bookDemo: {
-      heading: "See Engine on your own media",
-      body: "Book a 30-minute demo and we'll run your channels through the platform live.",
-      points: [
-        { icon: "schedule", label: "30 minutes, no sales funnel" },
-        { icon: "insights", label: "Your own media run through the platform" },
-        { icon: "verified", label: "We'll also say if you don't need us" },
-      ],
     },
   },
   team: {
@@ -1393,6 +1411,9 @@ const en: Dictionary = {
   },
   insights: {
     pill: "INSIGHTS",
+    heroLeft: "Our thoughts about.",
+    heroAccent: "AI",
+    heroAccentWords: ["AI", "Programmatic", "DCO", "Marketing", "Media", "Feeds", "Tools", "Search", "Trends"],
     heading: "Blog",
     body: "Thinking on media, data and growth — without the jargon.",
     minRead: "min read",
@@ -1421,8 +1442,13 @@ const en: Dictionary = {
     mapLink: "Open in maps",
     privacyNote: "We handle your details confidentially.",
     photoAlt: "A friendly NØRR3 colleague ready to help, in the Helsinki studio",
+    invoicingHeading: "Billing details",
+    invoicing: [
+      { label: "E-invoicing address", value: "003729620748" },
+      { label: "E-invoicing operator", value: "003721291126 (Maventa)" },
+    ],
     leads: {
-      heading: "Lead contacts",
+      heading: "How can we help?",
       body: "These five run our client work, our concepts and the agency itself. Reach out directly — or write to our shared inbox and we'll route your message to the right person.",
       fullTeam: "See the whole team",
     },

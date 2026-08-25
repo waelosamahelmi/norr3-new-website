@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
 import { pageSeo } from "@/lib/pageSeo";
 import { Container, HeroPill } from "@/components/Container";
+import { SplitHeadline } from "@/components/SplitHeadline";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { TextCta } from "@/components/TextCta";
@@ -72,10 +73,12 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
           <HeroPill>{dict.insights.pill}</HeroPill>
         </Reveal>
         <Reveal delay={0.05}>
-          <h1 className="mt-6 text-[10vw] font-medium leading-[0.95] tracking-tight text-ink lg:text-[6.5rem] dark:text-white">
-            <span aria-hidden className="caret-blink">_</span>
-            {dict.insights.heading}
-          </h1>
+          <SplitHeadline
+            left={dict.insights.heroLeft}
+            accent={dict.insights.heroAccent}
+            accents={dict.insights.heroAccentWords}
+            className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
+          />
         </Reveal>
         <Reveal delay={0.15} className="mt-6 flex flex-col items-start gap-6">
           <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">

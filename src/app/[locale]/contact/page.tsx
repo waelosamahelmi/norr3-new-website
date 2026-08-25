@@ -85,9 +85,11 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
 
   // Ordered by the list above, not by roster order, and silently skipping a
   // name that ever leaves team.ts rather than rendering a hole.
-  const leadContacts = LEAD_CONTACT_NAMES.map((name) =>
-    team.find((m) => m.name === name),
-  ).filter((m) => m !== undefined);
+  const leadContacts = (() => {
+    const flagged = team.filter((m) => m.lead);
+    if (flagged.length > 0) return flagged;
+    return LEAD_CONTACT_NAMES.map((name) => team.find((m) => m.name === name)).filter((m) => m !== undefined);
+  })();
 
   return (
     <>
@@ -143,12 +145,6 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
                   label: dict.common.email,
                   value: dict.footer.email,
                 },
-                {
-                  href: "tel:+358468100118",
-                  icon: "call",
-                  label: dict.contact.phoneLabel,
-                  value: dict.footer.phone,
-                },
               ].map((row) => (
                 <li key={row.href}>
                   <a
@@ -203,6 +199,21 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
               {dict.footer.companyLines.map((line) => (
                 <p key={line}>{line}</p>
               ))}
+            </div>
+
+            {/* Billing details — e-invoicing address + operator */}
+            <div className="mt-8 rounded-card bg-light-purple p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
+              <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-ink/70 dark:text-white/70">
+                {dict.contact.invoicingHeading}
+              </h3>
+              <ul className="mt-4 space-y-1.5 text-[15px] leading-relaxed text-ink/80 dark:text-white/80">
+                {dict.contact.invoicing.map((row) => (
+                  <li key={row.label}>
+                    <span className="font-medium">{row.label}: </span>
+                    {row.value}
+                  </li>
+                ))}
+              </ul>
             </div>
           </Reveal>
 
