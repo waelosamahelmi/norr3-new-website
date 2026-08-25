@@ -33,10 +33,15 @@ function useMotionAllowed() {
 /**
  * The three stack slots, back → front. `x` is a share of the stage width so the
  * geometry holds at every breakpoint; `y` stays in px.
+ *
+ * The x-offsets keep every card INSIDE the stage box: the headline words sit
+ * immediately left/right of the stage, so a card spilling past the stage edge
+ * would slide under the text and put the words on top of the photos (measured
+ * 101px overlap at 1440w with the old -56% back offset).
  */
 const SLOTS = [
-  { x: "-56%", y: "40px", scale: 0.66, opacity: 0.9, z: 1, front: false },
-  { x: "-22%", y: "10px", scale: 0.82, opacity: 0.97, z: 2, front: false },
+  { x: "-28%", y: "40px", scale: 0.66, opacity: 0.9, z: 1, front: false },
+  { x: "-14%", y: "10px", scale: 0.82, opacity: 0.97, z: 2, front: false },
   { x: "20%", y: "-22px", scale: 1, opacity: 1, z: 3, front: true },
 ] as const;
 
