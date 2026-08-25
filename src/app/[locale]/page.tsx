@@ -227,13 +227,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </Container>
       </section>
 
-      {/* From proof to product: the Engine is what produced those numbers. */}
-      <Container className="pb-16 lg:pb-20">
-        <Reveal className="flex justify-center">
-          <TextCta href="#engine">{dict.common.heroSeeEngine}</TextCta>
-        </Reveal>
-      </Container>
-
       <HighlightsBand clients={clients} />
 
       {/* Marketing Engine */}
@@ -336,7 +329,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             <TeamMarquee locale={locale} members={content.team} />
             <div className="mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
               <PillButton href={linkTo(locale, "/team")} variant="secondary">{dict.common.meetTeam}</PillButton>
-              <TextCta href="#blogi">{dict.common.heroReadBlog}</TextCta>
             </div>
           </div>
         </Container>
