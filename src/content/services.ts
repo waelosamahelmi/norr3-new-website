@@ -28,99 +28,79 @@ export type ServiceCard = {
   outcomes?: { fi: string[]; en: string[] };
 };
 
-// The six service categories per Antti's service map. The purple treatment
-// once pinned to card 02 by a flag here is now a hover state on every card
-// (see ServiceCard.tsx) — no card is special-cased any more.
+// The six service categories per Wael's 2026-08-25 service map. Products are
+// no longer boxes: the Marketing Engine lives in its own band below the grid
+// (see the Services page), so box 06 is now the fixed-price Audits & Projects.
+// Boxes 01, 05 and 06 carry no search demand on purpose — they are reached via
+// the hub and sales conversations, not optimised for keywords.
 export const serviceCards: ServiceCard[] = [
   {
     number: "01",
-    icon: "zoom_in_map",
-    fi: { title: "Insight & Strategia", body: "Meiltä saat tehokasta ja liiketoimintalähtöistä strategiatyötä kohderyhmä-, kilpailija- ja mediatarpeisiin." },
-    en: { title: "Insight & Strategy", body: "Effective, business-driven strategy work for audience, competitor and media needs." },
+    icon: "strategy",
+    fi: { title: "Insight & Strategia", body: "Liiketoimintalähtöistä strategiatyötä — kohderyhmästä ja kilpailijoista mediankäyttöön." },
+    en: { title: "Insight & Strategy", body: "Business-driven strategy work — from audience and competitors to media behaviour." },
     items: [
-      { fi: "Tunnettuustutkimukset", en: "Brand awareness studies", desc_fi: "Mittaatko oikeita asioita? Rakennamme tunnettuus- ja brändimittarit, joiden pohjalta mediaa voidaan ohjata.", desc_en: "Are you measuring the right things? We build awareness and brand metrics that media decisions can hang on." },
-      { fi: "Kohderyhmätutkimukset", en: "Audience research", desc_fi: "Kuka oikeasti ostaa sinulta — ja mitä mediaa hän kuluttaa? Kohderyhmän koostumus paneelidatalla, ei mutulla.", desc_en: "Who actually buys from you — and what media do they use? Audience composition from panel data, not guesswork." },
-      { fi: "Mediankäyttötutkimukset – NØRR3 Media Insights", en: "Media usage studies – NØRR3 Media Insights", desc_fi: "Oma työkalumme, joka näyttää kanavien tavoittavuuden ja pintasivat suhteessa juuri sinun yleisöösi.", desc_en: "Our own tool showing channel reach and pricing against your specific audience." },
+      { fi: "Brändi- ja tunnettuusseuranta", en: "Brand & awareness tracking", desc_fi: "Mittarit, joiden pohjalta mediaa voidaan ohjata — ei arvailua.", desc_en: "The metrics media decisions can hang on — not guesswork." },
+      { fi: "Kohderyhmätutkimus", en: "Audience research", desc_fi: "Kuka oikeasti ostaa sinulta — ja mitä mediaa hän kuluttaa.", desc_en: "Who actually buys from you — and what media they use." },
+      { fi: "Mediankäyttötutkimus", en: "Media consumption research", desc_fi: "Kanavien tavoittavuus ja hinta suhteessa juuri sinun yleisöösi.", desc_en: "Channel reach and pricing against your specific audience." },
+      { fi: "Mediastrategia", en: "Media strategy", desc_fi: "Strateginen raami, joka kääntää tavoitteet mediaksi.", desc_en: "The strategic frame that turns goals into media." },
     ],
-    outcomes: {
-      fi: ["Kohderyhmämääritys ja insight-raportti", "Mediasuunnitelman strateginen raami", "Mittarit ja tavoitteet kampanjalle"],
-      en: ["Audience definition and insight report", "The strategic frame for the media plan", "Metrics and goals for the campaign"],
-    },
   },
   {
     number: "02",
-    icon: "monitoring",
-    fi: { title: "Data & Mittaus", body: "Optimaalisen mediastrategian rakentaminen alkaa datasta — ja päättyy siihen, että tulos on todennettu." },
-    en: { title: "Data & Measurement", body: "Building an optimal media strategy starts with data — and ends with the result actually verified." },
+    icon: "campaign",
+    fi: { title: "Mediapalvelut", body: "Suunnittelemme, ostamme ja optimoimme tuloksia kaikissa median kanavissa." },
+    en: { title: "Media Services", body: "We plan, buy and optimise results across every media channel." },
     items: [
-      { fi: "NØRR3 Dashboard", en: "NØRR3 Dashboard", desc_fi: "Asiakasportaali, jossa kampanjoiden tulokset näkyvät reaaliajassa — ei odottelua raportointikierroon asti.", desc_en: "A client portal where campaign results show in real time — no waiting for the reporting round." },
-      { fi: "Konversiomittaus", en: "Conversion measurement", desc_fi: "Todennamme mitä media oikeasti tuottaa: mittaukset Myynti-/CRM-dataan asti, ei vain klikkejä.", desc_en: "We verify what media actually produces: measurement all the way to sales/CRM data, not just clicks." },
+      { fi: "Mediasuunnittelu ja -ostaminen", en: "Media planning & buying", desc_fi: "Kanavariippumaton suunnitelma ja ostovoima — TV:stä DOOH:iin ja sosiaaliseen mediaan.", desc_en: "A channel-agnostic plan and buying power — from TV to DOOH and social." },
+      { fi: "Ohjelmallinen ostaminen", en: "Programmatic buying", desc_fi: "Display, ulkomainonta/pDOOH, video, audio, DCO — kaikki, mikä ostetaan ohjelmallisesti.", desc_en: "Display, out-of-home/pDOOH, video, audio, DCO — everything buyable programmatically." },
+      { fi: "Kampanja- ja jatkuva mainonta", en: "Campaign & always-on advertising", desc_fi: "Isot lanseeraukset ja ympärivuotinen näkyvyys, joka ei katkea.", desc_en: "Big launch pushes and year-round visibility that never breaks." },
     ],
-    outcomes: {
-      fi: ["Todentamisen malli ja mittaripuu", "Reaaliaikainen näkyvyys tuloksiin", "Optimointisuositukset datan pohjalta"],
-      en: ["A verification model and metric tree", "Real-time visibility into results", "Data-driven optimization recommendations"],
-    },
   },
   {
     number: "03",
-    icon: "neurology",
-    fi: { title: "Tekoäly & Integraatiot", body: "Tekoäly ei ole meillä slidellä — se on työkalu, joka ajaa suunnittelua, löydettävyyttä ja aineistojen automaatiota. Integraatiot yhdistävät systemsi samaan ketjuun." },
-    en: { title: "AI & Integrations", body: "AI isn't a slide in our deck — it's a tool driving planning, discoverability and creative automation. Integrations tie your systems into the same chain." },
+    icon: "trending_up",
+    fi: { title: "Performance Marketing", body: "Tulospohjaista mainontaa, joka tuottaa konkreettisia tuloksia." },
+    en: { title: "Performance Marketing", body: "Performance-based advertising that produces concrete results." },
     items: [
-      { fi: "AI-löydettävyys (GEO)", en: "AI discoverability (GEO)", desc_fi: "Tekoälyavustajat (ChatGPT, Gemini) suosittelevat yhä useammin — varmistetaan että ne suosittelevat sinua.", desc_en: "AI assistants (ChatGPT, Gemini) increasingly recommend brands — we make sure they recommend you." },
-      { fi: "Tekoälyavusteinen suunnittelu", en: "AI-assisted planning", desc_fi: "Mallit jakavat panostukset uudelleen kesken lennon tutkitun yleisödatan pohjalta — sama logiikka kuin Marketing Enginessä.", desc_en: "Models reallocate spend mid-flight on researched audience data — the same logic that runs the Marketing Engine." },
-      { fi: "Aineistojen automaatio", en: "Creative automation", desc_fi: "Yksi master-suunnittelu tuhansiksi versioiksi: personoituja aineistoja tuote- ja asiakasdatasta, automaattisesti.", desc_en: "One master design into thousands of versions: personalized creatives from product and customer data, automatically." },
-      { fi: "Integraatiot", en: "Integrations", desc_fi: "Tuote-, varasto-, CRM- ja kampanjadata yhteen ketjuun — mediat ja systemsi puhuvat toisilleen ilman manuaalista kopiointia.", desc_en: "Product, inventory, CRM and campaign data into one chain — your media and your systems talk to each other without manual copying." },
-      { fi: "SEO & SEM", en: "SEO & SEM", desc_fi: "Tekninen ja sisällöllinen SEO sekä hakukonemainonta: löydyt sieltä, mistä sinua etsitään.", desc_en: "Technical and content SEO plus search advertising: be found where you are searched for." },
+      { fi: "Tulospohjainen ostaminen", en: "Performance-based buying", desc_fi: "Tulosvastuinen ostaminen: hinta per konversio, ei per näyttö.", desc_en: "Accountable buying: price per conversion, not per impression." },
+      { fi: "Dynaaminen ja personoitu mainonta", en: "Dynamic & personalised advertising", desc_fi: "Tuhansia versioita yhdestä masterista tuote- ja asiakasdatan pohjalta.", desc_en: "Thousands of versions from one master, driven by product and customer data." },
+      { fi: "Aineistojen automaatio", en: "Asset automation", desc_fi: "Aineistot päivittyvät itsestään syötteestä — ei manuaalisia kierroksia.", desc_en: "Assets update themselves from the feed — no manual rounds." },
     ],
-    outcomes: {
-      fi: ["Löydettävyysaudit ja korjauslista", "AI-vastauksissa kasvava näkyvyys", "Automaatio, joka poistaa manuaaliset vaiheet", "Datavirta systemeistä mediaan"],
-      en: ["Discoverability audit and fix list", "Growing visibility in AI answers", "Automation removing manual steps", "Data flow from your systems to media"],
-    },
   },
   {
     number: "04",
-    icon: "paid",
-    fi: { title: "Mediapalvelut", body: "Kokenut tiimimme suunnittelee, ostaa ja optimoi sinulle tuloksia kaikissa median kanavissa." },
-    en: { title: "Media Services", body: "Our experienced team plans, buys and optimizes results for you across every media channel." },
+    icon: "search",
+    fi: { title: "Hakukoneoptimointi & hakumainonta", body: "Löydyt sieltä, mistä sinua etsitään — hakukoneissa ja tekoälyn vastauksissa." },
+    en: { title: "SEO & Search Advertising", body: "Be found where you're searched for — in search engines and AI answers." },
     items: [
-      { fi: "Mediasuunnittelu ja -osto", en: "Media planning and buying", desc_fi: "Kanavaviestämätön suunnitelma ja ostovoima — TV:stä DOOH:iin ja sosiaalisesta mediaan.", desc_en: "A channel-agnostic plan and buying power — from TV to DOOH and social." },
-      { fi: "Kampanja- ja jatkuva mainonta", en: "Campaign and always-on advertising", desc_fi: "Sekä isot lanseerausponnistukset että ympärivuotinen näkyvyys, joka ei pääse katkeamaan.", desc_en: "Both big launch pushes and year-round visibility that never breaks." },
+      { fi: "Hakukoneoptimointi", en: "Search engine optimisation", desc_fi: "Tekninen ja sisällöllinen SEO, joka nostaa orgaanista näkyvyyttä.", desc_en: "Technical and content SEO that lifts organic visibility." },
+      { fi: "Hakukonemarkkinointi", en: "Search advertising", desc_fi: "Hakutulosten kärkeen mainoksilla — siellä, missä ostoaikeus on korkein.", desc_en: "The top of search results with ads — where purchase intent is highest." },
+      { fi: "GEO / AI-löydettävyys", en: "GEO / AI discoverability", desc_fi: "Tekoälyavustajat suosittelevat yhä useammin — varmistamme, että ne suosittelevat sinua.", desc_en: "AI assistants increasingly recommend brands — we make sure they recommend you." },
     ],
-    outcomes: {
-      fi: ["Mediamix ja budjettiraami", "Neuvotellut mediatalosopimukset", "Optimointi lennossa kampanjan aikana"],
-      en: ["Media mix and budget frame", "Negotiated media house agreements", "In-flight optimization during the campaign"],
-    },
   },
   {
     number: "05",
-    icon: "trending_up",
-    fi: { title: "Performance Marketing", body: "Tulospohjainen mainonta on tehokas tapa tavoittaa kohdeyleisö ja saada konkreettisia tuloksia." },
-    en: { title: "Performance Marketing", body: "Performance-based advertising is an effective way to reach the target audience and get concrete results." },
+    icon: "monitoring",
+    fi: { title: "Data & Mittaus", body: "Optimaalinen mediastrategia alkaa datasta — ja päättyy todennettuun tulokseen." },
+    en: { title: "Data & Measurement", body: "An optimal media strategy starts with data — and ends with a verified result." },
     items: [
-      { fi: "Dynamisen markkinoinnin palvelut", en: "Dynamic marketing services", desc_fi: "Personoitu mainonta, joka rakentuu tuote- ja asiakasdatasta — tekoäly generoi tuhansia versioita yhdestä masterista.", desc_en: "Personalized advertising built from product and customer data — AI generates thousands of versions from one master." },
-      { fi: "Performance markkinoinnin palvelut", en: "Performance marketing services", desc_fi: "Tulosvastuinen ostaminen: hinta per konversio, ei per näyttö.", desc_en: "Accountable buying: price per conversion, not per impression." },
+      { fi: "Konversiomittaus", en: "Conversion measurement", desc_fi: "Mittaus myynti-/CRM-dataan asti — ei vain klikkejä.", desc_en: "Measurement all the way to sales/CRM data — not just clicks." },
+      { fi: "Mittausmalli ja todentaminen", en: "Measurement model & verification", desc_fi: "Mittaripuu, joka todentaa mitä media oikeasti tuottaa.", desc_en: "A metric tree that verifies what media actually produces." },
+      { fi: "Data layer ja integraatiot", en: "Data layer and integrations", desc_fi: "Tuote-, varasto-, CRM- ja kampanjadata yhteen ketjuun.", desc_en: "Product, inventory, CRM and campaign data into one chain." },
     ],
-    outcomes: {
-      fi: ["Personoidut aineistot ja automaatio", "Hintatehokkuus per konversio", "Skaalautuva malli kasvuun"],
-      en: ["Personalized creatives and automation", "Cost efficiency per conversion", "A scalable model for growth"],
-    },
   },
   {
     number: "06",
-    icon: "rocket_launch",
-    fi: { title: "Marketing Engine", body: "Yksi alusta, joka yhdistää datan, tekoälyn ja monikanavaisen toteutuksen briiffistä tuloksiin." },
-    en: { title: "Marketing Engine", body: "One platform connecting data, AI and multichannel execution — from brief to results." },
+    icon: "fact_check",
+    fi: { title: "Auditit & projektit", body: "Kiinteähintaisia, kestoltaan rajattuja toimeksiantoja — tiedät etukäteen mitä maksat ja milloin valmistuu." },
+    en: { title: "Audits & Projects", body: "Fixed-price, fixed-duration work — you know the cost and the deadline up front." },
     items: [
-      { fi: "Esittely & demo", en: "Presentation & demo", desc_fi: "30 minuuttia, oma mediallasi ajettuna läpi — ilman myyntiputkea.", desc_en: "30 minutes, run through with your own media — no sales funnel." },
-      { fi: "Appit", en: "Apps", desc_fi: "Briiffistä toteutukseen: työkalut joilla kampanja rakennetaan, ostetaan ja todennetaan.", desc_en: "From brief to execution: the tools a campaign is built, bought and verified with." },
-      { fi: "Integraatiot", en: "Integrations", desc_fi: "Enginen liitännät tuote-, varasto- ja CRM-järjestelmiin: data virtaa, aineistot päivittyvät itsestään.", desc_en: "The Engine's connectors to product, inventory and CRM systems: data flows, creatives update themselves." },
-      { fi: "Hinnoittelu", en: "Pricing", desc_fi: "Lisensoitava alusta, skaalautuu käyttöön — ei kertamaksua vaan jatkuva hyöty.", desc_en: "A licensable platform that scales with use — not a one-off fee but continuous value." },
+      { fi: "AI & Marketing Readiness Audit", en: "AI & Marketing Readiness Audit", desc_fi: "2–3 vkoa", desc_en: "2–3 wks" },
+      { fi: "Data Consolidation", en: "Data Consolidation", desc_fi: "3–4 vkoa", desc_en: "3–4 wks" },
+      { fi: "Search & GEO Audit", en: "Search & GEO Audit", desc_fi: "2 vkoa", desc_en: "2 wks" },
+      { fi: "Some Audit", en: "Some Audit", desc_fi: "2 vkoa", desc_en: "2 wks" },
     ],
-    outcomes: {
-      fi: ["Yksi alusta kaikille kanaville", "Automaatio vähentää manuaalista työtä", "Reaaliaikainen ohjaus budjetilla"],
-      en: ["One platform for all channels", "Automation cutting manual work", "Real-time budget steering"],
-    },
   },
 ];
 

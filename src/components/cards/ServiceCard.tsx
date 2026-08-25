@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Icon } from "@/components/Icon";
 import { PixelArt } from "@/components/PixelArt";
@@ -11,19 +10,14 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
  * Service card per Figma: centered yellow icon tile, yellow index number,
- * title, copy, outlined READ MORE.
+ * title, copy. No CTA inside — the card is a plain expander: pressing it (or
+ * hitting Enter/Space) reveals the sub-service list, each with its own one-line
+ * description; pressing again (or Escape) collapses it. The small +/− is the
+ * only control, and a card with no sub-services stays static.
  *
  * The purple "highlighted" treatment — solid purple, white text, the
  * pixel-dissolve diagonal — is purely a hover state: whichever card the
- * visitor's pointer is actually over gets it, via `group-hover`, and it lets
- * go the moment they move on.
- *
- * On the home and services pages the card is also expandable: pressing it
- * reveals the full service list — each sub-service with its own one-line
- * description — plus a "what you get" checklist, all inline with a height +
- * fade animation that pushes the rest of the grid down smoothly. Pressing
- * again (or hitting Escape) collapses it. A card with no sub-services stays a
- * plain link.
+ * visitor's pointer is actually over gets it, via `group-hover`.
  */
 export function ServiceCard({
   number,
@@ -32,29 +26,23 @@ export function ServiceCard({
   body,
   items,
   outcomes,
-  readMoreLabel,
   whatYouGetLabel,
-  href,
 }: {
   number: string;
   icon: string;
   title: string;
   body: string;
-  /** Sub-services: { fi, en, desc_fi?, desc_en? } pairs localized by the caller. */
+  /** Sub-services: { label, desc? } pairs localized by the caller. */
   items?: { label: string; desc?: string }[];
   /** "What you get" checklist that closes the expansion. */
   outcomes?: string[];
-  readMoreLabel: string;
   whatYouGetLabel: string;
-  href: string;
 }) {
   const [open, setOpen] = useState(false);
   const hasItems = Boolean(items && items.length > 0);
-  // A card without sub-services has nothing to expand — it stays a plain link.
-  const interactive = hasItems;
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (!interactive) return;
+    if (!hasItems) return;
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       setOpen((v) => !v);
@@ -137,39 +125,25 @@ export function ServiceCard({
         </AnimatePresence>
       )}
 
-      {interactive ? (
+      {hasItems && (
         <span
-          className="relative mt-auto inline-flex items-center gap-1.5 rounded-full border border-ink/40 px-5 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink transition-colors duration-300 group-hover:border-white/50 group-hover:bg-white group-hover:text-ink dark:border-white/40 dark:text-white dark:group-hover:border-white/50 dark:group-hover:bg-white dark:group-hover:text-ink mt-4"
+          aria-hidden
+          className="relative mt-auto inline-flex items-center justify-center rounded-full border border-ink/40 p-2 text-ink transition-colors duration-300 group-hover:border-white/50 group-hover:bg-white group-hover:text-ink dark:border-white/40 dark:text-white dark:group-hover:border-white/50 dark:group-hover:bg-white dark:group-hover:text-ink mt-4"
         >
-          <span className="sr-only">{open ? "" : readMoreLabel} </span>
           {open ? <Icon name="remove" style={{ fontSize: "16px" }} /> : <Icon name="add" style={{ fontSize: "16px" }} />}
-        </span>
-      ) : (
-        <span className="relative mt-auto inline-flex items-center rounded-full border border-ink/40 px-5 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink transition-colors duration-300 group-hover:border-white/50 group-hover:bg-white group-hover:text-ink dark:border-white/40 dark:text-white dark:group-hover:border-white/50 dark:group-hover:bg-white dark:group-hover:text-ink">
-          {readMoreLabel}
         </span>
       )}
     </>
   );
 
-  if (!interactive) {
-    return (
-      <HoverLift className="h-full">
-        <Link href={href} className={className.replace("cursor-pointer", "")}>
-          {shell}
-        </Link>
-      </HoverLift>
-    );
-  }
-
   return (
     <HoverLift className="h-full">
       <button
         type="button"
-        aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        aria-expanded={hasItems ? open : undefined}
+        onClick={hasItems ? () => setOpen((v) => !v) : undefined}
         onKeyDown={handleKeyDown}
-        className={className}
+        className={`${className} ${hasItems ? "" : "cursor-default hover:bg-pastel-purple/60 hover:text-ink dark:hover:bg-white/[0.04] dark:hover:text-white"}`}
       >
         {shell}
       </button>

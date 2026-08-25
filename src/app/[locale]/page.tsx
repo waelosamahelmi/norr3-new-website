@@ -188,9 +188,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                   desc: locale === "fi" ? item.desc_fi : item.desc_en,
                 }))}
                 outcomes={card.outcomes?.[locale]}
-                readMoreLabel={dict.common.readMore}
                 whatYouGetLabel={dict.common.whatYouGet}
-                href={linkTo(locale, "/services")}
               />
             ))}
           </StaggerGrid>

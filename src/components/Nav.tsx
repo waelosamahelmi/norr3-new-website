@@ -58,12 +58,7 @@ export function Nav({
 
   const t = dict.nav;
   const sub: Record<string, { key: string; label: string; href: string }[]> = {
-    services: [
-      { key: "areas", label: t.servicesSub.areas, href: linkTo(locale, "/services#palvelut-alueet") },
-      { key: "insights", label: t.servicesSub.insights, href: linkTo(locale, "/services#media-insights") },
-      { key: "data", label: t.servicesSub.data, href: linkTo(locale, "/services#data") },
-      { key: "features", label: t.servicesSub.features, href: linkTo(locale, "/services#ominaisuudet") },
-    ],
+    services: [],
     engine: [
       { key: "product", label: t.engineSub.product, href: linkTo(locale, "/engine#tuote") },
       { key: "workflow", label: t.engineSub.workflow, href: linkTo(locale, "/engine#toiminta") },

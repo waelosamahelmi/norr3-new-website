@@ -483,9 +483,7 @@ function BlockSwitch({
                     : undefined
                 }
                 outcomes={service.outcomes?.[locale]}
-                readMoreLabel={dict.common.readMore}
                 whatYouGetLabel={dict.common.whatYouGet}
-                href={linkTo(locale, "/services")}
               />
             ))}
           </StaggerGrid>

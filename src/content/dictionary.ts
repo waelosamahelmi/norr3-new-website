@@ -204,7 +204,8 @@ const fi = {
     readCase: "Lue case",
     viewAll: "Katso kaikki",
     meetTeam: "Tutustu tiimiin",
-    bookDemo: "Varaa demo",
+    bookDemo: "Buukkaa demo",
+    bookCall: "Varaa 30 min palaveri",
     viewProfile: "Katso profiili",
     openJobs: "Avoimet työpaikat",
     linkedin: "LinkedIn",
@@ -265,8 +266,17 @@ const fi = {
     heroToolsCta: "Työkalumme",
     includes: ["Insightit", "Strategiat", "Data", "Mittaaminen", "AI", "Dashboardit", "Työpajat", "Mediaaktivointi", "Performance-markkinointi", "Työkalut"],
     areas: {
-      heading: "Mitä teemme",
-      body: "Kuusi palvelualuetta, yksi tiimi — insightistä ja strategiasta dataan ja mittaukseen, löydettävyyteen, mediapalveluihin, performanceen ja Marketing Engineen. Räätälöimme niistä yrityksellesi sopivan mallin.",
+      heading: "Palvelumme",
+      body: "Kuusi palvelualuetta, yksi tiimi — insightistä ja strategiasta mediapalveluihin, performanceen, hakukonemarkkinointiin, dataan ja mittaukseen sekä kiinteähintaisiin auditeihin.",
+    },
+    engineBand: {
+      heading: "NØRR3 Marketing Engine",
+      body: "Tuotteemme eivät ole laatikoita — ne elävät yhdessä alustassa. Marketing Engine on työkaluperhe, joka automatisoi markkinoinnin ja tekee mediasta kasvun moottorin.",
+      points: [
+        { icon: "hub", label: "Yksi alusta, monta appia" },
+        { icon: "verified", label: "Lisensoi vain mitä tarvitset" },
+        { icon: "schedule", label: "Käyttöönotto 2–6 vkoa" },
+      ],
     },
     insights: {
       heading: "NØRR3 Media Insights",
@@ -1009,6 +1019,7 @@ const en: Dictionary = {
     viewAll: "View all",
     meetTeam: "Meet the team",
     bookDemo: "Book a demo",
+    bookCall: "Book a 30 min call",
     viewProfile: "View profile",
     openJobs: "Open jobs",
     linkedin: "LinkedIn",
@@ -1069,8 +1080,17 @@ const en: Dictionary = {
     heroToolsCta: "Our tools",
     includes: ["Insights", "Strategies", "Data", "Measurement", "AI", "Dashboards", "Workshops", "Media activation", "Performance marketing", "Tools"],
     areas: {
-      heading: "What we do",
-      body: "Six service areas, one team — from insight and strategy to data and measurement, discoverability, media services, performance and the Marketing Engine. We tailor them into a model that fits your business.",
+      heading: "Our services",
+      body: "Six service areas, one team — from insight and strategy to media services, performance, search advertising, data and measurement, and fixed-price audits.",
+    },
+    engineBand: {
+      heading: "NØRR3 Marketing Engine",
+      body: "Our products aren't boxes — they live in one platform. The Marketing Engine is a family of tools that automates marketing and makes media a growth engine.",
+      points: [
+        { icon: "hub", label: "One platform, many apps" },
+        { icon: "verified", label: "Licence only what you need" },
+        { icon: "schedule", label: "Setup in 2–6 weeks" },
+      ],
     },
     insights: {
       heading: "NØRR3 Media Insights",
