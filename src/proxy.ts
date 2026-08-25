@@ -39,7 +39,8 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Skip Next internals, API routes, CMS uploads and any static file (paths
-  // containing a dot, e.g. robots.txt, sitemap.xml, .webp, favicon.ico).
-  matcher: ["/((?!api|_next|uploads|.*\\..*).*)"],
+  // Skip Next internals, API routes, CMS uploads, the human-readable sitemap
+  // page, and any static file (paths containing a dot, e.g. robots.txt,
+  // sitemap.xml, .webp, favicon.ico).
+  matcher: ["/((?!api|_next|uploads|sitemap|.*\\..*).*)"],
 };

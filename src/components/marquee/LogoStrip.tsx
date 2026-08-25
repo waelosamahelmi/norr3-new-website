@@ -42,7 +42,7 @@ export function LogoStrip({
   );
 
   return (
-    <div className="overflow-hidden border-y border-black/5 py-5 dark:border-white/10" style={{ ["--marquee-duration" as string]: "var(--marquee-logos, 55s)" }}>
+    <div className="overflow-x-clip border-y border-black/5 py-5 dark:border-white/10" style={{ ["--marquee-duration" as string]: "var(--marquee-logos, 55s)" }}>
       <div className="marquee-track">
         {row(false)}
         {row(true)}

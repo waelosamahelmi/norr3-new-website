@@ -42,6 +42,9 @@ const nextConfig: NextConfig = {
       // ── Old English pages ───────────────────────────────────────────────────
       { source: "/en/home", destination: "/en", permanent: true },
       { source: "/en/norr3", destination: "/en", permanent: true },
+      // The old Media Insights landing page — superseded by the services
+      // page's Media Insights section.
+      { source: "/media-insights", destination: "/services", permanent: true },
       { source: "/en/media-insights", destination: "/en/services", permanent: true },
 
       // ── Slugs that changed between the old site and this one ────────────────

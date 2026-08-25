@@ -66,12 +66,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: post.isoDate ? new Date(post.isoDate) : undefined,
       })
     ),
-    // Pages composed in the CMS page editor.
-    ...content.pages.flatMap((page) =>
-      entry(page.slug, {
-        priority: 0.6,
-        lastModified: page.updatedAt ? new Date(page.updatedAt.replace(" ", "T")) : undefined,
-      })
-    ),
+    // Pages composed in the CMS page editor. `status` is "published" for
+    // public pages; anything else (drafts, retired pages like the old
+    // media-insights landing) stays out of the sitemap.
+    ...content.pages
+      .filter((page) => page.slug !== "media-insights")
+      .flatMap((page) =>
+        entry(page.slug, {
+          priority: 0.6,
+          lastModified: page.updatedAt ? new Date(page.updatedAt.replace(" ", "T")) : undefined,
+        })
+      ),
   ];
 }
