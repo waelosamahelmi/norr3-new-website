@@ -115,7 +115,8 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           </p>
           <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
             <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
-            <TextCta href="#palvelut-alueet">{dict.common.heroSeeServices}</TextCta>
+            <TextCta href="#palvelut-alueet">{s.heroServicesCta}</TextCta>
+            <TextCta href="#ominaisuudet">{s.heroToolsCta}</TextCta>
           </div>
         </Reveal>
       </Container>
@@ -339,7 +340,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
         </Container>
       </section>
 
-      <HighlightsBand label={dict.common.highlights} clients={clients} />
+      <HighlightsBand clients={clients} />
 
       {/* Related posts — now has the same "all insights" exit as every other
           card grid on the site, instead of dead-ending. */}

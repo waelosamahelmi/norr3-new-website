@@ -735,7 +735,7 @@ function BlockSwitch({
       );
 
     case "highlights.band":
-      return <HighlightsBand label={t("label") || dict.common.highlights} clients={context.clients} />;
+      return <HighlightsBand clients={context.clients} />;
 
     /* ---------------------------------------------------------------- layout */
     case "columns": {

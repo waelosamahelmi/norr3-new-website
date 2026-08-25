@@ -197,14 +197,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </Container>
       </section>
 
-      {/* A quiet, non-button exit from the services grid: most readers want
-          proof next, not a form. */}
-      <Container className="pb-16 lg:pb-20">
-        <Reveal className="flex justify-center">
-          <TextCta href="#caset">{dict.common.heroSeeCases}</TextCta>
-        </Reveal>
-      </Container>
-
       {/* Values photo with pill overlay */}
       <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
@@ -242,7 +234,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </Reveal>
       </Container>
 
-      <HighlightsBand label={dict.common.highlights} clients={clients} />
+      <HighlightsBand clients={clients} />
 
       {/* Marketing Engine */}
       <section id="engine" className="scroll-mt-24 bg-pastel-purple/40 py-24 lg:py-32 dark:bg-white/[0.04]">
@@ -330,9 +322,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               the "Meet the humans behind the numbers" line that follows. */}
           <div className="mt-24 lg:mt-28">
             <StatGrid stats={inNumbers} locale={locale} label={dict.common.inNumbers} />
-            <div className="mt-8 flex justify-center">
-              <TextCta href="#ihmiset">{dict.common.heroMeetTeam}</TextCta>
-            </div>
           </div>
 
           <div id="ihmiset" className="mt-24 scroll-mt-32 lg:mt-28">

@@ -11,10 +11,8 @@ const CHIP_ICONS = ["interests", "trending_up", "monitoring", "bar_chart"];
 
 /** The "Highlights" band: client pills scrolling over a solid black surface. */
 export function HighlightsBand({
-  label,
   clients = bundledClients,
 }: {
-  label: string;
   clients?: string[];
 }) {
   const row = (
@@ -39,11 +37,6 @@ export function HighlightsBand({
 
   return (
     <section className="bg-ink py-12 dark:bg-white/[0.04] dark:border-y dark:border-white/10">
-      {/* Same uppercase eyebrow treatment as the StatGrid label, so every
-          small section label on the site reads as one system. */}
-      <p className="mb-8 text-center text-xs font-medium uppercase tracking-[0.14em] text-white/60">
-        {label}
-      </p>
       <div className="marquee-paused overflow-x-clip" style={{ ["--marquee-duration" as string]: "var(--marquee-pills, 45s)" }}>
         <div className="marquee-track items-center">
           {row}
