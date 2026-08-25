@@ -57,6 +57,16 @@ export function LeadContactCard({
               <Icon name="mail" style={{ fontSize: "18px" }} />
               <span className="break-all">{email}</span>
             </a>
+            {member.phone && (
+              <a
+                href={`tel:${member.phone.replace(/\s/g, "")}`}
+                aria-label={`${member.name} — ${member.phone}`}
+                className="flex items-center gap-2.5 rounded-sm text-sm text-ink/70 transition-colors hover:text-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-white/70 dark:hover:text-light-purple dark:focus-visible:outline-light-purple"
+              >
+                <Icon name="call" style={{ fontSize: "18px" }} />
+                <span>{member.phone}</span>
+              </a>
+            )}
             <a
               href={member.linkedin ?? COMPANY_LINKEDIN}
               target="_blank"
