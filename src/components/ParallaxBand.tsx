@@ -1,4 +1,3 @@
-import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 import { PillMarquee } from "./marquee/PillMarquee";
 
@@ -10,7 +9,9 @@ import { PillMarquee } from "./marquee/PillMarquee";
  * unreliable) the image simply scrolls with the band, which is the graceful
  * degradation.
  *
- * `role="img"` + `aria-label` carry the alt text a CSS background cannot hold.
+ * The caption is centred; the pill marquee runs edge-to-edge with no gutter so
+ * it is a true full-bleed strip. `role="img"` + `aria-label` carry the alt text
+ * a CSS background cannot hold.
  */
 export function ParallaxBand({
   image,
@@ -33,18 +34,18 @@ export function ParallaxBand({
       {/* Legibility gradient over the photograph. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/45 via-ink/10 to-ink/60" />
 
-      <Container className="relative z-10 pb-24 pt-40 lg:pb-28">
-        <Reveal className="flex justify-center">
+      <div className="relative z-10">
+        <Reveal className="flex justify-center px-6">
           {caption && (
             <p className="max-w-3xl text-center text-xl font-medium leading-relaxed text-white [text-shadow:0_2px_18px_rgba(0,0,0,0.65)] sm:text-2xl lg:text-3xl">
               {caption}
             </p>
           )}
         </Reveal>
-        <div className="mt-14">
+        <div className="mt-14 w-full overflow-hidden">
           <PillMarquee items={pills} duration="40s" monochrome />
         </div>
-      </Container>
+      </div>
     </section>
   );
 }
