@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { linkTo, otherLocaleHref } from "@/lib/links";
+import { servicePages, servicePageLocalised } from "@/content/servicePages";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
 
@@ -58,7 +59,13 @@ export function Nav({
 
   const t = dict.nav;
   const sub: Record<string, { key: string; label: string; href: string }[]> = {
-    services: [],
+    // The Palvelut dropdown lists the keyword-optimised landing pages under
+    // /palvelut, driven by the same content module the pages render from.
+    services: servicePages.map((p) => ({
+      key: p.slug,
+      label: servicePageLocalised(p, locale).title,
+      href: linkTo(locale, `/palvelut/${p.slug}`),
+    })),
     engine: [
       { key: "product", label: t.engineSub.product, href: linkTo(locale, "/engine#tuote") },
       { key: "workflow", label: t.engineSub.workflow, href: linkTo(locale, "/engine#toiminta") },
