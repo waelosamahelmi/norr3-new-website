@@ -17,6 +17,7 @@ import { CaseCard } from "@/components/cards/CaseCard";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { PhotoLinkCard } from "@/components/cards/PhotoLinkCard";
 import { PhotoInterstitial } from "@/components/PhotoInterstitial";
+import { ParallaxBand } from "@/components/ParallaxBand";
 import { ContactBanner } from "@/components/ContactBanner";
 import { DashboardMock } from "@/components/DashboardMock";
 import { StatGrid } from "@/components/StatGrid";
@@ -195,15 +196,13 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </Container>
       </section>
 
-      {/* Values photo with pill overlay */}
-      <Container className="pb-24 lg:pb-32">
-        <PhotoInterstitial
-          image={valuesPhoto.src}
-          alt={valuesPhoto.alt}
-          caption={valuesPhoto.caption}
-          pills={valuePills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }))}
-        />
-      </Container>
+      {/* Values — full-bleed, full-screen CSS parallax band */}
+      <ParallaxBand
+        image={valuesPhoto.src}
+        alt={valuesPhoto.alt}
+        caption={valuesPhoto.caption}
+        pills={valuePills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }))}
+      />
 
       {/* Cases */}
       <section id="caset" className="scroll-mt-24 pb-24 lg:pb-32">
