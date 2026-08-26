@@ -205,7 +205,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       />
 
       {/* Cases */}
-      <section id="caset" className="scroll-mt-24 pb-24 pt-24 lg:pb-32 lg:pt-32">
+      <section id="caset" className="scroll-mt-24 pb-24 pt-8 lg:pb-32 lg:pt-10">
         <Container>
           <SectionHeader
             heading={dict.home.cases.heading}
