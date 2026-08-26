@@ -55,8 +55,8 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
 
   return (
     <>
-      {/* Hero — family-of-tools promise, three CTAs */}
-      <Container className="pt-12 lg:pt-20">
+      {/* Hero — promise + CTAs in one block, no separate intro band */}
+      <Container className="pt-12 lg:pt-16">
         <Reveal>
           <HeroPill>{e.pill}</HeroPill>
         </Reveal>
@@ -65,10 +65,8 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
           accent={e.heroAccent}
           className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
         />
-      </Container>
-      <Container className="pb-24 pt-12 lg:pb-32">
-        <Reveal className="flex flex-col items-start gap-6">
-          <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
+        <Reveal delay={0.1} className="mt-8 flex flex-col items-start gap-6">
+          <p className="max-w-xl text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">
             {e.heroBody}
           </p>
           <div className="flex flex-wrap items-center gap-3">
@@ -83,25 +81,18 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         </Reveal>
       </Container>
 
-      {/* Family of tools — the top message */}
-      <section className="pb-24 lg:pb-32">
-        <Container>
-          <SectionHeader heading={e.family.heading} body={e.family.body} />
-        </Container>
-      </section>
-
       {/* The five apps */}
-      <section className="pb-24 lg:pb-32">
+      <section className="py-16 lg:py-20">
         <Container>
           <SectionHeader heading={e.apps.heading} body={e.apps.body} />
-          <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 xl:grid-cols-5">
+          <StaggerGrid className="mt-12 grid gap-card-gap sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 xl:grid-cols-5">
             {e.apps.items.map((app) => (
               <div
                 key={app.title}
-                className="flex h-full flex-col gap-4 rounded-card bg-pastel-purple/60 p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10"
+                className="flex h-full flex-col gap-4 rounded-card bg-pastel-purple/60 p-6 dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10"
               >
-                <span className="flex h-[64px] w-[64px] items-center justify-center rounded-[5px] bg-violet text-white">
-                  <Icon name={app.icon} style={{ fontSize: "28px" }} />
+                <span className="flex h-[56px] w-[56px] items-center justify-center rounded-[5px] bg-violet text-white">
+                  <Icon name={app.icon} style={{ fontSize: "26px" }} />
                 </span>
                 <h3 className="text-lg font-medium text-ink dark:text-white">{app.title}</h3>
                 <p className="text-sm leading-relaxed text-ink/65 dark:text-white/65">{app.body}</p>
@@ -111,20 +102,20 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         </Container>
       </section>
 
-      {/* Licence what you need — pricing, users, extend later */}
-      <section className="bg-pastel-purple/40 py-24 lg:py-32 dark:bg-white/[0.04]">
+      {/* Licence what you need + users */}
+      <section className="bg-pastel-purple/40 py-16 lg:py-20 dark:bg-white/[0.04]">
         <Container>
           <SectionHeader heading={e.licensing.heading} body={e.licensing.body} />
-          <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-3 lg:mt-16">
+          <StaggerGrid className="mt-12 grid gap-card-gap sm:grid-cols-3 lg:mt-14">
             {e.licensing.points.map((point) => (
               <div
                 key={point.title}
-                className="flex h-full flex-col gap-4 rounded-card bg-white p-card-pad ring-1 ring-black/5 dark:bg-white/[0.04] dark:ring-white/10"
+                className="flex h-full flex-col gap-4 rounded-card bg-white p-6 ring-1 ring-black/5 dark:bg-white/[0.04] dark:ring-white/10"
               >
-                <span className="flex h-[56px] w-[56px] items-center justify-center rounded-[5px] bg-violet text-white">
-                  <Icon name={point.icon} style={{ fontSize: "24px" }} />
+                <span className="flex h-[48px] w-[48px] items-center justify-center rounded-[5px] bg-violet text-white">
+                  <Icon name={point.icon} style={{ fontSize: "22px" }} />
                 </span>
-                <h3 className="text-lg font-medium text-ink dark:text-white">{point.title}</h3>
+                <h3 className="text-base font-medium text-ink dark:text-white">{point.title}</h3>
                 <p className="text-sm leading-relaxed text-ink/65 dark:text-white/65">{point.body}</p>
               </div>
             ))}
@@ -132,25 +123,25 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         </Container>
       </section>
 
-      {/* Setup — 2–6 weeks + the seven setup steps */}
-      <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
+      {/* Setup — 2–6 weeks + the seven steps, compact */}
+      <section className="py-16 lg:py-20">
         <Container>
           <SectionHeader heading={e.setup.heading} body={e.setup.body} />
-          <ol className="mt-14 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:mt-16">
+          <ol className="mt-12 grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:mt-14">
             {e.setup.steps.map((step, i) => (
               <Reveal
                 key={step.title}
                 as="li"
-                delay={i * 0.05}
-                className="flex items-start gap-4 border-t border-black/10 pt-5 dark:border-white/10"
+                delay={i * 0.04}
+                className="flex items-start gap-3 border-t border-black/10 pt-4 dark:border-white/10"
               >
-                <span className="mt-0.5 text-lg font-medium tabular-nums text-purple dark:text-light-purple">
+                <span className="mt-0.5 text-base font-medium tabular-nums text-purple dark:text-light-purple">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="text-base font-medium leading-snug text-ink dark:text-white">{step.title}</h3>
+                  <h3 className="text-[15px] font-medium leading-snug text-ink dark:text-white">{step.title}</h3>
                   {"desc" in step && step.desc && (
-                    <p className="mt-1 text-sm leading-relaxed text-ink/55 dark:text-white/55">{step.desc}</p>
+                    <p className="mt-0.5 text-[13px] leading-relaxed text-ink/55 dark:text-white/55">{step.desc}</p>
                   )}
                 </div>
               </Reveal>
@@ -159,44 +150,33 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         </Container>
       </section>
 
-      {/* Business benefit */}
-      <section className="bg-violet py-24 lg:py-32">
-        <Container>
-          <Reveal className="mx-auto flex max-w-3xl flex-col items-center text-center">
-            <h2 className="text-4xl font-medium leading-[1.1] tracking-tight text-white lg:text-5xl">
-              {e.benefit.heading}
-            </h2>
-            <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-white/75 lg:text-base">{e.benefit.body}</p>
-          </Reveal>
-          <Reveal delay={0.05} className="mt-9 flex flex-wrap justify-center gap-x-8 gap-y-3">
-            {e.benefit.points.map((p) => (
-              <span key={p.label} className="flex items-center gap-2 text-sm text-white/85">
-                <Icon name={p.icon} className="text-yellow" style={{ fontSize: "20px" }} />
-                {p.label}
-              </span>
-            ))}
-          </Reveal>
-        </Container>
-      </section>
-
       {/* Interactive media-mix simulator — the live demo */}
-      <section id="simulator" className="scroll-mt-24 bg-ink py-24 lg:py-32 dark:border-y dark:border-white/10">
+      <section id="simulator" className="scroll-mt-24 bg-ink py-16 lg:py-20 dark:border-y dark:border-white/10">
         <Container>
           <SectionHeader heading={e.simulator.heading} body={e.simulator.body} tone="light" />
-          <Reveal delay={0.1} className="mt-14 lg:mt-16">
+          <Reveal delay={0.1} className="mt-12 lg:mt-14">
             <MediaMixSimulator locale={locale} labels={e.simulator} channels={content.channels} />
           </Reveal>
         </Container>
       </section>
 
-      {/* Close — three CTAs */}
-      <section className="bg-violet py-24 lg:py-32">
+      {/* Benefit + close — one band, one set of CTAs */}
+      <section className="bg-violet py-16 lg:py-20">
         <Container>
-          <Reveal className="flex flex-col items-center gap-7 text-center">
-            <h2 className="max-w-2xl text-4xl font-medium leading-[1.1] tracking-tight text-white lg:text-5xl">
-              {e.family.heading}
+          <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
+            <h2 className="text-3xl font-medium leading-[1.1] tracking-tight text-white lg:text-4xl">
+              {e.benefit.heading}
             </h2>
-            <div className="flex flex-wrap justify-center gap-3">
+            <p className="max-w-xl text-[15px] leading-relaxed text-white/75">{e.benefit.body}</p>
+            <div className="flex flex-wrap justify-center gap-x-7 gap-y-2">
+              {e.benefit.points.map((p) => (
+                <span key={p.label} className="flex items-center gap-2 text-sm text-white/85">
+                  <Icon name={p.icon} className="text-yellow" style={{ fontSize: "18px" }} />
+                  {p.label}
+                </span>
+              ))}
+            </div>
+            <div className="mt-2 flex flex-wrap justify-center gap-3">
               <PillButton href={linkTo(locale, "/contact")} variant="lavender">
                 {dict.common.contactUs}
               </PillButton>
@@ -214,7 +194,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
       <LogoStrip clients={clients} locale={locale} />
 
       {/* Related cases */}
-      <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
+      <section className="py-16 lg:py-20">
         <Container>
           <SectionHeader
             heading={dict.services.relatedCases}
@@ -222,7 +202,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
             cta={dict.common.allCases}
             ctaHref={linkTo(locale, "/cases")}
           />
-          <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+          <StaggerGrid className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
             {related.map((c) => (
               <CaseCard key={c.slug} study={c} locale={locale} ctaLabel={dict.common.readCase} />
             ))}
