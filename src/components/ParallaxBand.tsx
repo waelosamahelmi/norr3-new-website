@@ -34,7 +34,7 @@ export function ParallaxBand({
       {/* Legibility gradient over the photograph. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/45 via-ink/10 to-ink/60" />
 
-      <div className="relative z-10">
+      <div className="relative z-10 pb-24 lg:pb-32">
         <Reveal className="flex justify-center px-6">
           {caption && (
             <p className="max-w-3xl text-center text-xl font-medium leading-relaxed text-white [text-shadow:0_2px_18px_rgba(0,0,0,0.65)] sm:text-2xl lg:text-3xl">
