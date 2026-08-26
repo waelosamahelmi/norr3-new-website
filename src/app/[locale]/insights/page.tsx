@@ -2,7 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
-import { pageSeo } from "@/lib/pageSeo";
+import { pageSeo, robotsDirective } from "@/lib/pageSeo";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { Reveal } from "@/components/Reveal";
@@ -28,8 +28,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/insights
   return {
     title: seo.title,
     description: seo.description,
+    robots: robotsDirective(seo.robots),
     alternates: {
-      canonical: linkTo(locale, "/insights"),
+      canonical: seo.canonical || linkTo(locale, "/insights"),
       languages: { "fi-FI": "/insights", "en-US": "/en/insights" },
     },
     openGraph: {

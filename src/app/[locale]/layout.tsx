@@ -8,7 +8,7 @@ import { CustomBodyEnd, CustomHead } from "@/components/CustomCode";
 import { locales, isLocale } from "@/i18n/config";
 import { getDictionary } from "@/lib/dictionary";
 import { getSiteContent } from "@/lib/cms";
-import { pageSeo } from "@/lib/pageSeo";
+import { pageSeo, robotsDirective } from "@/lib/pageSeo";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
 import { Nav } from "@/components/Nav";
@@ -17,6 +17,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { RouteWipe } from "@/components/RouteWipe";
 import { CookieConsent } from "@/components/CookieConsent";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { Analytics } from "@/components/Analytics";
 import { MotionSettingsProvider } from "@/components/MotionSettingsProvider";
 
 const hostGrotesk = Host_Grotesk({
@@ -65,11 +66,11 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
       apple: [{ url: "/icon-180.png", sizes: "180x180", type: "image/png" }],
     },
     manifest: "/manifest.webmanifest",
-    robots: { index: true, follow: true },
+    robots: robotsDirective(seo.robots),
     title: seo.title,
     description: seo.description,
     alternates: {
-      canonical: linkTo(locale),
+      canonical: seo.canonical || linkTo(locale),
       languages: { "fi-FI": "/", "en-US": "/en" },
     },
     openGraph: {
@@ -121,6 +122,10 @@ export default async function LocaleLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* Google Search Console site verification — content owned by the CMS. */}
+        {content.integrations.gsc && (
+          <meta name="google-site-verification" content={content.integrations.gsc} />
+        )}
         {/* Design-token overrides from the CMS, after the stylesheet so they win. */}
         <ThemeStyle />
         {/* Admin-written CSS and head snippet, after the tokens so it can override them. */}
@@ -153,6 +158,8 @@ export default async function LocaleLayout({
           </main>
           <Footer locale={locale} dict={dict} logo={content.brand.logo} />
           <CookieConsent dict={dict.cookies} locale={locale} />
+          {/* GA4, gated on cookie consent (see the component). */}
+          <Analytics ga4={content.integrations.ga4} />
           </MotionSettingsProvider>
         </MotionConfig>
         <CustomBodyEnd />

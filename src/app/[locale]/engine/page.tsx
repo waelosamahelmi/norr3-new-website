@@ -1,7 +1,7 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
-import { pageSeo } from "@/lib/pageSeo";
+import { pageSeo, robotsDirective } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
 import { dashboardData, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
@@ -30,7 +30,8 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/engine">
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: linkTo(locale, "/engine"), languages: { "fi-FI": "/engine", "en-US": "/en/engine" } },
+    robots: robotsDirective(seo.robots),
+    alternates: { canonical: seo.canonical || linkTo(locale, "/engine"), languages: { "fi-FI": "/engine", "en-US": "/en/engine" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",

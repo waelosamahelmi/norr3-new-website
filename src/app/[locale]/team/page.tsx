@@ -2,7 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
-import { pageSeo } from "@/lib/pageSeo";
+import { pageSeo, robotsDirective } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
 import { imageSlot } from "@/content/imageSlots";
 import { companyStats, dataset } from "@/content/datasets";
@@ -36,7 +36,8 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/team">) 
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: linkTo(locale, "/team"), languages: { "fi-FI": "/team", "en-US": "/en/team" } },
+    robots: robotsDirective(seo.robots),
+    alternates: { canonical: seo.canonical || linkTo(locale, "/team"), languages: { "fi-FI": "/team", "en-US": "/en/team" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",

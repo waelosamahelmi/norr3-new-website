@@ -2,8 +2,37 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 /**
+ * CMS-managed redirects. The CMS exposes them in its public bundle; the
+ * middleware reads them with a short in-memory TTL so a redirect added in the
+ * CMS takes effect without a website rebuild.
+ */
+let redirectsCache: { at: number; map: Map<string, { to: string; status: number }> } | null = null;
+const REDIRECTS_TTL = 60_000;
+
+async function redirectsMap(): Promise<Map<string, { to: string; status: number }>> {
+  if (redirectsCache && Date.now() - redirectsCache.at < REDIRECTS_TTL) return redirectsCache.map;
+  const map = new Map<string, { to: string; status: number }>();
+  try {
+    const res = await fetch("http://127.0.0.1:3848/api/public/site", {
+      signal: AbortSignal.timeout(3000),
+    });
+    if (res.ok) {
+      const data = (await res.json()) as { redirects?: { from: string; to: string; status: number }[] };
+      for (const r of data.redirects ?? []) {
+        if (r.from && r.to) map.set(r.from, { to: r.to, status: Number(r.status) || 301 });
+      }
+    }
+  } catch {
+    /* CMS unreachable — fall back to the cached map or no redirects. */
+  }
+  redirectsCache = { at: Date.now(), map };
+  return map;
+}
+
+/**
  * Finnish lives at the domain root; English under `/en`.
  *
+ *  - CMS-managed redirects are applied first, before any locale rewrite.
  *  - `/en/*` passes straight through (the `[locale]` segment sees `en`).
  *  - every other path is Finnish: rewritten internally to `/fi/*` so the
  *    existing `[locale]` routes keep working while the public URL stays at the
@@ -13,8 +42,17 @@ import type { NextRequest } from "next/server";
  * Both branches tag the request with `x-norr3-locale` so server components
  * that sit outside the `[locale]` segment (the 404 page) know the language.
  */
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // CMS-managed redirects first.
+  const redirects = await redirectsMap();
+  const match = redirects.get(pathname);
+  if (match) {
+    const url = request.nextUrl.clone();
+    url.pathname = match.to;
+    return NextResponse.redirect(url, match.status as 301 | 302 | 307 | 308);
+  }
 
   // Legacy Finnish prefix → root, permanently.
   if (pathname === "/fi" || pathname.startsWith("/fi/")) {

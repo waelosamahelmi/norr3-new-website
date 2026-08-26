@@ -1,7 +1,7 @@
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
-import { pageSeo } from "@/lib/pageSeo";
+import { pageSeo, robotsDirective } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
@@ -33,7 +33,8 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/services
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: linkTo(locale, "/services"), languages: { "fi-FI": "/services", "en-US": "/en/services" } },
+    robots: robotsDirective(seo.robots),
+    alternates: { canonical: seo.canonical || linkTo(locale, "/services"), languages: { "fi-FI": "/services", "en-US": "/en/services" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",

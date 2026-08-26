@@ -2,7 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
-import { pageSeo } from "@/lib/pageSeo";
+import { pageSeo, robotsDirective } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
 import { imageSlot } from "@/content/imageSlots";
 import { Container, HeroPill } from "@/components/Container";
@@ -33,7 +33,8 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/careers"
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: linkTo(locale, "/careers"), languages: { "fi-FI": "/careers", "en-US": "/en/careers" } },
+    robots: robotsDirective(seo.robots),
+    alternates: { canonical: seo.canonical || linkTo(locale, "/careers"), languages: { "fi-FI": "/careers", "en-US": "/en/careers" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",

@@ -2,7 +2,7 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
-import { pageSeo } from "@/lib/pageSeo";
+import { pageSeo, robotsDirective } from "@/lib/pageSeo";
 import { getSiteContent } from "@/lib/cms";
 import { imageSlot } from "@/content/imageSlots";
 import { Container, HeroPill } from "@/components/Container";
@@ -42,8 +42,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
   return {
     title: seo.title,
     description: seo.description,
+    robots: robotsDirective(seo.robots),
     alternates: {
-      canonical: linkTo(locale, "/contact"),
+      canonical: seo.canonical || linkTo(locale, "/contact"),
       languages: { "fi-FI": "/contact", "en-US": "/en/contact" },
     },
     openGraph: {

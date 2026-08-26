@@ -53,7 +53,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
   return [
-    ...CODED_ROUTES.flatMap((route) =>
+    ...CODED_ROUTES.filter((route) => {
+      const robots = content.pageSeo[route === "" ? "home" : route]?.robots ?? "index, follow";
+      return !robots.includes("noindex");
+    }).flatMap((route) =>
       entry(route, {
         changeFrequency: route === "" ? "weekly" : "monthly",
         priority: route === "" ? 1 : 0.8,

@@ -166,7 +166,11 @@ export type SiteContent = {
   /** Named section-image slots on the hand-built pages, keyed by slot. */
   imageSlots: Record<string, { src: string; alt: Record<Locale, string>; caption: Record<Locale, string> }>;
   /** SEO the CMS owns for the hand-built routes, keyed by slug ("home" for /). */
-  pageSeo: Record<string, { title: Record<Locale, string>; description: Record<Locale, string>; ogImage: string }>;
+  pageSeo: Record<string, { title: Record<Locale, string>; description: Record<Locale, string>; ogImage: string; robots: string; canonical: string }>;
+  /** CMS-managed redirects, applied by the middleware. */
+  redirects: { from: string; to: string; status: number }[];
+  /** Third-party wiring (GA4, Search Console) owned by the CMS Settings screen. */
+  integrations: { ga4: string; gsc: string; sitemap: string };
   /** Site-wide custom code, written by an admin in the CMS. */
   code: { css: string; head: string; bodyEnd: string };
   /** Design-token overrides, emitted as CSS custom properties by the root layout. */
@@ -250,6 +254,8 @@ function fallbackContent(error?: string): SiteContent {
     datasets: {},
     imageSlots: {},
     pageSeo: {},
+    redirects: [],
+    integrations: { ga4: "", gsc: "", sitemap: "https://norr3.fi/sitemap.xml" },
     code: { css: "", head: "", bodyEnd: "" },
     theme: { root: {}, dark: {} },
     motion: MOTION_DEFAULTS,
@@ -325,6 +331,8 @@ type RawBundle = {
   datasets?: Record<string, { fi: unknown; en: unknown }>;
   imageSlots?: SiteContent["imageSlots"];
   pageSeo?: SiteContent["pageSeo"];
+  redirects?: unknown[];
+  integrations?: Partial<SiteContent["integrations"]>;
   code?: { css?: string; head?: string; bodyEnd?: string };
   theme?: { root?: Record<string, string>; dark?: Record<string, string> };
   motion?: Partial<MotionSettings>;
@@ -401,6 +409,8 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     datasets: raw.datasets ?? {},
     imageSlots: raw.imageSlots ?? {},
     pageSeo: raw.pageSeo ?? {},
+    redirects: (raw.redirects ?? []) as SiteContent["redirects"],
+    integrations: (raw.integrations ?? fallback.integrations) as SiteContent["integrations"],
     code: {
       css: raw.code?.css ?? "",
       head: raw.code?.head ?? "",
