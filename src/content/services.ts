@@ -96,10 +96,10 @@ export const serviceCards: ServiceCard[] = [
     fi: { title: "Auditit & projektit", body: "Kiinteähintaisia, kestoltaan rajattuja toimeksiantoja — tiedät etukäteen mitä maksat ja milloin valmistuu." },
     en: { title: "Audits & Projects", body: "Fixed-price, fixed-duration work — you know the cost and the deadline up front." },
     items: [
-      { fi: "AI & Marketing Readiness Audit", en: "AI & Marketing Readiness Audit", desc_fi: "2–3 vkoa", desc_en: "2–3 wks" },
-      { fi: "Data Consolidation", en: "Data Consolidation", desc_fi: "3–4 vkoa", desc_en: "3–4 wks" },
-      { fi: "Search & GEO Audit", en: "Search & GEO Audit", desc_fi: "2 vkoa", desc_en: "2 wks" },
-      { fi: "Some Audit", en: "Some Audit", desc_fi: "2 vkoa", desc_en: "2 wks" },
+      { fi: "AI & Marketing Readiness Audit", en: "AI & Marketing Readiness Audit", desc_fi: "Miten valmis markkinointisi on tekoälylle — data, työkalut, osaaminen ja prosessit. 2–3 vkoa.", desc_en: "How ready your marketing is for AI — data, tools, skills and processes. 2–3 wks." },
+      { fi: "Data Consolidation", en: "Data Consolidation", desc_fi: "Yhdistämme hajallaan olevat datalähteet yhdeksi siistiksi, käyttökelpoiseksi pohjaksi. 3–4 vkoa.", desc_en: "Unify scattered data sources into one clean, usable foundation. 3–4 wks." },
+      { fi: "Search & GEO Audit", en: "Search & GEO Audit", desc_fi: "Miten näkyt haussa ja tekoälyavustajien vastauksissa — ja mitä kannattaa korjata ensin. 2 vkoa.", desc_en: "How you show up in search and AI assistant answers — and what to fix first. 2 wks." },
+      { fi: "SOMEAUDIT", en: "SOMEAUDIT", desc_fi: "Some-kanaviesi auditointi: näkyvyys, sisältö ja tehokkuus — ja selkeä kehityslista. 2 vkoa.", desc_en: "An audit of your social channels — visibility, content and performance, with a clear fix list. 2 wks." },
     ],
   },
 ];

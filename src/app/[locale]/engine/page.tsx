@@ -160,7 +160,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
       </section>
 
       {/* Business benefit */}
-      <section className="bg-ink py-24 lg:py-32 dark:border-y dark:border-white/10">
+      <section className="bg-violet py-24 lg:py-32">
         <Container>
           <Reveal className="mx-auto flex max-w-3xl flex-col items-center text-center">
             <h2 className="text-4xl font-medium leading-[1.1] tracking-tight text-white lg:text-5xl">

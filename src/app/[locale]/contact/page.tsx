@@ -97,17 +97,25 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
           response-time promise sits here rather than under the Send button —
           the reassurance is worth more before someone starts typing. */}
       <section className="bg-yellow">
-        <Container className="py-20 lg:py-28">
+        <Container className="py-12 lg:py-16">
           <Reveal>
             {/* The hero band stays yellow in dark mode, so the pill keeps its purple ink. */}
             <HeroPill onLight>{dict.contact.pill}</HeroPill>
           </Reveal>
-          <Reveal delay={0.05}>
-            <h1 className="mt-6 text-[10vw] font-medium leading-[0.95] tracking-tight text-ink lg:text-[6.5rem]">
+          <Reveal delay={0.05} className="mt-5 flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
+            <h1 className="text-[8vw] font-medium leading-[0.95] tracking-tight text-ink lg:text-[4.5rem]">
               {dict.contact.heading}
             </h1>
+            {/* Email surfaced at the top — the one thing most visitors came for */}
+            <a
+              href="mailto:info@norr3.fi"
+              className="inline-flex items-center gap-2.5 rounded-full bg-white/70 px-5 py-3 text-base font-medium text-ink transition-colors hover:bg-white"
+            >
+              <Icon name="mail" style={{ fontSize: "20px" }} />
+              {dict.footer.email}
+            </a>
           </Reveal>
-          <Reveal delay={0.15} className="mt-6 flex flex-col items-start gap-6">
+          <Reveal delay={0.15} className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
             <p className="max-w-xl text-[15px] leading-relaxed text-ink/80 lg:text-base">{dict.contact.body}</p>
             <p className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-xs font-medium text-ink/80">
               <Icon name="schedule" style={{ fontSize: "16px" }} />
