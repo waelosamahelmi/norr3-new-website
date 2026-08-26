@@ -18,6 +18,7 @@ import { ContactBanner } from "@/components/ContactBanner";
 import { Icon } from "@/components/Icon";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
+import { servicePages, servicePageLocalised } from "@/content/servicePages";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/services">) {
   const { locale } = await params;
@@ -119,6 +120,26 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           </StaggerGrid>
         </Container>
       </section>
+
+      {/* Deep-dive landing pages — the keyword-optimised sub-pages under
+          /palvelut, linked from the hub for SEO and navigation. */}
+      <Container className="pb-16 lg:pb-20">
+        <Reveal className="flex flex-wrap gap-3">
+          {servicePages.map((p) => {
+            const pt = servicePageLocalised(p, locale);
+            return (
+              <a
+                key={p.slug}
+                href={linkTo(locale, `/palvelut/${p.slug}`)}
+                className="group inline-flex items-center gap-2 rounded-full border border-ink/25 bg-white px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white dark:border-white/25 dark:bg-white/5 dark:text-white dark:hover:bg-white dark:hover:text-ink"
+              >
+                <Icon name={p.icon} style={{ fontSize: "18px" }} />
+                {pt.title}
+              </a>
+            );
+          })}
+        </Reveal>
+      </Container>
 
       {/* Marketing Engine — the products live in one platform, not as a box.
           This band is the single home for the demo/call/contact CTAs. */}

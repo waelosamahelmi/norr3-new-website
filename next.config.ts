@@ -27,9 +27,6 @@ const nextConfig: NextConfig = {
       { source: "/en/cases/:slug", destination: "/en/:slug", permanent: true },
       { source: "/en/insights/:slug", destination: "/en/:slug", permanent: true },
 
-      // ── Old service sub-pages → the single services page ────────────────────
-      { source: "/palvelut/:path*", destination: "/services", permanent: true },
-
       // ── Old Finnish pages ───────────────────────────────────────────────────
       { source: "/caset", destination: "/cases", permanent: true },
       { source: "/meista", destination: "/about", permanent: true },
