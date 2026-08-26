@@ -76,6 +76,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           left={s.heroLeft}
           accent={s.heroAccent}
           accents={s.heroAccentWords}
+          stack
           className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
         />
       </Container>
@@ -130,7 +131,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             return (
               <a
                 key={p.slug}
-                href={linkTo(locale, `/palvelut/${p.slug}`)}
+                href={linkTo(locale, `/${p.slug}`)}
                 className="group inline-flex items-center gap-2 rounded-full border border-ink/25 bg-white px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white dark:border-white/25 dark:bg-white/5 dark:text-white dark:hover:bg-white dark:hover:text-ink"
               >
                 <Icon name={p.icon} style={{ fontSize: "18px" }} />

@@ -64,7 +64,7 @@ export function Nav({
     services: servicePages.map((p) => ({
       key: p.slug,
       label: servicePageLocalised(p, locale).title,
-      href: linkTo(locale, `/palvelut/${p.slug}`),
+      href: linkTo(locale, `/${p.slug}`),
     })),
     engine: [
       { key: "product", label: t.engineSub.product, href: linkTo(locale, "/engine#tuote") },

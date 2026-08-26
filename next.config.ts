@@ -27,6 +27,10 @@ const nextConfig: NextConfig = {
       { source: "/en/cases/:slug", destination: "/en/:slug", permanent: true },
       { source: "/en/insights/:slug", destination: "/en/:slug", permanent: true },
 
+      // ── Old service prefix → the root slug (services now live at /<slug>) ──
+      { source: "/palvelut/:slug", destination: "/:slug", permanent: true },
+      { source: "/en/palvelut/:slug", destination: "/en/:slug", permanent: true },
+
       // ── Old Finnish pages ───────────────────────────────────────────────────
       { source: "/caset", destination: "/cases", permanent: true },
       { source: "/meista", destination: "/about", permanent: true },

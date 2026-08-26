@@ -5,6 +5,8 @@ import { buildBlockContext } from "@/components/blocks/context";
 import { BlockRenderer } from "@/components/blocks/BlockRenderer";
 import { CaseDetailView } from "@/components/views/CaseDetailView";
 import { InsightArticleView } from "@/components/views/InsightArticleView";
+import { ServiceLandingView } from "@/components/views/ServiceLandingView";
+import { servicePageFor, servicePageLocalised, servicePages } from "@/content/servicePages";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
 
@@ -16,7 +18,8 @@ import { ogImage } from "@/lib/ogImage";
  *  2. case studies — `/kiinteistomaailma`, `/st1` — the same URLs the old
  *     WordPress site used, so their accumulated SEO carries over unchanged;
  *  3. insight posts — `/isojen-ruutujen-trendit`;
- *  4. pages composed in the CMS page editor — any slug an editor publishes.
+ *  4. service landing pages — `/hakukoneoptimointi`, `/mediasuunnittelu` …;
+ *  5. pages composed in the CMS page editor — any slug an editor publishes.
  *
  * The section URLs (`/cases/st1`, `/insights/…`) 301 to these root slugs, so
  * there is exactly one canonical URL per piece of content.
@@ -29,6 +32,7 @@ export async function generateStaticParams() {
   return [
     ...content.cases.map((study) => ({ slug: [study.slug] })),
     ...content.posts.map((post) => ({ slug: [post.slug] })),
+    ...servicePages.map((page) => ({ slug: [page.slug] })),
   ];
 }
 
@@ -92,6 +96,30 @@ export async function generateMetadata({ params }: Params) {
     };
   }
 
+  // Service landing page at the root slug.
+  const servicePage = slug.length === 1 ? servicePageFor(slug[0]) : undefined;
+  if (servicePage) {
+    const t = servicePageLocalised(servicePage, locale);
+    return {
+      title: t.metaTitle,
+      description: t.metaDescription,
+      alternates: {
+        canonical: linkTo(locale, `/${slug[0]}`),
+        languages: { "fi-FI": `/${slug[0]}`, "en-US": `/en/${slug[0]}` },
+      },
+      openGraph: {
+        type: "website" as const,
+        siteName: "NØRR3",
+        url: `https://norr3.fi${linkTo(locale, `/${slug[0]}`)}`,
+        locale: locale === "fi" ? "fi_FI" : "en_US",
+        title: t.metaTitle,
+        description: t.metaDescription,
+        images: [{ url: ogImage("/images/brand/services-planning.webp"), width: 1600, height: 1066, alt: t.title }],
+      },
+      twitter: { card: "summary_large_image" as const, title: t.metaTitle, description: t.metaDescription, images: [ogImage("/images/brand/services-planning.webp")] },
+    };
+  }
+
   // A page composed in the CMS page editor.
   const page = await getCmsPage(path);
   if (!page) return {};
@@ -142,6 +170,11 @@ export default async function RootSlugPage({ params }: Params) {
     if (post) {
       const dict = (await getSiteContent()).dictionaries[locale];
       return <InsightArticleView post={post} locale={locale} dict={dict} />;
+    }
+
+    const servicePage = servicePageFor(slug[0]);
+    if (servicePage) {
+      return <ServiceLandingView page={servicePage} locale={locale} />;
     }
   }
 

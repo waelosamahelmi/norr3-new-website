@@ -1,7 +1,6 @@
-import { isLocale } from "@/i18n/config";
-import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
 import { linkTo } from "@/lib/links";
+import type { Locale } from "@/i18n/config";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
@@ -9,48 +8,16 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ContactBanner } from "@/components/ContactBanner";
 import { Icon } from "@/components/Icon";
-import { servicePageFor, servicePageLocalised, servicePages } from "@/content/servicePages";
-import { ogImage } from "@/lib/ogImage";
+import { servicePageLocalised, servicePages, type ServicePage } from "@/content/servicePages";
 
-export function generateStaticParams() {
-  return ["fi", "en"].flatMap((locale) => servicePages.map((page) => ({ locale, slug: page.slug })));
-}
-
-export async function generateMetadata({ params }: PageProps<"/[locale]/palvelut/[slug]">) {
-  const { locale, slug } = await params;
-  if (!isLocale(locale)) return {};
-  const page = servicePageFor(slug);
-  if (!page) return {};
-  const t = servicePageLocalised(page, locale);
-  return {
-    title: t.metaTitle,
-    description: t.metaDescription,
-    alternates: {
-      canonical: linkTo(locale, `/palvelut/${slug}`),
-      languages: { "fi-FI": `/palvelut/${slug}`, "en-US": `/en/palvelut/${slug}` },
-    },
-    openGraph: {
-      type: "website" as const,
-      siteName: "NØRR3",
-      url: `https://norr3.fi${linkTo(locale, `/palvelut/${slug}`)}`,
-      locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: t.metaTitle,
-      description: t.metaDescription,
-      images: [{ url: ogImage("/images/brand/services-planning.webp"), width: 1600, height: 1066, alt: t.title }],
-    },
-    twitter: { card: "summary_large_image" as const, title: t.metaTitle, description: t.metaDescription, images: [ogImage("/images/brand/services-planning.webp")] },
-  };
-}
-
-export default async function ServiceLandingPage({ params }: PageProps<"/[locale]/palvelut/[slug]">) {
-  const { locale, slug } = await params;
-  if (!isLocale(locale)) notFound();
-  const page = servicePageFor(slug);
-  if (!page) notFound();
+/**
+ * A keyword-optimised service landing page, rendered at a root slug
+ * (`/hakukoneoptimointi`, `/mediasuunnittelu` …) via the [...slug] catch-all.
+ */
+export async function ServiceLandingView({ page, locale }: { page: ServicePage; locale: Locale }) {
   const dict = await getDictionary(locale);
   const t = servicePageLocalised(page, locale);
-
-  const related = servicePages.filter((p) => p.slug !== slug);
+  const related = servicePages.filter((p) => p.slug !== page.slug);
 
   return (
     <>
@@ -117,7 +84,7 @@ export default async function ServiceLandingPage({ params }: PageProps<"/[locale
               return (
                 <a
                   key={p.slug}
-                  href={linkTo(locale, `/palvelut/${p.slug}`)}
+                  href={linkTo(locale, `/${p.slug}`)}
                   className="group inline-flex items-center gap-2 rounded-full border border-ink/25 bg-white px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white dark:border-white/25 dark:bg-white/5 dark:text-white dark:hover:bg-white dark:hover:text-ink"
                 >
                   <Icon name={p.icon} style={{ fontSize: "18px" }} />

@@ -26,6 +26,7 @@ export function SplitHeadline({
   accent,
   accents,
   middle,
+  stack = false,
   className = "",
   children,
 }: {
@@ -34,6 +35,8 @@ export function SplitHeadline({
   /** Cycle the accent word through these; falls back to the static `accent`. */
   accents?: string[];
   middle?: ReactNode;
+  /** Force the accent word onto its own line below `left`. */
+  stack?: boolean;
   className?: string;
   children?: ReactNode;
 }) {
@@ -81,7 +84,7 @@ export function SplitHeadline({
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="block"
+          className={stack ? "block basis-full" : "block"}
         >
           <motion.span
             key={shownAccent}
