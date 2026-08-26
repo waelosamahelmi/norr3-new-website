@@ -178,7 +178,7 @@ const fi = {
     menu: "Valikko",
     toggleTheme: "Vaihda vaaleaan tai tummaan teemaan",
     contactUs: "Ota yhteyttä",
-    briefUs: "Brieffaa meidät",
+    briefUs: "Briefaa meidät",
     allServices: "Kaikki palvelut",
     allCases: "Kaikki caset",
     allInsights: "Kaikki artikkelit",
@@ -332,6 +332,7 @@ const fi = {
     pill: "ENGINE",
     heroLeft: "One Platform to",
     heroAccent: "Deliver",
+    heroAccentWords: ["Deliver", "Automate", "Optimise", "Scale"],
     heroBody:
       "NØRR3 Marketing Engine on työkaluperhe, joka automatisoi markkinoinnin — ja tekee mediasta kasvun moottorin.",
     family: {
@@ -344,7 +345,7 @@ const fi = {
       items: [
         { icon: "campaign", title: "Kampanjat", body: "Suunnittele, osta ja operoi kaikki kanavat yhdestä paikasta — briiffistä toteutukseen." },
         { icon: "space_dashboard", title: "Dashboard", body: "Reaaliaikainen raportointi ja mittaus. Tulokset näkyvät, ei väitetä." },
-        { icon: "auto_awesome", title: "Luova-automaatio", body: "Tuhansia aineistoversioita yhdestä masterista — DCO ja syötepohjainen luova." },
+        { icon: "auto_awesome", title: "Luova automaatio", body: "Tuhansia aineistoversioita yhdestä masterista — DCO ja syötepohjainen luova." },
         { icon: "insights", title: "Media Insights", body: "Yleisö- ja mediankäyttödata suunnittelun pohjaksi — päätökset datalla, ei mutulla." },
         { icon: "hub", title: "Integraatiot", body: "Data layer yhdistää tuote-, varasto- ja CRM-datan kampanjoihisi." },
       ],
@@ -360,7 +361,7 @@ const fi = {
     },
     setup: {
       heading: "Käyttöönotto",
-      body: "Setup-projekti on helppo ja vie yleensä 2–6 viikkoa riippuen tarpeesta.",
+      body: "Setup-projekti on helppoa ja vie yleensä 2–6 viikkoa riippuen tarpeesta.",
       steps: [
         { title: "Liiketoimintatarpeen määrittely" },
         { title: "Kampanjaprosessin suunnittelu", desc: "Jos Campaign-appi on mukana." },
@@ -386,9 +387,9 @@ const fi = {
       subtitle: "Reaaliaikainen suorituskyky · päivitetty 2 min sitten",
       newCampaign: "+ Uusi kampanja",
       kpi: {
-        campaigns: "Aktiiviset kampanjat",
+        campaigns: "Kampanjat",
         impressions: "Mainosnäytöt",
-        ctr: "Keskimääräinen CTR",
+        ctr: "CTR",
         conversions: "Konversiot",
         spend: "Mediapanostus",
       },
@@ -412,7 +413,7 @@ const fi = {
       cpmLabel: "Painotettu keski-CPM",
       channelsLabel: "Kanavat",
       splitLabel: "Budjetin jakauma",
-      spendLabel: "Panostus per kanava",
+      spendLabel: "Kanavakohtainen panostus",
       dividerLabel: "Säädä osuutta nuolinäppäimillä",
       resetLabel: "Palauta oletukset",
       note: "Havainnollistava laskelma NØRR3:n mediadatan tyypillisistä suhteista — ei takuu tietylle kampanjalle.",
@@ -1159,6 +1160,7 @@ const en: Dictionary = {
     pill: "ENGINE",
     heroLeft: "One Platform to",
     heroAccent: "Deliver",
+    heroAccentWords: ["Deliver", "Automate", "Optimise", "Scale"],
     heroBody:
       "The NØRR3 Marketing Engine is a family of tools that automates marketing — making media a growth engine.",
     family: {
@@ -1213,9 +1215,9 @@ const en: Dictionary = {
       subtitle: "Real-time performance · updated 2 min ago",
       newCampaign: "+ New campaign",
       kpi: {
-        campaigns: "Active campaigns",
+        campaigns: "Campaigns",
         impressions: "Total impressions",
-        ctr: "Average CTR",
+        ctr: "CTR",
         conversions: "Conversions",
         spend: "Media spend",
       },
