@@ -168,7 +168,7 @@ const scores = [
 
 const aiPlan = {
   intro:
-    "Jokainen yllä oleva korjaus on toteutettavissa tekoälyllä — mutta vain oikeilla prompteilla. Tämä on NØRR3:n oma promptikirjasto: kopioi, täytä hakasulkeiset kohdat ja aja. Promptit on kirjoitettu niin, että tulos kuulostaa meiltä — ei geneeriseltä AI-tekstiltä. Sääntö: AI tuottaa luonnoksen, ihminen hyväksyy ja teroittaa. Aina.",
+    "Jokainen yllä oleva korjaus on toteutettavissa tekoälyllä — mutta vain oikeilla prompteilla. Tämä on NØRR3:n oma promptikirjasto: lataa playbook, täytä hakasulkeiset kohdat ja aja. Promptit on kirjoitettu niin, että tulos kuulostaa meiltä — ei geneeriseltä AI-tekstiltä. Sääntö: AI tuottaa luonnoksen, ihminen hyväksyy ja teroittaa. Aina.",
   workflow: [
     { step: "01", title: "Kerää raaka-aine", body: "Anna AI:lle konteksti: brand-ääni, kilpailija-analyysi, avainsanadata. Ilman tätä tulokset ovat geneerisiä." },
     { step: "02", title: "Generoi luonnos promptilla", body: "Käytä alla olevia prompteja sellaisenaan. Ne pakottavat AI:n kirjoittamaan NØRR3:n äänellä, FI + EN." },
@@ -178,6 +178,7 @@ const aiPlan = {
   prompts: [
     {
       id: "blog",
+      file: "01-blogiartikkeli.md",
       icon: "edit_note",
       title: "Blogiartikkelin tuotanto (prioriteetti 1)",
       goal: "Tuottaa 600–900 sanan hakukoneoptimoitu artikkeli, joka kuulostaa NØRR3:lle ja voittaa SDM:n geneerisen sisällön.",
@@ -201,6 +202,7 @@ Muoto: palauta Markdown, jossa H1, meta-kuvaus, H2-osiot ja CTA selvästi erotel
     },
     {
       id: "service-page",
+      file: "02-palvelusivun-syventaminen.md",
       icon: "web",
       title: "Palvelusivun syventäminen (prioriteetti 2 + 8)",
       goal: "Muuttaa 280 sanan palvelusivu 600–900 sanan kattavaksi sivuksi, joka voittaa SDM:n 3000-sanaiset mutta geneeriset sivut tiiviudella.",
@@ -223,6 +225,7 @@ Palauta: Markdown, H1 + intro + numeroidut osiot + FAQ + CTA. Suomeksi. Lisää 
     },
     {
       id: "lead-magnet",
+      file: "03-lead-magnet-opas.md",
       icon: "download",
       title: "Lead magnet -opas (prioriteetti 3)",
       goal: "Luoda PDF-opas joka kerää sähköposteja kuten SDM:n oppaat — mutta meidän oppaamme on käytännöllinen työkalu, ei 40 sivun myyntipuhe.",
@@ -242,6 +245,7 @@ Muoto: palauta Markdown, jossa on selkeästi eroteltuna (a) opaan sisältö (b) 
     },
     {
       id: "schema",
+      file: "04-schema-markup.md",
       icon: "code",
       title: "Schema-markupin toteutus (prioriteetti 4)",
       goal: "Lisätä BreadcrumbList, Service ja FAQPage schema jokaiselle palvelusivulle — Rich Snippet -näkyvyyteen.",
@@ -270,6 +274,7 @@ Tarkista: jokainen lohko on erillinen script-tagi, ei yhdistetty.`,
     },
     {
       id: "author",
+      file: "05-tekijasivut.md",
       icon: "badge",
       title: "Tekijäsivujen sisältö (prioriteetti 5)",
       goal: "Luoda jokaiselle tiimiläiselle tekijäsivu joka vahvistaa E-E-A_T-signaalia ja listaa heidän artikkelinsa.",
@@ -289,6 +294,7 @@ Muoto: 150–250 sanaa, suomeksi ja englanniksi. Ei kolmatta persoonaa yliptyvä
     },
     {
       id: "newsletter",
+      file: "06-uutiskirje.md",
       icon: "mark_email_read",
       title: "Uutiskirjeen konsepti (prioriteetti 7)",
       goal: "Suunnitella kuukausittainen uutiskirje joka tuo liidejä ilman että se on pelkkä blogi-mainos.",
@@ -311,6 +317,7 @@ Muoto: Markdown. Suomeksi.`,
     },
     {
       id: "competitor-monitor",
+      file: "07-kilpailijaseuranta.md",
       icon: "query_stats",
       title: "Kilpailijaseurannan automaatio (bonus)",
       goal: "Kuukausittainen automaattinen raportti joka näyttää missä SDM liikkuu — jotta reagoimme ennen kuin he saavat etumatkaa.",
@@ -329,6 +336,7 @@ Muoto: Markdown-taulukot. Suunnittele niin, että sen voi täyttää 15 minuutis
     },
     {
       id: "geo",
+      file: "08-geo-ai-lloydettavyys.md",
       icon: "auto_awesome",
       title: "GEO / AI-löydettävyyden optimointi (bonus — tulevaisuus)",
       goal: "Optimoida sisältö niin, että ChatGPT, Gemini ja muut AI-assistentit suosittelevat NØRR3:aa kun niiltä kysyy mediatoimistosta.",
@@ -570,7 +578,17 @@ export default async function SeoReportPage({ params }: PageProps<"/[locale]/seo
                     <Icon name={p.icon} style={{ fontSize: "22px" }} />
                   </span>
                   <div>
-                    <h3 className="text-base font-medium text-ink dark:text-white">{p.title}</h3>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <h3 className="text-base font-medium text-ink dark:text-white">{p.title}</h3>
+                      <a
+                        href={`/seo-playbooks/${p.file}`}
+                        download
+                        className="inline-flex items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.08em] text-white transition-colors hover:bg-purple dark:bg-purple dark:hover:bg-violet"
+                      >
+                        <Icon name="download" style={{ fontSize: "14px" }} />
+                        Lataa playbook
+                      </a>
+                    </div>
                     <p className="mt-1 max-w-xl text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{p.goal}</p>
                   </div>
                 </div>
