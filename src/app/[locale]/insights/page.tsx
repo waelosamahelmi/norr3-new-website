@@ -78,6 +78,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
             left={dict.insights.heroLeft}
             accent={dict.insights.heroAccent}
             accents={dict.insights.heroAccentWords}
+            stack
             className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
           />
         </Reveal>
