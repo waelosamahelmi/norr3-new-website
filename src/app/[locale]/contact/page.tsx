@@ -13,6 +13,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { LeadContactCard } from "@/components/cards/LeadContactCard";
 import { LogoStrip } from "@/components/marquee/LogoStrip";
 import { PillButton } from "@/components/PillButton";
+import { BookingButton } from "@/components/BookingButton";
 import { Icon } from "@/components/Icon";
 import { MediaAsset } from "@/components/MediaAsset";
 import { linkTo } from "@/lib/links";
@@ -132,6 +133,14 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
               <Icon name="schedule" style={{ fontSize: "16px" }} />
               {dict.contact.responseTime}
             </p>
+          </Reveal>
+          <Reveal delay={0.2} className="mt-6 flex flex-wrap items-center gap-3">
+            <BookingButton kind="demo" locale={locale}>
+              {dict.common.bookDemo}
+            </BookingButton>
+            <BookingButton kind="meeting" locale={locale} variant="secondary">
+              {dict.common.bookCall}
+            </BookingButton>
           </Reveal>
         </Container>
       </section>

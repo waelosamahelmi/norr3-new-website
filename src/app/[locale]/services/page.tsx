@@ -6,6 +6,7 @@ import { getSiteContent } from "@/lib/cms";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
+import { BookingButton } from "@/components/BookingButton";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -90,9 +91,9 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
-            <PillButton href={linkTo(locale, "/contact")} variant="secondary">
+            <BookingButton kind="meeting" locale={locale} variant="secondary">
               {dict.common.bookCall}
-            </PillButton>
+            </BookingButton>
           </div>
         </Reveal>
       </Container>
@@ -166,12 +167,12 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             ))}
           </Reveal>
           <Reveal delay={0.1} className="mt-10 flex flex-wrap justify-center gap-3">
-            <PillButton href={linkTo(locale, "/engine")} variant="lavender">
+            <BookingButton kind="demo" locale={locale} variant="lavender">
               {dict.common.bookDemo}
-            </PillButton>
-            <PillButton href={linkTo(locale, "/contact")} variant="outlineLight">
+            </BookingButton>
+            <BookingButton kind="meeting" locale={locale} variant="outlineLight">
               {dict.common.bookCall}
-            </PillButton>
+            </BookingButton>
             <PillButton href={linkTo(locale, "/contact")} variant="outlineLight">
               {dict.common.contactUs}
             </PillButton>

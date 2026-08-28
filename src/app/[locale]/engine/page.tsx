@@ -7,6 +7,7 @@ import { dashboardData, dataset } from "@/content/datasets";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
+import { BookingButton } from "@/components/BookingButton";
 import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -72,12 +73,12 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
             </p>
             <div className="flex flex-wrap items-center gap-3">
               <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
-              <PillButton href="#simulator" variant="secondary">
+              <BookingButton kind="demo" locale={locale} variant="secondary">
                 {dict.common.bookDemo}
-              </PillButton>
-              <PillButton href={linkTo(locale, "/contact")} variant="secondary">
+              </BookingButton>
+              <BookingButton kind="meeting" locale={locale} variant="secondary">
                 {dict.common.bookCall}
-              </PillButton>
+              </BookingButton>
             </div>
           </Reveal>
           <Reveal delay={0.1}>
@@ -171,12 +172,12 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
               <PillButton href={linkTo(locale, "/contact")} variant="lavender">
                 {dict.common.contactUs}
               </PillButton>
-              <PillButton href="#simulator" variant="outlineLight">
+              <BookingButton kind="demo" locale={locale} variant="outlineLight">
                 {dict.common.bookDemo}
-              </PillButton>
-              <PillButton href={linkTo(locale, "/contact")} variant="outlineLight">
+              </BookingButton>
+              <BookingButton kind="meeting" locale={locale} variant="outlineLight">
                 {dict.common.bookCall}
-              </PillButton>
+              </BookingButton>
             </div>
           </Reveal>
         </Container>

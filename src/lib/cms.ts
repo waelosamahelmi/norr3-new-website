@@ -526,7 +526,7 @@ const INGEST_SECRET = process.env.NORR3_CMS_INGEST_SECRET ?? "";
  * shared secret never reaches the browser.
  */
 export async function submitToCms(
-  form: "contact" | "brief" | "application" | "idea",
+  form: "contact" | "brief" | "application" | "idea" | "demo" | "meeting",
   data: Record<string, unknown>
 ): Promise<{ ok: boolean; error?: string }> {
   if (!INGEST_SECRET) {
