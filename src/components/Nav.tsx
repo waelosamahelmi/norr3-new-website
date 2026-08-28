@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
+import { Icon } from "./Icon";
 import { linkTo, otherLocaleHref } from "@/lib/links";
 import { servicePages, servicePageLocalised } from "@/content/servicePages";
 import type { Dictionary } from "@/content/dictionary";
@@ -58,14 +59,75 @@ export function Nav({
   }, [pathname]);
 
   const t = dict.nav;
+
+  // The Palvelut mega-menu: main services as columns, their subservices under
+  // each. Structure mirrors the 6-box service map on /services.
+  const MEGA_GROUPS: { key: string; label: string; href: string; icon: string; children: { key: string; label: string; href: string }[] }[] = [
+    {
+      key: "insight",
+      label: locale === "fi" ? "Insight & Strategia" : "Insight & Strategy",
+      href: linkTo(locale, "/insight-strategia"),
+      icon: "strategy",
+      children: [
+        { key: "is", label: servicePageLocalised(servicePages.find((p) => p.slug === "insight-strategia")!, locale).title, href: linkTo(locale, "/insight-strategia") },
+        { key: "ms", label: servicePageLocalised(servicePages.find((p) => p.slug === "markkinointistrategia")!, locale).title, href: linkTo(locale, "/markkinointistrategia") },
+        { key: "mediastrat", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediastrategia")!, locale).title, href: linkTo(locale, "/mediastrategia") },
+        { key: "tutk", label: servicePageLocalised(servicePages.find((p) => p.slug === "tutkimukset")!, locale).title, href: linkTo(locale, "/tutkimukset") },
+      ],
+    },
+    {
+      key: "media",
+      label: locale === "fi" ? "Mediapalvelut" : "Media Services",
+      href: linkTo(locale, "/mediasuunnittelu"),
+      icon: "campaign",
+      children: [
+        { key: "ms", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediasuunnittelu")!, locale).title, href: linkTo(locale, "/mediasuunnittelu") },
+        { key: "radio", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediasuunnittelu/radio")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/radio") },
+        { key: "tv", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediasuunnittelu/televisio")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/televisio") },
+        { key: "oo", label: servicePageLocalised(servicePages.find((p) => p.slug === "/ulkomainonta".slice(1))!, locale).title, href: linkTo(locale, "/ulkomainonta") },
+        { key: "mi", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediasuunnittelu/norr3-media-insights")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/norr3-media-insights") },
+      ],
+    },
+    {
+      key: "digital",
+      label: locale === "fi" ? "Digimainonta" : "Digital Advertising",
+      href: linkTo(locale, "/display-ja-videomainonta"),
+      icon: "grid_view",
+      children: [
+        { key: "dv", label: servicePageLocalised(servicePages.find((p) => p.slug === "display-ja-videomainonta")!, locale).title, href: linkTo(locale, "/display-ja-videomainonta") },
+        { key: "sm", label: servicePageLocalised(servicePages.find((p) => p.slug === "somemarkkinointi")!, locale).title, href: linkTo(locale, "/somemarkkinointi") },
+        { key: "hm", label: servicePageLocalised(servicePages.find((p) => p.slug === "hakukonemainonta")!, locale).title, href: linkTo(locale, "/hakukonemainonta") },
+        { key: "oo2", label: servicePageLocalised(servicePages.find((p) => p.slug === "ohjelmallinen-ostaminen")!, locale).title, href: linkTo(locale, "/ohjelmallinen-ostaminen") },
+        { key: "dm", label: servicePageLocalised(servicePages.find((p) => p.slug === "dynaaminen-mainonta")!, locale).title, href: linkTo(locale, "/dynaaminen-mainonta") },
+      ],
+    },
+    {
+      key: "perf",
+      label: locale === "fi" ? "Performance & data" : "Performance & Data",
+      href: linkTo(locale, "/performance-markkinointi"),
+      icon: "trending_up",
+      children: [
+        { key: "pm", label: servicePageLocalised(servicePages.find((p) => p.slug === "performance-markkinointi")!, locale).title, href: linkTo(locale, "/performance-markkinointi") },
+        { key: "dm2", label: servicePageLocalised(servicePages.find((p) => p.slug === "data-ja-mittaus")!, locale).title, href: linkTo(locale, "/data-ja-mittaus") },
+        { key: "db", label: servicePageLocalised(servicePages.find((p) => p.slug === "data-ja-mittaus/dashboardit")!, locale).title, href: linkTo(locale, "/data-ja-mittaus/dashboardit") },
+        { key: "dmod", label: servicePageLocalised(servicePages.find((p) => p.slug === "data-ja-mittaus/datan-mallintaminen")!, locale).title, href: linkTo(locale, "/data-ja-mittaus/datan-mallintaminen") },
+      ],
+    },
+    {
+      key: "seo-ai",
+      label: locale === "fi" ? "SEO, GEO & AI" : "SEO, GEO & AI",
+      href: linkTo(locale, "/hakukoneoptimointi"),
+      icon: "search",
+      children: [
+        { key: "seo", label: servicePageLocalised(servicePages.find((p) => p.slug === "hakukoneoptimointi")!, locale).title, href: linkTo(locale, "/hakukoneoptimointi") },
+        { key: "ai", label: servicePageLocalised(servicePages.find((p) => p.slug === "ai-optimointi")!, locale).title, href: linkTo(locale, "/ai-optimointi") },
+        { key: "luovat", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediasuunnittelu/luovat")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/luovat") },
+      ],
+    },
+  ];
+
   const sub: Record<string, { key: string; label: string; href: string }[]> = {
-    // The Palvelut dropdown lists the keyword-optimised landing pages under
-    // /palvelut, driven by the same content module the pages render from.
-    services: servicePages.map((p) => ({
-      key: p.slug,
-      label: servicePageLocalised(p, locale).title,
-      href: linkTo(locale, `/${p.slug}`),
-    })),
+    services: MEGA_GROUPS.flatMap((g) => g.children),
     engine: [
       { key: "product", label: t.engineSub.product, href: linkTo(locale, "/engine#tuote") },
       { key: "workflow", label: t.engineSub.workflow, href: linkTo(locale, "/engine#toiminta") },
@@ -181,7 +243,59 @@ export function Nav({
                 </Link>
 
                 <AnimatePresence>
-                  {hasChildren && subOpen === item.key && (
+                  {hasChildren && subOpen === item.key && item.key === "services" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 6 }}
+                      transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute left-0 top-full z-50 mt-1"
+                    >
+                      <div
+                        role="menu"
+                        aria-label={item.label}
+                        className="w-[min(80vw,1060px)] overflow-hidden rounded-card bg-white p-5 shadow-[0_24px_60px_rgba(0,0,0,0.16)] ring-1 ring-black/5 sm:p-6 dark:bg-[#171225] dark:ring-white/10"
+                      >
+                        <div className="grid grid-cols-2 gap-x-5 gap-y-5 md:grid-cols-3 lg:grid-cols-5">
+                          {MEGA_GROUPS.map((group) => (
+                            <div key={group.key}>
+                              <Link
+                                href={group.href}
+                                className="group/g flex items-center gap-2 rounded-[10px] px-2 py-1.5 text-[13px] font-semibold text-ink transition-colors hover:text-purple dark:text-white dark:hover:text-light-purple"
+                              >
+                                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[5px] bg-violet text-white">
+                                  <Icon name={group.icon} className="text-[16px]" />
+                                </span>
+                                {group.label}
+                              </Link>
+                              <ul className="mt-1.5 space-y-0.5">
+                                {group.children.map((child) => (
+                                  <li key={child.key}>
+                                    <Link
+                                      href={child.href}
+                                      role="menuitem"
+                                      className="block rounded-[8px] px-2 py-1.5 text-[12.5px] leading-snug text-ink/70 transition-colors hover:bg-pastel-purple/50 hover:text-ink dark:text-white/70 dark:hover:bg-white/10 dark:hover:text-white"
+                                    >
+                                      {child.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="mt-5 flex items-center justify-between border-t border-black/[0.06] pt-4 dark:border-white/10">
+                          <Link href={linkTo(locale, "/services")} className="text-[12px] font-medium text-purple hover:underline dark:text-light-purple">
+                            {locale === "fi" ? "Kaikki palvelut →" : "All services →"}
+                          </Link>
+                          <Link href={linkTo(locale, "/engine")} className="text-[12px] font-medium text-purple hover:underline dark:text-light-purple">
+                            {dict.nav.engine} →
+                          </Link>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                  {hasChildren && subOpen === item.key && item.key !== "services" && (
                     <motion.div
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -268,8 +382,38 @@ export function Nav({
                   {isActive(item.href) && <span className="h-2 w-2 rounded-full bg-purple" />}
                   {item.label}
                 </Link>
-                {/* Mobile: the same sub-links, indented under their parent. */}
-                {item.children.length > 0 && (
+                {/* Mobile: services render as grouped sections; others as flat list. */}
+                {item.children.length > 0 && item.key === "services" && (
+                  <div className="ml-3 flex flex-col gap-3 border-l border-black/10 pl-3 dark:border-white/10">
+                    {MEGA_GROUPS.map((group) => (
+                      <div key={group.key}>
+                        <Link
+                          href={group.href}
+                          onClick={() => setOpen(false)}
+                          className={`flex items-center gap-2 py-1 text-[13px] font-semibold text-ink dark:text-white ${focusRing}`}
+                        >
+                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] bg-violet text-white">
+                            <Icon name={group.icon} className="text-[14px]" />
+                          </span>
+                          {group.label}
+                        </Link>
+                        <div className="mt-0.5 flex flex-col">
+                          {group.children.map((child) => (
+                            <Link
+                              key={child.key}
+                              href={child.href}
+                              onClick={() => setOpen(false)}
+                              className={`rounded-sm py-1.5 pl-8 text-[13px] text-ink/60 transition-colors hover:text-purple dark:text-white/60 dark:hover:text-light-purple ${focusRing}`}
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {item.children.length > 0 && item.key !== "services" && (
                   <div className="ml-4 flex flex-col border-l border-black/10 dark:border-white/10">
                     {item.children.map((child) => (
                       <Link
