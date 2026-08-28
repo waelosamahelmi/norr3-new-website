@@ -108,13 +108,23 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
               {dict.contact.heading}
             </h1>
             {/* Email surfaced at the top — the one thing most visitors came for */}
-            <a
-              href="mailto:info@norr3.fi"
-              className="inline-flex items-center gap-2.5 rounded-full bg-white/70 px-5 py-3 text-base font-medium text-ink transition-colors hover:bg-white"
-            >
-              <Icon name="mail" style={{ fontSize: "20px" }} />
-              {dict.footer.email}
-            </a>
+            <div className="flex flex-col items-start gap-2.5">
+              <a
+                href="mailto:info@norr3.fi"
+                className="inline-flex items-center gap-2.5 rounded-full bg-white/70 px-5 py-3 text-base font-medium text-ink transition-colors hover:bg-white"
+              >
+                <Icon name="mail" style={{ fontSize: "20px" }} />
+                {dict.footer.email}
+              </a>
+              {/* Quick link to the seller-instructions block at the bottom */}
+              <a
+                href="#find-us"
+                className="inline-flex items-center gap-2.5 rounded-full bg-white/70 px-5 py-3 text-base font-medium text-ink transition-colors hover:bg-white"
+              >
+                <Icon name="arrow_downward" style={{ fontSize: "20px" }} />
+                {dict.contact.salesPillLabel}
+              </a>
+            </div>
           </Reveal>
           <Reveal delay={0.15} className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
             <p className="max-w-xl text-[15px] leading-relaxed text-ink/80 lg:text-base">{dict.contact.body}</p>
@@ -176,54 +186,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
               ))}
             </ul>
 
-            {/* Static office card — no map embed, so no third-party keys or layout shift */}
-            <div className="mt-8 rounded-card bg-light-purple p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[5px] bg-violet text-white">
-                  <Icon name="location_on" style={{ fontSize: "22px" }} />
-                </span>
-                <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-ink/70 dark:text-white/70">
-                  {dict.contact.locationHeading}
-                </h3>
-              </div>
-              <address className="mt-5 space-y-1 text-[15px] not-italic leading-relaxed text-ink/80 dark:text-white/80">
-                {dict.footer.addressLines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </address>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Pursimiehenkatu+26+C%2C+00150+Helsinki"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-6 inline-flex items-center gap-1.5 rounded-full border border-ink/40 px-5 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:border-white/40 dark:text-white dark:hover:bg-white dark:hover:text-ink dark:focus-visible:outline-light-purple"
-              >
-                {dict.contact.mapLink}
-                <Icon name="arrow_outward" style={{ fontSize: "14px" }} />
-              </a>
-            </div>
 
-            <div className="mt-8 space-y-1 text-sm text-ink/60 dark:text-white/60">
-              {dict.footer.companyLines.map((line) => (
-                <p key={line}>{line}</p>
-              ))}
-            </div>
-
-            {/* Billing details — e-invoicing address + operator */}
-            <div className="mt-8 rounded-card bg-light-purple p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
-              <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-ink/70 dark:text-white/70">
-                {dict.contact.invoicingHeading}
-              </h3>
-              <ul className="mt-4 space-y-1.5 text-[15px] leading-relaxed text-ink/80 dark:text-white/80">
-                {dict.contact.invoicing.map((row) => (
-                  <li key={row.label}>
-                    <span className="font-medium">{row.label}: </span>
-                    {row.value}
-                  </li>
-                ))}
-              </ul>
-            </div>
           </Reveal>
 
           <Reveal delay={0.1}>
@@ -248,6 +211,80 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
           </Reveal>
         </div>
       </Container>
+
+      {/* Bottom card group: Find us + Billing (combined) + Seller instructions.
+          The billing card now carries the company identity + e-invoicing together. */}
+      <section id="find-us" className="scroll-mt-24 pb-24 lg:pb-32">
+        <Container>
+          <div className="grid gap-card-gap md:grid-cols-2 lg:grid-cols-3">
+            {/* 1. Find us — the existing office card */}
+            <Reveal className="rounded-card bg-light-purple p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[5px] bg-violet text-white">
+                  <Icon name="location_on" style={{ fontSize: "22px" }} />
+                </span>
+                <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-ink/70 dark:text-white/70">
+                  {dict.contact.locationHeading}
+                </h3>
+              </div>
+              <address className="mt-5 space-y-1 text-[15px] not-italic leading-relaxed text-ink/80 dark:text-white/80">
+                {dict.footer.addressLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </address>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Pursimiehenkatu+26+C%2C+00150+Helsinki"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex items-center gap-1.5 rounded-full border border-ink/40 px-5 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:border-white/40 dark:text-white dark:hover:bg-white dark:hover:text-ink dark:focus-visible:outline-light-purple"
+              >
+                {dict.contact.mapLink}
+                <Icon name="arrow_outward" style={{ fontSize: "14px" }} />
+              </a>
+            </Reveal>
+
+            {/* 2. Billing — company identity + e-invoicing in one card */}
+            <Reveal delay={0.05} className="rounded-card bg-light-purple p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[5px] bg-violet text-white">
+                  <Icon name="receipt_long" style={{ fontSize: "22px" }} />
+                </span>
+                <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-ink/70 dark:text-white/70">
+                  {dict.contact.invoicingHeading}
+                </h3>
+              </div>
+              <div className="mt-5 space-y-1 text-[15px] leading-relaxed text-ink/80 dark:text-white/80">
+                <p className="font-medium text-ink dark:text-white">{dict.contact.companyName}</p>
+                <p>{dict.contact.businessId}</p>
+                <p>{dict.contact.companyAddress}</p>
+              </div>
+              <ul className="mt-4 space-y-1.5 border-t border-black/10 pt-4 text-[15px] leading-relaxed text-ink/80 dark:border-white/10 dark:text-white/80">
+                {dict.contact.invoicing.map((row) => (
+                  <li key={row.label}>
+                    <span className="font-medium">{row.label}: </span>
+                    {row.value}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+
+            {/* 3. Notes for service sellers */}
+            <Reveal delay={0.1} className="rounded-card bg-light-purple p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10 md:col-span-2 lg:col-span-1">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[5px] bg-violet text-white">
+                  <Icon name="storefront" style={{ fontSize: "22px" }} />
+                </span>
+                <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-ink/70 dark:text-white/70">
+                  {dict.contact.salesHeading}
+                </h3>
+              </div>
+              <p className="mt-5 text-[13px] leading-relaxed text-ink/70 dark:text-white/70">{dict.contact.salesBody}</p>
+            </Reveal>
+          </div>
+        </Container>
+      </section>
 
       {/* Lead contacts — the five people worth reaching directly. The full
           roster stays on /team so this page keeps one job. */}
