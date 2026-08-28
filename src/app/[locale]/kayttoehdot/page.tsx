@@ -4,24 +4,24 @@ import { getDictionary } from "@/lib/dictionary";
 import { LegalArticle } from "@/components/LegalArticle";
 import { linkTo } from "@/lib/links";
 
-export async function generateMetadata({ params }: PageProps<"/[locale]/privacy">) {
+export async function generateMetadata({ params }: PageProps<"/[locale]/kayttoehdot">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
   return {
-    title: dict.seo.privacy.title,
-    description: dict.seo.privacy.description,
+    title: dict.seo.terms.title,
+    description: dict.seo.terms.description,
     alternates: {
-      canonical: linkTo(locale, "/privacy"),
-      languages: { "fi-FI": "/privacy", "en-US": "/en/privacy" },
+      canonical: linkTo(locale, "/kayttoehdot"),
+      languages: { "fi-FI": "/terms", "en-US": "/en/terms" },
     },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi${linkTo(locale, "/privacy")}`,
+      url: `https://norr3.fi${linkTo(locale, "/kayttoehdot")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
-      title: dict.seo.privacy.title,
-      description: dict.seo.privacy.description,
+      title: dict.seo.terms.title,
+      description: dict.seo.terms.description,
       images: [
         {
           url: "/images/brand/og-image.jpg",
@@ -33,19 +33,19 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/privacy"
     },
     twitter: {
       card: "summary_large_image" as const,
-      title: dict.seo.privacy.title,
-      description: dict.seo.privacy.description,
+      title: dict.seo.terms.title,
+      description: dict.seo.terms.description,
       images: ["/images/brand/og-image.jpg"],
     },
   };
 }
 
 /*
- * TEMPLATE COPY — the wording lives in dictionary.ts under `legal.privacy` and
- * is a structured placeholder for a Finnish marketing agency. It must be
- * reviewed by legal counsel before this page goes live.
+ * TEMPLATE COPY — the wording lives in dictionary.ts under `legal.terms` and is
+ * a structured placeholder for a Finnish marketing agency. It must be reviewed
+ * by legal counsel before this page goes live.
  */
-export default async function PrivacyPage({ params }: PageProps<"/[locale]/privacy">) {
+export default async function TermsPage({ params }: PageProps<"/[locale]/kayttoehdot">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dict = await getDictionary(locale);
@@ -53,16 +53,16 @@ export default async function PrivacyPage({ params }: PageProps<"/[locale]/priva
 
   return (
     <LegalArticle
-      pill={legal.privacy.pill}
-      heading={legal.privacy.heading}
-      intro={legal.privacy.intro}
+      pill={legal.terms.pill}
+      heading={legal.terms.heading}
+      intro={legal.terms.intro}
       updatedLabel={legal.updatedLabel}
-      updated={legal.privacy.updated}
+      updated={legal.terms.updated}
       tocLabel={legal.tocLabel}
-      sections={legal.privacy.sections}
+      sections={legal.terms.sections}
       relatedLabel={legal.relatedLabel}
       relatedLinks={[
-        { href: linkTo(locale, "/terms"), label: dict.footer.terms },
+        { href: linkTo(locale, "/tietosuojaseloste"), label: dict.footer.privacy },
         { href: linkTo(locale, "/contact"), label: dict.common.contactUs },
       ]}
       reviewNote={legal.reviewNote}

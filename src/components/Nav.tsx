@@ -73,7 +73,7 @@ export function Nav({
       { key: "demo", label: t.engineSub.demo, href: linkTo(locale, "/engine#demo") },
     ],
     cases: [
-      { key: "all", label: t.casesSub.all, href: linkTo(locale, "/cases#kaikki-caset") },
+      { key: "all", label: t.casesSub.all, href: linkTo(locale, "/caset#kaikki-caset") },
       { key: "flow", label: "Flow Festival", href: linkTo(locale, "/flow-festival") },
       { key: "st1", label: "St1", href: linkTo(locale, "/st1") },
       { key: "km", label: "Kiinteistömaailma", href: linkTo(locale, "/kiinteistomaailma") },
@@ -82,9 +82,9 @@ export function Nav({
       { key: "all", label: t.insightsSub.all, href: linkTo(locale, "/insights#kaikki-artikkelit") },
     ],
     about: [
-      { key: "story", label: t.aboutSub.story, href: linkTo(locale, "/about") },
-      { key: "team", label: t.aboutSub.team, href: linkTo(locale, "/team") },
-      { key: "careers", label: t.aboutSub.careers, href: linkTo(locale, "/careers") },
+      { key: "story", label: t.aboutSub.story, href: linkTo(locale, "/meista") },
+      { key: "team", label: t.aboutSub.team, href: linkTo(locale, "/tiimi") },
+      { key: "careers", label: t.aboutSub.careers, href: linkTo(locale, "/toihin-meille") },
     ],
   };
 
@@ -92,7 +92,7 @@ export function Nav({
     menu && menu.length > 0
       ? menu
           // The CMS menu also feeds the footer; keep the header to real sections.
-          .filter((entry) => !["/privacy", "/terms"].includes(entry.href))
+          .filter((entry) => !["/tietosuojaseloste", "/kayttoehdot"].includes(entry.href))
           .map((entry) => {
             const key = entry.href.replace(/^\//, "") || "home";
             return {
@@ -105,11 +105,11 @@ export function Nav({
       : ([
           { key: "services", label: t.services, href: linkTo(locale, "/services"), children: sub.services ?? [] },
           { key: "engine", label: t.engine, href: linkTo(locale, "/engine"), children: sub.engine ?? [] },
-          { key: "cases", label: t.cases, href: linkTo(locale, "/cases"), children: sub.cases ?? [] },
+          { key: "caset", label: t.cases, href: linkTo(locale, "/caset"), children: sub.cases ?? [] },
           { key: "insights", label: t.insights, href: linkTo(locale, "/insights"), children: sub.insights ?? [] },
           { key: "contact", label: t.contact, href: linkTo(locale, "/contact"), children: [] },
-          { key: "about", label: t.about, href: linkTo(locale, "/about"), children: sub.about ?? [] },
-          { key: "careers", label: t.careers, href: linkTo(locale, "/careers"), children: [] },
+          { key: "meista", label: t.about, href: linkTo(locale, "/meista"), children: sub.about ?? [] },
+          { key: "toihin-meille", label: t.careers, href: linkTo(locale, "/toihin-meille"), children: [] },
         ] as const);
 
   const other: Locale = locale === "fi" ? "en" : "fi";

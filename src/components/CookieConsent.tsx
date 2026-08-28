@@ -44,7 +44,7 @@ export function CookieConsent({ dict, locale }: { dict: Dictionary["cookies"]; l
           <p className="mt-2 text-sm leading-relaxed text-ink/70 dark:text-white/70">
             {dict.body}{" "}
             <Link
-              href={linkTo(locale, "/privacy")}
+              href={linkTo(locale, "/tietosuojaseloste")}
               className="rounded-sm text-ink underline underline-offset-2 hover:text-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-white dark:hover:text-light-purple dark:focus-visible:outline-light-purple"
             >
               {dict.privacyLink}

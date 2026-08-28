@@ -19,7 +19,7 @@ import { Icon } from "@/components/Icon";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
 
-export async function generateMetadata({ params }: PageProps<"/[locale]/careers">) {
+export async function generateMetadata({ params }: PageProps<"/[locale]/toihin-meille">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
@@ -34,11 +34,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/careers"
     title: seo.title,
     description: seo.description,
     robots: robotsDirective(seo.robots),
-    alternates: { canonical: seo.canonical || linkTo(locale, "/careers"), languages: { "fi-FI": "/careers", "en-US": "/en/careers" } },
+    alternates: { canonical: seo.canonical || linkTo(locale, "/toihin-meille"), languages: { "fi-FI": "/careers", "en-US": "/en/careers" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi${linkTo(locale, "/careers")}`,
+      url: `https://norr3.fi${linkTo(locale, "/toihin-meille")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/careers"
   };
 }
 
-export default async function CareersPage({ params }: PageProps<"/[locale]/careers">) {
+export default async function CareersPage({ params }: PageProps<"/[locale]/toihin-meille">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const content = await getSiteContent();
@@ -88,7 +88,7 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/caree
             {/* Full path + hash, like the team page's roles CTA, so the link
                 resolves the same whether it is clicked or copied. */}
             <PillButton href={linkTo(locale, "/careers#open-roles")}>{dict.common.openJobs}</PillButton>
-            <PillButton href={linkTo(locale, "/about")} variant="secondary">
+            <PillButton href={linkTo(locale, "/meista")} variant="secondary">
               {c.culture.cta}
             </PillButton>
             <TextCta href="#open-roles">{dict.common.heroSeeOpenRoles}</TextCta>
@@ -141,7 +141,7 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/caree
             heading={c.culture.heading}
             body={c.culture.body}
             cta={c.culture.cta}
-            ctaHref={linkTo(locale, "/about")}
+            ctaHref={linkTo(locale, "/meista")}
           />
           <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {c.culture.benefits.map((b) => (

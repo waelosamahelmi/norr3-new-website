@@ -53,7 +53,7 @@ export async function CaseDetailView({
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "NØRR3", item: `https://norr3.fi${linkTo(locale)}` },
-              { "@type": "ListItem", position: 2, name: dict.cases.heading, item: `https://norr3.fi${linkTo(locale, "/cases")}` },
+              { "@type": "ListItem", position: 2, name: dict.cases.heading, item: `https://norr3.fi${linkTo(locale, "/caset")}` },
               { "@type": "ListItem", position: 3, name: study.client },
             ],
           }),
@@ -100,7 +100,7 @@ export async function CaseDetailView({
                 </PillButton>
                 {/* A way back to the index from a case that was landed on
                     directly — previously the nav was the only exit. */}
-                <PillButton href={linkTo(locale, "/cases")} variant="outlineLight">
+                <PillButton href={linkTo(locale, "/caset")} variant="outlineLight">
                   {dict.common.allCases}
                 </PillButton>
               </div>
@@ -244,7 +244,7 @@ export async function CaseDetailView({
       {/* More cases */}
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
         <Container>
-          <SectionHeader heading={d.moreCases} body={dict.cases.body} cta={dict.common.allCases} ctaHref={linkTo(locale, "/cases")} />
+          <SectionHeader heading={d.moreCases} body={dict.cases.body} cta={dict.common.allCases} ctaHref={linkTo(locale, "/caset")} />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {related.map((c) => (
               <CaseCard key={c.slug} study={c} locale={locale} ctaLabel={dict.common.readCase} />

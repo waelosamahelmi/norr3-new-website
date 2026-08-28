@@ -27,17 +27,52 @@ const nextConfig: NextConfig = {
       { source: "/en/cases/:slug", destination: "/en/:slug", permanent: true },
       { source: "/en/insights/:slug", destination: "/en/:slug", permanent: true },
 
+      // ── Geir's URL structure: old /palvelut/* tree → new root slugs ──────
+      { source: "/palvelut/insight-strategia", destination: "/insight-strategia", permanent: true },
+      { source: "/palvelut/data", destination: "/data-ja-mittaus", permanent: true },
+      { source: "/palvelut/data/mediapanostusdata", destination: "/markkinointistrategia", permanent: true },
+      { source: "/palvelut/data/norr3-media-insights", destination: "/mediasuunnittelu/norr3-media-insights", permanent: true },
+      { source: "/palvelut/mediat", destination: "/mediastrategia", permanent: true },
+      { source: "/palvelut/mediat/dynaaminen-mainonta", destination: "/dynaaminen-mainonta", permanent: true },
+      { source: "/palvelut/mediat/mediat-ja-mediamixit", destination: "/mediasuunnittelu", permanent: true },
+      { source: "/palvelut/mediat/mediat-ja-mediamixit/sem", destination: "/hakukonemainonta", permanent: true },
+      { source: "/palvelut/mediat/mediat-ja-mediamixit/online-video", destination: "/display-ja-videomainonta", permanent: true },
+      { source: "/palvelut/mediat/mediat-ja-mediamixit/radio", destination: "/mediasuunnittelu/radio", permanent: true },
+      { source: "/palvelut/mediat/mediat-ja-mediamixit/televisio", destination: "/mediasuunnittelu/televisio", permanent: true },
+      { source: "/palvelut/mediat/mediat-ja-mediamixit/elokuvamainonta-eli-cinema", destination: "/mediasuunnittelu/elokuvamainonta-eli-cinema", permanent: true },
+      { source: "/palvelut/mediat/mediat-ja-mediamixit/printti-eli-lehtimainonta", destination: "/mediasuunnittelu/printti-eli-lehtimainonta", permanent: true },
+      { source: "/palvelut/mediat/mediat-ja-mediamixit/ulkomainonta", destination: "/ulkomainonta", permanent: true },
+      { source: "/palvelut/mediat/mediat-ja-mediamixit/sosiaalinen-media", destination: "/somemarkkinointi", permanent: true },
+      { source: "/palvelut/mediat/mediat-ja-mediamixit/display", destination: "/display-ja-videomainonta", permanent: true },
+      { source: "/palvelut/mediat/kampanjat-ja-jatkuva-mainonta", destination: "/mediasuunnittelu/kampanjat-ja-jatkuva-mainonta", permanent: true },
+      { source: "/palvelut/mittaaminen", destination: "/data-ja-mittaus", permanent: true },
+      { source: "/palvelut/mittaaminen/norr3-brand-performance", destination: "/tutkimukset", permanent: true },
+      { source: "/palvelut/mittaaminen/norr3-campaign-performance", destination: "/tutkimukset", permanent: true },
+      { source: "/palvelut/mittaaminen/norr3-pre-campaign-performance", destination: "/tutkimukset", permanent: true },
+      { source: "/palvelut/mittaaminen/norr3-express-pre-campaign-performance", destination: "/tutkimukset", permanent: true },
+      { source: "/palvelut/mittaaminen/dashboardit", destination: "/data-ja-mittaus/dashboardit", permanent: true },
+      { source: "/palvelut/mittaaminen/romi-ja-roas-laskenta", destination: "/data-ja-mittaus/datan-mallintaminen", permanent: true },
+      { source: "/palvelut/performance-markkinointi", destination: "/performance-markkinointi", permanent: true },
+      { source: "/palvelut/luovat", destination: "/mediasuunnittelu/luovat", permanent: true },
+      { source: "/palvelut", destination: "/services", permanent: true },
+      { source: "/en/palvelut/:path*", destination: "/en/services", permanent: true },
+
+      // ── Route renames: English → Finnish URLs ─────────────────────────────
+      { source: "/about", destination: "/meista", permanent: true },
+      { source: "/privacy", destination: "/tietosuojaseloste", permanent: true },
+      { source: "/terms", destination: "/kayttoehdot", permanent: true },
+      { source: "/team", destination: "/tiimi", permanent: true },
+      { source: "/careers", destination: "/toihin-meille", permanent: true },
+
       // ── Old service prefix → the root slug (services now live at /<slug>) ──
       { source: "/palvelut/:slug", destination: "/:slug", permanent: true },
       { source: "/en/palvelut/:slug", destination: "/en/:slug", permanent: true },
 
       // ── Old Finnish pages ───────────────────────────────────────────────────
-      { source: "/caset", destination: "/cases", permanent: true },
-      { source: "/meista", destination: "/about", permanent: true },
+      { source: "/cases", destination: "/caset", permanent: true },
       { source: "/tarinat", destination: "/insights", permanent: true },
       { source: "/norr3-marketing-engine", destination: "/engine", permanent: true },
       { source: "/privacy-policy", destination: "/privacy", permanent: true },
-      { source: "/tietosuojaseloste", destination: "/privacy", permanent: true },
       { source: "/sample-page", destination: "/", permanent: true },
 
       // ── Old English pages ───────────────────────────────────────────────────

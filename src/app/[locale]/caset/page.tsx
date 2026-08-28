@@ -23,7 +23,7 @@ import { ogImage } from "@/lib/ogImage";
  *  magazine contact sheet rather than a uniform row of thumbnails. */
 const TILE_WIDTHS = ["w-40 sm:w-56", "w-32 sm:w-44", "w-36 sm:w-52", "w-32 sm:w-44"];
 
-export async function generateMetadata({ params }: PageProps<"/[locale]/cases">) {
+export async function generateMetadata({ params }: PageProps<"/[locale]/caset">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
@@ -38,11 +38,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/cases">)
     title: seo.title,
     description: seo.description,
     robots: robotsDirective(seo.robots),
-    alternates: { canonical: seo.canonical || linkTo(locale, "/cases"), languages: { "fi-FI": "/cases", "en-US": "/en/cases" } },
+    alternates: { canonical: seo.canonical || linkTo(locale, "/caset"), languages: { "fi-FI": "/cases", "en-US": "/en/cases" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi${linkTo(locale, "/cases")}`,
+      url: `https://norr3.fi${linkTo(locale, "/caset")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/cases">)
   };
 }
 
-export default async function CasesPage({ params }: PageProps<"/[locale]/cases">) {
+export default async function CasesPage({ params }: PageProps<"/[locale]/caset">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const content = await getSiteContent();

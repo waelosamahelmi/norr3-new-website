@@ -187,7 +187,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
             heading={s.relatedCases}
             body={dict.cases.body}
             cta={dict.common.allCases}
-            ctaHref={linkTo(locale, "/cases")}
+            ctaHref={linkTo(locale, "/caset")}
           />
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {relatedCases.map((c) => (

@@ -18,7 +18,7 @@ export function LogoStrip({
   clients?: string[];
   locale: Locale;
 }) {
-  const href = linkTo(locale, "/cases");
+  const href = linkTo(locale, "/caset");
 
   // The marquee loops by rendering the row twice back to back; the second
   // copy exists purely for the seamless scroll and would otherwise double

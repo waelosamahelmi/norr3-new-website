@@ -61,8 +61,25 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
-  // English already carries its prefix.
+  // English already carries its prefix — but the English URLs keep their
+  // English names while the route folders are Finnish, so alias them invisibly.
   if (pathname === "/en" || pathname.startsWith("/en/")) {
+    const EN_ALIASES: Record<string, string> = {
+      "/en/about": "/en/meista",
+      "/en/team": "/en/tiimi",
+      "/en/careers": "/en/toihin-meille",
+      "/en/privacy": "/en/tietosuojaseloste",
+      "/en/terms": "/en/kayttoehdot",
+      "/en/cases": "/en/caset",
+    };
+    const aliased = EN_ALIASES[pathname.replace(/\/$/, "")];
+    if (aliased) {
+      const url = request.nextUrl.clone();
+      url.pathname = aliased;
+      const headers = new Headers(request.headers);
+      headers.set("x-norr3-locale", "en");
+      return NextResponse.rewrite(url, { request: { headers } });
+    }
     const headers = new Headers(request.headers);
     headers.set("x-norr3-locale", "en");
     return NextResponse.next({ request: { headers } });

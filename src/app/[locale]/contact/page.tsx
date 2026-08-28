@@ -210,7 +210,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
               <span>
                 {dict.contact.privacyNote}{" "}
                 <Link
-                  href={linkTo(locale, "/privacy")}
+                  href={linkTo(locale, "/tietosuojaseloste")}
                   className="rounded-sm font-medium text-purple underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-light-purple dark:focus-visible:outline-light-purple"
                 >
                   {dict.footer.privacy}
@@ -312,7 +312,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
             ))}
           </StaggerGrid>
           <Reveal className="mt-12 flex justify-center">
-            <PillButton href={linkTo(locale, "/team")} variant="secondary">
+            <PillButton href={linkTo(locale, "/tiimi")} variant="secondary">
               {dict.contact.leads.fullTeam}
             </PillButton>
           </Reveal>

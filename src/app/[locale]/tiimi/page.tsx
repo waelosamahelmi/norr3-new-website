@@ -22,7 +22,7 @@ import { Icon } from "@/components/Icon";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
 
-export async function generateMetadata({ params }: PageProps<"/[locale]/team">) {
+export async function generateMetadata({ params }: PageProps<"/[locale]/tiimi">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
@@ -37,11 +37,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/team">) 
     title: seo.title,
     description: seo.description,
     robots: robotsDirective(seo.robots),
-    alternates: { canonical: seo.canonical || linkTo(locale, "/team"), languages: { "fi-FI": "/team", "en-US": "/en/team" } },
+    alternates: { canonical: seo.canonical || linkTo(locale, "/tiimi"), languages: { "fi-FI": "/team", "en-US": "/en/team" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi${linkTo(locale, "/team")}`,
+      url: `https://norr3.fi${linkTo(locale, "/tiimi")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/team">) 
   };
 }
 
-export default async function TeamPage({ params }: PageProps<"/[locale]/team">) {
+export default async function TeamPage({ params }: PageProps<"/[locale]/tiimi">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const content = await getSiteContent();

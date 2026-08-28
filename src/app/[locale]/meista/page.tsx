@@ -21,7 +21,7 @@ import { MediaAsset } from "@/components/MediaAsset";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
 
-export async function generateMetadata({ params }: PageProps<"/[locale]/about">) {
+export async function generateMetadata({ params }: PageProps<"/[locale]/meista">) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
@@ -36,11 +36,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/about">)
     title: seo.title,
     description: seo.description,
     robots: robotsDirective(seo.robots),
-    alternates: { canonical: seo.canonical || linkTo(locale, "/about"), languages: { "fi-FI": "/about", "en-US": "/en/about" } },
+    alternates: { canonical: seo.canonical || linkTo(locale, "/meista"), languages: { "fi-FI": "/about", "en-US": "/en/about" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
-      url: `https://norr3.fi${linkTo(locale, "/about")}`,
+      url: `https://norr3.fi${linkTo(locale, "/meista")}`,
       locale: locale === "fi" ? "fi_FI" : "en_US",
       title: seo.title,
       description: seo.description,
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/about">)
   };
 }
 
-export default async function AboutPage({ params }: PageProps<"/[locale]/about">) {
+export default async function AboutPage({ params }: PageProps<"/[locale]/meista">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const content = await getSiteContent();
@@ -93,10 +93,10 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
           </p>
           <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
             <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
-            <PillButton href={linkTo(locale, "/careers")} variant="secondary">
+            <PillButton href={linkTo(locale, "/toihin-meille")} variant="secondary">
               {dict.common.openJobs}
             </PillButton>
-            <TextCta href={linkTo(locale, "/team")}>{dict.common.heroMeetTeam}</TextCta>
+            <TextCta href={linkTo(locale, "/tiimi")}>{dict.common.heroMeetTeam}</TextCta>
           </div>
         </Reveal>
       </Container>
@@ -197,7 +197,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
           <TeamMarquee locale={locale} members={content.team} />
         </div>
         <Container className="mt-12 flex justify-center">
-          <PillButton href={linkTo(locale, "/team")}>{dict.common.meetTeam}</PillButton>
+          <PillButton href={linkTo(locale, "/tiimi")}>{dict.common.meetTeam}</PillButton>
         </Container>
       </section>
 

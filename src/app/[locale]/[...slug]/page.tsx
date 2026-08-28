@@ -97,7 +97,7 @@ export async function generateMetadata({ params }: Params) {
   }
 
   // Service landing page at the root slug.
-  const servicePage = slug.length === 1 ? servicePageFor(slug[0]) : undefined;
+  const servicePage = servicePageFor(slug.join("/"));
   if (servicePage) {
     const t = servicePageLocalised(servicePage, locale);
     return {
@@ -172,10 +172,12 @@ export default async function RootSlugPage({ params }: Params) {
       return <InsightArticleView post={post} locale={locale} dict={dict} />;
     }
 
-    const servicePage = servicePageFor(slug[0]);
-    if (servicePage) {
-      return <ServiceLandingView page={servicePage} locale={locale} />;
-    }
+  }
+
+  // Service landing pages can be nested (e.g. /mediasuunnittelu/radio).
+  const servicePage = servicePageFor(slug.join("/"));
+  if (servicePage) {
+    return <ServiceLandingView page={servicePage} locale={locale} />;
   }
 
   // A page composed in the CMS page editor.

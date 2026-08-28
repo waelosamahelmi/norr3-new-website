@@ -25,7 +25,7 @@ export default async function NotFound() {
   const linkHrefs: Record<string, string> = {
     home: linkTo(locale),
     services: linkTo(locale, "/services"),
-    cases: linkTo(locale, "/cases"),
+    cases: linkTo(locale, "/caset"),
     insights: linkTo(locale, "/insights"),
     contact: linkTo(locale, "/contact"),
   };

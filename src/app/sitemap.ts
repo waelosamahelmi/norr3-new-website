@@ -11,15 +11,15 @@ const CODED_ROUTES = [
   "",
   "services",
   "engine",
-  "cases",
-  "about",
-  "careers",
-  "team",
+  "caset",
+  "meista",
+  "toihin-meille",
+  "tiimi",
   "insights",
   "contact",
   "brief",
-  "privacy",
-  "terms",
+  "tietosuojaseloste",
+  "kayttoehdot",
 ];
 
 /**

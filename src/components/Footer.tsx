@@ -124,13 +124,13 @@ export function Footer({
         <p>{dict.footer.copyright}</p>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           <Link
-            href={linkTo(locale, "/privacy")}
+            href={linkTo(locale, "/tietosuojaseloste")}
             className="rounded-sm underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {dict.footer.privacy}
           </Link>
           <Link
-            href={linkTo(locale, "/terms")}
+            href={linkTo(locale, "/kayttoehdot")}
             className="rounded-sm underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {dict.footer.terms}
