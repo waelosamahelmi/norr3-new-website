@@ -41,6 +41,24 @@ export async function ServiceLandingView({ page, locale }: { page: ServicePage; 
         </Reveal>
       </Container>
 
+      {page.image && (
+        <Container className="pb-4 pt-10 lg:pt-14">
+          <Reveal>
+            <div className="overflow-hidden rounded-card ring-1 ring-black/5 dark:ring-white/10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={page.image}
+                alt={t.title}
+                width={1400}
+                height={700}
+                loading="lazy"
+                className="h-auto w-full object-cover"
+              />
+            </div>
+          </Reveal>
+        </Container>
+      )}
+
       <section className="py-16 lg:py-20">
         <Container>
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-16">

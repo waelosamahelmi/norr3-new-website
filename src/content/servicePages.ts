@@ -3,6 +3,8 @@ import type { Locale } from "@/i18n/config";
 export type ServicePage = {
   slug: string;
   icon: string;
+  /** Photo under the hero (WebP in /images/services/). Empty = no image. */
+  image?: string;
   fi: {
     title: string;
     metaTitle: string;
@@ -76,6 +78,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "data-ja-mittaus/dashboardit",
+    image: "/images/services/dashboardit.webp",
     icon: "space_dashboard",
     fi: {
       title: "Dashboardit",
@@ -311,6 +314,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "ulkomainonta",
+    image: "/images/services/ulkomainonta.webp",
     icon: "location_on",
     fi: {
       title: "Ulkomainonta ja pDOOH",
@@ -357,6 +361,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "performance-markkinointi",
+    image: "/images/services/performance-1.webp",
     icon: "trending_up",
     fi: {
       title: "Performance-markkinointi",
@@ -399,6 +404,7 @@ export const servicePages: ServicePage[] = [
 
   {
     slug: "mediasuunnittelu/norr3-media-insights",
+    image: "/images/services/media-insights.webp",
     icon: "insights",
     fi: {
       title: "NØRR3 Media Insights",
@@ -447,6 +453,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/televisio",
+    image: "/images/services/televisio.webp",
     icon: "tv",
     fi: {
       title: "TV-mainonta",
@@ -495,6 +502,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/printti-eli-lehtimainonta",
+    image: "/images/services/printti.webp",
     icon: "newspaper",
     fi: {
       title: "Printti eli lehtimainonta",
@@ -519,6 +527,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/luovat",
+    image: "/images/services/luovat.webp",
     icon: "draw",
     fi: {
       title: "Luovat",
@@ -567,6 +576,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediastrategia",
+    image: "/images/services/mediastrategia.webp",
     icon: "hub",
     fi: {
       title: "Mediastrategia",
@@ -591,6 +601,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "dynaaminen-mainonta",
+    image: "/images/services/dynaaminen-mainonta.webp",
     icon: "auto_awesome",
     fi: {
       title: "Dynaaminen mainonta",
@@ -615,6 +626,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "hakukonemainonta",
+    image: "/images/services/hakukonemainonta.webp",
     icon: "search",
     fi: {
       title: "Hakukonemainonta",
@@ -639,6 +651,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "display-ja-videomainonta",
+    image: "/images/services/display.webp",
     icon: "grid_view",
     fi: {
       title: "Display- ja videomainonta",
@@ -663,6 +676,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "somemarkkinointi",
+    image: "/images/services/somemarkkinointi.webp",
     icon: "share",
     fi: {
       title: "Somemarkkinointi",
