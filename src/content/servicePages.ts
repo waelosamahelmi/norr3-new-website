@@ -30,6 +30,7 @@ export type ServicePage = {
 export const servicePages: ServicePage[] = [
   {
     slug: "insight-strategia",
+    image: "/images/brand/services-planning.webp",
     icon: "zoom_in_map",
     fi: {
       title: "Insight & strategia",
@@ -54,6 +55,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "data-ja-mittaus",
+    image: "/images/brand/data-desk.webp",
     icon: "monitoring",
     fi: {
       title: "Data ja mittaus",
@@ -103,6 +105,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "data-ja-mittaus/datan-mallintaminen",
+    image: "/images/services/office-desk-2.webp",
     icon: "query_stats",
     fi: {
       title: "Datan mallintaminen",
@@ -127,6 +130,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "markkinointistrategia",
+    image: "/images/services/office-desk-1.webp",
     icon: "strategy",
     fi: {
       title: "Markkinointistrategia",
@@ -152,6 +156,7 @@ export const servicePages: ServicePage[] = [
 
   {
     slug: "hakukoneoptimointi",
+    image: "/images/brand/hero-data.webp",
     icon: "search",
     fi: {
       title: "Hakukoneoptimointi ja hakumainonta",
@@ -206,6 +211,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "ohjelmallinen-ostaminen",
+    image: "/images/brand/hero-human.webp",
     icon: "hub",
     fi: {
       title: "Ohjelmallinen ostaminen",
@@ -260,6 +266,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu",
+    image: "/images/brand/services-collab.webp",
     icon: "edit_note",
     fi: {
       title: "Mediasuunnittelu ja -ostaminen",
@@ -429,6 +436,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/radio",
+    image: "/images/services/office-2.webp",
     icon: "graphic_eq",
     fi: {
       title: "Radiomainonta",
@@ -478,6 +486,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/elokuvamainonta-eli-cinema",
+    image: "/images/services/office-7.webp",
     icon: "movie",
     fi: {
       title: "Elokuvamainonta (Cinema)",
@@ -552,6 +561,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/kampanjat-ja-jatkuva-mainonta",
+    image: "/images/brand/team-energy.webp",
     icon: "campaign",
     fi: {
       title: "Kampanjat ja jatkuva mainonta",
@@ -701,6 +711,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "tutkimukset",
+    image: "/images/brand/space-arch.webp",
     icon: "science",
     fi: {
       title: "Tutkimukset",
@@ -725,6 +736,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "ai-optimointi",
+    image: "/images/brand/engine-workflow.webp",
     icon: "neurology",
     fi: {
       title: "AI-optimointi",
