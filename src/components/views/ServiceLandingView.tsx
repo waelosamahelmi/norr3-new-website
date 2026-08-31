@@ -41,27 +41,10 @@ export async function ServiceLandingView({ page, locale }: { page: ServicePage; 
         </Reveal>
       </Container>
 
-      {page.image && (
-        <Container className="pb-4 pt-10 lg:pt-14">
-          <Reveal>
-            <div className="overflow-hidden rounded-card ring-1 ring-black/5 dark:ring-white/10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={page.image}
-                alt={t.title}
-                width={1400}
-                height={700}
-                loading="lazy"
-                className="h-auto w-full object-cover"
-              />
-            </div>
-          </Reveal>
-        </Container>
-      )}
-
       <section className="py-16 lg:py-20">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-16">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-16">
+            {/* Content column */}
             <div className="space-y-12">
               {t.sections.map((section, i) => (
                 <Reveal key={section.heading} delay={i * 0.05}>
@@ -75,19 +58,38 @@ export async function ServiceLandingView({ page, locale }: { page: ServicePage; 
                 </Reveal>
               ))}
             </div>
-            <Reveal delay={0.1} className="lg:sticky lg:top-28 lg:self-start">
-              <div className="rounded-card bg-pastel-purple/60 p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
-                <h3 className="text-lg font-medium text-ink dark:text-white">{dict.common.whatYouGet}</h3>
-                <ul className="mt-5 space-y-3">
-                  {t.bullets.map((bullet) => (
-                    <li key={bullet} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink/75 dark:text-white/75">
-                      <Icon name="check" className="mt-[2px] shrink-0 text-[16px] text-purple dark:text-light-purple" />
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
+
+            {/* Photo + checklist column — sticky, never taller than the viewport */}
+            <div className="space-y-6 lg:sticky lg:top-28 lg:self-start">
+              {page.image && (
+                <Reveal delay={0.05}>
+                  <div className="overflow-hidden rounded-card ring-1 ring-black/5 dark:ring-white/10">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={page.image}
+                      alt={t.title}
+                      width={800}
+                      height={500}
+                      loading="lazy"
+                      className="max-h-[420px] w-full object-cover"
+                    />
+                  </div>
+                </Reveal>
+              )}
+              <Reveal delay={0.1}>
+                <div className="rounded-card bg-pastel-purple/60 p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
+                  <h3 className="text-lg font-medium text-ink dark:text-white">{dict.common.whatYouGet}</h3>
+                  <ul className="mt-5 space-y-3">
+                    {t.bullets.map((bullet) => (
+                      <li key={bullet} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink/75 dark:text-white/75">
+                        <Icon name="check" className="mt-[2px] shrink-0 text-[16px] text-purple dark:text-light-purple" />
+                        {bullet}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            </div>
           </div>
         </Container>
       </section>
