@@ -186,6 +186,27 @@ export function HomeHero({
   /** Accent word is hidden during typing and the pop-in sequence. */
   const accentHidden = typing || popping;
 
+  // Subtle scroll parallax: the stack drifts up slightly slower than the page,
+  // which reads as depth. No-ops for reduced-motion (guarded by \`motion\`).
+  useEffect(() => {
+    if (!motion) return;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const y = Math.min(window.scrollY, 900);
+        const stage = document.querySelector("[data-hero-stage]");
+        if (stage) (stage as HTMLElement).style.translate = `0 ${(-y * 0.08).toFixed(1)}px`;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [motion]);
+
   useEffect(() => {
     if (!motion) return;
     let cancelled = false;
@@ -245,6 +266,7 @@ export function HomeHero({
           paint over the neighbouring words, which have none. */}
       <span aria-hidden className="relative z-0 order-3 mt-10 block w-full lg:order-none lg:mt-0 lg:w-auto lg:min-w-0 lg:shrink-0">
         <div
+          data-hero-stage
           className="relative mx-auto h-[460px] max-h-[56svh] w-[min(320px,84vw)] select-none [--card:210px] [--spread:0.72] sm:h-[700px] sm:max-h-[62svh] sm:w-full sm:max-w-lg sm:[--card:340px] sm:[--spread:0.85] lg:h-[560px] lg:max-h-[62svh] lg:w-[420px] lg:[--card:360px] lg:[--spread:1]"
         >
           {deck.map((card, index) => {

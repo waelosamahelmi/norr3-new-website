@@ -35,7 +35,7 @@ export function CookieConsent({ dict, locale }: { dict: Dictionary["cookies"]; l
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 16 }}
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-x-3 bottom-3 z-50 mx-auto w-auto max-w-[360px] rounded-[22px] border border-white/40 bg-white/70 p-5 shadow-xl backdrop-blur-xl sm:inset-x-auto sm:bottom-10 sm:right-6 sm:w-[calc(100vw-2rem)] sm:p-6 dark:border-white/15 dark:bg-white/10 dark:text-white"
+          className="fixed inset-x-3 bottom-3 z-50 mx-auto w-auto max-w-[360px] rounded-[22px] border border-white/40 bg-white/70 p-5 shadow-xl backdrop-blur-xl sm:inset-x-auto sm:bottom-10 sm:left-6 sm:w-[calc(100vw-2rem)] sm:p-6 dark:border-white/15 dark:bg-white/10 dark:text-white"
         >
           <p className="flex items-center gap-2 font-medium">
             <Icon name="cookie" className="text-[20px] text-ink dark:text-white" />

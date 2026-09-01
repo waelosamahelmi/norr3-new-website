@@ -124,6 +124,13 @@ html {
   animation-play-state: paused;
 }
 
+/* Edge fade for the marquee bands: content scrolls in/out of a soft
+   gradient instead of hard-clipping mid-chip. */
+.mask-fade {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
 /* The DOOH creative's chip strip (DoohCreative): sharp-cornered blocks
    scrolling right-to-left, mirroring the master video's marquee. */
 @keyframes dooh-marquee {

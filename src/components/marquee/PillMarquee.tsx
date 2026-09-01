@@ -77,7 +77,7 @@ export function PillMarquee({
 
   return (
     <div
-      className={`marquee-paused overflow-x-clip ${className}`}
+      className={`marquee-paused mask-fade overflow-x-clip ${className}`}
       style={{ ["--marquee-duration" as string]: duration }}
     >
       <div className="marquee-track items-center">

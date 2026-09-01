@@ -37,7 +37,7 @@ export function HighlightsBand({
 
   return (
     <section className="bg-ink py-12 dark:bg-white/[0.04] dark:border-y dark:border-white/10">
-      <div className="marquee-paused overflow-x-clip" style={{ ["--marquee-duration" as string]: "var(--marquee-pills, 45s)" }}>
+      <div className="marquee-paused mask-fade overflow-x-clip" style={{ ["--marquee-duration" as string]: "var(--marquee-pills, 45s)" }}>
         <div className="marquee-track items-center">
           {row}
           {row}
