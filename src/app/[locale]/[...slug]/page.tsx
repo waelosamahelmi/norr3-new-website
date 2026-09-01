@@ -9,6 +9,7 @@ import { ServiceLandingView } from "@/components/views/ServiceLandingView";
 import { servicePageFor, servicePageLocalised, servicePages } from "@/content/servicePages";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
+import { pageSeo } from "@/lib/pageSeo";
 
 /**
  * Serves everything that lives at a short, root-level slug:
@@ -100,9 +101,16 @@ export async function generateMetadata({ params }: Params) {
   const servicePage = servicePageFor(slug.join("/"));
   if (servicePage) {
     const t = servicePageLocalised(servicePage, locale);
-    return {
+    // SEO is CMS-managed (Pages screen) with the bundled copy as fallback, so
+    // the service landing pages behave like every other hand-built route.
+    const seo = await pageSeo(slug.join("/"), locale, {
       title: t.metaTitle,
       description: t.metaDescription,
+      image: "/images/brand/services-planning.webp",
+    });
+    return {
+      title: seo.title,
+      description: seo.description,
       alternates: {
         canonical: linkTo(locale, `/${slug[0]}`),
         languages: { "fi-FI": `/${slug[0]}`, "en-US": `/en/${slug[0]}` },
@@ -112,11 +120,11 @@ export async function generateMetadata({ params }: Params) {
         siteName: "NØRR3",
         url: `https://norr3.fi${linkTo(locale, `/${slug[0]}`)}`,
         locale: locale === "fi" ? "fi_FI" : "en_US",
-        title: t.metaTitle,
-        description: t.metaDescription,
-        images: [{ url: ogImage("/images/brand/services-planning.webp"), width: 1600, height: 1066, alt: t.title }],
+        title: seo.title,
+        description: seo.description,
+        images: [{ url: ogImage(seo.image), width: 1600, height: 1066, alt: t.title }],
       },
-      twitter: { card: "summary_large_image" as const, title: t.metaTitle, description: t.metaDescription, images: [ogImage("/images/brand/services-planning.webp")] },
+      twitter: { card: "summary_large_image" as const, title: seo.title, description: seo.description, images: [ogImage(seo.image)] },
     };
   }
 

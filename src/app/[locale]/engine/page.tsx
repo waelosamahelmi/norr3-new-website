@@ -15,6 +15,7 @@ import { MediaMixSimulator } from "@/components/simulator/MediaMixSimulator";
 import { DashboardMock } from "@/components/DashboardMock";
 import { FloatingCard } from "@/components/FloatingCard";
 import { HoverLift } from "@/components/HoverLift";
+import { EngineAppsShowcase } from "@/components/heroes/EngineAppsShowcase";
 import { Icon } from "@/components/Icon";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
@@ -93,23 +94,13 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         </div>
       </Container>
 
-      {/* The five apps */}
+      {/* The five apps — interactive showcase: pick an app, see it live */}
       <section className="py-16 lg:py-20">
         <Container>
           <SectionHeader heading={e.apps.heading} body={e.apps.body} />
-          <StaggerGrid className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-14 lg:grid-cols-5">
-            {e.apps.items.map((app) => (
-              <HoverLift key={app.title} className="h-full">
-                <div className="flex h-full flex-col gap-3 rounded-card bg-pastel-purple/60 p-5 dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-[5px] bg-violet text-white">
-                    <Icon name={app.icon} style={{ fontSize: "24px" }} />
-                  </span>
-                  <h3 className="text-base font-medium text-ink dark:text-white">{app.title}</h3>
-                  <p className="text-[13px] leading-relaxed text-ink/60 dark:text-white/65">{app.body}</p>
-                </div>
-              </HoverLift>
-            ))}
-          </StaggerGrid>
+          <div className="mt-12 lg:mt-14">
+            <EngineAppsShowcase locale={locale} />
+          </div>
         </Container>
       </section>
 

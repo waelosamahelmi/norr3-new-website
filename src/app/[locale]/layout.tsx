@@ -11,6 +11,8 @@ import { getSiteContent } from "@/lib/cms";
 import { pageSeo, robotsDirective } from "@/lib/pageSeo";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
+import { isProductionHost } from "@/lib/host";
+import { headers } from "next/headers";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -54,6 +56,9 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
     image: "/images/brand/og-image.jpg",
   });
   const homeUrl = `https://norr3.fi${linkTo(locale)}`;
+  // Non-production hosts (staging, raw IP) must be noindexed even if a crawler
+  // ignores robots.txt — the DNS cutover has not happened yet.
+  const prod = isProductionHost((await headers()).get("host"));
   return {
     metadataBase: new URL("https://norr3.fi"),
     applicationName: "NØRR3",
@@ -66,7 +71,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
       apple: [{ url: "/icon-180.png", sizes: "180x180", type: "image/png" }],
     },
     manifest: "/manifest.webmanifest",
-    robots: robotsDirective(seo.robots),
+    robots: prod ? robotsDirective(seo.robots) : { index: false, follow: false },
     title: seo.title,
     description: seo.description,
     alternates: {
