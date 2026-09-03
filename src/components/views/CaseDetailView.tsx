@@ -3,6 +3,7 @@ import type { Dictionary } from "@/content/dictionary";
 import type { CaseStudy } from "@/content/cases";
 import { getCases } from "@/lib/cms";
 import { linkTo } from "@/lib/links";
+import { proseHtml } from "@/lib/prose";
 import { Container } from "@/components/Container";
 import { PillButton } from "@/components/PillButton";
 import { Reveal } from "@/components/Reveal";
@@ -32,6 +33,7 @@ export async function CaseDetailView({
 }) {
   const related = (await getCases()).filter((c) => c.slug !== study.slug).slice(0, 3);
   const d = dict.cases.detail;
+  const gallery = study.gallery ?? [];
 
   // Narrative blocks share one editorial layout: the numbered heading holds a
   // column of its own, the prose sits beside it. Titles keep their Figma
@@ -160,9 +162,12 @@ export async function CaseDetailView({
               <h2 className="text-3xl font-medium leading-[1.15] tracking-tight text-ink lg:text-4xl dark:text-white">
                 {block.heading}
               </h2>
-              <p className="max-w-2xl text-[15px] leading-relaxed text-ink/70 lg:text-base dark:text-white/70">
-                {block.body}
-              </p>
+              {/* Authored in the CMS's rich-text editor and sanitised there
+                  against a narrow allowlist; `.case-prose` carries the type. */}
+              <div
+                className="case-prose max-w-2xl"
+                dangerouslySetInnerHTML={{ __html: proseHtml(block.body) }}
+              />
             </Reveal>
           ))}
         </div>
@@ -209,9 +214,10 @@ export async function CaseDetailView({
           <h2 className="text-3xl font-medium leading-[1.15] tracking-tight text-ink lg:text-4xl dark:text-white">
             {d.results}
           </h2>
-          <p className="max-w-2xl text-[15px] leading-relaxed text-ink/70 lg:text-base dark:text-white/70">
-            {study.results[locale]}
-          </p>
+          <div
+            className="case-prose max-w-2xl"
+            dangerouslySetInnerHTML={{ __html: proseHtml(study.results[locale]) }}
+          />
         </Reveal>
 
         <div className="mt-16 lg:mt-20">
@@ -232,6 +238,46 @@ export async function CaseDetailView({
           />
         </div>
       </Container>
+
+      {/* Creative execution — the pictures attached to the case in the CMS.
+          Absent entirely when there are none, so older cases keep their rhythm. */}
+      {gallery.length > 0 && (
+        <section className="pb-24 lg:pb-32">
+          <Container>
+            <Reveal>
+              <h2 className="text-3xl font-medium leading-[1.15] tracking-tight text-ink lg:text-4xl dark:text-white">
+                {d.creative}
+              </h2>
+            </Reveal>
+            <StaggerGrid className="mt-10 grid gap-card-gap sm:grid-cols-2 lg:mt-12">
+              {gallery.map((image, i) => (
+                <figure
+                  key={image.src + i}
+                  className={
+                    // A lone trailing picture spans the row so the grid never
+                    // ends on a half-empty line.
+                    gallery.length % 2 === 1 && i === gallery.length - 1 ? "sm:col-span-2" : undefined
+                  }
+                >
+                  <div className="overflow-hidden rounded-card bg-grey/70 dark:bg-white/[0.04]">
+                    <img
+                      src={image.src}
+                      alt={image.alt[locale] || `${study.client} — ${i + 1}`}
+                      loading="lazy"
+                      className="aspect-[4/3] h-full w-full object-cover"
+                    />
+                  </div>
+                  {image.caption[locale] && (
+                    <figcaption className="mt-3 text-sm leading-relaxed text-ink/60 dark:text-white/60">
+                      {image.caption[locale]}
+                    </figcaption>
+                  )}
+                </figure>
+              ))}
+            </StaggerGrid>
+          </Container>
+        </section>
+      )}
 
       <ContactBanner
         locale={locale}

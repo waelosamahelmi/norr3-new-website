@@ -352,3 +352,81 @@ html[data-city-hero-active] .site-nav .bg-ink {
   height: auto;
   border-radius: var(--radius-card);
 }
+
+/*
+ * Case-study narrative sections (Objectives / Solution / Results), rendered
+ * from the CMS's rich text. Sits beside a large numbered heading, so it stays
+ * a notch smaller and quieter than the article column.
+ */
+.case-prose {
+  font-size: 15px;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--foreground) 70%, transparent);
+}
+
+@media (min-width: 1024px) {
+  .case-prose { font-size: 16px; }
+}
+
+.case-prose > * + * { margin-top: 1.1rem; }
+
+.case-prose h2,
+.case-prose h3,
+.case-prose h4 {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+
+.case-prose h2 { font-size: 22px; line-height: 1.25; margin-top: 2rem; }
+.case-prose h3 { font-size: 18px; line-height: 1.3; margin-top: 1.75rem; }
+.case-prose h4 { font-size: 16px; margin-top: 1.5rem; }
+
+.case-prose a {
+  color: var(--color-purple);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-purple) 35%, transparent);
+  text-underline-offset: 3px;
+}
+
+.dark .case-prose a { color: var(--color-light-purple); }
+
+.case-prose strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.case-prose ul,
+.case-prose ol { padding-left: 1.4rem; }
+.case-prose ul { list-style: disc; }
+.case-prose ol { list-style: decimal; }
+.case-prose li + li { margin-top: 0.4rem; }
+
+.case-prose blockquote {
+  border-left: 3px solid var(--color-purple);
+  padding-left: 1.1rem;
+  font-size: 17px;
+  line-height: 1.55;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.case-prose img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-card);
+}
+
+.case-prose figure { margin-top: 1.75rem; }
+
+.case-prose figcaption {
+  margin-top: 0.6rem;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--foreground) 55%, transparent);
+}
+
+.case-prose hr {
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+  margin: 2rem 0;
+}

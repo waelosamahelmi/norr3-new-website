@@ -6,6 +6,12 @@ export type CaseMetric = {
   label: { fi: string; en: string };
 };
 
+export type CaseGalleryImage = {
+  src: string;
+  alt: { fi: string; en: string };
+  caption: { fi: string; en: string };
+};
+
 export type CaseStudy = {
   slug: string;
   client: string;
@@ -14,11 +20,18 @@ export type CaseStudy = {
   summary: { fi: string; en: string };
   tagline: { fi: string; en: string };
   intro: { fi: string; en: string };
+  /**
+   * The narrative sections. From the CMS these are sanitised HTML (headings,
+   * lists, inline pictures); in this bundled fallback they are plain prose.
+   * Render either through `proseHtml()`.
+   */
   objectives: { fi: string; en: string };
   solution: { fi: string; en: string };
   methods: { icon: string; fi: { title: string; body: string }; en: { title: string; body: string } }[];
   results: { fi: string; en: string };
   metrics: CaseMetric[];
+  /** Pictures attached to the case in the CMS, shown as a gallery on the page. */
+  gallery?: CaseGalleryImage[];
   /**
    * The one headline figure the case card and the detail pull-quote lead with.
    * Always a restatement of one of `metrics` in badge-length form — never a new
