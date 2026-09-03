@@ -34,6 +34,7 @@ export function Nav({
   dict,
   menu,
   logo,
+  ctas,
 }: {
   locale: Locale;
   dict: Dictionary;
@@ -45,8 +46,19 @@ export function Nav({
    * the site has always shipped, labelled from the dictionary.
    */
   menu?: NavEntry[];
+  /**
+   * Header CTA buttons managed in the CMS. The two pills keep their fixed
+   * targets (/engine, /brief) and pick up the label the CMS holds for that
+   * target, so renaming a button there changes it here.
+   */
+  ctas?: NavEntry[];
 }) {
   const pathname = usePathname();
+
+  const ctaLabel = (href: string, fallback: string) =>
+    ctas?.find((c) => c.href === href || c.href === linkTo(locale, href))?.label[locale] || fallback;
+  const engineCta = ctaLabel("/engine", dict.nav.engine);
+  const briefCta = ctaLabel("/brief", dict.common.briefUs);
   const [open, setOpen] = useState(false);
   /** Which top-level item's panel is open on desktop (its key), or null. */
   const [subOpen, setSubOpen] = useState<string | null>(null);
@@ -342,14 +354,14 @@ export function Nav({
             href={linkTo(locale, "/engine")}
             className={`hidden rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-purple lg:inline-flex dark:bg-purple dark:text-white dark:hover:bg-violet ${focusRing}`}
           >
-            {dict.nav.engine}
+            {engineCta}
           </Link>
           {/* Secondary CTA — Brief us (Antti's header CTA) */}
           <Link
             href={linkTo(locale, "/brief")}
             className={`hidden rounded-full border border-ink/30 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white lg:inline-flex dark:border-white/30 dark:text-white dark:hover:bg-white dark:hover:text-ink ${focusRing}`}
           >
-            {dict.common.briefUs}
+            {briefCta}
           </Link>
           <button
             aria-label={dict.common.menu}
@@ -434,14 +446,14 @@ export function Nav({
               onClick={() => setOpen(false)}
               className={`mt-3 w-full rounded-full bg-ink px-5 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-purple dark:bg-purple dark:hover:bg-violet ${focusRing}`}
             >
-              {dict.nav.engine}
+              {engineCta}
             </Link>
             <Link
               href={linkTo(locale, "/brief")}
               onClick={() => setOpen(false)}
               className={`mt-2 w-full rounded-full border border-ink/30 px-5 py-3 text-center text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-white dark:border-white/30 dark:text-white dark:hover:bg-white dark:hover:text-ink ${focusRing}`}
             >
-              {dict.common.briefUs}
+              {briefCta}
             </Link>
           </motion.nav>
         )}

@@ -157,7 +157,7 @@ export default async function LocaleLayout({
           />
           <SmoothScroll />
           <RouteWipe />
-          <Nav locale={locale} dict={dict} menu={content.nav.header} logo={content.brand.logo} />
+          <Nav locale={locale} dict={dict} menu={content.nav.header} logo={content.brand.logo} ctas={content.ctas} />
           <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
             {children}
           </main>
