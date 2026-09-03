@@ -498,7 +498,7 @@ const fi = {
       body: "Uskomme vahvasti itsenäiseen ja kokeilevaan kulttuuriin, mutta myös yhdessä tekemisen voimaan. Arvomme eivät ole seinätaulu — ne näkyvät joka briiffissä ja joka palaverissa.",
     },
     principles: {
-      heading: "Neljä periaatetta",
+      heading: "Kolme periaatetta",
       body: "Asenne, teknologia ja osaaminen ovat keinot. Tulos on se, mistä meidät mitataan.",
       items: [
         {
@@ -515,11 +515,6 @@ const fi = {
           icon: "diversity_3",
           title: "Osaaminen",
           body: "Senioritiimi, jonka tukena on yli 800 osaajan verkosto ympäri maailmaa. Kokemus näkyy ensimmäisestä palaverista alkaen.",
-        },
-        {
-          icon: "trending_up",
-          title: "Tulokset",
-          body: "Mediaeuro on investointi, ei kuluerä. Todennamme tuloksen numeroilla, jotka kestävät hallituksen katseen.",
         },
       ],
     },
@@ -1333,7 +1328,7 @@ const en: Dictionary = {
       body: "We believe strongly in an independent, experimental culture — and in the power of doing things together. Our values are not a poster on the wall; they show up in every brief and every meeting.",
     },
     principles: {
-      heading: "Four principles",
+      heading: "Three principles",
       body: "Attitude, technology and talent are the means. Results are what we are measured on.",
       items: [
         {
@@ -1350,11 +1345,6 @@ const en: Dictionary = {
           icon: "diversity_3",
           title: "Talent",
           body: "A senior team backed by a network of more than 800 specialists worldwide. The experience shows from the first meeting on.",
-        },
-        {
-          icon: "trending_up",
-          title: "Results",
-          body: "A media euro is an investment, not a cost. We prove the result with numbers that hold up in the boardroom.",
         },
       ],
     },
