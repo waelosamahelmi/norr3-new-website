@@ -9,14 +9,13 @@ import { SplitHeadline } from "@/components/SplitHeadline";
 import { PillButton } from "@/components/PillButton";
 import { TextCta } from "@/components/TextCta";
 import { Reveal } from "@/components/Reveal";
-import { StaggerGrid } from "@/components/StaggerGrid";
 import { SectionHeader } from "@/components/SectionHeader";
 import { PillMarquee } from "@/components/marquee/PillMarquee";
 import { LogoStrip } from "@/components/marquee/LogoStrip";
 import { TeamMarquee } from "@/components/TeamMarquee";
 import { ContactBanner } from "@/components/ContactBanner";
 import { StatGrid } from "@/components/StatGrid";
-import { Icon } from "@/components/Icon";
+import { PrinciplesTriangle } from "@/components/PrinciplesTriangle";
 import { MediaAsset } from "@/components/MediaAsset";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
@@ -149,27 +148,16 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/meista"
         </div>
       </section>
 
+      {/* Principles — three, laid out as the brand's triangle. The intro line
+          ("…Results are what we are measured on") sits at the centre of the
+          triangle as what the three add up to, so it is not repeated in the
+          header. */}
       <section className="pb-24 lg:pb-32">
         <Container>
-          <SectionHeader heading={a.principles.heading} body={a.principles.body} />
-          <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-            {a.principles.items.map((p) => (
-              <div
-                key={p.title}
-                className="flex h-full flex-col gap-6 rounded-card bg-grey/70 p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10"
-              >
-                {/* Violet tile + white icon — the brand icon-tile treatment,
-                    identical in both themes. */}
-                <div className="flex h-[64px] w-[64px] items-center justify-center rounded-[5px] bg-violet text-white">
-                  <Icon name={p.icon} style={{ fontSize: "28px" }} />
-                </div>
-                <div>
-                  <h3 className="text-lg font-medium text-ink dark:text-white">{p.title}</h3>
-                  <p className="mt-2.5 text-sm leading-relaxed text-ink/65 dark:text-white/65">{p.body}</p>
-                </div>
-              </div>
-            ))}
-          </StaggerGrid>
+          <SectionHeader heading={a.principles.heading} />
+          <div className="mt-14 lg:mt-16">
+            <PrinciplesTriangle items={a.principles.items} statement={a.principles.body} />
+          </div>
         </Container>
       </section>
 
