@@ -135,6 +135,22 @@ export type HeroImage = {
   [key: string]: unknown;
 };
 
+/**
+ * A Media Insights "huomiopallo" — a small data box from the NØRR3 Media
+ * Insights / Norstat study, suggested for one page. The CMS owns which boxes
+ * are enabled per page; the website renders every enabled box whose `url`
+ * matches the current path, ordered by priority then position. `text`/`source`
+ * are locale pairs; English falls back to Finnish when empty.
+ */
+export type CmsMediaInsight = {
+  id: string;
+  url: string;
+  priority: number;
+  bigNumber: string;
+  text: Record<Locale, string>;
+  source: Record<Locale, string>;
+};
+
 export type CmsPageSummary = {
   slug: string;
   title: Record<Locale, string>;
@@ -161,6 +177,8 @@ export type SiteContent = {
   announcement: CmsAnnouncement;
   pages: CmsPageSummary[];
   heroes: CmsHero[];
+  /** Media Insights data boxes (huomiopallo), keyed by the page url they belong to. */
+  mediaInsights: CmsMediaInsight[];
   /** Widget datasets — chart channels, dashboard figures, company stats, brief channels. */
   datasets: Record<string, { fi: unknown; en: unknown }>;
   /** Named section-image slots on the hand-built pages, keyed by slot. */
@@ -251,6 +269,7 @@ function fallbackContent(error?: string): SiteContent {
     // No hero rows means the components use their own built-in content, which is
     // what the site shipped before heroes became editable.
     heroes: [],
+    mediaInsights: [],
     datasets: {},
     imageSlots: {},
     pageSeo: {},
@@ -328,6 +347,7 @@ type RawBundle = {
   announcement?: unknown;
   pages?: unknown[];
   heroes?: unknown[];
+  mediaInsights?: unknown[];
   datasets?: Record<string, { fi: unknown; en: unknown }>;
   imageSlots?: SiteContent["imageSlots"];
   pageSeo?: SiteContent["pageSeo"];
@@ -406,6 +426,7 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     announcement: (raw.announcement as CmsAnnouncement) ?? null,
     pages: (raw.pages ?? []) as CmsPageSummary[],
     heroes: (raw.heroes ?? []) as CmsHero[],
+    mediaInsights: (raw.mediaInsights ?? []) as CmsMediaInsight[],
     datasets: raw.datasets ?? {},
     imageSlots: raw.imageSlots ?? {},
     pageSeo: raw.pageSeo ?? {},

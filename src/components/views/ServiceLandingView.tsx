@@ -1,4 +1,7 @@
 import { getDictionary } from "@/lib/dictionary";
+import { getSiteContent } from "@/lib/cms";
+import { mediaInsightsFor } from "@/content/mediaInsights";
+import { InsightBoxes } from "@/components/InsightBoxes";
 import { linkTo } from "@/lib/links";
 import type { Locale } from "@/i18n/config";
 import { Container, HeroPill } from "@/components/Container";
@@ -16,6 +19,8 @@ import { servicePageLocalised, servicePages, type ServicePage } from "@/content/
  */
 export async function ServiceLandingView({ page, locale }: { page: ServicePage; locale: Locale }) {
   const dict = await getDictionary(locale);
+  const content = await getSiteContent();
+  const insights = mediaInsightsFor(content, `/${page.slug}`);
   const t = servicePageLocalised(page, locale);
   const related = servicePages.filter((p) => p.slug !== page.slug);
 
@@ -93,6 +98,16 @@ export async function ServiceLandingView({ page, locale }: { page: ServicePage; 
           </div>
         </Container>
       </section>
+
+      {/* Media Insights data boxes suggested for this service page (CMS picks
+          which are live). Sits between the copy and the related-service links. */}
+      {insights.length > 0 && (
+        <section className="pb-16 lg:pb-20">
+          <Container>
+            <InsightBoxes insights={insights} locale={locale} heading="Media Insights" />
+          </Container>
+        </section>
+      )}
 
       {/* Related services — internal links for SEO + navigation */}
       <section className="pb-16 lg:pb-20">
