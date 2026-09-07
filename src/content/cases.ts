@@ -51,6 +51,14 @@ export type CaseStudy = {
    * bundled fallback leaves it unset and the index falls back to Flow Festival.
    */
   featured?: boolean;
+  /** case_copies workbook: the campaign theme (e.g. "Lanseeraus") and the NØRR3
+   *  products used, shown as chips on the detail page. */
+  theme?: string;
+  products?: string[];
+  /** The Luova 1-4 creative lines, rendered as a "Luovat / Creative" block. */
+  creatives?: { fi: string[]; en: string[] };
+  /** The woven "tarinallinen versio" story — an editing reference in the CMS. */
+  story?: { fi: string; en: string };
 };
 
 // Case imagery: real campaign photography from norr3.fi — each case leads with

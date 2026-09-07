@@ -37,6 +37,12 @@ export async function CaseDetailView({
   const insights = mediaInsightsFor(await getSiteContent(), `/${study.slug}`);
   const d = dict.cases.detail;
   const gallery = study.gallery ?? [];
+  // The Luova 1-4 creative lines, in the page locale with a Finnish fallback.
+  const creativeLines =
+    (locale === "en" ? study.creatives?.en : study.creatives?.fi)?.length
+      ? (locale === "en" ? study.creatives!.en : study.creatives!.fi)
+      : study.creatives?.fi ?? [];
+  const products = study.products ?? [];
 
   // Narrative blocks share one editorial layout: the numbered heading holds a
   // column of its own, the prose sits beside it. Titles keep their Figma
@@ -126,6 +132,29 @@ export async function CaseDetailView({
         </Container>
       </section>
 
+      {/* Campaign theme + the NØRR3 products behind it, as chips under the lede. */}
+      {(study.theme || products.length > 0) && (
+        <Container className="pb-16 lg:pb-20">
+          <Reveal className="flex flex-wrap items-center gap-2.5">
+            {study.theme && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-purple px-4 py-1.5 text-xs font-medium text-white">
+                <Icon name="sell" style={{ fontSize: "15px" }} />
+                {study.theme}
+              </span>
+            )}
+            {products.map((product) => (
+              <span
+                key={product}
+                className="inline-flex items-center gap-1.5 rounded-full bg-light-purple px-4 py-1.5 text-xs font-medium text-ink dark:bg-white/10 dark:text-white"
+              >
+                <Icon name="apps" style={{ fontSize: "15px" }} />
+                {product}
+              </span>
+            ))}
+          </Reveal>
+        </Container>
+      )}
+
       {/* Pull-quote — the case's headline result, not a repeat of the hero line.
           Brand rule: a claim on this site resolves to a number, so the loudest
           type on the page is the figure itself. */}
@@ -195,6 +224,28 @@ export async function CaseDetailView({
           ))}
         </div>
       </Container>
+
+      {/* Luovat — the campaign's creative lines (the actual ad copy), each as a
+          quote tile. Absent when the case has none. */}
+      {creativeLines.length > 0 && (
+        <Container className="pb-24 lg:pb-32">
+          <Reveal>
+            <h2 className="text-3xl font-medium leading-[1.15] tracking-tight text-ink lg:text-4xl dark:text-white">
+              {locale === "fi" ? "Luovat" : "Creative"}
+            </h2>
+          </Reveal>
+          <div className={`mt-10 grid gap-4 ${creativeLines.length === 1 ? "max-w-2xl" : "sm:grid-cols-2"}`}>
+            {creativeLines.map((line, i) => (
+              <Reveal key={i} delay={i * 0.06} className="h-full">
+                <figure className="flex h-full items-start gap-3 rounded-card bg-grey/70 p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
+                  <Icon name="format_quote" className="mt-0.5 shrink-0 text-[22px] text-purple dark:text-light-purple" />
+                  <blockquote className="text-[15px] font-medium leading-relaxed text-ink dark:text-white">{line}</blockquote>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      )}
 
       {/* Methods */}
       <section className="pb-24 lg:pb-32">
