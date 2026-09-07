@@ -33,7 +33,12 @@ export function heroWords(
 
 /** Image sources in order, falling back when the hero has none configured. */
 export function heroImages(hero: CmsHero | undefined, fallback: HeroImage[]): HeroImage[] {
-  const images = hero?.images?.filter((image) => typeof image?.src === "string" && image.src);
+  // Icon cards have an icon and an intentionally empty src — keep them.
+  const images = hero?.images?.filter(
+    (image) =>
+      (typeof image?.src === "string" && image.src) ||
+      (typeof (image as { icon?: unknown })?.icon === "string" && (image as { icon?: string }).icon !== "")
+  );
   return images && images.length > 0 ? images : fallback;
 }
 

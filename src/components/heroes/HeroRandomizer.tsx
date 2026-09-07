@@ -180,7 +180,7 @@ export function HeroRandomizer({
               src: image.src,
               alt: heroAlt(image, locale, alts[index] ?? ""),
               number: cardConfig[index]?.number,
-              icon: cardConfig[index]?.icon,
+              icon: (image as { icon?: string }).icon || cardConfig[index]?.icon,
             }))}
           />
           <Reveal delay={0.3} className="mt-7 flex flex-col items-start gap-5 lg:mt-8">
