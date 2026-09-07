@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { PixelArt } from "./PixelArt";
 import { MediaAsset } from "./MediaAsset";
+import { Icon } from "./Icon";
 
 /** ms per character for the "A New Way to" typewriter intro. */
 const TYPE_SPEED = 70;
@@ -295,23 +296,30 @@ export function HomeHero({
                     opacity: isPopped ? slot.opacity : 0,
                     // Pop-in: scale from 0 to 1 (springy) as each card appears.
                     transform: `translate(-50%, -50%) scale(${isPopped ? 1 : 0})`,
-                    outline: "2.5px solid transparent",
-                    outlineColor: slot.front ? "var(--color-purple)" : "transparent",
                     transition: motion
-                      ? `width .8s ${EASE}, opacity .45s ${EASE}, transform .5s cubic-bezier(.34,1.56,.64,1), outline-color .4s`
+                      ? `width .8s ${EASE}, opacity .45s ${EASE}, transform .5s cubic-bezier(.34,1.56,.64,1)`
                       : undefined,
                   }}
                 >
                   {/* MediaAsset rather than a plain <img>: the CMS may point a
                       card's image at a video (the DOOH loop), and this renders
                       either without the card having to care. */}
-                  <MediaAsset
-                    src={card.src}
-                    alt={altText(index)}
-                    loading={index === 1 ? "eager" : "lazy"}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  <span className="absolute inset-0 bg-gradient-to-b from-violet/15 to-ink/50" />
+                  {card.icon && card.src.includes("_icon_") ? (
+                    /* Icon card — violet ground, big white icon, no photo */
+                    <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-violet">
+                      <Icon name={card.icon} style={{ fontSize: "56px" }} className="text-white" />
+                    </div>
+                  ) : (
+                    <>
+                      <MediaAsset
+                        src={card.src}
+                        alt={altText(index)}
+                        loading={index === 1 ? "eager" : "lazy"}
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                      <span className="absolute inset-0 bg-gradient-to-b from-violet/15 to-ink/50" />
+                    </>
+                  )}
                   <PixelArt
                     color={card.pixel}
                     steps={4}
