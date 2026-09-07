@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { PixelArt } from "./PixelArt";
 import { MediaAsset } from "./MediaAsset";
 import { Icon } from "./Icon";
+import { IconTileArt } from "./IconTileArt";
 
 /** ms per character for the "A New Way to" typewriter intro. */
 const TYPE_SPEED = 70;
@@ -305,18 +306,9 @@ export function HomeHero({
                       card's image at a video (the DOOH loop), and this renders
                       either without the card having to care. */}
                   {card.icon && !card.src ? (
-                    /* Icon card — violet ground, big white icon, no photo.
-                       Same visual weight as the photo cards: gradient depth,
-                       a yellow accent dot, and the icon centred. */
-                    <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-gradient-to-b from-violet to-purple">
-                      <span aria-hidden className="absolute -right-[18%] -top-[18%] h-[45%] w-[45%] rounded-full bg-[#F6FF4F]/25" />
-                      <span aria-hidden className="absolute -bottom-[12%] -left-[12%] h-[35%] w-[35%] rounded-full bg-white/[0.06]" />
-                      <Icon
-                        name={card.icon ?? "help_outline"}
-                        style={{ fontSize: "64px" }}
-                        className="relative z-10 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)]"
-                      />
-                    </div>
+                    /* Icon card — the brand tile art fills the card: lavender
+                       ground, lime stack, ghosts, yellow main card + icon. */
+                    <IconTileArt icon={card.icon} />
                   ) : (
                     <>
                       <MediaAsset
