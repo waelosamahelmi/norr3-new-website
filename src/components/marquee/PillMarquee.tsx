@@ -75,12 +75,19 @@ export function PillMarquee({
     </div>
   );
 
+  // Four copies, not two: with only five value pills a single row is narrower
+  // than the viewport, so a 2-copy track translating -50% (one row) leaves an
+  // empty gap after the last pill ("Oppiminen") before snapping back. Four
+  // copies make -50% equal two full rows, which always fills the viewport for
+  // a seamless loop. Duration is doubled to keep the same pixels-per-second.
   return (
     <div
       className={`marquee-paused mask-fade overflow-x-clip ${className}`}
-      style={{ ["--marquee-duration" as string]: duration }}
+      style={{ ["--marquee-duration" as string]: `calc(${duration} * 2)` }}
     >
       <div className="marquee-track items-center">
+        {row}
+        {row}
         {row}
         {row}
       </div>
