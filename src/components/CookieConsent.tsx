@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Icon } from "@/components/Icon";
+import { useEffect, useState } from "react";
 import { useLocalStorageItem } from "@/lib/useLocalStorageItem";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
@@ -23,7 +24,17 @@ export function CookieConsent({ dict, locale }: { dict: Dictionary["cookies"]; l
   // dialog over an editor is noise, and dismissing it there would silently opt
   // the editor's own browser in, so the box sits out the preview route.
   const inEditorPreview = usePathname().includes("/cms-preview");
-  const visible = choice === null && !inEditorPreview;
+  // The mobile menu hides the banner via <html data-menu-open> — it was
+  // covering menu content on small screens.
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    const check = () => setMenuOpen(document.documentElement.hasAttribute("data-menu-open"));
+    check();
+    const observer = new MutationObserver(check);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-menu-open"] });
+    return () => observer.disconnect();
+  }, []);
+  const visible = choice === null && !inEditorPreview && !menuOpen;
 
   return (
     <AnimatePresence>

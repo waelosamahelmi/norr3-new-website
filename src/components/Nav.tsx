@@ -70,6 +70,13 @@ export function Nav({
     setOpen(false);
   }, [pathname]);
 
+  // Hide the cookie banner while the mobile menu is open (it was covering
+  // menu content) — the banner listens for this attribute.
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-menu-open", open);
+    return () => document.documentElement.removeAttribute("data-menu-open");
+  }, [open]);
+
   const t = dict.nav;
 
   // The Palvelut mega-menu: main services as columns, their subservices under
@@ -382,7 +389,7 @@ export function Nav({
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col gap-1 overflow-hidden border-t border-black/5 px-6 py-4 lg:hidden dark:border-white/10"
+            className="flex max-h-[calc(100svh-8rem)] flex-col gap-1 overflow-y-auto overscroll-contain border-t border-black/5 px-6 pb-8 pt-4 lg:hidden dark:border-white/10"
           >
             {items.map((item) => (
               <div key={item.key}>
@@ -394,7 +401,8 @@ export function Nav({
                   {isActive(item.href) && <span className="h-2 w-2 rounded-full bg-purple" />}
                   {item.label}
                 </Link>
-                {/* Mobile: services render as grouped sections; others as flat list. */}
+                {/* Mobile: services collapse into an accordion (5 groups are
+                    too long to dump open); others as flat list. */}
                 {item.children.length > 0 && item.key === "services" && (
                   <div className="ml-3 flex flex-col gap-3 border-l border-black/10 pl-3 dark:border-white/10">
                     {MEGA_GROUPS.map((group) => (

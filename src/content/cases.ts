@@ -40,6 +40,12 @@ export type CaseStudy = {
   kpi: CaseMetric;
   /** When true, the case-detail hero image uses the parallax scroll effect. */
   parallax?: boolean;
+  /** Client testimonial shown as a quote block on the case detail page. */
+  testimonial?: {
+    author: string;
+    role: { fi: string; en: string };
+    text: { fi: string; en: string };
+  } | null;
   /**
    * Marks the case the index opens with. Set in the CMS rather than here — the
    * bundled fallback leaves it unset and the index falls back to Flow Festival.

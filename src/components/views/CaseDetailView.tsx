@@ -151,6 +151,26 @@ export async function CaseDetailView({
         </Reveal>
       </Container>
 
+      {/* Client testimonial — the client's own words under their headline result. */}
+      {study.testimonial && study.testimonial.text[locale] && (
+        <Container className="pb-24 lg:pb-32">
+          <Reveal>
+            <figure className="mx-auto max-w-3xl rounded-card bg-light-purple/70 px-8 py-12 text-center sm:px-14 dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
+              <Icon name="format_quote" className="mx-auto text-[40px] text-purple dark:text-light-purple" />
+              <blockquote className="mt-5 text-xl font-medium leading-relaxed text-ink sm:text-2xl dark:text-white">
+                {study.testimonial.text[locale]}
+              </blockquote>
+              <figcaption className="mt-6 text-[13px]">
+                <span className="font-medium text-ink dark:text-white">{study.testimonial.author}</span>
+                {study.testimonial.role[locale] && (
+                  <span className="text-ink/55 dark:text-white/55"> — {study.testimonial.role[locale]}</span>
+                )}
+              </figcaption>
+            </figure>
+          </Reveal>
+        </Container>
+      )}
+
       {/* 1. Objectives / 2. Solution — editorial two-column narrative */}
       <Container className="pb-24 lg:pb-32">
         <div className="divide-y divide-black/10 dark:divide-white/10">

@@ -486,6 +486,31 @@ export async function getCase(slug: string): Promise<CaseStudy | undefined> {
   return (await getCases()).find((entry) => entry.slug === slug);
 }
 
+/**
+ * Draft case preview: fetches a hidden case from the CMS via the
+ * password-protected endpoint. The site_url comes from CMS settings, which
+ * is also the origin that must proxy the request (the CMS serves the
+ * images). The browser carries the granted cookie automatically.
+ */
+export async function getCaseViaPreviewApi(
+  slug: string,
+  cookie?: string
+): Promise<CaseStudy | undefined> {
+  const base = process.env.NORR3_CMS_URL ?? "http://127.0.0.1:3848";
+  try {
+    const pwParam = cookie ? '&password=' + encodeURIComponent(cookie) : '';
+    const res = await fetch(`${base}/api/public/case?slug=${encodeURIComponent(slug)}${pwParam}`, {
+      cache: "no-store",
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) return undefined;
+    const data = (await res.json()) as { case?: CaseStudy & { parallax?: boolean } };
+    return data.case as CaseStudy | undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 /* -------------------------------------------------------------- block pages */
 
 export type CmsPage = {
