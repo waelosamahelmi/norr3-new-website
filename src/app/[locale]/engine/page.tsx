@@ -86,7 +86,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <FloatingCard className="rounded-card shadow-[0_28px_90px_-24px_rgba(122,6,211,0.55)]">
+            <FloatingCard className="rounded-card">
               <DashboardMock
                 locale={locale}
                 labels={e.dashboard}

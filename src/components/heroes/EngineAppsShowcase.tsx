@@ -195,7 +195,7 @@ export function EngineAppsShowcase({ locale }: { locale: Locale }) {
       </div>
 
       {/* Live product window */}
-      <div className="relative min-h-[420px] overflow-hidden rounded-card bg-ink text-white ring-1 ring-white/10 shadow-[0_32px_80px_-32px_rgba(0,0,0,0.6)]">
+      <div className="relative min-h-[420px] overflow-hidden rounded-card bg-ink text-white ring-1 ring-white/10">
         {/* window chrome */}
         <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.03] px-5 py-3">
           <span className="h-2.5 w-2.5 rounded-full bg-accent-red/80" />

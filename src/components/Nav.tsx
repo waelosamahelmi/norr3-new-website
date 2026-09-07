@@ -273,7 +273,7 @@ export function Nav({
                       <div
                         role="menu"
                         aria-label={item.label}
-                        className="w-[min(80vw,1060px)] overflow-hidden rounded-card bg-white p-5 shadow-[0_24px_60px_rgba(0,0,0,0.16)] ring-1 ring-black/5 sm:p-6 dark:bg-[#171225] dark:ring-white/10"
+                        className="w-[min(80vw,1060px)] overflow-hidden rounded-card bg-white p-5 ring-1 ring-black/5 sm:p-6 dark:bg-[#171225] dark:ring-white/10"
                       >
                         <div className="grid grid-cols-2 gap-x-5 gap-y-5 md:grid-cols-3 lg:grid-cols-5">
                           {MEGA_GROUPS.map((group) => (
@@ -325,7 +325,7 @@ export function Nav({
                       <div
                         role="menu"
                         aria-label={item.label}
-                        className="min-w-56 overflow-hidden rounded-card bg-white p-2 shadow-[0_16px_40px_rgba(0,0,0,0.14)] ring-1 ring-black/5 dark:bg-[#171225] dark:ring-white/10"
+                        className="min-w-56 overflow-hidden rounded-card bg-white p-2 ring-1 ring-black/5 dark:bg-[#171225] dark:ring-white/10"
                       >
                         {item.children.map((child) => (
                           <Link

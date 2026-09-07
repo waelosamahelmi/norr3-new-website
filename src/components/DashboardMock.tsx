@@ -68,7 +68,7 @@ export function DashboardMock({
     <figure
       role="img"
       aria-label={labels.alt}
-      className="overflow-hidden rounded-card bg-ink shadow-[0_24px_60px_-24px_rgba(0,0,0,0.55)] ring-1 ring-white/10"
+      className="overflow-hidden rounded-card bg-ink ring-1 ring-white/10"
     >
       {/* Browser chrome */}
       <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-2.5">

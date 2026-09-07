@@ -45,12 +45,10 @@ export function HoverLift({
     const enter = () => {
       yTo(-distance);
       scaleTo(scale);
-      gsap.to(el, { boxShadow: "0 16px 32px rgba(0,0,0,0.14)", duration: 0.25, ease: "power2.out" });
     };
     const leave = () => {
       yTo(0);
       scaleTo(1);
-      gsap.to(el, { boxShadow: "0 0px 0px rgba(0,0,0,0)", duration: 0.25, ease: "power2.out" });
     };
 
     el.addEventListener("mouseenter", enter);

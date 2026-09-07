@@ -289,7 +289,7 @@ export function HomeHero({
                 }}
               >
                 <div
-                  className="absolute left-1/2 top-1/2 aspect-[9/16] overflow-hidden rounded-md shadow-[0_14px_34px_rgba(0,0,0,0.22)]"
+                  className="absolute left-1/2 top-1/2 aspect-[9/16] overflow-hidden rounded-md"
                   style={{
                     // Card width as a share of the stage (percentage-based) so
                     // it scales cleanly at every breakpoint; front card = 60%.

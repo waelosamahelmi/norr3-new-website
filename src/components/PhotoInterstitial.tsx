@@ -26,7 +26,7 @@ export function PhotoInterstitial({
       <div className="relative max-h-[560px] overflow-hidden rounded-card">
         <ParallaxImage src={image} alt={alt} className="max-h-[560px]" />
         {caption && (
-          <p className="absolute bottom-24 left-1/2 w-[90%] -translate-x-1/2 text-center text-sm text-white [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]">
+          <p className="absolute bottom-24 left-1/2 w-[90%] -translate-x-1/2 text-center text-sm text-white">
             {caption}
           </p>
         )}

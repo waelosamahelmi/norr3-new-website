@@ -178,7 +178,6 @@ export function HeroCardStack({
             >
               <motion.div
                 className="relative overflow-hidden rounded-card bg-white p-2 ring-1 ring-black/10"
-                style={{ boxShadow: isFocus ? "0 20px 40px rgba(0,0,0,.34)" : "0 10px 24px rgba(0,0,0,.24)" }}
                 animate={reduceMotion ? undefined : { y: isFocus ? [0, -5, 0] : [0, -3, 0] }}
                 transition={reduceMotion ? { duration: 0 } : { duration: 6 + card.id * 0.5, repeat: Infinity, ease: "easeInOut" }}
               >

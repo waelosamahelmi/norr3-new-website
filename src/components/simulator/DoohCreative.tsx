@@ -93,7 +93,7 @@ export function DoohCreative({
           the empty space, exactly between the wordmark above and the marquee
           below. This is the elastic zone: it absorbs every aspect ratio. */}
       <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center gap-[3.5cqw] px-[6%] py-[10%] text-center">
-        <p className="text-[8.5cqw] font-medium leading-[1.04] tracking-[-0.02em] text-white [text-shadow:0_0_40px_rgba(0,0,0,0.6)]">
+        <p className="text-[8.5cqw] font-medium leading-[1.04] tracking-[-0.02em] text-white">
           {lines[0]}
           <br />
           {lines[1]}
@@ -123,7 +123,7 @@ export function DoohCreative({
       </div>
 
       {/* 5. Tagline */}
-      <p className="relative z-20 px-[5.5%] pb-[4.5%] pt-[2.5%] text-[3.4cqw] leading-snug text-white/85 [text-shadow:0_1px_12px_rgba(0,0,0,0.8)]">
+      <p className="relative z-20 px-[5.5%] pb-[4.5%] pt-[2.5%] text-[3.4cqw] leading-snug text-white/85">
         With us, marketing hits home and sinks in.
       </p>
     </div>

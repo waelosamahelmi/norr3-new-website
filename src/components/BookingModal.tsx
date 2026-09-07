@@ -214,7 +214,7 @@ export function BookingModal({ kind, locale, open, onClose }: BookingModalProps)
             role="dialog"
             aria-modal="true"
             aria-label={kind === "demo" ? t.demoTitle : t.meetingTitle}
-            className="max-h-[92svh] w-full max-w-lg overflow-y-auto rounded-card bg-offwhite p-6 shadow-2xl dark:bg-[#171225] sm:p-8"
+            className="max-h-[92svh] w-full max-w-lg overflow-y-auto rounded-card bg-offwhite p-6 dark:bg-[#171225] sm:p-8"
           >
             {state === "done" ? (
               <div className="flex flex-col items-center gap-4 py-8 text-center">
