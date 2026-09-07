@@ -128,7 +128,7 @@ export function HomeHero({
     return {
       ...card,
       word: override?.word?.trim() || card.word,
-      src: override?.src || card.src,
+      src: override ? override.src || "" : card.src,
       number: override?.number?.trim() || card.number,
       icon: override?.icon?.trim() || card.icon,
     };
@@ -304,7 +304,7 @@ export function HomeHero({
                   {/* MediaAsset rather than a plain <img>: the CMS may point a
                       card's image at a video (the DOOH loop), and this renders
                       either without the card having to care. */}
-                  {card.icon && card.src.includes("_icon_") ? (
+                  {card.icon && !card.src ? (
                     /* Icon card — violet ground, big white icon, no photo */
                     <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-violet">
                       <Icon name={card.icon} style={{ fontSize: "56px" }} className="text-white" />
