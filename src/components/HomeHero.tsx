@@ -41,9 +41,9 @@ function useMotionAllowed() {
  * 101px overlap at 1440w with the old -56% back offset).
  */
 const SLOTS = [
-  { x: "-28%", y: "40px", scale: 0.66, opacity: 0.9, z: 1, front: false },
-  { x: "-14%", y: "10px", scale: 0.82, opacity: 0.97, z: 2, front: false },
-  { x: "20%", y: "-22px", scale: 1, opacity: 1, z: 3, front: true },
+  { x: "-34%", y: "40px", scale: 0.66, opacity: 0.9, z: 1, front: false },
+  { x: "-10%", y: "10px", scale: 0.82, opacity: 0.97, z: 2, front: false },
+  { x: "28%", y: "-22px", scale: 0.94, opacity: 1, z: 3, front: true },
 ] as const;
 
 type HeroCard = {
@@ -305,9 +305,17 @@ export function HomeHero({
                       card's image at a video (the DOOH loop), and this renders
                       either without the card having to care. */}
                   {card.icon && !card.src ? (
-                    /* Icon card — violet ground, big white icon, no photo */
-                    <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-violet">
-                      <Icon name={card.icon} style={{ fontSize: "56px" }} className="text-white" />
+                    /* Icon card — violet ground, big white icon, no photo.
+                       Same visual weight as the photo cards: gradient depth,
+                       a yellow accent dot, and the icon centred. */
+                    <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-gradient-to-b from-violet to-purple">
+                      <span aria-hidden className="absolute -right-[18%] -top-[18%] h-[45%] w-[45%] rounded-full bg-[#F6FF4F]/25" />
+                      <span aria-hidden className="absolute -bottom-[12%] -left-[12%] h-[35%] w-[35%] rounded-full bg-white/[0.06]" />
+                      <Icon
+                        name={card.icon ?? "help_outline"}
+                        style={{ fontSize: "64px" }}
+                        className="relative z-10 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)]"
+                      />
                     </div>
                   ) : (
                     <>
