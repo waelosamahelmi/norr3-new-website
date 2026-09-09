@@ -16,8 +16,12 @@ export async function POST(req: NextRequest) {
 
   const slug = String(form.get("slug") ?? "").trim();
   const password = String(form.get("password") ?? "").trim();
+  // The form carries its locale so the unlock redirect lands back on the
+  // localized preview URL the client came from, never on a bare path.
+  const locale = form.get("locale") === "en" ? "en" : "fi";
+  const back = (query: string) => new URL(`/${locale}/case-preview/${slug}${query}`, req.url);
   if (!slug || !password) {
-    return NextResponse.redirect(new URL(`/case-preview/${slug}?pw=wrong`, req.url), 302);
+    return NextResponse.redirect(back("?pw=wrong"), 302);
   }
 
   const cmsBase = (process.env.NORR3_CMS_URL ?? "http://127.0.0.1:3848").replace(/\/+$/, "");
@@ -27,13 +31,13 @@ export async function POST(req: NextRequest) {
       { cache: "no-store", signal: AbortSignal.timeout(8000) }
     );
     if (!res.ok) {
-      return NextResponse.redirect(new URL(`/case-preview/${slug}?pw=wrong`, req.url), 302);
+      return NextResponse.redirect(back("?pw=wrong"), 302);
     }
   } catch {
-    return NextResponse.redirect(new URL(`/case-preview/${slug}?pw=wrong`, req.url), 302);
+    return NextResponse.redirect(back("?pw=wrong"), 302);
   }
 
-  const res = NextResponse.redirect(new URL(`/case-preview/${slug}`, req.url), 303);
+  const res = NextResponse.redirect(back(""), 303);
   res.cookies.set(COOKIE_BASE + slug.replace(/[^a-z0-9-]/gi, ""), password, {
     httpOnly: true,
     sameSite: "lax",

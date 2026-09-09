@@ -45,10 +45,19 @@ export default function PreviewTools({
       if ((e.target as HTMLElement | null)?.closest("[data-preview-tools]")) return;
       e.preventDefault();
       e.stopPropagation();
-      const docH = Math.max(document.documentElement.scrollHeight, 1);
+      // Coordinates are percentages of the preview wrapper (#preview-root),
+      // the same box the pin layer is absolute-positioned against — so a pin
+      // lands exactly under the cursor at any viewport or scroll position.
+      const rootEl = document.getElementById("preview-root");
+      const rect = rootEl?.getBoundingClientRect();
+      const boxTop = rect ? rect.top + window.scrollY : 0;
+      const boxLeft = rect ? rect.left + window.scrollX : 0;
+      const boxW = rect ? rect.width : Math.max(window.innerWidth, 1);
+      const boxH = rect ? rect.height : Math.max(document.documentElement.scrollHeight, 1);
+      const clamp = (v: number) => Math.min(100, Math.max(0, v));
       setPin({
-        x: (e.clientX / Math.max(window.innerWidth, 1)) * 100,
-        y: ((window.scrollY + e.clientY) / docH) * 100,
+        x: clamp(((e.clientX + window.scrollX - boxLeft) / boxW) * 100),
+        y: clamp(((e.clientY + window.scrollY - boxTop) / boxH) * 100),
         vx: e.clientX,
         vy: e.clientY,
       });

@@ -13,7 +13,7 @@ import PreviewTools, { type PreviewComment } from "@/components/preview/PreviewT
  * editor) and gets a 30-minute cookie that unlocks the draft. Renders the
  * same CaseDetailView as the public page with a "DRAFT" ribbon on top.
  */
-type Params = { params: Promise<{ locale: string; slug: string }> };
+type Params = { params: Promise<{ locale: string; slug: string }>; searchParams: Promise<{ pw?: string }> };
 
 export const metadata = {
   title: "Luonnos / Draft — NØRR3",
@@ -25,10 +25,11 @@ async function previewPassword(slug: string): Promise<string | null> {
   return store.get(`norr3-draft-${slug.replace(/[^a-z0-9-]/gi, "")}`)?.value ?? null;
 }
 
-export default async function CasePreviewPage({ params }: Params) {
+export default async function CasePreviewPage({ params, searchParams }: Params) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
   const fi = locale === "fi";
+  const wrong = (await searchParams).pw === "wrong";
 
   const previewPw = await previewPassword(slug);
 
@@ -48,6 +49,12 @@ export default async function CasePreviewPage({ params }: Params) {
         </p>
         <form action="/api/case-preview" method="POST" className="flex w-full max-w-xs flex-col gap-3">
           <input type="hidden" name="slug" value={slug} />
+          <input type="hidden" name="locale" value={locale} />
+          {wrong && (
+            <p className="text-[12px] font-medium text-red-600 dark:text-red-400">
+              {fi ? "Väärä salasana — yritä uudelleen." : "Wrong password — try again."}
+            </p>
+          )}
           <input
             type="password"
             name="password"
@@ -85,7 +92,7 @@ export default async function CasePreviewPage({ params }: Params) {
 
   const dict = content.dictionaries[locale];
   return (
-    <div className="relative">
+    <div id="preview-root" className="relative">
       <div className="fixed inset-x-0 top-0 z-[80] bg-yellow py-1.5 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-ink">
         {fi ? "LUONNOS — ei julkinen" : "DRAFT — not published"}
       </div>
