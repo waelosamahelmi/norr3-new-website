@@ -145,7 +145,7 @@ export async function InsightArticleView({
       {/* Media Insights boxes backing this article (CMS picks which are live) —
           the study figures the post's argument rests on. */}
       {insights.length > 0 && (
-        <Container className="pb-24 lg:pb-32">
+        <Container className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
           <InsightBoxes insights={insights} locale={locale} heading="Media Insights" />
         </Container>
       )}

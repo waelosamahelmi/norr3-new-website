@@ -139,7 +139,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
       {/* Media Insights — the reach behind the Engine's channels (Meta, retail
           pDOOH, news display, city centres), before the live simulator. */}
       {mediaInsights.length > 0 && (
-        <section className="py-16 lg:py-20">
+        <section className="py-12 lg:py-16">
           <Container>
             <InsightBoxes insights={mediaInsights} locale={locale} heading="Media Insights" />
           </Container>

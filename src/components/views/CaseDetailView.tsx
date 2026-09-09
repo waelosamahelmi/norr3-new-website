@@ -316,7 +316,7 @@ export async function CaseDetailView({
       {/* Media Insights boxes for this case's market/audience (CMS picks which
           are live) — the independent study context behind the result. */}
       {insights.length > 0 && (
-        <section className="pb-24 lg:pb-32">
+        <section className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
           <Container>
             <InsightBoxes insights={insights} locale={locale} heading="Media Insights" />
           </Container>

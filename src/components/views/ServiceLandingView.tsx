@@ -102,7 +102,7 @@ export async function ServiceLandingView({ page, locale }: { page: ServicePage; 
       {/* Media Insights data boxes suggested for this service page (CMS picks
           which are live). Sits between the copy and the related-service links. */}
       {insights.length > 0 && (
-        <section className="pb-16 lg:pb-20">
+        <section className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
           <Container>
             <InsightBoxes insights={insights} locale={locale} heading="Media Insights" />
           </Container>

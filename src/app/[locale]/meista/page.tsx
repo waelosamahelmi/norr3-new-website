@@ -181,7 +181,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/meista"
       </section>
 
       {mediaInsights.length > 0 && (
-        <section className="pb-24 lg:pb-32">
+        <section className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
           <Container>
             <InsightBoxes insights={mediaInsights} locale={locale} heading="Media Insights" />
           </Container>
