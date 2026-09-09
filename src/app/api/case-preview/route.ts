@@ -10,6 +10,18 @@ import { submitToCms } from "@/lib/cms";
  */
 const COOKIE_BASE = "norr3-draft-";
 
+/**
+ * Relative-Location redirect. An absolute URL built from `req.url` would
+ * carry the server's internal host (localhost:3848 behind the proxy) and
+ * strand the client on an unreachable address; a relative Location is
+ * resolved by the browser against the URL it actually used.
+ */
+function redirectTo(path: string, status: 302 | 303): NextResponse {
+  const res = new NextResponse(null, { status });
+  res.headers.set("Location", path);
+  return res;
+}
+
 export async function POST(req: NextRequest) {
   const form = (await req.formData().catch(() => null)) as FormData | null;
   if (!form) return NextResponse.json({ error: "Malformed" }, { status: 400 });
@@ -19,9 +31,9 @@ export async function POST(req: NextRequest) {
   // The form carries its locale so the unlock redirect lands back on the
   // localized preview URL the client came from, never on a bare path.
   const locale = form.get("locale") === "en" ? "en" : "fi";
-  const back = (query: string) => new URL(`/${locale}/case-preview/${slug}${query}`, req.url);
+  const back = `/${locale}/case-preview/${slug}`;
   if (!slug || !password) {
-    return NextResponse.redirect(back("?pw=wrong"), 302);
+    return redirectTo(`${back}?pw=wrong`, 302);
   }
 
   const cmsBase = (process.env.NORR3_CMS_URL ?? "http://127.0.0.1:3848").replace(/\/+$/, "");
@@ -31,13 +43,13 @@ export async function POST(req: NextRequest) {
       { cache: "no-store", signal: AbortSignal.timeout(8000) }
     );
     if (!res.ok) {
-      return NextResponse.redirect(back("?pw=wrong"), 302);
+      return redirectTo(`${back}?pw=wrong`, 302);
     }
   } catch {
-    return NextResponse.redirect(back("?pw=wrong"), 302);
+    return redirectTo(`${back}?pw=wrong`, 302);
   }
 
-  const res = NextResponse.redirect(back(""), 303);
+  const res = redirectTo(back, 303);
   res.cookies.set(COOKIE_BASE + slug.replace(/[^a-z0-9-]/gi, ""), password, {
     httpOnly: true,
     sameSite: "lax",
