@@ -141,12 +141,22 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/meista"
         </Container>
       </section>
 
-      {/* Values — the home page's value pills, then the four principles */}
-      <section className="pb-24 lg:pb-32">
+      {/* Values — a tinted band so the intro and the value pills read as one
+          unit instead of a floating centred header over a lone strip. The
+          intro is left-aligned editorial (Figma style); the marquee runs
+          full-bleed beneath it inside the same band. */}
+      <section className="bg-pastel-purple/40 py-24 lg:py-32 dark:bg-white/[0.04]">
         <Container>
-          <SectionHeader heading={a.values.heading} body={a.values.body} />
+          <Reveal>
+            <h2 className="max-w-4xl text-4xl font-medium leading-[1.1] tracking-tight text-ink lg:text-5xl dark:text-white">
+              {a.values.heading}
+            </h2>
+            <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-ink/70 lg:text-base dark:text-white/70">
+              {a.values.body}
+            </p>
+          </Reveal>
         </Container>
-        <div className="mt-14 lg:mt-16">
+        <div className="mt-12 lg:mt-16">
           <PillMarquee items={pills} />
         </div>
       </section>
