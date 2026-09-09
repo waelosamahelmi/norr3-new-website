@@ -8,7 +8,10 @@ export function Container({
   className?: string;
 }) {
   return (
-    <div className={`mx-auto max-w-[1600px] px-6 lg:px-14 ${className}`}>
+    // Full-bleed 16-column grid: side margins equal one grid column (~6.25% of
+    // the viewport) on desktop instead of a centered max-width box, matching
+    // the Figma brand guideline's website layout. Mobile keeps a fixed gutter.
+    <div className={`w-full px-6 lg:px-[6.25%] ${className}`}>
       {children}
     </div>
   );
