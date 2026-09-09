@@ -35,11 +35,16 @@ function nbspNumbers(value: string): string {
   return value.replace(/(\d) (?=\d)/g, "$1\u00A0");
 }
 
+/** Full-bleed breakout: cancel the surrounding Container's side padding so the
+ *  box row spans the viewport edge-to-edge (like the pill marquee), while the
+ *  section heading stays aligned to the content column. */
+const BLEED = "-mx-6 lg:-mx-[6.25%]";
+
 function gridFor(count: number): string {
-  if (count === 1) return "grid mx-auto max-w-2xl";
-  if (count === 2) return "grid gap-card-gap sm:grid-cols-2";
-  if (count === 3) return "grid gap-card-gap md:grid-cols-3";
-  return "grid gap-card-gap sm:grid-cols-2";
+  if (count === 1) return `grid ${BLEED}`;
+  if (count === 2) return `grid gap-card-gap sm:grid-cols-2 ${BLEED}`;
+  if (count === 3) return `grid gap-card-gap md:grid-cols-3 ${BLEED}`;
+  return `grid gap-card-gap sm:grid-cols-2 ${BLEED}`;
 }
 
 export function InsightBoxes({
