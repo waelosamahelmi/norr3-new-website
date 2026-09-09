@@ -82,7 +82,7 @@ export function PillMarquee({
   // a seamless loop. Duration is doubled to keep the same pixels-per-second.
   return (
     <div
-      className={`marquee-paused mask-fade overflow-x-clip ${className}`}
+      className={`marquee-paused overflow-x-clip ${className}`}
       style={{ ["--marquee-duration" as string]: `calc(${duration} * 2)` }}
     >
       <div className="marquee-track items-center">
