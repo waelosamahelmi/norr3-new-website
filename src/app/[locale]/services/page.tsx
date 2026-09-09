@@ -20,8 +20,6 @@ import { Icon } from "@/components/Icon";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
 import { servicePages, servicePageLocalised } from "@/content/servicePages";
-import { InsightBoxes } from "@/components/InsightBoxes";
-import { mediaInsightsFor } from "@/content/mediaInsights";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/services">) {
   const { locale } = await params;
@@ -63,7 +61,6 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
   const insights = content.posts;
   const { mediaPills } = content.brand;
   const s = dict.services;
-  const mediaInsights = mediaInsightsFor(content, "/services");
 
   const pills = mediaPills.map((p) => ({ id: p.id, icon: p.icon, label: p[locale] }));
   const relatedCases = cases.filter((c) => c.slug !== "suun-terveystalo").slice(0, 3);
@@ -127,13 +124,6 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       </section>
 
       {/* Media Insights — why measured media matters, under the service areas. */}
-      {mediaInsights.length > 0 && (
-        <section className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
-          <Container>
-            <InsightBoxes insights={mediaInsights} locale={locale} heading="Media Insights" />
-          </Container>
-        </section>
-      )}
 
       {/* Deep-dive landing pages — the keyword-optimised sub-pages under
           /palvelut, linked from the hub for SEO and navigation. */}

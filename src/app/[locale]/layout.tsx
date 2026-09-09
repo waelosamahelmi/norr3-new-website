@@ -19,6 +19,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { RouteWipe } from "@/components/RouteWipe";
 import { CookieConsent } from "@/components/CookieConsent";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { InsightsTicker } from "@/components/InsightsTicker";
 import { Analytics } from "@/components/Analytics";
 import { MotionSettingsProvider } from "@/components/MotionSettingsProvider";
 
@@ -136,7 +137,7 @@ export default async function LocaleLayout({
         {/* Admin-written CSS and head snippet, after the tokens so it can override them. */}
         <CustomHead />
       </head>
-      <body className="min-h-full flex flex-col bg-offwhite text-ink dark:bg-background dark:text-foreground">
+      <body className="min-h-full flex flex-col bg-offwhite pb-11 text-ink dark:bg-background dark:text-foreground">
         {/* reducedMotion="user" is not configurable: the OS setting always wins over
             whatever is set in the CMS. */}
         <MotionConfig reducedMotion="user">
@@ -148,20 +149,25 @@ export default async function LocaleLayout({
           >
             {dict.common.skipToContent}
           </a>
-          {/* Sits in normal flow above the sticky nav, so it scrolls away. */}
-          <AnnouncementBar
-            locale={locale}
-            dict={dict.announcement}
-            message={content.announcement?.message[locale]}
-            href={content.announcement?.href || "/engine"}
-          />
           <SmoothScroll />
           <RouteWipe />
-          <Nav locale={locale} dict={dict} menu={content.nav.header} logo={content.brand.logo} ctas={content.ctas} />
+          {/* Sticky header: the announcement bar and nav stay visible while
+              scrolling (the bar no longer scrolls away at the top). */}
+          <div className="sticky top-0 z-50">
+            <AnnouncementBar
+              locale={locale}
+              dict={dict.announcement}
+              message={content.announcement?.message[locale]}
+              href={content.announcement?.href || "/engine"}
+            />
+            <Nav locale={locale} dict={dict} menu={content.nav.header} logo={content.brand.logo} ctas={content.ctas} />
+          </div>
           <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
             {children}
           </main>
           <Footer locale={locale} dict={dict} logo={content.brand.logo} />
+          {/* Always-visible sliding Media Insights strip. */}
+          <InsightsTicker insights={content.mediaInsights} locale={locale} />
           <CookieConsent dict={dict.cookies} locale={locale} />
           {/* GA4, gated on cookie consent (see the component). */}
           <Analytics ga4={content.integrations.ga4} />

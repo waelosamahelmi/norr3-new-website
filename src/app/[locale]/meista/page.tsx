@@ -14,8 +14,6 @@ import { PillMarquee } from "@/components/marquee/PillMarquee";
 import { LogoStrip } from "@/components/marquee/LogoStrip";
 import { TeamMarquee } from "@/components/TeamMarquee";
 import { ContactBanner } from "@/components/ContactBanner";
-import { InsightBoxes } from "@/components/InsightBoxes";
-import { mediaInsightsFor } from "@/content/mediaInsights";
 import { StatGrid } from "@/components/StatGrid";
 import { PrinciplesGrid } from "@/components/PrinciplesGrid";
 import { MediaAsset } from "@/components/MediaAsset";
@@ -57,7 +55,6 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/meista"
   const content = await getSiteContent();
   const { clients } = content.brand;
   const dict = content.dictionaries[locale];
-  const mediaInsights = mediaInsightsFor(content, "/meista");
   // Alt falls back to the dictionary value this page already used.
   const storyPhoto = imageSlot(content, "about.story", locale, {
     src: "/images/brand/group.webp",
@@ -180,13 +177,6 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/meista"
         </Container>
       </section>
 
-      {mediaInsights.length > 0 && (
-        <section className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
-          <Container>
-            <InsightBoxes insights={mediaInsights} locale={locale} heading="Media Insights" />
-          </Container>
-        </section>
-      )}
 
       <ContactBanner
         locale={locale}

@@ -207,7 +207,7 @@ export function Nav({
   };
 
   return (
-    <header className="site-nav sticky top-0 z-50 bg-white/95 backdrop-blur dark:bg-background/95">
+    <header className="site-nav relative z-50 bg-white/95 backdrop-blur dark:bg-background/95">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}

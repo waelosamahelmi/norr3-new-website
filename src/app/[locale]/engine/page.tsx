@@ -17,8 +17,6 @@ import { FloatingCard } from "@/components/FloatingCard";
 import { HoverLift } from "@/components/HoverLift";
 import { EngineAppsShowcase } from "@/components/heroes/EngineAppsShowcase";
 import { Icon } from "@/components/Icon";
-import { InsightBoxes } from "@/components/InsightBoxes";
-import { mediaInsightsFor } from "@/content/mediaInsights";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
 
@@ -55,7 +53,6 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
   const content = await getSiteContent();
   const dict = content.dictionaries[locale];
   const e = dict.engine;
-  const mediaInsights = mediaInsightsFor(content, "/engine");
 
   return (
     <>
@@ -138,13 +135,6 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
 
       {/* Media Insights — the reach behind the Engine's channels (Meta, retail
           pDOOH, news display, city centres), before the live simulator. */}
-      {mediaInsights.length > 0 && (
-        <section className="py-12 lg:py-16">
-          <Container>
-            <InsightBoxes insights={mediaInsights} locale={locale} heading="Media Insights" />
-          </Container>
-        </section>
-      )}
 
       {/* Interactive media-mix simulator — the live demo */}
       <section id="simulator" className="scroll-mt-24 bg-ink py-16 lg:py-20 dark:border-y dark:border-white/10">

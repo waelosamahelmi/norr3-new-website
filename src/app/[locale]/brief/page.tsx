@@ -2,8 +2,6 @@ import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
 import { getSiteContent } from "@/lib/cms";
-import { InsightBoxes } from "@/components/InsightBoxes";
-import { mediaInsightsFor } from "@/content/mediaInsights";
 import { briefChannels, dataset } from "@/content/datasets";
 import { Container } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
@@ -45,7 +43,6 @@ export default async function BriefPage({ params }: { params: Promise<{ locale: 
   if (!isLocale(locale)) notFound();
   const content = await getSiteContent();
   const dict = content.dictionaries[locale];
-  const mediaInsights = mediaInsightsFor(content, "/brief");
 
   return (
     <>
@@ -68,13 +65,6 @@ export default async function BriefPage({ params }: { params: Promise<{ locale: 
         </Reveal>
       </Container>
 
-      {mediaInsights.length > 0 && (
-        <section className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
-          <Container>
-            <InsightBoxes insights={mediaInsights} locale={locale} heading="Media Insights" />
-          </Container>
-        </section>
-      )}
       {/* Form */}
       <Container className="pb-24 pt-12 lg:pb-32">
         <div className="rounded-card bg-white p-8 ring-1 ring-black/5 sm:p-10 dark:bg-white/[0.04] dark:ring-white/10">

@@ -16,8 +16,6 @@ import { CaseCard } from "@/components/cards/CaseCard";
 import { CaseFeature } from "@/components/cards/CaseFeature";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
-import { InsightBoxes } from "@/components/InsightBoxes";
-import { mediaInsightsFor } from "@/content/mediaInsights";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
 
@@ -60,7 +58,6 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/caset">
   const content = await getSiteContent();
   const { clients } = content.brand;
   const dict = content.dictionaries[locale];
-  const mediaInsights = mediaInsightsFor(content, "/caset");
   const cases = content.cases;
   const insights = content.posts;
   const c = dict.cases;
@@ -170,13 +167,6 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/caset">
         </Container>
       </section>
 
-      {mediaInsights.length > 0 && (
-        <section className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
-          <Container>
-            <InsightBoxes insights={mediaInsights} locale={locale} heading="Media Insights" />
-          </Container>
-        </section>
-      )}
 
       <ContactBanner
         locale={locale}

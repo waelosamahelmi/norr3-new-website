@@ -23,8 +23,6 @@ import { DashboardMock } from "@/components/DashboardMock";
 import { StatGrid } from "@/components/StatGrid";
 import { TeamMarquee } from "@/components/TeamMarquee";
 import { MediaAsset } from "@/components/MediaAsset";
-import { InsightBoxes } from "@/components/InsightBoxes";
-import { mediaInsightsFor } from "@/content/mediaInsights";
 import { linkTo } from "@/lib/links";
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
@@ -37,7 +35,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const cases = content.cases;
   const insights = content.posts;
   const { valuePills } = content.brand;
-  const mediaInsights = mediaInsightsFor(content, "/");
 
   // Alt text for the hero's three rotating cards: 01 Plan / 02 Execute / 03 Grow.
   const heroAlts: [string, string, string] =
@@ -201,13 +198,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       {/* Media Insights — the study figures behind the "we measure everything"
           promise, straight after the services that make it. */}
-      {mediaInsights.length > 0 && (
-        <section className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
-          <Container>
-            <InsightBoxes insights={mediaInsights} locale={locale} heading="Media Insights" />
-          </Container>
-        </section>
-      )}
 
       {/* Values — full-bleed, full-screen CSS parallax band */}
       <ParallaxBand

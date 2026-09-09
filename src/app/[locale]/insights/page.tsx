@@ -11,8 +11,6 @@ import { StaggerGrid } from "@/components/StaggerGrid";
 import { TextCta } from "@/components/TextCta";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { ContactBanner } from "@/components/ContactBanner";
-import { InsightBoxes } from "@/components/InsightBoxes";
-import { mediaInsightsFor } from "@/content/mediaInsights";
 import { getPosts } from "@/lib/cms";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
@@ -62,7 +60,6 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
   const dict = await getDictionary(locale);
   const posts = await getPosts();
   const content = await getSiteContent();
-  const mediaInsights = mediaInsightsFor(content, "/insights");
 
   // The CMS marks one post as the lead; without one the newest post takes the
   // slot, which is what the index did before posts became editable.
@@ -169,13 +166,6 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
         </StaggerGrid>
       </Container>
 
-      {mediaInsights.length > 0 && (
-        <section className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
-          <Container>
-            <InsightBoxes insights={mediaInsights} locale={locale} heading="Media Insights" />
-          </Container>
-        </section>
-      )}
 
       <ContactBanner
         locale={locale}

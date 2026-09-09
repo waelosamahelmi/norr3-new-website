@@ -3,8 +3,6 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/content/dictionary";
 import type { CmsPost } from "@/lib/cms";
 import { getPosts, getSiteContent } from "@/lib/cms";
-import { mediaInsightsFor } from "@/content/mediaInsights";
-import { InsightBoxes } from "@/components/InsightBoxes";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
 import { Container, HeroPill } from "@/components/Container";
@@ -33,7 +31,6 @@ export async function InsightArticleView({
 }) {
   const content = post[locale];
   const others = (await getPosts()).filter((entry) => entry.slug !== post.slug).slice(0, 3);
-  const insights = mediaInsightsFor(await getSiteContent(), `/${post.slug}`);
   const minutes = post.readingMinutes;
   const url = `https://norr3.fi${linkTo(locale, `/${post.slug}`)}`;
 
@@ -144,11 +141,6 @@ export async function InsightArticleView({
 
       {/* Media Insights boxes backing this article (CMS picks which are live) —
           the study figures the post's argument rests on. */}
-      {insights.length > 0 && (
-        <Container className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
-          <InsightBoxes insights={insights} locale={locale} heading="Media Insights" />
-        </Container>
-      )}
 
       <section className="border-t border-black/5 pb-24 pt-24 lg:pb-32 lg:pt-32 dark:border-white/10">
         <Container>

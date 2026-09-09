@@ -2,8 +2,6 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/content/dictionary";
 import type { CaseStudy } from "@/content/cases";
 import { getCases, getSiteContent } from "@/lib/cms";
-import { mediaInsightsFor } from "@/content/mediaInsights";
-import { InsightBoxes } from "@/components/InsightBoxes";
 import { linkTo } from "@/lib/links";
 import { proseHtml } from "@/lib/prose";
 import { Container } from "@/components/Container";
@@ -34,7 +32,6 @@ export async function CaseDetailView({
   dict: Dictionary;
 }) {
   const related = (await getCases()).filter((c) => c.slug !== study.slug).slice(0, 3);
-  const insights = mediaInsightsFor(await getSiteContent(), `/${study.slug}`);
   const d = dict.cases.detail;
   const gallery = study.gallery ?? [];
   // The Luova 1-4 creative lines, in the page locale with a Finnish fallback.
@@ -315,13 +312,6 @@ export async function CaseDetailView({
 
       {/* Media Insights boxes for this case's market/audience (CMS picks which
           are live) — the independent study context behind the result. */}
-      {insights.length > 0 && (
-        <section className="-mt-12 pb-12 lg:-mt-16 lg:pb-16">
-          <Container>
-            <InsightBoxes insights={insights} locale={locale} heading="Media Insights" />
-          </Container>
-        </section>
-      )}
 
       {/* Creative execution — the pictures attached to the case in the CMS.
           Absent entirely when there are none, so older cases keep their rhythm. */}
