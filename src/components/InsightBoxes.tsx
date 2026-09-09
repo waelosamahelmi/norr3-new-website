@@ -11,9 +11,11 @@ import { insightText, insightSource } from "@/content/mediaInsights";
  * The CMS decides which boxes are live (per page) and their order; this just
  * renders what it is given.
  *
- * Each box: the big figure lifted out of the study, the published sentence, and
- * the source line underneath. The number scales down as the figure string gets
- * longer ("93 %" vs "67 % / 63 % / 31 %") so it never overflows the card.
+ * Styled to the brand system: a tinted light-purple card ground with the
+ * standard 36px padding and small radius, the violet 64px icon tile (white
+ * glyph) up top, the figure set in the brand stat treatment (medium weight,
+ * tight tracking, ink), the sentence as body copy, and the source line
+ * separated by a hairline at the foot. Flat — no shadows.
  */
 
 function numberSize(big: string): string {
@@ -35,9 +37,9 @@ function nbspNumbers(value: string): string {
 
 function gridFor(count: number): string {
   if (count === 1) return "grid mx-auto max-w-2xl";
-  if (count === 2) return "grid gap-5 sm:grid-cols-2";
-  if (count === 3) return "grid gap-5 md:grid-cols-3";
-  return "grid gap-5 sm:grid-cols-2";
+  if (count === 2) return "grid gap-card-gap sm:grid-cols-2";
+  if (count === 3) return "grid gap-card-gap md:grid-cols-3";
+  return "grid gap-card-gap sm:grid-cols-2";
 }
 
 export function InsightBoxes({
@@ -57,7 +59,7 @@ export function InsightBoxes({
   return (
     <div className={className}>
       {heading && (
-        <div className="mb-6 flex items-center gap-2 text-purple dark:text-light-purple">
+        <div className="mb-8 flex items-center gap-2 text-purple dark:text-light-purple">
           <Icon name="insights" style={{ fontSize: "18px" }} />
           <span className="text-xs font-medium uppercase tracking-[0.14em]">{heading}</span>
         </div>
@@ -70,18 +72,24 @@ export function InsightBoxes({
           return (
             <Reveal key={insight.id} delay={i * 0.06} className="h-full">
               <HoverLift className="h-full" lift={3} scale={1.015}>
-                <div className="flex h-full flex-col rounded-card bg-grey/70 p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
-                  {big && (
-                    <div
-                      className={`font-medium leading-[1.05] tabular-nums text-purple dark:text-light-purple ${numberSize(big)}`}
-                      style={{ letterSpacing: "-0.04em" }}
-                    >
-                      {big}
-                    </div>
-                  )}
-                  <p className="mt-4 text-sm leading-relaxed text-ink/80 dark:text-white/80">{text}</p>
+                <div className="flex h-full flex-col gap-6 rounded-card bg-light-purple/50 p-card-pad dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
+                  {/* Brand icon-tile treatment: violet ground, white glyph. */}
+                  <div className="flex h-[64px] w-[64px] items-center justify-center rounded-[5px] bg-violet text-white">
+                    <Icon name="insights" style={{ fontSize: "28px" }} />
+                  </div>
+                  <div>
+                    {big && (
+                      <div
+                        className={`font-medium leading-[1.05] tabular-nums text-ink dark:text-white ${numberSize(big)}`}
+                        style={{ letterSpacing: "-0.04em" }}
+                      >
+                        {big}
+                      </div>
+                    )}
+                    <p className="mt-3 text-sm leading-relaxed text-ink/70 dark:text-white/70">{text}</p>
+                  </div>
                   {source && (
-                    <p className="mt-auto pt-5 text-[11px] leading-snug text-ink/45 dark:text-white/45">
+                    <p className="mt-auto border-t border-black/10 pt-4 text-[11px] leading-snug text-ink/45 dark:border-white/10 dark:text-white/45">
                       {source}
                     </p>
                   )}
