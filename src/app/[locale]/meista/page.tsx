@@ -17,7 +17,7 @@ import { ContactBanner } from "@/components/ContactBanner";
 import { InsightBoxes } from "@/components/InsightBoxes";
 import { mediaInsightsFor } from "@/content/mediaInsights";
 import { StatGrid } from "@/components/StatGrid";
-import { PrinciplesTriangle } from "@/components/PrinciplesTriangle";
+import { PrinciplesGrid } from "@/components/PrinciplesGrid";
 import { MediaAsset } from "@/components/MediaAsset";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
@@ -161,15 +161,14 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/meista"
         </div>
       </section>
 
-      {/* Principles — three, laid out as the brand's triangle. The intro line
-          ("…Results are what we are measured on") sits at the centre of the
-          triangle as what the three add up to, so it is not repeated in the
-          header. */}
-      <section className="pb-24 lg:pb-32">
+      {/* Principles — three equal cards side by side. Top padding separates
+          this from the tinted Arvomme band above; the "what the three add up
+          to" line lives in the header body. */}
+      <section className="py-24 lg:py-32">
         <Container>
-          <SectionHeader heading={a.principles.heading} />
+          <SectionHeader heading={a.principles.heading} body={a.principles.body} />
           <div className="mt-14 lg:mt-16">
-            <PrinciplesTriangle items={a.principles.items} statement={a.principles.body} />
+            <PrinciplesGrid items={a.principles.items} />
           </div>
         </Container>
       </section>
