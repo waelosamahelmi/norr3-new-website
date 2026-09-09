@@ -55,7 +55,7 @@ export default async function BriefPage({ params }: { params: Promise<{ locale: 
         </Reveal>
         <Reveal delay={0.1}>
           <h1 className="mt-5 max-w-3xl text-[clamp(2.5rem,7vw,6rem)] font-medium leading-[0.95] tracking-tight text-ink dark:text-white">
-            {dict.brief.heroLeft} <span className="text-yellow">_{dict.brief.heroAccent}</span>
+            {dict.brief.heroLeft} <span className="text-purple dark:text-yellow">_{dict.brief.heroAccent}</span>
           </h1>
         </Reveal>
         <Reveal delay={0.2}>
