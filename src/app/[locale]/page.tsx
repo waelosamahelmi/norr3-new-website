@@ -208,6 +208,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       />
 
       {/* Cases */}
+      {featuredCases.length > 0 && (
       <section id="caset" className="scroll-mt-24 pb-24 pt-8 lg:pb-32 lg:pt-10">
         <Container>
           <SectionHeader
@@ -226,6 +227,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           </div>
         </Container>
       </section>
+      )}
 
       <HighlightsBand clients={clients} />
 

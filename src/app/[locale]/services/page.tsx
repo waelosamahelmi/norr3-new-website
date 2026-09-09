@@ -183,6 +183,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       </section>
 
       {/* Related cases */}
+      {relatedCases.length > 0 && (
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
         <Container>
           <SectionHeader
@@ -198,6 +199,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           </StaggerGrid>
         </Container>
       </section>
+      )}
 
       <HighlightsBand clients={clients} />
 

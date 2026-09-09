@@ -395,7 +395,7 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     // and outcome lists only live in the bundled content — re-attach them by
     // matching label so a CMS list doesn't silently strip the detail the
     // expandable cards show.
-    services: nonEmpty(raw.services, fallback.services).map((service, index) => {
+    services: arrOr(raw.services, fallback.services).map((service, index) => {
       const shipped = fallback.services[index]?.number === service.number
         ? fallback.services[index]
         : fallback.services.find((s) => s.number === service.number);
@@ -409,14 +409,17 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
         outcomes: service.outcomes ?? shipped?.outcomes,
       };
     }) as ServiceCard[],
-    cases: nonEmpty(raw.cases, fallback.cases) as CaseStudy[],
-    posts: nonEmpty(raw.insights, fallback.posts) as CmsPost[],
-    team: nonEmpty(raw.team, fallback.team) as TeamMember[],
+    // An empty CMS list is a deliberate editorial choice (e.g. every case
+    // hidden while copies are being checked) — only a missing/non-array field
+    // falls back to the bundled content, never a present-but-empty one.
+    cases: arrOr(raw.cases, fallback.cases) as CaseStudy[],
+    posts: arrOr(raw.insights, fallback.posts) as CmsPost[],
+    team: arrOr(raw.team, fallback.team) as TeamMember[],
     houseBio: raw.houseBio?.fi ? raw.houseBio : fallback.houseBio,
-    openRoles: nonEmpty(raw.openRoles, fallback.openRoles) as OpenRole[],
-    careers: nonEmpty(raw.careers, fallback.careers) as CmsCareer[],
-    channels: nonEmpty(raw.channels, fallback.channels) as Channel[],
-    mediaGroups: nonEmpty(raw.mediaGroups, fallback.mediaGroups) as SiteContent["mediaGroups"],
+    openRoles: arrOr(raw.openRoles, fallback.openRoles) as OpenRole[],
+    careers: arrOr(raw.careers, fallback.careers) as CmsCareer[],
+    channels: arrOr(raw.channels, fallback.channels) as Channel[],
+    mediaGroups: arrOr(raw.mediaGroups, fallback.mediaGroups) as SiteContent["mediaGroups"],
     nav: {
       header: nonEmpty(raw.nav?.header, fallback.nav.header) as CmsNavItem[],
       footerJoin: nonEmpty(raw.nav?.footerJoin, fallback.nav.footerJoin) as CmsNavItem[],
@@ -461,6 +464,11 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
 
 function nonEmpty<T>(value: unknown, fallback: T): T {
   return Array.isArray(value) && value.length > 0 ? (value as unknown as T) : fallback;
+}
+
+/** Like `nonEmpty` but honours a deliberate empty list from the CMS. */
+function arrOr<T>(value: unknown, fallback: T[]): T[] {
+  return Array.isArray(value) ? (value as unknown as T[]) : fallback;
 }
 
 /**

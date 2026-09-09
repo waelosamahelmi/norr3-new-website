@@ -62,6 +62,23 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/caset">
   const insights = content.posts;
   const c = dict.cases;
 
+  // Every case hidden in the CMS (e.g. while copies are being checked) means
+  // the index shows a honest placeholder instead of crashing on cases[0].
+  if (cases.length === 0) {
+    return (
+      <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">
+        <Container>
+          <SplitHeadline left={c.heroLeft} accent={c.heroAccent} />
+          <p className="mt-6 max-w-xl text-lg text-ink/70">
+            {locale === "fi"
+              ? "Case-tutkimuksemme päivittyvät parhaillaan — jutut palaavat tähän pian."
+              : "Our case studies are being refreshed right now — they will be back shortly."}
+          </p>
+        </Container>
+      </section>
+    );
+  }
+
   // Which case opens the index is an editorial choice now: the CMS marks one as
   // featured, and Flow Festival stays the default when nothing is marked.
   const featured =
