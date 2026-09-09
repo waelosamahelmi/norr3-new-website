@@ -30,7 +30,7 @@ export type ServicePage = {
 export const servicePages: ServicePage[] = [
   {
     slug: "insight-strategia",
-    image: "/images/office/office-02.webp",
+    image: "/images/services-gen/insight-strategia.webp",
     icon: "zoom_in_map",
     fi: {
       title: "Insight & strategia",
@@ -55,7 +55,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "data-ja-mittaus",
-    image: "/images/office/office-01.webp",
+    image: "/images/services-gen/data-ja-mittaus.webp",
     icon: "monitoring",
     fi: {
       title: "Data ja mittaus",
@@ -80,7 +80,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "data-ja-mittaus/dashboardit",
-    image: "/images/office/office-01.webp",
+    image: "/images/services-gen/data-ja-mittaus-dashboardit.webp",
     icon: "space_dashboard",
     fi: {
       title: "Dashboardit",
@@ -105,7 +105,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "data-ja-mittaus/datan-mallintaminen",
-    image: "/images/office/office-01.webp",
+    image: "/images/services-gen/data-ja-mittaus-datan-mallintaminen.webp",
     icon: "query_stats",
     fi: {
       title: "Datan mallintaminen",
@@ -130,7 +130,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "markkinointistrategia",
-    image: "/images/office/office-04.webp",
+    image: "/images/services-gen/markkinointistrategia.webp",
     icon: "strategy",
     fi: {
       title: "Markkinointistrategia",
@@ -156,7 +156,7 @@ export const servicePages: ServicePage[] = [
 
   {
     slug: "hakukoneoptimointi",
-    image: "/images/office/office-05.webp",
+    image: "/images/services-gen/hakukoneoptimointi.webp",
     icon: "search",
     fi: {
       title: "Hakukoneoptimointi ja hakumainonta",
@@ -211,7 +211,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "ohjelmallinen-ostaminen",
-    image: "/images/office/office-12.webp",
+    image: "/images/services-gen/ohjelmallinen-ostaminen.webp",
     icon: "hub",
     fi: {
       title: "Ohjelmallinen ostaminen",
@@ -266,7 +266,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu",
-    image: "/images/office/office-04.webp",
+    image: "/images/services-gen/mediasuunnittelu.webp",
     icon: "edit_note",
     fi: {
       title: "Mediasuunnittelu ja -ostaminen",
@@ -321,7 +321,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "ulkomainonta",
-    image: "/images/office/office-11.webp",
+    image: "/images/services-gen/ulkomainonta.webp",
     icon: "location_on",
     fi: {
       title: "Ulkomainonta ja pDOOH",
@@ -368,7 +368,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "performance-markkinointi",
-    image: "/images/office/office-01.webp",
+    image: "/images/services-gen/performance-markkinointi.webp",
     icon: "trending_up",
     fi: {
       title: "Performance-markkinointi",
@@ -411,7 +411,7 @@ export const servicePages: ServicePage[] = [
 
   {
     slug: "mediasuunnittelu/norr3-media-insights",
-    image: "/images/office/office-05.webp",
+    image: "/images/services-gen/mediasuunnittelu-norr3-media-insights.webp",
     icon: "insights",
     fi: {
       title: "NØRR3 Media Insights",
@@ -436,7 +436,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/radio",
-    image: "/images/office/office-12.webp",
+    image: "/images/services-gen/mediasuunnittelu-radio.webp",
     icon: "graphic_eq",
     fi: {
       title: "Radiomainonta",
@@ -461,7 +461,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/televisio",
-    image: "/images/office/office-12.webp",
+    image: "/images/services-gen/mediasuunnittelu-televisio.webp",
     icon: "tv",
     fi: {
       title: "TV-mainonta",
@@ -486,7 +486,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/elokuvamainonta-eli-cinema",
-    image: "/images/office/office-12.webp",
+    image: "/images/services-gen/mediasuunnittelu-elokuvamainonta-eli-cinema.webp",
     icon: "movie",
     fi: {
       title: "Elokuvamainonta (Cinema)",
@@ -511,7 +511,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/printti-eli-lehtimainonta",
-    image: "/images/office/office-02.webp",
+    image: "/images/services-gen/mediasuunnittelu-printti-eli-lehtimainonta.webp",
     icon: "newspaper",
     fi: {
       title: "Printti eli lehtimainonta",
@@ -536,7 +536,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/luovat",
-    image: "/images/office/office-07.webp",
+    image: "/images/services-gen/mediasuunnittelu-luovat.webp",
     icon: "draw",
     fi: {
       title: "Luovat",
@@ -561,7 +561,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediasuunnittelu/kampanjat-ja-jatkuva-mainonta",
-    image: "/images/office/office-02.webp",
+    image: "/images/services-gen/mediasuunnittelu-kampanjat-ja-jatkuva-mainonta.webp",
     icon: "campaign",
     fi: {
       title: "Kampanjat ja jatkuva mainonta",
@@ -586,7 +586,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "mediastrategia",
-    image: "/images/office/office-04.webp",
+    image: "/images/services-gen/mediastrategia.webp",
     icon: "hub",
     fi: {
       title: "Mediastrategia",
@@ -611,7 +611,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "dynaaminen-mainonta",
-    image: "/images/office/office-07.webp",
+    image: "/images/services-gen/dynaaminen-mainonta.webp",
     icon: "auto_awesome",
     fi: {
       title: "Dynaaminen mainonta",
@@ -636,7 +636,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "hakukonemainonta",
-    image: "/images/office/office-05.webp",
+    image: "/images/services-gen/hakukonemainonta.webp",
     icon: "search",
     fi: {
       title: "Hakukonemainonta",
@@ -661,7 +661,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "display-ja-videomainonta",
-    image: "/images/office/office-12.webp",
+    image: "/images/services-gen/display-ja-videomainonta.webp",
     icon: "grid_view",
     fi: {
       title: "Display- ja videomainonta",
@@ -686,7 +686,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "somemarkkinointi",
-    image: "/images/office/office-10.webp",
+    image: "/images/services-gen/somemarkkinointi.webp",
     icon: "share",
     fi: {
       title: "Somemarkkinointi",
@@ -711,7 +711,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "tutkimukset",
-    image: "/images/office/office-11.webp",
+    image: "/images/services-gen/tutkimukset.webp",
     icon: "science",
     fi: {
       title: "Tutkimukset",
@@ -736,7 +736,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "ai-optimointi",
-    image: "/images/office/office-05.webp",
+    image: "/images/services-gen/ai-optimointi.webp",
     icon: "neurology",
     fi: {
       title: "AI-optimointi",
@@ -761,7 +761,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "markkinointi-terveydenhuolto",
-    image: "/images/office/office-04.webp",
+    image: "/images/services-gen/markkinointi-terveydenhuolto.webp",
     icon: "health_and_safety",
     fi: {
       title: "Terveydenhuollon markkinointi",
@@ -794,7 +794,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "markkinointi-kiinteistonvalitys",
-    image: "/images/office/office-11.webp",
+    image: "/images/services-gen/markkinointi-kiinteistonvalitys.webp",
     icon: "home_work",
     fi: {
       title: "Kiinteistönvälityksen markkinointi",
@@ -827,7 +827,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "markkinointi-vahittaiskauppa",
-    image: "/images/office/office-07.webp",
+    image: "/images/services-gen/markkinointi-vahittaiskauppa.webp",
     icon: "storefront",
     fi: {
       title: "Vähittäiskaupan markkinointi",
@@ -860,7 +860,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "markkinointi-autoliikkeet",
-    image: "/images/office/office-07.webp",
+    image: "/images/services-gen/markkinointi-autoliikkeet.webp",
     icon: "directions_car",
     fi: {
       title: "Autoliikkeiden markkinointi",
@@ -893,7 +893,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "markkinointi-franchising",
-    image: "/images/office/office-10.webp",
+    image: "/images/services-gen/markkinointi-franchising.webp",
     icon: "store",
     fi: {
       title: "Franchising-ketjujen markkinointi",
@@ -926,7 +926,7 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "marketing-engine-alusta",
-    image: "/images/office/office-02.webp",
+    image: "/images/services-gen/marketing-engine-alusta.webp",
     icon: "rocket_launch",
     fi: {
       title: "Marketing Engine -alusta",
