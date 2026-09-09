@@ -42,9 +42,9 @@ function useMotionAllowed() {
  * 101px overlap at 1440w with the old -56% back offset).
  */
 const SLOTS = [
-  { x: "-34%", y: "40px", scale: 0.66, opacity: 0.9, z: 1, front: false },
-  { x: "-10%", y: "10px", scale: 0.82, opacity: 0.97, z: 2, front: false },
-  { x: "28%", y: "-22px", scale: 0.94, opacity: 1, z: 3, front: true },
+  { x: "-34%", y: "0px", scale: 0.66, opacity: 0.9, z: 1, front: false },
+  { x: "-10%", y: "0px", scale: 0.82, opacity: 0.97, z: 2, front: false },
+  { x: "28%", y: "0px", scale: 0.94, opacity: 1, z: 3, front: true },
 ] as const;
 
 type HeroCard = {
