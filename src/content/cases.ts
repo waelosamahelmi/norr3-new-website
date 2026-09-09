@@ -45,6 +45,8 @@ export type CaseStudy = {
     author: string;
     role: { fi: string; en: string };
     text: { fi: string; en: string };
+    /** Optional client logo or author portrait shown above the quote. */
+    image?: string;
   } | null;
   /**
    * Marks the case the index opens with. Set in the CMS rather than here — the

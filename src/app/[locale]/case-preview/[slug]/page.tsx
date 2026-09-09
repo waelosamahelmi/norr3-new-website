@@ -4,6 +4,7 @@ import { isLocale } from "@/i18n/config";
 import { getSiteContent, getCaseViaPreviewApi } from "@/lib/cms";
 import { CaseDetailView } from "@/components/views/CaseDetailView";
 import { Icon } from "@/components/Icon";
+import PreviewTools, { type PreviewComment } from "@/components/preview/PreviewTools";
 
 /**
  * Password-protected draft preview for client approval.
@@ -69,15 +70,29 @@ export default async function CasePreviewPage({ params }: Params) {
   const study = await getCaseViaPreviewApi(slug, previewPw);
   if (!study) notFound();
 
+  // Existing client pins, so a returning reviewer sees the open notes.
+  const cmsBase = (process.env.NORR3_CMS_URL ?? "http://127.0.0.1:3848").replace(/\/+$/, "");
+  let comments: PreviewComment[] = [];
+  try {
+    const res = await fetch(
+      `${cmsBase}/api/public/case-comments?slug=${encodeURIComponent(slug)}&password=${encodeURIComponent(previewPw)}`,
+      { cache: "no-store", signal: AbortSignal.timeout(6000) }
+    );
+    if (res.ok) comments = ((await res.json()) as { comments?: PreviewComment[] }).comments ?? [];
+  } catch {
+    comments = [];
+  }
+
   const dict = content.dictionaries[locale];
   return (
-    <>
+    <div className="relative">
       <div className="fixed inset-x-0 top-0 z-[80] bg-yellow py-1.5 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-ink">
         {fi ? "LUONNOS — ei julkinen" : "DRAFT — not published"}
       </div>
       <div className="pt-8">
         <CaseDetailView study={study} locale={locale} dict={dict} />
       </div>
-    </>
+      <PreviewTools slug={slug} locale={locale} initialComments={comments} />
+    </div>
   );
 }

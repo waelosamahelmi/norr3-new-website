@@ -185,6 +185,14 @@ export async function CaseDetailView({
         <Container className="pb-24 lg:pb-32">
           <Reveal>
             <figure className="mx-auto max-w-3xl rounded-card bg-light-purple/70 px-8 py-12 text-center sm:px-14 dark:bg-white/[0.04] dark:ring-1 dark:ring-white/10">
+              {study.testimonial.image && (
+                // Client-supplied logo or portrait, attached in the CMS case editor.
+                <img
+                  src={study.testimonial.image}
+                  alt={study.testimonial.author}
+                  className="mx-auto mb-5 max-h-16 w-auto rounded-full object-contain"
+                />
+              )}
               <Icon name="format_quote" className="mx-auto text-[40px] text-purple dark:text-light-purple" />
               <blockquote className="mt-5 text-xl font-medium leading-relaxed text-ink sm:text-2xl dark:text-white">
                 {study.testimonial.text[locale]}
