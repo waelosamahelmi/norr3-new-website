@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Icon } from "@/components/Icon";
 import { HoverLift } from "@/components/HoverLift";
 import { houseBio as bundledHouseBio, type TeamMember } from "@/content/team";
@@ -11,15 +15,18 @@ const COMPANY_LINKEDIN = "https://www.linkedin.com/company/norr3/";
 const chipClass =
   "inline-flex items-center gap-1.5 rounded-full border border-ink/25 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.08em] text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:border-white/25 dark:text-white dark:hover:border-white dark:hover:bg-white dark:hover:text-ink dark:focus-visible:outline-light-purple";
 
-/** Management Team card: headshot, name, role, short bio, LinkedIn/Email chips.
+/** Management Team card: headshot, name, role, LinkedIn/Email chips.
  *
  *  Warm + human: HoverLift + a portrait that sits slightly de-saturated at rest
  *  and lifts to full colour behind a thin purple keyline on hover. Every card
  *  is the same shape — square photo (720×720 → no CLS), name, an always-present
  *  role line (a hairline placeholder keeps rows aligned when a role is unset)
  *  and the chip row pinned to the bottom — so 17 faces read as one roster
- *  rather than 17 different cards. Links fall back to the company LinkedIn +
- *  info@norr3.fi when no personal ones are set (never fabricated). */
+ *  rather than 17 different cards.
+ *
+ *  The description no longer sits under the name. Hovering the portrait spawns
+ *  a small yellow info box that rides the cursor: real emojis up top, the
+ *  member's own words in black, and their email in purple underneath. */
 export function TeamMemberCard({
   member,
   locale,
@@ -39,15 +46,43 @@ export function TeamMemberCard({
   houseBio?: { fi: string; en: string };
 }) {
   const linkedinHref = member.linkedin ?? COMPANY_LINKEDIN;
-  const emailHref = `mailto:${member.email ?? "info@norr3.fi"}`;
-  // Only a bio written for this person earns space on the card.
+  const emailDisplay = member.email ?? "info@norr3.fi";
+  const emailHref = `mailto:${emailDisplay}`;
+  // Only a bio written for this person earns space in the tooltip.
   // Compared by value, not identity: the roster arrives from the CMS as fresh
   // objects, so a reference check would treat the shared house line as a real bio.
   const ownBio = member.bio[locale] === houseBio[locale] ? null : member.bio[locale];
+
+  // Cursor-following tooltip. Kept in a portal on <body> so no transformed
+  // ancestor (HoverLift) or `overflow-hidden` portrait clips it — it stays
+  // stuck to the cursor anywhere on screen.
+  const [tip, setTip] = useState<null | { x: number; y: number; flipX: boolean; flipY: boolean }>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  function moveTip(e: React.MouseEvent<HTMLDivElement>) {
+    // Generous box estimate so it flips to the opposite side before clipping.
+    const BOX_W = 280;
+    const BOX_H = 180;
+    setTip({
+      x: e.clientX,
+      y: e.clientY,
+      flipX: e.clientX + 16 + BOX_W > window.innerWidth,
+      flipY: e.clientY + 16 + BOX_H > window.innerHeight,
+    });
+  }
+
+  const visible = tip !== null;
+
   return (
     <HoverLift className="h-full" lift={4} scale={1.01}>
       <article className="group/member flex h-full flex-col">
-        <div className="relative aspect-square overflow-hidden rounded-card bg-grey dark:bg-white/[0.06]">
+        <div
+          className="relative aspect-square overflow-hidden rounded-card bg-grey dark:bg-white/[0.06]"
+          onMouseEnter={moveTip}
+          onMouseMove={moveTip}
+          onMouseLeave={() => setTip(null)}
+        >
           <img
             src={member.photo}
             alt={member.name}
@@ -69,7 +104,6 @@ export function TeamMemberCard({
         ) : (
           <span aria-hidden className="mt-1.5 block h-px w-8 bg-black/15 dark:bg-white/20" />
         )}
-        {ownBio && <p className="mt-3 text-[13px] leading-relaxed text-ink/60 dark:text-white/60">{ownBio}</p>}
         <div className="mt-auto flex flex-wrap gap-2 pt-5">
           <a
             href={linkedinHref}
@@ -87,6 +121,33 @@ export function TeamMemberCard({
           </a>
         </div>
       </article>
+
+      {mounted &&
+        createPortal(
+          <div
+            aria-hidden
+            className={`pointer-events-none fixed z-50 max-w-[280px] transition-[opacity,transform] duration-150 ease-out ${
+              visible ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              left: tip?.x ?? 0,
+              top: tip?.y ?? 0,
+              transform: `translate(${tip?.flipX ? "calc(-100% - 16px)" : "16px"}, ${
+                tip?.flipY ? "calc(-100% - 16px)" : "16px"
+              }) scale(${visible ? 1 : 0.85})`,
+              transformOrigin: tip?.flipX ? "right top" : "left top",
+            }}
+          >
+            <div className="rounded-2xl bg-yellow px-4 py-3 text-left shadow-lg">
+              <div aria-hidden className="mb-1.5 text-lg leading-none">
+                😊 👋
+              </div>
+              {ownBio && <p className="text-[13px] leading-snug text-ink">{ownBio}</p>}
+              <p className="mt-1.5 text-[13px] font-medium text-purple">{emailDisplay}</p>
+            </div>
+          </div>,
+          document.body,
+        )}
     </HoverLift>
   );
 }
