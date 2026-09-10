@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getSiteContent } from "@/lib/cms";
 import { linkTo } from "@/lib/links";
-import { servicePages } from "@/content/servicePages";
 
 const BASE = "https://norr3.fi";
 const LOCALES = ["fi", "en"] as const;
@@ -71,7 +70,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })
     ),
     // Service landing pages — the keyword-optimised sub-pages under /palvelut.
-    ...servicePages.flatMap((page) => entry(page.slug, { priority: 0.7 })),
+    ...content.servicePages.flatMap((page) => entry(page.slug, { priority: 0.7 })),
     // Pages composed in the CMS page editor. `status` is "published" for
     // public pages; anything else (drafts, retired pages like the old
     // media-insights landing) stays out of the sitemap.

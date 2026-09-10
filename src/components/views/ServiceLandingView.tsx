@@ -9,7 +9,7 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ContactBanner } from "@/components/ContactBanner";
 import { Icon } from "@/components/Icon";
-import { servicePageLocalised, servicePages, type ServicePage } from "@/content/servicePages";
+import { servicePageLocalised, type ServicePage } from "@/content/servicePages";
 
 /**
  * A keyword-optimised service landing page, rendered at a root slug
@@ -19,7 +19,7 @@ export async function ServiceLandingView({ page, locale }: { page: ServicePage; 
   const dict = await getDictionary(locale);
   const content = await getSiteContent();
   const t = servicePageLocalised(page, locale);
-  const related = servicePages.filter((p) => p.slug !== page.slug);
+  const related = content.servicePages.filter((p) => p.slug !== page.slug);
 
   return (
     <>

@@ -19,7 +19,7 @@ import { ContactBanner } from "@/components/ContactBanner";
 import { Icon } from "@/components/Icon";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
-import { servicePages, servicePageLocalised } from "@/content/servicePages";
+import { servicePageLocalised } from "@/content/servicePages";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/services">) {
   const { locale } = await params;
@@ -129,7 +129,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           /palvelut, linked from the hub for SEO and navigation. */}
       <Container className="pb-16 lg:pb-20">
         <Reveal className="flex flex-wrap gap-3">
-          {servicePages.map((p) => {
+          {content.servicePages.map((p) => {
             const pt = servicePageLocalised(p, locale);
             return (
               <a

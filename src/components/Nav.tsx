@@ -8,7 +8,7 @@ import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { Icon } from "./Icon";
 import { linkTo, otherLocaleHref } from "@/lib/links";
-import { servicePages, servicePageLocalised } from "@/content/servicePages";
+import { servicePages as bundledServicePages, servicePageLocalised, type ServicePage } from "@/content/servicePages";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
 
@@ -33,9 +33,10 @@ export function Nav({
   locale,
   dict,
   menu,
-  logo,
-  ctas,
-}: {
+    logo,
+    ctas,
+    servicePages,
+  }: {
   locale: Locale;
   dict: Dictionary;
   /** Wordmark override, editable in the CMS under Design. */
@@ -52,8 +53,11 @@ export function Nav({
    * target, so renaming a button there changes it here.
    */
   ctas?: NavEntry[];
+  /** Service landing pages (CMS-managed; bundled list is the fallback). */
+  servicePages?: ServicePage[];
 }) {
   const pathname = usePathname();
+  const sp = servicePages ?? bundledServicePages;
 
   const ctaLabel = (href: string, fallback: string) =>
     ctas?.find((c) => c.href === href || c.href === linkTo(locale, href))?.label[locale] || fallback;
@@ -88,10 +92,10 @@ export function Nav({
       href: linkTo(locale, "/insight-strategia"),
       icon: "strategy",
       children: [
-        { key: "is", label: servicePageLocalised(servicePages.find((p) => p.slug === "insight-strategia")!, locale).title, href: linkTo(locale, "/insight-strategia") },
-        { key: "ms", label: servicePageLocalised(servicePages.find((p) => p.slug === "markkinointistrategia")!, locale).title, href: linkTo(locale, "/markkinointistrategia") },
-        { key: "mediastrat", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediastrategia")!, locale).title, href: linkTo(locale, "/mediastrategia") },
-        { key: "tutk", label: servicePageLocalised(servicePages.find((p) => p.slug === "tutkimukset")!, locale).title, href: linkTo(locale, "/tutkimukset") },
+        { key: "is", label: servicePageLocalised(sp.find((p) => p.slug === "insight-strategia")!, locale).title, href: linkTo(locale, "/insight-strategia") },
+        { key: "ms", label: servicePageLocalised(sp.find((p) => p.slug === "markkinointistrategia")!, locale).title, href: linkTo(locale, "/markkinointistrategia") },
+        { key: "mediastrat", label: servicePageLocalised(sp.find((p) => p.slug === "mediastrategia")!, locale).title, href: linkTo(locale, "/mediastrategia") },
+        { key: "tutk", label: servicePageLocalised(sp.find((p) => p.slug === "tutkimukset")!, locale).title, href: linkTo(locale, "/tutkimukset") },
       ],
     },
     {
@@ -100,11 +104,11 @@ export function Nav({
       href: linkTo(locale, "/mediasuunnittelu"),
       icon: "campaign",
       children: [
-        { key: "ms", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediasuunnittelu")!, locale).title, href: linkTo(locale, "/mediasuunnittelu") },
-        { key: "radio", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediasuunnittelu/radio")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/radio") },
-        { key: "tv", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediasuunnittelu/televisio")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/televisio") },
-        { key: "oo", label: servicePageLocalised(servicePages.find((p) => p.slug === "/ulkomainonta".slice(1))!, locale).title, href: linkTo(locale, "/ulkomainonta") },
-        { key: "mi", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediasuunnittelu/norr3-media-insights")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/norr3-media-insights") },
+        { key: "ms", label: servicePageLocalised(sp.find((p) => p.slug === "mediasuunnittelu")!, locale).title, href: linkTo(locale, "/mediasuunnittelu") },
+        { key: "radio", label: servicePageLocalised(sp.find((p) => p.slug === "mediasuunnittelu/radio")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/radio") },
+        { key: "tv", label: servicePageLocalised(sp.find((p) => p.slug === "mediasuunnittelu/televisio")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/televisio") },
+        { key: "oo", label: servicePageLocalised(sp.find((p) => p.slug === "/ulkomainonta".slice(1))!, locale).title, href: linkTo(locale, "/ulkomainonta") },
+        { key: "mi", label: servicePageLocalised(sp.find((p) => p.slug === "mediasuunnittelu/norr3-media-insights")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/norr3-media-insights") },
       ],
     },
     {
@@ -113,11 +117,11 @@ export function Nav({
       href: linkTo(locale, "/display-ja-videomainonta"),
       icon: "grid_view",
       children: [
-        { key: "dv", label: servicePageLocalised(servicePages.find((p) => p.slug === "display-ja-videomainonta")!, locale).title, href: linkTo(locale, "/display-ja-videomainonta") },
-        { key: "sm", label: servicePageLocalised(servicePages.find((p) => p.slug === "somemarkkinointi")!, locale).title, href: linkTo(locale, "/somemarkkinointi") },
-        { key: "hm", label: servicePageLocalised(servicePages.find((p) => p.slug === "hakukonemainonta")!, locale).title, href: linkTo(locale, "/hakukonemainonta") },
-        { key: "oo2", label: servicePageLocalised(servicePages.find((p) => p.slug === "ohjelmallinen-ostaminen")!, locale).title, href: linkTo(locale, "/ohjelmallinen-ostaminen") },
-        { key: "dm", label: servicePageLocalised(servicePages.find((p) => p.slug === "dynaaminen-mainonta")!, locale).title, href: linkTo(locale, "/dynaaminen-mainonta") },
+        { key: "dv", label: servicePageLocalised(sp.find((p) => p.slug === "display-ja-videomainonta")!, locale).title, href: linkTo(locale, "/display-ja-videomainonta") },
+        { key: "sm", label: servicePageLocalised(sp.find((p) => p.slug === "somemarkkinointi")!, locale).title, href: linkTo(locale, "/somemarkkinointi") },
+        { key: "hm", label: servicePageLocalised(sp.find((p) => p.slug === "hakukonemainonta")!, locale).title, href: linkTo(locale, "/hakukonemainonta") },
+        { key: "oo2", label: servicePageLocalised(sp.find((p) => p.slug === "ohjelmallinen-ostaminen")!, locale).title, href: linkTo(locale, "/ohjelmallinen-ostaminen") },
+        { key: "dm", label: servicePageLocalised(sp.find((p) => p.slug === "dynaaminen-mainonta")!, locale).title, href: linkTo(locale, "/dynaaminen-mainonta") },
       ],
     },
     {
@@ -126,10 +130,10 @@ export function Nav({
       href: linkTo(locale, "/performance-markkinointi"),
       icon: "trending_up",
       children: [
-        { key: "pm", label: servicePageLocalised(servicePages.find((p) => p.slug === "performance-markkinointi")!, locale).title, href: linkTo(locale, "/performance-markkinointi") },
-        { key: "dm2", label: servicePageLocalised(servicePages.find((p) => p.slug === "data-ja-mittaus")!, locale).title, href: linkTo(locale, "/data-ja-mittaus") },
-        { key: "db", label: servicePageLocalised(servicePages.find((p) => p.slug === "data-ja-mittaus/dashboardit")!, locale).title, href: linkTo(locale, "/data-ja-mittaus/dashboardit") },
-        { key: "dmod", label: servicePageLocalised(servicePages.find((p) => p.slug === "data-ja-mittaus/datan-mallintaminen")!, locale).title, href: linkTo(locale, "/data-ja-mittaus/datan-mallintaminen") },
+        { key: "pm", label: servicePageLocalised(sp.find((p) => p.slug === "performance-markkinointi")!, locale).title, href: linkTo(locale, "/performance-markkinointi") },
+        { key: "dm2", label: servicePageLocalised(sp.find((p) => p.slug === "data-ja-mittaus")!, locale).title, href: linkTo(locale, "/data-ja-mittaus") },
+        { key: "db", label: servicePageLocalised(sp.find((p) => p.slug === "data-ja-mittaus/dashboardit")!, locale).title, href: linkTo(locale, "/data-ja-mittaus/dashboardit") },
+        { key: "dmod", label: servicePageLocalised(sp.find((p) => p.slug === "data-ja-mittaus/datan-mallintaminen")!, locale).title, href: linkTo(locale, "/data-ja-mittaus/datan-mallintaminen") },
       ],
     },
     {
@@ -138,9 +142,9 @@ export function Nav({
       href: linkTo(locale, "/hakukoneoptimointi"),
       icon: "search",
       children: [
-        { key: "seo", label: servicePageLocalised(servicePages.find((p) => p.slug === "hakukoneoptimointi")!, locale).title, href: linkTo(locale, "/hakukoneoptimointi") },
-        { key: "ai", label: servicePageLocalised(servicePages.find((p) => p.slug === "ai-optimointi")!, locale).title, href: linkTo(locale, "/ai-optimointi") },
-        { key: "luovat", label: servicePageLocalised(servicePages.find((p) => p.slug === "mediasuunnittelu/luovat")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/luovat") },
+        { key: "seo", label: servicePageLocalised(sp.find((p) => p.slug === "hakukoneoptimointi")!, locale).title, href: linkTo(locale, "/hakukoneoptimointi") },
+        { key: "ai", label: servicePageLocalised(sp.find((p) => p.slug === "ai-optimointi")!, locale).title, href: linkTo(locale, "/ai-optimointi") },
+        { key: "luovat", label: servicePageLocalised(sp.find((p) => p.slug === "mediasuunnittelu/luovat")!, locale).title, href: linkTo(locale, "/mediasuunnittelu/luovat") },
       ],
     },
   ];

@@ -4,6 +4,7 @@ import { cases as staticCases, type CaseStudy } from "@/content/cases";
 import { insights as staticInsights, type Insight } from "@/content/insights";
 import { team as staticTeam, houseBio as staticHouseBio, openRoles as staticOpenRoles, type TeamMember, type OpenRole } from "@/content/team";
 import { channels as staticChannels, mediaGroups as staticMediaGroups, type Channel } from "@/content/channels";
+import { servicePages as bundledServicePages, type ServicePage } from "@/content/servicePages";
 import type { Locale } from "@/i18n/config";
 import type { Block } from "@/content/blocks";
 
@@ -164,6 +165,7 @@ export type SiteContent = {
   error?: string;
   dictionaries: Record<Locale, Dictionary>;
   services: ServiceCard[];
+  servicePages: ServicePage[];
   cases: CaseStudy[];
   posts: CmsPost[];
   team: TeamMember[];
@@ -225,6 +227,7 @@ function fallbackContent(error?: string): SiteContent {
     error,
     dictionaries,
     services: serviceCards,
+    servicePages: bundledServicePages,
     cases: staticCases,
     posts: staticInsights.map(toFallbackPost),
     team: staticTeam,
@@ -334,6 +337,7 @@ type RawBundle = {
   generatedAt?: string;
   dictionary?: Record<string, unknown>;
   services?: unknown[];
+  servicePages?: unknown[];
   cases?: unknown[];
   insights?: unknown[];
   team?: unknown[];
@@ -409,6 +413,7 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
         outcomes: service.outcomes ?? shipped?.outcomes,
       };
     }) as ServiceCard[],
+    servicePages: arrOr(raw.servicePages, fallback.servicePages) as ServicePage[],
     // An empty CMS list is a deliberate editorial choice (e.g. every case
     // hidden while copies are being checked) — only a missing/non-array field
     // falls back to the bundled content, never a present-but-empty one.

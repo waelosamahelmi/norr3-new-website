@@ -6,7 +6,7 @@ import { BlockRenderer } from "@/components/blocks/BlockRenderer";
 import { CaseDetailView } from "@/components/views/CaseDetailView";
 import { InsightArticleView } from "@/components/views/InsightArticleView";
 import { ServiceLandingView } from "@/components/views/ServiceLandingView";
-import { servicePageFor, servicePageLocalised, servicePages } from "@/content/servicePages";
+import { servicePageLocalised } from "@/content/servicePages";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
 import { pageSeo } from "@/lib/pageSeo";
@@ -33,7 +33,7 @@ export async function generateStaticParams() {
   return [
     ...content.cases.map((study) => ({ slug: [study.slug] })),
     ...content.posts.map((post) => ({ slug: [post.slug] })),
-    ...servicePages.map((page) => ({ slug: [page.slug] })),
+    ...content.servicePages.map((page) => ({ slug: [page.slug] })),
   ];
 }
 
@@ -98,7 +98,7 @@ export async function generateMetadata({ params }: Params) {
   }
 
   // Service landing page at the root slug.
-  const servicePage = servicePageFor(slug.join("/"));
+  const servicePage = (await getSiteContent()).servicePages.find((p) => p.slug === slug.join("/"));
   if (servicePage) {
     const t = servicePageLocalised(servicePage, locale);
     // SEO is CMS-managed (Pages screen) with the bundled copy as fallback, so
@@ -183,7 +183,7 @@ export default async function RootSlugPage({ params }: Params) {
   }
 
   // Service landing pages can be nested (e.g. /mediasuunnittelu/radio).
-  const servicePage = servicePageFor(slug.join("/"));
+  const servicePage = (await getSiteContent()).servicePages.find((p) => p.slug === slug.join("/"));
   if (servicePage) {
     return <ServiceLandingView page={servicePage} locale={locale} />;
   }
