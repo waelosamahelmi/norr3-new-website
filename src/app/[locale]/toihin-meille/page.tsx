@@ -15,6 +15,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { BenefitCard } from "@/components/cards/BenefitCard";
 import { PhotoInterstitial } from "@/components/PhotoInterstitial";
 import { ContactBanner } from "@/components/ContactBanner";
+import { OpenApplicationForm } from "@/components/OpenApplicationForm";
 import { Icon } from "@/components/Icon";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
@@ -148,6 +149,16 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/toihi
               <BenefitCard key={b.title} icon={b.icon} title={b.title} body={b.body} />
             ))}
           </StaggerGrid>
+        </Container>
+      </section>
+
+      {/* Open application — anyone can leave one even when no role fits */}
+      <section className="pb-24 lg:pb-32">
+        <Container>
+          <SectionHeader heading={c.application.heading} body={c.application.body} />
+          <Reveal delay={0.05} className="mx-auto mt-10 max-w-2xl">
+            <OpenApplicationForm dict={c.application} locale={locale} />
+          </Reveal>
         </Container>
       </section>
 

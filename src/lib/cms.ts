@@ -602,4 +602,33 @@ export async function submitToCms(
   }
 }
 
+/**
+ * Upload a CV attachment for a job application to the CMS (signed with the
+ * shared ingest secret, so it never hits the website's public tree). Returns
+ * the relative serve path to store on the application record.
+ */
+export async function uploadApplicationFile(
+  file: File
+): Promise<{ ok: boolean; path?: string; error?: string }> {
+  if (!INGEST_SECRET) {
+    return { ok: false, error: "NORR3_CMS_INGEST_SECRET is not configured on the website." };
+  }
+  try {
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await fetch(`${CMS_URL}/api/public/application-file`, {
+      method: "POST",
+      headers: { "x-norr3-secret": INGEST_SECRET },
+      body: fd,
+      cache: "no-store",
+      signal: AbortSignal.timeout(15000),
+    });
+    const payload = (await res.json().catch(() => ({}))) as { path?: string; error?: string };
+    if (!res.ok) return { ok: false, error: payload.error ?? `CMS replied ${res.status}` };
+    return { ok: true, path: payload.path };
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : "CMS unreachable" };
+  }
+}
+
 export const cmsUrl = CMS_URL;
