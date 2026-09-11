@@ -71,12 +71,13 @@ export const serviceCards: ServiceCard[] = [
   {
     number: "04",
     icon: "search",
-    fi: { title: "Hakukoneoptimointi & hakumainonta", body: "Löydyt sieltä, mistä sinua etsitään — hakukoneissa ja tekoälyn vastauksissa." },
-    en: { title: "SEO & Search Advertising", body: "Be found where you're searched for — in search engines and AI answers." },
+    fi: { title: "SEM, SEO, GEO & AI", body: "Löydyt sieltä, mistä sinua etsitään — hakukoneissa ja tekoälyn vastauksissa." },
+    en: { title: "SEM, SEO, GEO & AI", body: "Be found where you're searched for — in search engines and AI answers." },
     items: [
       { fi: "Hakukoneoptimointi", en: "Search engine optimisation", desc_fi: "Tekninen ja sisällöllinen SEO, joka nostaa orgaanista näkyvyyttä.", desc_en: "Technical and content SEO that lifts organic visibility." },
-      { fi: "Hakukonemarkkinointi", en: "Search advertising", desc_fi: "Hakutulosten kärkeen mainoksilla — siellä, missä ostoaikeus on korkein.", desc_en: "The top of search results with ads — where purchase intent is highest." },
+      { fi: "Hakukonemainonta", en: "Search engine advertising", desc_fi: "Hakutulosten kärkeen mainoksilla — siellä, missä ostoaikeus on korkein.", desc_en: "The top of search results with ads — where purchase intent is highest." },
       { fi: "GEO / AI-löydettävyys", en: "GEO / AI discoverability", desc_fi: "Tekoälyavustajat suosittelevat yhä useammin — varmistamme, että ne suosittelevat sinua.", desc_en: "AI assistants increasingly recommend brands — we make sure they recommend you." },
+      { fi: "Tekoälymainonta", en: "AI advertising", desc_fi: "Mainokset, kohdennus ja budjetti, jotka paranevat kampanjan aikana.", desc_en: "Ads, targeting and budget that improve while the campaign runs." },
     ],
   },
   {

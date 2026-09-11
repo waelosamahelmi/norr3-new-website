@@ -26,7 +26,9 @@ const chipClass =
  *
  *  The description no longer sits under the name. Hovering the portrait spawns
  *  a small yellow info box that rides the cursor: real emojis up top, the
- *  member's own words in black, and their email in purple underneath. */
+ *  member's own words in black, and their email and phone in purple underneath.
+ *  Touch screens have no hover, so a "+" on the portrait opens the same info
+ *  as a panel over the photo instead — with the email and phone tappable. */
 export function TeamMemberCard({
   member,
   locale,
@@ -48,6 +50,8 @@ export function TeamMemberCard({
   const linkedinHref = member.linkedin ?? COMPANY_LINKEDIN;
   const emailDisplay = member.email ?? "info@norr3.fi";
   const emailHref = `mailto:${emailDisplay}`;
+  const phone = member.phone?.trim() || null;
+  const phoneHref = phone ? `tel:${phone.replace(/[^\d+]/g, "")}` : null;
   // Only a bio written for this person earns space in the tooltip.
   // Compared by value, not identity: the roster arrives from the CMS as fresh
   // objects, so a reference check would treat the shared house line as a real bio.
@@ -59,8 +63,13 @@ export function TeamMemberCard({
   const [tip, setTip] = useState<null | { x: number; y: number; flipX: boolean; flipY: boolean }>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  /** The tap-to-open panel on touch screens. */
+  const [panelOpen, setPanelOpen] = useState(false);
 
-  function moveTip(e: React.MouseEvent<HTMLDivElement>) {
+  function moveTip(e: React.PointerEvent<HTMLDivElement>) {
+    // Mouse only: a tap fires emulated pointer events too, and the touch path
+    // has its own panel — a tooltip stuck to the last tap point is just noise.
+    if (e.pointerType !== "mouse") return;
     // Generous box estimate so it flips to the opposite side before clipping.
     const BOX_W = 280;
     const BOX_H = 180;
@@ -79,9 +88,9 @@ export function TeamMemberCard({
       <article className="group/member flex h-full flex-col">
         <div
           className="relative aspect-square overflow-hidden rounded-card bg-grey dark:bg-white/[0.06]"
-          onMouseEnter={moveTip}
-          onMouseMove={moveTip}
-          onMouseLeave={() => setTip(null)}
+          onPointerEnter={moveTip}
+          onPointerMove={moveTip}
+          onPointerLeave={() => setTip(null)}
         >
           <img
             src={member.photo}
@@ -95,6 +104,36 @@ export function TeamMemberCard({
             aria-hidden
             className="pointer-events-none absolute inset-0 rounded-card ring-0 ring-inset ring-purple/0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/member:ring-2 group-hover/member:ring-purple/70"
           />
+
+          {/* Touch screens: the same yellow info box, opened from a "+". */}
+          <div
+            id={`${member.id}-info`}
+            hidden={!panelOpen}
+            className="absolute inset-x-3 bottom-3 rounded-2xl bg-yellow px-4 py-3 pr-12 text-left"
+          >
+            <div aria-hidden className="mb-1.5 text-lg leading-none">
+              😊 👋
+            </div>
+            {ownBio && <p className="text-[13px] leading-snug text-ink">{ownBio}</p>}
+            <a href={emailHref} className="mt-1.5 block break-all text-[13px] font-medium text-purple underline-offset-2 hover:underline">
+              {emailDisplay}
+            </a>
+            {phone && phoneHref && (
+              <a href={phoneHref} className="mt-0.5 block text-[13px] font-medium text-purple underline-offset-2 hover:underline">
+                {phone}
+              </a>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => setPanelOpen((v) => !v)}
+            aria-expanded={panelOpen}
+            aria-controls={`${member.id}-info`}
+            aria-label={`${member.name} — info`}
+            className="absolute bottom-3 right-3 hidden h-9 w-9 items-center justify-center rounded-full bg-yellow text-ink transition-transform focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple [@media(hover:none)]:flex"
+          >
+            <Icon name={panelOpen ? "close" : "add"} style={{ fontSize: "20px" }} />
+          </button>
         </div>
         <h3 className="mt-5 text-lg font-medium leading-snug text-ink dark:text-white">{member.name}</h3>
         {member.role ? (
@@ -144,35 +183,11 @@ export function TeamMemberCard({
               </div>
               {ownBio && <p className="text-[13px] leading-snug text-ink">{ownBio}</p>}
               <p className="mt-1.5 text-[13px] font-medium text-purple">{emailDisplay}</p>
+              {phone && <p className="mt-0.5 text-[13px] font-medium text-purple">{phone}</p>}
             </div>
           </div>,
           document.body,
         )}
-    </HoverLift>
-  );
-}
-
-/** The yellow "View all" tile closing the team grid — same square-photo
- *  proportions as a member card, so the grid keeps its rhythm. */
-export function ViewAllTile({ title, body }: { title: string; body: string }) {
-  return (
-    <HoverLift className="h-full" lift={4} scale={1.01}>
-      <a
-        href={COMPANY_LINKEDIN}
-        target="_blank"
-        rel="noreferrer"
-        className="group/tile flex h-full flex-col rounded-card bg-yellow p-8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:focus-visible:outline-light-purple"
-      >
-        <span className="flex h-16 w-16 items-center justify-center rounded-[5px] bg-white/60 text-ink">
-          <Icon name="sentiment_satisfied" style={{ fontSize: "30px" }} />
-        </span>
-        <h3 className="mt-auto pt-8 text-xl font-medium text-ink">{title}</h3>
-        <p className="mt-1.5 text-sm leading-relaxed text-ink/70">{body}</p>
-        <span className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full border border-ink/30 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.08em] text-ink transition-colors group-hover/tile:bg-ink group-hover/tile:text-white">
-          LinkedIn
-          <Icon name="arrow_outward" style={{ fontSize: "14px" }} />
-        </span>
-      </a>
     </HoverLift>
   );
 }

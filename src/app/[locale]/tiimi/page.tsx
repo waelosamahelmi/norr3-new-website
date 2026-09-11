@@ -13,7 +13,7 @@ import { StaggerGrid } from "@/components/StaggerGrid";
 import { SectionHeader } from "@/components/SectionHeader";
 import { TeamMarquee } from "@/components/TeamMarquee";
 import { CultureCard } from "@/components/cards/CultureCard";
-import { TeamMemberCard, ViewAllTile } from "@/components/cards/TeamMemberCard";
+import { TeamMemberCard } from "@/components/cards/TeamMemberCard";
 import { PhotoInterstitial } from "@/components/PhotoInterstitial";
 import { ContactBanner } from "@/components/ContactBanner";
 import { StatGrid } from "@/components/StatGrid";
@@ -209,7 +209,8 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/tiimi">)
         <Container>
           <SectionHeader heading={t.management.heading} body={t.management.body} />
           {/* Four columns from xl so 18 tiles read as one wall of faces rather
-              than six long rows; the stagger stays per-card. */}
+              than six long rows; the stagger stays per-card. No closing "View
+              all" tile: this already is everyone, and the open roles follow. */}
           <StaggerGrid className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 xl:grid-cols-4">
             {team.map((m) => (
               <TeamMemberCard
@@ -221,7 +222,6 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/tiimi">)
                 emailLabel={dict.common.email}
               />
             ))}
-            <ViewAllTile title={t.management.viewAllTitle} body={t.management.viewAllBody} />
           </StaggerGrid>
         </Container>
       </section>

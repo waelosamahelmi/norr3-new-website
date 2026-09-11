@@ -31,9 +31,11 @@ export async function POST(req: NextRequest) {
   const tags = requested.filter((tag) => KNOWN.has(tag));
   if (tags.length === 0) tags.push(CMS_TAGS.all);
 
-  // "max" keeps stale-while-revalidate semantics: readers get the cached page
-  // immediately and the fresh one is built behind them.
-  for (const tag of tags) revalidateTag(tag, "max");
+  // Expire immediately rather than "max" (stale-while-revalidate): with "max"
+  // the first visit after a CMS save still got the old page and only a second
+  // refresh showed the edit. An editor who presses Save and opens the page
+  // expects to see it, so the next request does a blocking re-render instead.
+  for (const tag of tags) revalidateTag(tag, { expire: 0 });
 
   return NextResponse.json({ ok: true, revalidated: tags });
 }

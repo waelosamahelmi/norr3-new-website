@@ -159,8 +159,8 @@ export const servicePages: ServicePage[] = [
     image: "/images/services-gen/hakukoneoptimointi.webp",
     icon: "search",
     fi: {
-      title: "Hakukoneoptimointi ja hakumainonta",
-      metaTitle: "Hakukoneoptimointi (SEO) ja hakumainonta (SEM) | NØRR3 Helsinki",
+      title: "Hakukoneoptimointi ja hakukonemainonta",
+      metaTitle: "Hakukoneoptimointi (SEO) ja hakukonemainonta (SEM) | NØRR3 Helsinki",
       metaDescription:
         "Hakukoneoptimointi, hakukonemarkkinointi ja GEO: löydy Googlesta ja tekoälyavustajien vastauksista. SEO-auditista jatkuvaan optimointiin — Helsingissä.",
       heroLeft: "Löydy sieltä, mistä",
@@ -757,6 +757,41 @@ export const servicePages: ServicePage[] = [
       intro: "AI isn't a slide in our deck — it's a tool driving planning, creative automation and data analysis. NØRR3's AI optimisation makes marketing faster, sharper and more effective.",
       sections: [{ heading: "AI-assisted planning", body: "Models reallocate spend mid-flight on audience data — the same logic that runs the Marketing Engine." }, { heading: "Creative automation", body: "One master design into thousands of versions: AI generates personalised creatives from product and customer data." }, { heading: "GEO — visibility in AI answers", body: "AI assistants recommend brands in their answers. We make sure they recommend you." }],
       bullets: ["AI-driven media mix planning", "Automated creative production", "GEO / AI discoverability", "Data analysis and forecasting", "AI workshops for your team"],
+    },
+  },
+  {
+    slug: "tekoalymainonta",
+    image: "/images/services-gen/tekoalymainonta.webp",
+    icon: "auto_awesome",
+    fi: {
+      title: "Tekoälymainonta",
+      metaTitle: "Tekoälymainonta — mainonta, joka oppii | NØRR3 Helsinki",
+      metaDescription: "Tekoälymainonta: mainokset, kohdennus ja budjetti, jotka paranevat kampanjan aikana. NØRR3 yhdistää tekoälyn, median ja liiketoiminnan tavoitteet.",
+      heroLeft: "Mainonta",
+      heroAccent: "oppii",
+      intro: "Tekoälymainonnassa mainokset, kohdennus ja budjetti paranevat kampanjan aikana, eivät vasta sen jälkeen. Rakennamme kokonaisuuden: mitä tekoäly tekee, mitä ihminen päättää ja miten tulos näkyy liiketoiminnassa.",
+      sections: [
+        { heading: "Mitä tekoälymainonta on?", body: "Tekoäly tekee mainoksista kymmeniä versioita, testaa ne oikeilla ihmisillä ja siirtää rahan sinne, missä tulos syntyy. Ihminen asettaa tavoitteet, rajat ja brändin äänen. Kone hoitaa toiston." },
+        { heading: "Langat pysyvät yksissä käsissä", body: "Kampanjassa on nykyään mukana monta tekijää: mediat, alustat, tuotanto, oma tiimisi ja usein muita kumppaneita. Me sovitamme ne yhteen, jotta tekoälyllä on oikea tieto ja selkeä tavoite, ja vastuu tuloksesta on yhdellä taholla." },
+        { heading: "Kasvua, ei kokeiluja", body: "Mittaamme sitä, mikä ratkaisee liiketoiminnassa: myyntiä, liidejä ja asiakashankinnan hintaa. Tekoäly on keino, ei tavoite." },
+        { heading: "Palvelu kehittyy kanssasi", body: "Tekoälymainonnan työkalut muuttuvat kuukausittain. Emme myy valmista pakettia, vaan rakennamme mallin, joka sopii juuri sinun tavoitteisiisi ja kehittyy niiden mukana." },
+      ],
+      bullets: ["Tekoälyllä tehdyt mainosversiot", "Jatkuva testaus ja optimointi", "Kohdennus asiakastiedon pohjalta", "Budjetin ohjaus tuloksen mukaan", "Raportointi myyntiin ja liideihin asti"],
+    },
+    en: {
+      title: "AI Advertising",
+      metaTitle: "AI Advertising — advertising that learns | NØRR3 Helsinki",
+      metaDescription: "AI advertising: ads, targeting and budget that improve while the campaign runs. NØRR3 brings AI, media and your business goals together.",
+      heroLeft: "Advertising",
+      heroAccent: "that learns",
+      intro: "With AI advertising, your ads, targeting and budget improve while the campaign runs, not after it ends. We build the whole setup: what AI does, what people decide, and how the result shows up in your business.",
+      sections: [
+        { heading: "What is AI advertising?", body: "AI produces dozens of ad versions, tests them with real people and moves the money to where results happen. People set the goals, the limits and the brand voice. The machine handles the repetition." },
+        { heading: "One party holding it together", body: "A campaign today involves many players: media owners, platforms, production, your own team and often other partners. We bring them together so the AI has the right information and a clear goal, and one party is accountable for the result." },
+        { heading: "Growth, not experiments", body: "We measure what matters to the business: sales, leads and the cost of winning a customer. AI is the means, not the goal." },
+        { heading: "A service that grows with you", body: "AI advertising tools change every month. We don't sell a ready-made package. We build a model that fits your goals and evolves with them." },
+      ],
+      bullets: ["AI-made ad versions", "Continuous testing and optimisation", "Targeting based on customer information", "Budget steered by results", "Reporting all the way to sales and leads"],
     },
   },
   {

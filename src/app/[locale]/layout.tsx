@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { MotionConfig } from "framer-motion";
 import { Host_Grotesk } from "next/font/google";
-import "material-symbols/outlined.css";
+import "../material-symbols.css";
 import "../globals.css";
 import { ThemeStyle } from "@/components/ThemeStyle";
 import { CustomBodyEnd, CustomHead } from "@/components/CustomCode";
@@ -22,6 +22,7 @@ import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { InsightsTicker } from "@/components/InsightsTicker";
 import { Analytics } from "@/components/Analytics";
 import { MotionSettingsProvider } from "@/components/MotionSettingsProvider";
+import VisualEditor from "@/components/visual/VisualEditor";
 
 const hostGrotesk = Host_Grotesk({
   variable: "--font-host-grotesk",
@@ -128,6 +129,9 @@ export default async function LocaleLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* The icon font is font-display: block, so icons stay invisible until
+            it arrives — start fetching it with the HTML, not after the CSS. */}
+        <link rel="preload" href="/fonts/material-symbols-subset.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         {/* Google Search Console site verification — content owned by the CMS. */}
         {content.integrations.gsc && (
           <meta name="google-site-verification" content={content.integrations.gsc} />
@@ -160,7 +164,7 @@ export default async function LocaleLayout({
               message={content.announcement?.message[locale]}
               href={content.announcement?.href || "/engine"}
             />
-            <Nav locale={locale} dict={dict} menu={content.nav.header} logo={content.brand.logo} ctas={content.ctas} servicePages={content.servicePages} />
+            <Nav locale={locale} dict={dict} menu={content.nav.header} logo={content.brand.logo} ctas={content.ctas} servicePages={content.servicePages} cases={content.cases.map(({ slug, client }) => ({ slug, client }))} />
           </div>
           <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
             {children}
@@ -174,6 +178,9 @@ export default async function LocaleLayout({
           </MotionSettingsProvider>
         </MotionConfig>
         <CustomBodyEnd />
+        {/* Inert unless the CMS framed this page in edit mode — see the
+            component for why it can be shipped to every visitor safely. */}
+        <VisualEditor />
       </body>
     </html>
   );
