@@ -15,7 +15,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { BenefitCard } from "@/components/cards/BenefitCard";
 import { PhotoInterstitial } from "@/components/PhotoInterstitial";
 import { ContactBanner } from "@/components/ContactBanner";
-import { OpenApplicationForm } from "@/components/OpenApplicationForm";
+import { OpenApplicationCta } from "@/components/OpenApplicationCta";
 import { Icon } from "@/components/Icon";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
@@ -127,6 +127,18 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/toihi
         </Container>
       </section>
 
+      {/* Together + open application — right under the open roles so the
+          culture promise and the "no fitting role yet" path sit side by side.
+          The application form opens in a popup instead of rendering inline. */}
+      <section className="pb-24 lg:pb-32">
+        <Container>
+          <StaggerGrid className="grid gap-card-gap sm:grid-cols-2">
+            <BenefitCard icon="diversity_3" title={c.together.heading} body={c.together.body} />
+            <OpenApplicationCta dict={c.application} locale={locale} />
+          </StaggerGrid>
+        </Container>
+      </section>
+
       <Container className="pb-24 lg:pb-32">
         <PhotoInterstitial
           image={careersValuesPhoto.src}
@@ -149,16 +161,6 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/toihi
               <BenefitCard key={b.title} icon={b.icon} title={b.title} body={b.body} />
             ))}
           </StaggerGrid>
-        </Container>
-      </section>
-
-      {/* Open application — anyone can leave one even when no role fits */}
-      <section className="pb-24 lg:pb-32">
-        <Container>
-          <SectionHeader heading={c.application.heading} body={c.application.body} />
-          <Reveal delay={0.05} className="mx-auto mt-10 max-w-2xl">
-            <OpenApplicationForm dict={c.application} locale={locale} />
-          </Reveal>
         </Container>
       </section>
 

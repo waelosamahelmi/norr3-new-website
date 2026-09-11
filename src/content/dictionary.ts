@@ -553,9 +553,14 @@ const fi = {
         { icon: "diversity_3", title: "Yhdessä", body: "Matala hierarkia, senioritiimi ja pöhinää myös työajan ulkopuolella. Kukaan ei jää yksin briiffin kanssa." },
       ],
     },
+    together: {
+      heading: "Yhdessä",
+      body: "Matala hierarkia, senioritiimi ja pöhinää myös työajan ulkopuolella. Kukaan ei jää yksin missään tilanteessa.",
+    },
     application: {
       heading: "Avoin hakemus",
       body: "Etkö löytänyt sopivaa paikkaa? Jätä avoin hakemus — kerro kuka olet ja minkälaista työtä etsit.",
+      cta: "Jätä avoin hakemus",
       name: "Nimi",
       email: "Sähköposti",
       phone: "Puhelin",
@@ -1398,9 +1403,14 @@ const en: Dictionary = {
         { icon: "diversity_3", title: "Together", body: "Flat hierarchy, a senior team and buzz beyond office hours. Nobody is left alone with a brief." },
       ],
     },
+    together: {
+      heading: "Together",
+      body: "Flat hierarchy, a senior team and buzz beyond office hours. Nobody is left alone in any situation.",
+    },
     application: {
       heading: "Open application",
       body: "Didn't find the right role? Leave an open application — tell us who you are and what kind of work you're looking for.",
+      cta: "Leave an open application",
       name: "Name",
       email: "Email",
       phone: "Phone",
