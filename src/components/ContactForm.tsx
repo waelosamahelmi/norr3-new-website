@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@/components/Icon";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
+import { track } from "@/lib/track";
 
 /** Shared field styling — one source of truth for every input/textarea. */
 const fieldClass =
@@ -49,6 +50,7 @@ export function ContactForm({
       });
       const data = (await res.json().catch(() => ({}))) as { error?: string };
       if (!res.ok) throw new Error(data.error || "Something went wrong.");
+      track("generate_lead", { form_name: "contact" });
       setSent(true);
     } catch (submitError) {
       setError(

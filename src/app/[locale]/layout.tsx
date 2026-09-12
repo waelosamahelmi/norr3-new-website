@@ -174,7 +174,7 @@ export default async function LocaleLayout({
           <InsightsTicker insights={content.mediaInsights} locale={locale} />
           <CookieConsent dict={dict.cookies} locale={locale} />
           {/* GA4, gated on cookie consent (see the component). */}
-          <Analytics ga4={content.integrations.ga4} />
+          <Analytics ga4={content.integrations.ga4} gtm={content.integrations.gtm} />
           </MotionSettingsProvider>
         </MotionConfig>
         <CustomBodyEnd />

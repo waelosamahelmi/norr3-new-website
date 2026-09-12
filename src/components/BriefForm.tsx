@@ -6,6 +6,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/content/dictionary";
 import { briefChannels } from "@/content/datasets";
 import { linkTo } from "@/lib/links";
+import { track } from "@/lib/track";
 
 type BriefDict = Dictionary["brief"];
 
@@ -450,6 +451,7 @@ export function BriefForm({
                 });
                 const data = (await res.json().catch(() => ({}))) as { error?: string };
                 if (!res.ok) throw new Error(data.error || "Could not send the brief.");
+                track("generate_lead", { form_name: "brief" });
                 setSent(true);
               } catch (error) {
                 setSendError(

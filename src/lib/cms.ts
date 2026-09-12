@@ -190,7 +190,8 @@ export type SiteContent = {
   /** CMS-managed redirects, applied by the middleware. */
   redirects: { from: string; to: string; status: number }[];
   /** Third-party wiring (GA4, Search Console) owned by the CMS Settings screen. */
-  integrations: { ga4: string; gsc: string; sitemap: string };
+  /** gtm: Google Tag Manager container ID (GTM-XXXX). When set it carries every tag and ga4 is ignored. */
+  integrations: { ga4: string; gtm?: string; gsc: string; sitemap: string };
   /** Site-wide custom code, written by an admin in the CMS. */
   code: { css: string; head: string; bodyEnd: string };
   /** Design-token overrides, emitted as CSS custom properties by the root layout. */
@@ -277,7 +278,7 @@ function fallbackContent(error?: string): SiteContent {
     imageSlots: {},
     pageSeo: {},
     redirects: [],
-    integrations: { ga4: "", gsc: "", sitemap: "https://norr3.fi/sitemap.xml" },
+    integrations: { ga4: "", gtm: "", gsc: "", sitemap: "https://norr3.fi/sitemap.xml" },
     code: { css: "", head: "", bodyEnd: "" },
     theme: { root: {}, dark: {} },
     motion: MOTION_DEFAULTS,

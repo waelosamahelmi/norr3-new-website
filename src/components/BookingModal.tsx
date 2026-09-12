@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Icon } from "@/components/Icon";
 import type { Locale } from "@/i18n/config";
+import { track } from "@/lib/track";
 
 /**
  * The two booking dialogs behind the contact page's CTAs.
@@ -14,8 +15,8 @@ import type { Locale } from "@/i18n/config";
  *
  * Bot defence: hidden honeypot field, a time-trap (elapsed since open) and a
  * small sum the visitor solves — all verified server-side.
- * Tracking: on successful submit a GA4 event (`generate_lead`, with the
- * `booking_kind`) fires via gtag if the consent-gated Analytics has loaded.
+ * Tracking: on successful submit `generate_lead` (form_name booking_demo /
+ * booking_meeting) goes to the dataLayer — see src/lib/track.ts.
  */
 
 type Labels = {
@@ -182,11 +183,11 @@ export function BookingModal({ kind, locale, open, onClose }: BookingModalProps)
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Failed");
-      // GA4 conversion — only fires when consent-gated gtag has loaded.
-      const w = window as unknown as { gtag?: (...args: unknown[]) => void };
-      w.gtag?.("event", "generate_lead", {
+      // Lead conversion (GTM / GA4) — sent only once the visitor has accepted cookies.
+      track("generate_lead", {
+        form_name: kind === "demo" ? "booking_demo" : "booking_meeting",
         booking_kind: kind,
-        ...(kind === "meeting" ? { booking_topic: form.topic } : {}),
+        booking_topic: kind === "meeting" ? form.topic : undefined,
       });
       setState("done");
     } catch (err) {
