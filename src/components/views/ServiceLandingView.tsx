@@ -12,6 +12,13 @@ import { Icon } from "@/components/Icon";
 import { servicePageLocalised, type ServicePage } from "@/content/servicePages";
 
 /**
+ * Temporarily hide the hero photos on all service landing pages while the
+ * final imagery is being produced. Flip to `true` (or remove the guard) to
+ * show the `image` field again.
+ */
+const SHOW_SERVICE_HERO_IMAGES = false;
+
+/**
  * A keyword-optimised service landing page, rendered at a root slug
  * (`/hakukoneoptimointi`, `/mediasuunnittelu` …) via the [...slug] catch-all.
  */
@@ -63,7 +70,7 @@ export async function ServiceLandingView({ page, locale }: { page: ServicePage; 
 
             {/* Photo + checklist column — sticky, never taller than the viewport */}
             <div className="space-y-6 lg:sticky lg:top-28 lg:self-start">
-              {page.image && (
+              {SHOW_SERVICE_HERO_IMAGES && page.image && (
                 <Reveal delay={0.05}>
                   <div className="overflow-hidden rounded-card ring-1 ring-black/5 dark:ring-white/10">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
