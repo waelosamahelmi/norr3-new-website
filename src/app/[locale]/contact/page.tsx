@@ -8,9 +8,9 @@ import { imageSlot } from "@/content/imageSlots";
 import { Container, HeroPill } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { ContactForm } from "@/components/ContactForm";
-import { StaggerGrid } from "@/components/StaggerGrid";
+import { TeamSlider } from "@/components/TeamSlider";
 import { SectionHeader } from "@/components/SectionHeader";
-import { LeadContactCard } from "@/components/cards/LeadContactCard";
+
 import { LogoStrip } from "@/components/marquee/LogoStrip";
 import { PillButton } from "@/components/PillButton";
 import { BookingButton } from "@/components/BookingButton";
@@ -300,17 +300,13 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
       <section className="pb-24 lg:pb-32">
         <Container>
           <SectionHeader heading={dict.contact.leads.heading} body={dict.contact.leads.body} />
-          <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 xl:grid-cols-5">
-            {leadContacts.map((member) => (
-              <LeadContactCard
-                key={member.id}
-                member={member}
-                locale={locale}
-                emailLabel={dict.common.email}
-                linkedinLabel={dict.common.linkedin}
-              />
-            ))}
-          </StaggerGrid>
+          <TeamSlider
+            members={leadContacts}
+            locale={locale}
+            emailLabel={dict.common.email}
+            linkedinLabel={dict.common.linkedin}
+            ariaLabel={dict.contact.leads.heading}
+          />
           <Reveal className="mt-12 flex justify-center">
             <PillButton href={linkTo(locale, "/tiimi")} variant="secondary">
               {dict.contact.leads.fullTeam}
