@@ -442,7 +442,7 @@ const fi = {
         stats: [
           { value: 360, suffix: "°", label: "Aktiivinen" },
           { value: 20, label: "Vakituista työntekijää" },
-          { value: 83, label: "NPS 2026" },
+          { value: 78, label: "NPS 6/2026 · Vuoden Toimisto -tutkimus" },
         ],
       },
       {
@@ -450,7 +450,7 @@ const fi = {
         body: "Mitä tarkoittaa technology? Kehitämme omia työkaluja — Marketing Enginestä Media Insightsiin — joilla suunnittelu, ostaminen ja todentaminen tapahtuvat dataan nojaten, eivät mutuun.",
         stats: [
           { value: 20, label: "Vakituista työntekijää" },
-          { value: 83, label: "NPS 2026" },
+          { value: 78, label: "NPS 6/2026 · Vuoden Toimisto -tutkimus" },
         ],
       },
       {
@@ -529,7 +529,7 @@ const fi = {
       items: [
         { value: 20, label: "Työntekijää" },
         { value: 800, suffix: "+", label: "Osaajaa verkostossamme maailmanlaajuisesti" },
-        { value: 83, label: "NPS 2026" },
+        { value: 78, label: "NPS 6/2026 · Vuoden Toimisto -tutkimus" },
         { value: 15.5, decimals: 1, suffix: " M€", label: "Liikevaihto 2025" },
       ],
     },
@@ -1369,7 +1369,7 @@ const en: Dictionary = {
         stats: [
           { value: 360, suffix: "°", label: "Active" },
           { value: 20, label: "Permanent employees" },
-          { value: 83, label: "NPS 2026" },
+          { value: 78, label: "NPS 06/2026 · Agency of the Year Study" },
         ],
       },
       {
@@ -1377,7 +1377,7 @@ const en: Dictionary = {
         body: "What does technology mean? We build our own tools — from the Marketing Engine to Media Insights — so planning, buying and proving media runs on data, not gut feeling.",
         stats: [
           { value: 20, label: "Permanent employees" },
-          { value: 83, label: "NPS 2026" },
+          { value: 78, label: "NPS 06/2026 · Agency of the Year Study" },
         ],
       },
       {
@@ -1456,7 +1456,7 @@ const en: Dictionary = {
       items: [
         { value: 20, label: "Employees" },
         { value: 800, suffix: "+", label: "Talents in our network worldwide" },
-        { value: 83, label: "NPS 2026" },
+        { value: 78, label: "NPS 06/2026 · Agency of the Year Study" },
         { value: 15.5, decimals: 1, suffix: " M€", label: "Revenue 2025" },
       ],
     },

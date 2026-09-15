@@ -119,11 +119,10 @@ export const mediaPills: { id: string; icon: string; fi: string; en: string }[] 
 ];
 
 export const valuePills: { id: string; icon: string; fi: string; en: string }[] = [
-  { id: "together", icon: "diversity_3", fi: "Yhdessä", en: "Together" },
-  { id: "experiment", icon: "science", fi: "Kokeileminen", en: "Experimentation" },
-  { id: "courage", icon: "bolt", fi: "Rohkeus", en: "Courage" },
-  { id: "independence", icon: "self_improvement", fi: "Itsenäisyys", en: "Independence" },
-  { id: "learning", icon: "school", fi: "Oppiminen", en: "Learning" },
+  { id: "collaboration", icon: "handshake", fi: "Yhteistyö", en: "Collaboration" },
+  { id: "joy", icon: "sentiment_satisfied", fi: "Ilo", en: "Joy" },
+  { id: "agility", icon: "bolt", fi: "Ketteryys", en: "Agility" },
+  { id: "balance", icon: "balance", fi: "Tasapaino", en: "Balance" },
 ];
 
 // Clients — used for the logo strip and the black Highlights band.

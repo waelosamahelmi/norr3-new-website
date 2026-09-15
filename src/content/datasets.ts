@@ -75,7 +75,7 @@ export const companyStats: Record<Locale, CompanyStat[]> = {
     { value: 360, suffix: "°", label: "Strategisesti aktiivinen insight- ja mediatoimisto" },
     { value: 2019, grouping: false, label: "Perustettu" },
     { value: 20, label: "Vakituista omaa työntekijää, kaikki kokeneita ja lähes kaikki partnereita" },
-    { value: 83, label: "NPS 2026" },
+    { value: 78, label: "NPS 6/2026 · Vuoden Toimisto -tutkimus" },
     { value: 800, suffix: "+", label: "Ammattilaista tukena ympäri maailmaa" },
     // `decimals` matters here: StatGrid defaults to 0, so without it 15.5 renders
     // as "16 M€" and the site overstates the figure.
@@ -85,7 +85,7 @@ export const companyStats: Record<Locale, CompanyStat[]> = {
     { value: 360, suffix: "°", label: "A strategically active insight and media agency" },
     { value: 2019, grouping: false, label: "Founded" },
     { value: 20, label: "Permanent employees — all experienced, nearly all partners" },
-    { value: 83, label: "NPS 2026" },
+    { value: 78, label: "NPS 06/2026 · Agency of the Year Study" },
     { value: 800, suffix: "+", label: "Professionals supporting us worldwide" },
     { value: 15.5, decimals: 1, suffix: " M€", label: "Our revenue 2025" },
   ],
