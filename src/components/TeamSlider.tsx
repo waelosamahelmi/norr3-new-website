@@ -79,7 +79,6 @@ export function TeamSlider({
       moved: false,
       active: true,
     };
-    rail.setPointerCapture(event.pointerId);
     setDragging(true);
   };
 
@@ -87,8 +86,22 @@ export function TeamSlider({
     const rail = railRef.current;
     const drag = dragRef.current;
     if (!rail || !drag.active) return;
+    // A pointerup outside the rail never reaches us; treat a released button
+    // as the end of the gesture instead of leaving the drag armed.
+    if (event.buttons === 0) {
+      drag.active = false;
+      setDragging(false);
+      return;
+    }
     const delta = event.clientX - drag.startX;
-    if (Math.abs(delta) > 4) drag.moved = true;
+    // Capture only once this is clearly a drag. Capturing on pointerdown
+    // retargets the click to the rail, so the mailto/tel/LinkedIn links inside
+    // the cards would never open — a plain click must stay a plain click.
+    if (!drag.moved) {
+      if (Math.abs(delta) <= 4) return;
+      drag.moved = true;
+      rail.setPointerCapture(event.pointerId);
+    }
     rail.scrollLeft = drag.startScroll - delta;
   };
 
