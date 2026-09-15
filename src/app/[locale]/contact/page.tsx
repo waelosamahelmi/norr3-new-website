@@ -109,20 +109,17 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
               {dict.contact.heading}
             </h1>
           </Reveal>
-          <Reveal delay={0.15} className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <Reveal delay={0.15} className="mt-4">
             <p className="max-w-xl text-[15px] leading-relaxed text-ink/80 lg:text-base">{dict.contact.body}</p>
+          </Reveal>
+          <Reveal delay={0.2} className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <BookingButton kind="meeting" locale={locale} variant="secondary">
+              {dict.common.bookCall}
+            </BookingButton>
             <p className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-xs font-medium text-ink/80">
               <Icon name="schedule" style={{ fontSize: "16px" }} />
               {dict.contact.responseTime}
             </p>
-          </Reveal>
-          <Reveal delay={0.2} className="mt-6 flex flex-wrap items-center gap-3">
-            <BookingButton kind="demo" locale={locale}>
-              {dict.common.bookDemo}
-            </BookingButton>
-            <BookingButton kind="meeting" locale={locale} variant="secondary">
-              {dict.common.bookCall}
-            </BookingButton>
           </Reveal>
         </Container>
       </section>
