@@ -188,7 +188,7 @@ export function Nav({
     ],
   };
 
-  const items =
+  const baseItems =
     menu && menu.length > 0
       ? menu
           // The CMS menu also feeds the footer; keep the header to real sections.
@@ -210,7 +210,21 @@ export function Nav({
           { key: "contact", label: t.contact, href: linkTo(locale, "/contact"), children: [] },
           { key: "meista", label: t.about, href: linkTo(locale, "/meista"), children: sub.about ?? [] },
           { key: "toihin-meille", label: t.careers, href: linkTo(locale, "/toihin-meille"), children: [] },
-        ] as const);
+        ] as { key: string; label: string; href: string; children: { key: string; label: string; href: string }[] }[]);
+
+  // Team Social's feed sits right after Insights. The CMS menu predates it, so
+  // it is added here unless an editor has already put /feed in the menu.
+  // HIDDEN FOR NOW (Wael, 2026-09-15): flip FEED_IN_NAV back to true to relaunch.
+  const FEED_IN_NAV = false;
+  const feedItem = { key: "feed", label: t.feed, href: linkTo(locale, "/feed"), children: [] };
+  const items = !FEED_IN_NAV || baseItems.some((item) => item.href === feedItem.href)
+    ? baseItems
+    : (() => {
+        const at = baseItems.findIndex((item) => item.key === "insights");
+        const list = [...baseItems];
+        list.splice(at >= 0 ? at + 1 : list.length, 0, feedItem);
+        return list;
+      })();
 
   const other: Locale = locale === "fi" ? "en" : "fi";
   const otherPath = otherLocaleHref(pathname, locale);

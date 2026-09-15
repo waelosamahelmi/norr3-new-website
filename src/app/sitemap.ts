@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getSiteContent } from "@/lib/cms";
 import { linkTo } from "@/lib/links";
+import { getSocialSitemap } from "@/lib/social";
 
 const BASE = "https://norr3.fi";
 const LOCALES = ["fi", "en"] as const;
@@ -14,6 +15,7 @@ const CODED_ROUTES = [
   "meista",
   "toihin-meille",
   "tiimi",
+  "feed",
   "insights",
   "contact",
   "brief",
@@ -30,14 +32,14 @@ const CODED_ROUTES = [
  * case, a post or a block page puts it in the sitemap with no second edit.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const content = await getSiteContent();
+  const [content, social] = await Promise.all([getSiteContent(), getSocialSitemap()]);
 
   // `lastModified` is only emitted when a real date is known (a post's publish
   // date, a CMS page's update time). Stamping every build with "now" teaches
   // crawlers to ignore the field entirely.
   const entry = (
     path: string,
-    options: { lastModified?: Date; changeFrequency?: "weekly" | "monthly"; priority?: number } = {}
+    options: { lastModified?: Date; changeFrequency?: "daily" | "weekly" | "monthly"; priority?: number } = {}
   ) =>
     LOCALES.map((locale) => ({
       url: `${BASE}${linkTo(locale, path || "")}`,
@@ -58,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       return !robots.includes("noindex");
     }).flatMap((route) =>
       entry(route, {
-        changeFrequency: route === "" ? "weekly" : "monthly",
+        changeFrequency: route === "" ? "weekly" : route === "feed" ? "daily" : "monthly",
         priority: route === "" ? 1 : 0.8,
       })
     ),
@@ -69,6 +71,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: post.isoDate ? new Date(post.isoDate) : undefined,
       })
     ),
+    // Team Social: every member profile and every post has its own URL. Until
+    // the social API answers, profiles come from the team roster (those pages
+    // render from it too) and there are no posts to list.
+    ...(social.members.length > 0
+      ? social.members.map((m) => ({ slug: m.slug, updatedAt: m.updatedAt }))
+      : content.team.map((m) => ({ slug: m.id, updatedAt: "" }))
+    ).flatMap((m) => entry(`tiimi/${m.slug}`, { priority: 0.5, lastModified: validDate(m.updatedAt) })),
+    ...social.posts.flatMap((p) => entry(`feed/${p.slug}`, { priority: 0.4, lastModified: validDate(p.updatedAt) })),
     // Service landing pages — the keyword-optimised sub-pages under /palvelut.
     ...content.servicePages.flatMap((page) => entry(page.slug, { priority: 0.7 })),
     // Pages composed in the CMS page editor. `status` is "published" for
@@ -83,4 +93,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         })
       ),
   ];
+}
+
+function validDate(value: string): Date | undefined {
+  if (!value) return undefined;
+  const date = new Date(value.includes("T") ? value : value.replace(" ", "T"));
+  return Number.isNaN(date.getTime()) ? undefined : date;
 }

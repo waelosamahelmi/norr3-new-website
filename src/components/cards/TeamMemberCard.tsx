@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Icon } from "@/components/Icon";
@@ -35,8 +36,14 @@ export function TeamMemberCard({
   linkedinLabel,
   emailLabel,
   houseBio = bundledHouseBio,
+  profileHref,
 }: {
   member: TeamMember;
+  /**
+   * The member's Team Social profile. When set, the name and the portrait link
+   * there; the chips and the touch "+" keep working on top of the photo link.
+   */
+  profileHref?: string;
   locale: Locale;
   linkedinLabel: string;
   emailLabel: string;
@@ -100,6 +107,13 @@ export function TeamMemberCard({
             className="h-full w-full object-cover grayscale-[0.15] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/member:scale-[1.04] group-hover/member:grayscale-0"
             loading="lazy"
           />
+          {/* The name is the keyboard stop for the profile; this just makes the
+              photo clickable too. The info panel and "+" sit above it. */}
+          {profileHref && (
+            <Link href={profileHref} tabIndex={-1} aria-hidden className="absolute inset-0">
+              <span className="sr-only">{member.name}</span>
+            </Link>
+          )}
           <span
             aria-hidden
             className="pointer-events-none absolute inset-0 rounded-card ring-0 ring-inset ring-purple/0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/member:ring-2 group-hover/member:ring-purple/70"
@@ -135,7 +149,18 @@ export function TeamMemberCard({
             <Icon name={panelOpen ? "close" : "add"} style={{ fontSize: "20px" }} />
           </button>
         </div>
-        <h3 className="mt-5 text-lg font-medium leading-snug text-ink dark:text-white">{member.name}</h3>
+        <h3 className="mt-5 text-lg font-medium leading-snug text-ink dark:text-white">
+          {profileHref ? (
+            <Link
+              href={profileHref}
+              className="rounded-sm transition-colors hover:text-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:hover:text-light-purple dark:focus-visible:outline-light-purple"
+            >
+              {member.name}
+            </Link>
+          ) : (
+            member.name
+          )}
+        </h3>
         {member.role ? (
           <p className="mt-1.5 text-[11px] font-medium uppercase leading-relaxed tracking-[0.14em] text-purple dark:text-light-purple">
             {member.role[locale]}

@@ -273,16 +273,30 @@ function start(allowedOrigin: string) {
   const pick = (entries: Entry[], element: HTMLElement): Entry => {
     if (entries.length === 1) return entries[0];
     const slug = window.location.pathname.split("/").filter(Boolean).pop() ?? "";
+    // Scopes are full slugs ("mediasuunnittelu/televisio"), not the last segment.
+    const routeOf = (pathname: string) => pathname.replace(/^\/en(?=\/|$)/, "").replace(/^\/+|\/+$/g, "");
+    const route = routeOf(window.location.pathname);
+
+    /* Text inside a link to a page is that page's own record. The menu and the
+       service cards list service-page titles on every route; without this the
+       route filter below discarded those titles as "another page's" and handed
+       the click to an unrelated global record with the same words. */
+    const link = element.closest("a");
+    if (link && link.origin === window.location.origin) {
+      const target = routeOf(link.pathname);
+      const linked = target && target !== route ? entries.filter((entry) => entry.scope === target) : [];
+      if (linked.length > 0) return linked[0];
+    }
 
     /* Route scope decides first, and decisively. One studio photo is both the
        home page's section image and a blog post's cover; on the home page it is
        the section image, and no amount of label matching says that as plainly
        as "this post is not the page you are on". Entries belonging to some
        other route are dropped; global entries stay in the running. */
-    const onRoute = entries.filter((entry) => !entry.scope || entry.scope === slug);
+    const onRoute = entries.filter((entry) => !entry.scope || entry.scope === route);
     let pool = onRoute.length > 0 ? onRoute : entries;
     // Within the page's own route, its own records beat the global ones.
-    const owned = pool.filter((entry) => entry.scope === slug && slug);
+    const owned = pool.filter((entry) => entry.scope === route && route);
     if (owned.length > 0) pool = owned;
     if (pool.length === 1) return pool[0];
 
@@ -293,7 +307,17 @@ function start(allowedOrigin: string) {
     const byRegion = pool.filter((entry) => chrome.test(entry.label) === inChrome);
     if (byRegion.length > 0) pool = byRegion;
 
-    return pool.find((entry) => !inChrome && slug && entry.label.toLowerCase().includes(slug)) ?? pool[0];
+    if (inChrome || !slug) return pool[0];
+    /* A copy key in the page's own section beats a loose label match. On
+       /contact the heading (`contact.heading`) and the shared button text
+       (`common.contactUs`) both read "Contact us", and both labels contain
+       "contact" — so a substring test alone sent heading edits to the button. */
+    const section = new RegExp(`· ${slug.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\.`, "i");
+    return (
+      pool.find((entry) => section.test(entry.label)) ??
+      pool.find((entry) => entry.label.toLowerCase().includes(slug)) ??
+      pool[0]
+    );
   };
 
   const skip = (element: Element): boolean =>

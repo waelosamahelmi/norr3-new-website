@@ -43,6 +43,8 @@ export const CMS_TAGS = {
   careers: "cms:careers",
   chrome: "cms:chrome",
   media: "cms:media",
+  /** Team Social: profiles, feed, posts, stories (fetched in src/lib/social.ts). */
+  social: "cms:social",
 } as const;
 
 const ALL_TAGS = Object.values(CMS_TAGS);

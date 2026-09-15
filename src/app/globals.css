@@ -430,3 +430,20 @@ html[data-city-hero-active] .site-nav .bg-ink {
   border-top: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
   margin: 2rem 0;
 }
+
+/* Team Social: the Like heart's little pop when a post is liked. */
+@keyframes social-like-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.35) rotate(-8deg); }
+  70% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+
+.social-like-pop {
+  animation: social-like-pop 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Story viewer progress: painted by transform from JS, so no layout work. */
+.social-story-bar {
+  transform-origin: left center;
+}

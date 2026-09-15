@@ -122,6 +122,10 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/tiimi">)
             <PillButton href={linkTo(locale, "/team#open-roles")} variant="secondary">
               {dict.common.openJobs}
             </PillButton>
+            {/* Team Social: the same people, posting — profiles hang off the cards below. */}
+            <PillButton href={linkTo(locale, "/feed")} variant="text">
+              {dict.social.teamFeedCta}
+            </PillButton>
           </div>
         </Reveal>
       </Container>
@@ -218,6 +222,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/tiimi">)
                 key={m.id}
                 member={m}
                 locale={locale}
+                profileHref={linkTo(locale, `/tiimi/${m.id}`)}
                 linkedinLabel={dict.common.linkedin}
                 emailLabel={dict.common.email}
               />
