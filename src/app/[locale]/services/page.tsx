@@ -201,7 +201,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
       </section>
       )}
 
-      <HighlightsBand clients={clients} />
+      <HighlightsBand clients={clients} cases={cases} locale={locale} />
 
       {/* Related posts — same "all insights" exit as every other card grid. */}
       <section className="pb-24 pt-24 lg:pb-32 lg:pt-32">

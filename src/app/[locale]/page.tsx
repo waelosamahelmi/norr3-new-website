@@ -229,7 +229,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       </section>
       )}
 
-      <HighlightsBand clients={clients} />
+      <HighlightsBand clients={clients} cases={cases} locale={locale} />
 
       {/* Marketing Engine */}
       <section id="engine" className="scroll-mt-24 bg-pastel-purple/40 py-24 lg:py-32 dark:bg-white/[0.04]">

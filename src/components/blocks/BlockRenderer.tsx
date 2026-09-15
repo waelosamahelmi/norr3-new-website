@@ -733,7 +733,7 @@ function BlockSwitch({
       );
 
     case "highlights.band":
-      return <HighlightsBand clients={context.clients} />;
+      return <HighlightsBand clients={context.clients} cases={context.cases} locale={locale} />;
 
     /* ---------------------------------------------------------------- layout */
     case "columns": {
