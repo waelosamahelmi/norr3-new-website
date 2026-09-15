@@ -15,9 +15,11 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * description; pressing again (or Escape) collapses it. The small +/− is the
  * only control, and a card with no sub-services stays static.
  *
- * The purple "highlighted" treatment — solid purple, white text, the
- * pixel-dissolve diagonal — is purely a hover state: whichever card the
- * visitor's pointer is actually over gets it, via `group-hover`.
+ * The purple "highlighted" treatment — solid purple, white text, yellow
+ * number, the pixel-dissolve diagonal — appears both on hover (whichever
+ * card the pointer is over, via `group-hover`) and while a card is open
+ * (expanded): number/body/toggle switch to their white-on-purple colors
+ * in the open state too, not just under the pointer.
  */
 export function ServiceCard({
   number,
@@ -64,13 +66,21 @@ export function ServiceCard({
       <div className="relative flex h-[100px] w-[100px] items-center justify-center rounded-[5px] bg-yellow text-ink">
         <Icon name={icon} style={{ fontSize: "40px" }} />
       </div>
-      {/* Yellow when open or hovered, matching the purple ground it sits on;
-          purple the rest of the time, against the pastel ground. */}
-      <span className="relative text-2xl font-medium text-purple transition-colors duration-300 group-hover:text-yellow dark:text-light-purple dark:group-hover:text-yellow">
+      {/* Yellow on the purple ground — both when open and on hover; purple the
+          rest of the time, against the pastel ground. */}
+      <span
+        className={`relative text-2xl font-medium transition-colors duration-300 ${
+          open ? "text-yellow" : "text-purple group-hover:text-yellow dark:text-light-purple dark:group-hover:text-yellow"
+        }`}
+      >
         {number}
       </span>
       <h3 className="relative text-xl font-medium leading-snug">{title}</h3>
-      <p className="relative text-sm leading-relaxed text-ink/65 transition-colors duration-300 group-hover:text-white/85 dark:text-white/65">
+      <p
+        className={`relative text-sm leading-relaxed transition-colors duration-300 ${
+          open ? "text-white/85" : "text-ink/65 group-hover:text-white/85 dark:text-white/65"
+        }`}
+      >
         {body}
       </p>
 
@@ -128,7 +138,9 @@ export function ServiceCard({
       {hasItems && (
         <span
           aria-hidden
-          className="relative mt-auto inline-flex items-center justify-center rounded-full border border-ink/40 p-2 text-ink transition-colors duration-300 group-hover:border-white/50 group-hover:bg-white group-hover:text-ink dark:border-white/40 dark:text-white dark:group-hover:border-white/50 dark:group-hover:bg-white dark:group-hover:text-ink mt-4"
+          className={`relative mt-auto inline-flex items-center justify-center rounded-full border p-2 transition-colors duration-300 mt-4 ${
+            open ? "border-white/50 text-white" : "border-ink/40 text-ink dark:border-white/40 dark:text-white"
+          } group-hover:border-white/50 group-hover:bg-white group-hover:text-ink dark:group-hover:border-white/50 dark:group-hover:bg-white dark:group-hover:text-ink`}
         >
           {open ? <Icon name="remove" style={{ fontSize: "16px" }} /> : <Icon name="add" style={{ fontSize: "16px" }} />}
         </span>
