@@ -58,11 +58,15 @@ export function Footer({
         </div>
       </motion.div>
 
-      <div className="mx-auto grid max-w-[1600px] gap-12 px-6 pb-16 pt-24 sm:grid-cols-2 lg:grid-cols-4 lg:px-14 lg:pt-36">
+      {/* Content-sized columns spread evenly edge-to-edge on desktop: first
+          column on the left margin, last on the right, equal gaps between all
+          of them (so the menu spans exactly the wordmark's width above without
+          a dead hole before the last column). */}
+      <div className="mx-auto grid max-w-[1600px] gap-12 px-6 pb-16 pt-24 sm:grid-cols-2 lg:flex lg:justify-between lg:px-14 lg:pt-36">
         <div>
           <p className="text-lg font-medium">NØRR3</p>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/80">{dict.footer.blurb1}</p>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/80">{dict.footer.blurb2}</p>
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/80">{dict.footer.blurb1}</p>
+          <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/80">{dict.footer.blurb2}</p>
         </div>
 
         <div>
