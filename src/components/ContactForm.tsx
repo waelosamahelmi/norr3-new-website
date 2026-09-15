@@ -9,7 +9,7 @@ import { track } from "@/lib/track";
 
 /** Shared field styling — one source of truth for every input/textarea. */
 const fieldClass =
-  "mt-1.5 w-full rounded-xl border border-black/10 px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-light-purple dark:focus-visible:ring-light-purple/40";
+  "mt-1.5 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-ink outline-none transition-colors focus:border-purple focus-visible:ring-2 focus-visible:ring-purple/40 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder-white/40 dark:focus:border-light-purple dark:focus-visible:ring-light-purple/40";
 const labelClass = "text-sm font-medium text-ink/70 dark:text-white/80";
 
 export function ContactForm({
@@ -66,7 +66,7 @@ export function ContactForm({
   }
 
   return (
-    <div className="relative rounded-card bg-white p-8 ring-1 ring-black/5 sm:p-10 dark:bg-white/[0.04] dark:ring-white/10">
+    <div className="relative">
       <AnimatePresence mode="wait">
         {sent ? (
           <motion.div

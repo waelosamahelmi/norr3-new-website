@@ -104,28 +104,10 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
             {/* The hero band stays yellow in dark mode, so the pill keeps its purple ink. */}
             <HeroPill onLight>{dict.contact.pill}</HeroPill>
           </Reveal>
-          <Reveal delay={0.05} className="mt-5 flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
+          <Reveal delay={0.05} className="mt-5">
             <h1 className="text-[8vw] font-medium leading-[0.95] tracking-tight text-ink lg:text-[4.5rem]">
               {dict.contact.heading}
             </h1>
-            {/* Email surfaced at the top — the one thing most visitors came for */}
-            <div className="flex flex-col items-start gap-2.5">
-              <a
-                href="mailto:info@norr3.fi"
-                className="inline-flex items-center gap-2.5 rounded-full bg-white/70 px-5 py-3 text-base font-medium text-ink transition-colors hover:bg-white"
-              >
-                <Icon name="mail" style={{ fontSize: "20px" }} />
-                {dict.footer.email}
-              </a>
-              {/* Quick link to the seller-instructions block at the bottom */}
-              <a
-                href="#find-us"
-                className="inline-flex items-center gap-2.5 rounded-full bg-white/70 px-5 py-3 text-base font-medium text-ink transition-colors hover:bg-white"
-              >
-                <Icon name="arrow_downward" style={{ fontSize: "20px" }} />
-                {dict.contact.salesPillLabel}
-              </a>
-            </div>
           </Reveal>
           <Reveal delay={0.15} className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
             <p className="max-w-xl text-[15px] leading-relaxed text-ink/80 lg:text-base">{dict.contact.body}</p>
@@ -160,12 +142,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
               />
             </div>
 
-            <h2 className="mt-10 text-2xl font-medium tracking-tight text-ink lg:text-3xl dark:text-white">
-              {dict.contact.directHeading}
-            </h2>
-            {/* Labelled email/phone rows: the two things people came for read as
-                one pair instead of a headline and an orphan line under it. */}
-            <ul className="mt-6 space-y-3">
+            <ul className="mt-8 space-y-3">
               {[
                 {
                   href: "mailto:info@norr3.fi",
@@ -199,12 +176,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
           </Reveal>
 
           <Reveal delay={0.1}>
-            <h2 className="text-2xl font-medium tracking-tight text-ink lg:text-3xl dark:text-white">
-              {dict.contact.formHeading}
-            </h2>
-            <div className="mt-6">
-              <ContactForm dict={dict.contact} locale={locale} />
-            </div>
+            <ContactForm dict={dict.contact} locale={locale} />
             <p className="mt-4 flex items-start gap-2 text-xs leading-relaxed text-ink/55 dark:text-white/55">
               <Icon name="lock" style={{ fontSize: "16px" }} />
               <span>
@@ -289,7 +261,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
                   {dict.contact.salesHeading}
                 </h3>
               </div>
-              <p className="mt-5 text-[13px] leading-relaxed text-ink/70 dark:text-white/70">{dict.contact.salesBody}</p>
+              <p className="mt-5 text-[15px] leading-relaxed text-ink/70 dark:text-white/70">{dict.contact.salesBody}</p>
             </Reveal>
           </div>
         </Container>
