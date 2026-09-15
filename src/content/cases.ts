@@ -230,6 +230,18 @@ export const cases: CaseStudy[] = [
       { value: 1, label: { fi: "Yhtenäinen suunnitelma kaikille kanaville", en: "Unified plan across all channels" } },
     ],
     kpi: { value: 12, label: { fi: "kk jatkuvaa näkyvyyttä", en: "months of continuous visibility" } },
+    testimonial: {
+      author: "Päivi Korpisalo",
+      role: {
+        fi: "Markkinointi- ja viestintäpäällikkö, Kokkolan kaupunki",
+        en: "Marketing and Communications Manager, City of Kokkola",
+      },
+      text: {
+        fi: "NØRR3 on ymmärtänyt kaupungin ja elinkeinoelämän kampanjoinnille asetetut tavoitteet erittäin hyvin ja rakentanut sekä operoinut suunnittelemansa tehokkaan mediaplanin ammattitaitoisesti ja systemaattisesti. Vahva suositus tästä toimistosta!",
+        en: "NØRR3 has understood the objectives set for the city's and the business community's campaign extremely well, and has built and operated the media plan they designed in a professional and systematic way. A strong recommendation for this agency!",
+      },
+      image: "/images/cases/kokkola-korpisalo.webp",
+    },
   },
   {
     slug: "st1",
