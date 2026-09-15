@@ -37,7 +37,7 @@ export function ParallaxBand({
       <div className="relative z-10 pb-8 lg:pb-10">
         <Reveal className="flex justify-center px-6">
           {caption && (
-            <p className="max-w-3xl text-center text-xl font-medium leading-relaxed text-white sm:text-2xl lg:text-3xl">
+            <p className="max-w-3xl text-center text-2xl font-medium leading-snug text-white sm:text-3xl lg:text-4xl">
               {caption}
             </p>
           )}
