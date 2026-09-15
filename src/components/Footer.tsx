@@ -24,28 +24,38 @@ export function Footer({
           idle-animate every time it scrolls into view. Drawn through a CSS mask
           in pastel purple (the reversed tint the lavender banners use), so the
           colour is an exact brand token rather than a filter approximation.
-          Letters still rise in on scroll for the reveal itself. */}
+          Letters still rise in on scroll for the reveal itself.
+
+          The mask is cropped to the artwork's INK bounds, so the visible edges
+          of the wordmark line up with the text columns below. The raw viewBox
+          (-20 -35 1145 305) carries ~3% empty space on the left and ~5% on the
+          right; the ink sits at 12.19 19.12 1055.68 185.96. Hence mask-size
+          1145/1055.68 = 108.46% and the offsets below. The wrapper keeps the
+          original spacing to the row above/below with % paddings (which resolve
+          against the same content width as the grid's px-6/lg:px-14). */}
       <motion.div
         aria-hidden
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="mx-auto flex max-w-[1600px] items-end justify-center overflow-hidden px-6 pt-8 lg:px-14"
+        className="mx-auto flex max-w-[1600px] items-end justify-center overflow-hidden px-6 lg:px-14"
       >
-        <div
-          className="aspect-[1145/305] w-full max-w-[1400px] select-none bg-pastel-purple"
-          style={{
-            WebkitMaskImage: `url("${wordmarkSrc}")`,
-            maskImage: `url("${wordmarkSrc}")`,
-            WebkitMaskSize: "contain",
-            maskSize: "contain",
-            WebkitMaskRepeat: "no-repeat",
-            maskRepeat: "no-repeat",
-            WebkitMaskPosition: "center bottom",
-            maskPosition: "center bottom",
-          }}
-        />
+        <div className="w-full pb-[5.67%] pt-[calc(32px+4.73%)]">
+          <div
+            className="aspect-[1056/186] w-full select-none bg-pastel-purple"
+            style={{
+              WebkitMaskImage: `url("${wordmarkSrc}")`,
+              maskImage: `url("${wordmarkSrc}")`,
+              WebkitMaskSize: "108.46% auto",
+              maskSize: "108.46% auto",
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskPosition: "36.04% 45.47%",
+              maskPosition: "36.04% 45.47%",
+            }}
+          />
+        </div>
       </motion.div>
 
       <div className="mx-auto grid max-w-[1600px] gap-12 px-6 pb-16 pt-24 sm:grid-cols-2 lg:grid-cols-4 lg:px-14 lg:pt-36">
