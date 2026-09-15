@@ -111,7 +111,10 @@ export function Footer({
           </div>
         </div>
 
-        <div>
+        {/* Last column hugs the right edge on desktop so the menu spans the same
+            width as the giant wordmark above (the left column anchors the left
+            edge, this one anchors the right). Stays left-aligned when stacked. */}
+        <div className="lg:text-right">
           <p className="text-lg font-medium">{dict.footer.joinHeading}</p>
           <div className="mt-4 space-y-1.5 text-sm text-white/80">
             {/* Each label now has its own route (About / Careers / Team)
@@ -120,7 +123,7 @@ export function Footer({
               <Link
                 key={item.key}
                 href={linkTo(locale, `/${item.path}`)}
-                className="block w-fit rounded-sm transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="block w-fit rounded-sm transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:ml-auto"
               >
                 {item.label}
               </Link>
