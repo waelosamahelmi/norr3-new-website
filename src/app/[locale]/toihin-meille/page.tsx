@@ -13,6 +13,7 @@ import { Reveal } from "@/components/Reveal";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { SectionHeader } from "@/components/SectionHeader";
 import { BenefitCard } from "@/components/cards/BenefitCard";
+import { CultureCard } from "@/components/cards/CultureCard";
 import { PhotoInterstitial } from "@/components/PhotoInterstitial";
 import { ContactBanner } from "@/components/ContactBanner";
 import { OpenApplicationCta } from "@/components/OpenApplicationCta";
@@ -147,18 +148,19 @@ export default async function CareersPage({ params }: PageProps<"/[locale]/toihi
         />
       </Container>
 
-      {/* Culture — the blurb plus the route into the About Us page */}
+      {/* Culture — the values block shared with the Meistä/Tiimi page */}
       <section className="pb-24 lg:pb-32">
         <Container>
-          <SectionHeader
-            heading={c.culture.heading}
-            body={c.culture.body}
-            cta={c.culture.cta}
-            ctaHref={linkTo(locale, "/meista")}
-          />
-          <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
-            {c.culture.benefits.map((b) => (
-              <BenefitCard key={b.title} icon={b.icon} title={b.title} body={b.body} />
+          <SectionHeader heading={c.culture.heading} body={c.culture.body} />
+          <StaggerGrid className="mt-14 grid gap-card-gap sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
+            {c.culture.principles.map((p, i) => (
+              <CultureCard
+                key={p.title}
+                number={String(i + 1).padStart(2, "0")}
+                icon={p.icon}
+                title={p.title}
+                body={p.body}
+              />
             ))}
           </StaggerGrid>
         </Container>

@@ -460,13 +460,13 @@ const fi = {
       },
     ],
     culture: {
-      heading: "Kulttuurimme",
-      body: "4 periaatetta. Autamme pohjoismaisia edelläkävijäyrityksiä muuttamaan mediainvestoinnit kasvuksi ja kilpailueduksi yhdistämällä haastajan asenteen, viimeisimmän teknologian ja poikkeuksellisen osaamisen.",
+      heading: "Arvomme",
+      body: "Nämä arvot ohjaavat työtämme joka päivä. Teemme parhaan tuloksen yhdessä, ketterästi ja työn imussa. Meille on myös tärkeää huolehtia jaksamisestamme, jotta pidämme huolta itsestämme.",
       principles: [
-        { icon: "campaign", title: "Suoraan ja ajoissa", body: "Sanomme asiat niin kuin ne ovat — myös silloin, kun se on epämukavaa." },
-        { icon: "query_stats", title: "Ei myydä mihin ei uskota", body: "Jos mediajako näyttää hölmöltä, sanomme sen. Myös silloin kun raha on tiukassa." },
-        { icon: "monitoring", title: "Paneelidata > Mutu", body: "Päätökset tehdään tutkitulla datalla, ei tuntumalla." },
-        { icon: "celebration", title: "Pöhinä töiden ulkopuolella", body: "Hyvä kulttuuri ei lopu kello neljään — yhdessä tekeminen kantaa myös toimiston ulkopuolelle." },
+        { icon: "campaign", title: "Yhteistyö", body: "Yhteistyössämme korostuvat kommunikaatio ja tehokkuus." },
+        { icon: "query_stats", title: "Ilo", body: "Otamme työn vakavasti, mutta meidän kanssa työskentely on taatusti myös hauskaa!" },
+        { icon: "monitoring", title: "Ketteryys", body: "Uskallamme tehdä itsenäisiä päätöksiä ja panostamme työmme tehostamiseen." },
+        { icon: "celebration", title: "Tasapaino", body: "Meille työntekijöidemme hyvinvointi on ensisijaisen tärkeää. Kun voimme hyvin, näkyy se myös tuloksissa." },
       ],
     },
     valuesCaption: "Arvomme näkyvät joka briiffissä ja joka palaverissa.",
@@ -550,13 +550,14 @@ const fi = {
       candor: "Luemme jokaisen hakemuksen käsin — ja vastaamme aina.",
     },
     culture: {
-      heading: "Millaista meillä on töissä",
-      body: "Meillä saa päättää itse, miten työnsä tekee, ja meillä pitää uskaltaa sanoa, jos jokin ei toimi. Tiimi on senioria, hierarkia matala ja päätökset nopeita. Tässä toimistossa kehittyy Suomen strategisimmaksi median moniosaajaksi.",
+      heading: "Arvomme",
+      body: "Nämä arvot ohjaavat työtämme joka päivä. Teemme parhaan tuloksen yhdessä, ketterästi ja työn imussa. Meille on myös tärkeää huolehtia jaksamisestamme, jotta pidämme huolta itsestämme.",
       cta: "Tutustu meihin",
-      benefits: [
-        { icon: "self_improvement", title: "Itsenäisyys", body: "Sinä päätät, miten työsi teet. Me huolehdimme siitä, että tavoite ja raamit ovat selvät." },
-        { icon: "school", title: "Oppiminen", body: "Opimme toisiltamme ja omista työkaluistamme. Uutta teknologiaa kokeillaan täällä ensin, ei viimeisenä." },
-        { icon: "diversity_3", title: "Yhdessä", body: "Matala hierarkia, senioritiimi ja pöhinää myös työajan ulkopuolella. Kukaan ei jää yksin briiffin kanssa." },
+      principles: [
+        { icon: "campaign", title: "Yhteistyö", body: "Yhteistyössämme korostuvat kommunikaatio ja tehokkuus." },
+        { icon: "query_stats", title: "Ilo", body: "Otamme työn vakavasti, mutta meidän kanssa työskentely on taatusti myös hauskaa!" },
+        { icon: "monitoring", title: "Ketteryys", body: "Uskallamme tehdä itsenäisiä päätöksiä ja panostamme työmme tehostamiseen." },
+        { icon: "celebration", title: "Tasapaino", body: "Meille työntekijöidemme hyvinvointi on ensisijaisen tärkeää. Kun voimme hyvin, näkyy se myös tuloksissa." },
       ],
     },
     together: {
@@ -1387,13 +1388,13 @@ const en: Dictionary = {
       },
     ],
     culture: {
-      heading: "Our Culture",
-      body: "4 Principles. We help progressive Nordic companies turn media investments into growth and competitive advantage by combining a challenger's attitude, the latest technology and exceptional talent.",
+      heading: "Our values",
+      body: "These values guide our work every day. We achieve the best results by working together, being agile, and finding fulfillment in our work. It’s also important for us to look after our well-being so that we take care of ourselves.",
       principles: [
-        { icon: "campaign", title: "Direct and on time", body: "We say things as they are — even when it's uncomfortable." },
-        { icon: "query_stats", title: "We don't sell what we don't believe in", body: "If the media split looks dumb, we say so. Even when money is tight." },
-        { icon: "monitoring", title: "Panel data > gut feeling", body: "Decisions are made on researched data, not hunches." },
-        { icon: "celebration", title: "Buzz beyond work", body: "Good culture doesn't end at four o'clock — doing things together carries outside the office too." },
+        { icon: "campaign", title: "Collaboration", body: "In our collaboration, communication and efficiency come first." },
+        { icon: "query_stats", title: "Joy", body: "We take our work seriously — but working with us is guaranteed to be fun, too!" },
+        { icon: "monitoring", title: "Agility", body: "We dare to make independent decisions and invest in making our work more efficient." },
+        { icon: "celebration", title: "Balance", body: "The wellbeing of our people comes first. When we are well, it shows in our results, too." },
       ],
     },
     valuesCaption: "Our values show up in every brief and every meeting.",
@@ -1477,13 +1478,14 @@ const en: Dictionary = {
       candor: "We read every application by hand — and we always reply.",
     },
     culture: {
-      heading: "What working here is like",
-      body: "You decide how you do your work, and you're expected to speak up when something isn't working. The team is senior, the hierarchy is flat and decisions are fast. This office grows Finland's most strategic media all-rounders.",
+      heading: "Our values",
+      body: "These values guide our work every day. We achieve the best results by working together, being agile, and finding fulfillment in our work. It’s also important for us to look after our well-being so that we take care of ourselves.",
       cta: "All about us",
-      benefits: [
-        { icon: "self_improvement", title: "Independence", body: "You decide how the work gets done. We make sure the goal and the guardrails are clear." },
-        { icon: "school", title: "Learning", body: "We learn from each other and from our own tools. New technology gets tried here first, not last." },
-        { icon: "diversity_3", title: "Together", body: "Flat hierarchy, a senior team and buzz beyond office hours. Nobody is left alone with a brief." },
+      principles: [
+        { icon: "campaign", title: "Collaboration", body: "In our collaboration, communication and efficiency come first." },
+        { icon: "query_stats", title: "Joy", body: "We take our work seriously — but working with us is guaranteed to be fun, too!" },
+        { icon: "monitoring", title: "Agility", body: "We dare to make independent decisions and invest in making our work more efficient." },
+        { icon: "celebration", title: "Balance", body: "The wellbeing of our people comes first. When we are well, it shows in our results, too." },
       ],
     },
     together: {
