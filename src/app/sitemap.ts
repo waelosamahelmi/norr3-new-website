@@ -16,6 +16,7 @@ const CODED_ROUTES = [
   "toihin-meille",
   "tiimi",
   "feed",
+  "merch",
   "insights",
   "contact",
   "brief",

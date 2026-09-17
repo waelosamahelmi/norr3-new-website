@@ -247,7 +247,7 @@ function fallbackContent(error?: string): SiteContent {
     channels: staticChannels,
     mediaGroups: staticMediaGroups,
     nav: {
-      header: (["services", "engine", "cases", "insights", "contact", "about", "careers"] as const).map((key) => ({
+      header: (["services", "engine", "cases", "insights", "contact", "about", "careers", "merch"] as const).map((key) => ({
         label: { fi: dictionaries.fi.nav[key], en: dictionaries.en.nav[key] },
         href: `/${key}`,
         icon: "",

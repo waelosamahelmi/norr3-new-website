@@ -62,6 +62,11 @@ const fi = {
       description:
         "Seuraa NØRR3:n tiimiä: julkaisuja mediasta, datasta ja kasvusta sekä kurkistuksia arkeen suoraan tekijöiltä.",
     },
+    merch: {
+      title: "Merch — NØRR3-kamaa toimistolle ja vapaalle | NØRR3",
+      description:
+        "Huppari, t-paita, lippis, pipo, kangaskassi ja tarrapaketti. Tilaa sähköpostilla — yli 100 € tilauksiin pipo ja tarrapaketti kaupan päälle.",
+    },
   },
   announcement: {
     message: "Marketing Engine 2.0 on pian täällä!",
@@ -76,6 +81,7 @@ const fi = {
     about: "Meistä",
     careers: "Rekry",
     feed: "Feed",
+    merch: "Merch",
     // Sub-menu labels — the header's dropdowns jump straight to these page sections.
     servicesSub: {
       areas: "Mitä teemme",
@@ -581,6 +587,33 @@ const fi = {
       success: "Kiitos hakemuksestasi — luemme sen ja palaamme asiaan.",
     },
   },
+  merch: {
+    pill: "MERCH",
+    heroLeft: "NØRR3",
+    heroAccent: "Merch",
+    heroBody:
+      "Toimistokamaa, jota jaksaa pitää päällä myös vapaalla. Tilaa sähköpostilla — paketit lähtevät Helsingistä.",
+    heading: "Koko mallisto",
+    body: "Kuusi vakiotuotetta: huppari, t-paita, lippis, pipo, kangaskassi ja tarrapaketti.",
+    products: [
+      { id: "hoodie", name: "Huppari", body: "Paksu ja pehmeä. Iso logo selässä.", price: "65 €" },
+      { id: "tshirt", name: "T-paita", body: "Pestävä perusasu, joka ei kutistu. Logo rinnassa.", price: "35 €" },
+      { id: "cap", name: "Lippis", body: "Säädettävä, kuusipaneelinen. Klassikko.", price: "30 €" },
+      { id: "beanie", name: "Pipo", body: "Lämmin, ei kutita. Yhden koon.", price: "25 €" },
+      { id: "tote", name: "Kangaskassi", body: "Kestää läppärin, lounasevään ja pari kirjaa.", price: "20 €" },
+      { id: "stickers", name: "Tarrapaketti", body: "Kuusi tarraa läppäriin, pulloon ja auton takalasiin.", price: "8 €" },
+    ],
+    offer: {
+      label: "ETU",
+      heading: "Yli 100 € tilaukset",
+      body: "Kun merchtilauksesi ylittää 100 €, saat pipon ja tarrapaketin kaupan päälle.",
+      note: "Etu on voimassa toistaiseksi.",
+    },
+    orderLabel: "Tilaa",
+    cta: "Tilaa merch",
+    ctaNote: "Tilaukset ja kysymykset: info(at)norr3.fi",
+    emailSubject: "NØRR3-merch-tilaus",
+  },
   cases: {
     pill: "CUSTOMER CASES",
     heroLeft: "Making Media",
@@ -990,6 +1023,11 @@ const en: Dictionary = {
       description:
         "Follow the NØRR3 team: posts on media, data and growth, and a look behind the scenes — straight from the people doing the work.",
     },
+    merch: {
+      title: "Merch — NØRR3 gear for the office and the weekend | NØRR3",
+      description:
+        "Hoodie, t-shirt, cap, beanie, tote bag and sticker pack. Order by email — orders over €100 get a beanie and sticker pack thrown in.",
+    },
   },
   announcement: {
     message: "Marketing Engine 2.0 is coming soon!",
@@ -1004,6 +1042,7 @@ const en: Dictionary = {
     about: "About Us",
     careers: "Careers",
     feed: "Feed",
+    merch: "Merch",
     // Sub-menu labels — the header's dropdowns jump straight to these page sections.
     servicesSub: {
       areas: "What we do",
@@ -1508,6 +1547,33 @@ const en: Dictionary = {
       submit: "Send application",
       success: "Thanks for your application — we'll read it and get back to you.",
     },
+  },
+  merch: {
+    pill: "MERCH",
+    heroLeft: "NØRR3",
+    heroAccent: "Merch",
+    heroBody:
+      "Office gear you'll actually wear off the clock. Order by email — packages ship from Helsinki.",
+    heading: "The collection",
+    body: "Six staples: hoodie, t-shirt, cap, beanie, tote bag and sticker pack.",
+    products: [
+      { id: "hoodie", name: "Hoodie", body: "Heavyweight and soft. Big logo on the back.", price: "€65" },
+      { id: "tshirt", name: "T-shirt", body: "A basic you can wash a hundred times. Logo on the chest.", price: "€35" },
+      { id: "cap", name: "Cap", body: "Adjustable, six-panel. A classic.", price: "€30" },
+      { id: "beanie", name: "Beanie", body: "Warm, not itchy. One size.", price: "€25" },
+      { id: "tote", name: "Tote bag", body: "Fits a laptop, lunch and a couple of books.", price: "€20" },
+      { id: "stickers", name: "Sticker pack", body: "Six stickers for a laptop, a bottle and a car window.", price: "€8" },
+    ],
+    offer: {
+      label: "OFFER",
+      heading: "Orders over €100",
+      body: "When your merch order tops €100, we throw in a beanie and a sticker pack.",
+      note: "Offer valid until further notice.",
+    },
+    orderLabel: "Order",
+    cta: "Order merch",
+    ctaNote: "Orders and questions: info(at)norr3.fi",
+    emailSubject: "NØRR3 merch order",
   },
   cases: {
     pill: "CUSTOMER CASES",
