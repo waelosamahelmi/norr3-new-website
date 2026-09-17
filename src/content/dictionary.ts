@@ -739,6 +739,7 @@ const fi = {
             "Käytämme sivustolla evästeitä ja vastaavia tekniikoita. Välttämättömät evästeet pitävät sivuston toiminnassa (esimerkiksi kielivalinta ja evästesuostumus), eikä niitä voi kytkeä pois.",
             "Analytiikkaevästeet auttavat meitä ymmärtämään, miten sivustoa käytetään. Käytämme Google Tag Manageria ja Google Analytics 4:ää (evästeet _ga ja _gid).",
             "Markkinointievästeitä käytetään vain suostumuksellasi mainonnan kohdentamiseen ja mittaamiseen. Käytössä voivat olla esimerkiksi LinkedIn Insight Tag, Meta-pikseli ja Adformin seurantapikseli sen mukaan, mitä kanavia asiakastyössä käytetään.",
+            "Valitset itse, mitkä evästeet sallit. Evästeilmoituksessa on kolme yhtä helppoa vaihtoehtoa: hyväksy kaikki, hylkää kaikki tai muokkaa valintoja (välttämättömät, mittaus, markkinointi ja kokemus). Mitään ei ole valittu puolestasi valmiiksi.",
             "Ei-välttämättömät evästeet asetetaan vain, kun hyväksyt ne evästeilmoituksessa. Voit muuttaa tai peruuttaa suostumuksesi milloin tahansa sivuston alaosassa olevasta Evästeasetukset-painikkeesta tai tyhjentämällä selaimesi evästeet.",
             "Evästeiden käytöstä ja tietojen käsittelystä voit kysyä lisää osoitteesta info(at)norr3.fi.",
           ],
@@ -961,11 +962,31 @@ const fi = {
   },
   cookies: {
     title: "Evästeet",
-    body: "Käytämme evästeitä sivuston toimintaan ja analytiikkaan. Keräämme tietoja myös markkinointikanavistamme ja sähköpostiohjelmista yhteiseen asiakasrekisteriin (CRM) markkinointia, analytiikkaa ja myyntiä varten.",
-    accept: "Hyväksy",
-    decline: "Hylkää",
+    body: "Käytämme evästeitä sivuston toimintaan, analytiikkaan ja markkinointiin. Keräämme tietoja myös markkinointikanavistamme ja sähköpostiohjelmista yhteiseen asiakasrekisteriin (CRM) markkinointia, analytiikkaa ja myyntiä varten. Valitse itse, mitä sallit — voit muuttaa valintaasi milloin tahansa.",
+    acceptAll: "Hyväksy kaikki",
+    declineAll: "Hylkää kaikki",
+    customize: "Muokkaa valintoja",
+    save: "Tallenna valinnat",
     privacyLink: "Tietosuojaseloste ja evästeet",
     settings: "Evästeasetukset",
+    categories: {
+      necessary: {
+        title: "Välttämättömät",
+        body: "Sivuston toiminta, tietoturva ja valintojesi muistaminen. Nämä ovat aina käytössä.",
+      },
+      measurement: {
+        title: "Mittaus",
+        body: "Auttaa ymmärtämään, miten sivustoa käytetään (esim. Google Analytics), jotta voimme parantaa sitä.",
+      },
+      marketing: {
+        title: "Markkinointi",
+        body: "Kohdentaa mainontaa ja mittaa sen tuloksia eri kanavissa (esim. Google, LinkedIn, Meta).",
+      },
+      experience: {
+        title: "Kokemus",
+        body: "Muistaa asetukset, kuten kielivalinnan ja teeman, ja auttaa parantamaan käyttökokemusta. Ei seuraa sinua.",
+      },
+    },
   },
 };
 
@@ -1703,6 +1724,7 @@ const en: Dictionary = {
             "We use cookies and similar technologies on the site. Necessary cookies keep the site running (for example your language choice and cookie consent), and they cannot be switched off.",
             "Analytics cookies help us understand how the site is used. We use Google Tag Manager and Google Analytics 4 (the _ga and _gid cookies).",
             "Marketing cookies are used only with your consent to target and measure advertising. Depending on the channels we use in client work, these can include the LinkedIn Insight Tag, the Meta pixel and the Adform tracking pixel.",
+            "You choose which cookies you allow. The cookie notice offers three equally easy options: accept all, reject all, or customise your choices (necessary, measurement, marketing and experience). Nothing is pre-selected for you.",
             "Non-essential cookies are set only when you accept them in the cookie notice. You can change or withdraw your consent at any time via the Cookie settings button in the site footer or by clearing your browser cookies.",
             "For more about cookies and how we process data, contact info(at)norr3.fi.",
           ],
@@ -1925,11 +1947,31 @@ const en: Dictionary = {
   },
   cookies: {
     title: "Cookies",
-    body: "We use cookies for the site to work and to analyze traffic. We also collect data from our marketing channels and email programs into a shared customer register (CRM) for marketing, insight and sales purposes.",
-    accept: "Accept",
-    decline: "Decline",
+    body: "We use cookies for the site to work, to analyze traffic and for marketing. We also collect data from our marketing channels and email programs into a shared customer register (CRM) for marketing, insight and sales purposes. Choose what you allow — you can change your choice at any time.",
+    acceptAll: "Accept all",
+    declineAll: "Reject all",
+    customize: "Customise choices",
+    save: "Save choices",
     privacyLink: "Privacy policy and cookies",
     settings: "Cookie settings",
+    categories: {
+      necessary: {
+        title: "Necessary",
+        body: "Keeps the site working, secure and remembers your choices. These are always on.",
+      },
+      measurement: {
+        title: "Measurement",
+        body: "Helps us understand how the site is used (e.g. Google Analytics) so we can improve it.",
+      },
+      marketing: {
+        title: "Marketing",
+        body: "Targets advertising and measures its results across channels (e.g. Google, LinkedIn, Meta).",
+      },
+      experience: {
+        title: "Experience",
+        body: "Remembers settings such as language and theme, and helps us improve the experience. Does not track you.",
+      },
+    },
   },
 };
 

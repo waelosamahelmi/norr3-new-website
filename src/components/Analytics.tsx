@@ -2,21 +2,25 @@
 
 import { useEffect } from "react";
 import { useLocalStorageItem } from "@/lib/useLocalStorageItem";
+import { CONSENT_STORAGE_KEY, parseConsent } from "@/lib/consent";
 import { track } from "@/lib/track";
 
 /**
- * Analytics and marketing tags, gated on the cookie banner's choice
- * (`norr3-cookie-consent` = "accepted" | "declined").
+ * Analytics and marketing tags, gated on the granular cookie choice
+ * (`norr3-cookie-consent` — see lib/consent).
  *
  * - `gtm` set (CMS → Settings → Google Tag Manager ID): loads the GTM container,
  *   which carries GA4, Google Ads, LinkedIn, Meta and the rest. `ga4` is then
  *   ignored so GA4 is never counted twice.
  * - only `ga4` set: loads GA4 directly with gtag.js.
  *
- * Google Consent Mode v2 (required for Google Ads / GA4 in the EEA): consent is
- * declared "denied" first, and switched to "granted" when the visitor accepts.
- * No tag is loaded at all before acceptance ("basic" consent mode), which keeps
- * the privacy policy's promise that nothing tracks before consent.
+ * Google Consent Mode v2 (required for Google Ads / GA4 in the EEA): every
+ * signal is declared "denied" first and updated when the visitor decides —
+ * `measurement` maps to analytics_storage, `marketing` to ad_storage,
+ * ad_user_data and ad_personalization. No tag is loaded at all before at least
+ * one of those two is granted ("basic" consent mode), which keeps the privacy
+ * policy's promise that nothing tracks before consent. Withdrawing consent
+ * updates the signals back to denied; previously loaded tags stop measuring.
  *
  * The consent value is read through the same store the banner writes to, so
  * accepting loads the tags on *that* page — the landing page view and its
@@ -25,7 +29,10 @@ import { track } from "@/lib/track";
  * Also emits `email_click` / `phone_click` for every mailto:/tel: link.
  */
 export function Analytics({ ga4, gtm }: { ga4: string; gtm?: string }) {
-  const [consent] = useLocalStorageItem("norr3-cookie-consent", { serverValue: null, errorValue: null });
+  const [raw] = useLocalStorageItem(CONSENT_STORAGE_KEY, { serverValue: null, errorValue: null });
+  const categories = parseConsent(raw);
+  const measurement = categories?.measurement === true;
+  const marketing = categories?.marketing === true;
   const containerId = (gtm ?? "").trim();
   const measurementId = containerId ? "" : ga4.trim();
 
@@ -49,19 +56,22 @@ export function Analytics({ ga4, gtm }: { ga4: string; gtm?: string }) {
     }
   }, [containerId, measurementId]);
 
-  // Grant and load once the visitor accepts.
+  // Apply the visitor's choice and load the tags once anything is granted.
   useEffect(() => {
-    if (consent !== "accepted" || (!containerId && !measurementId)) return;
+    if (!categories || (!containerId && !measurementId)) return;
+
+    window.gtag?.("consent", "update", {
+      analytics_storage: measurement ? "granted" : "denied",
+      ad_storage: marketing ? "granted" : "denied",
+      ad_user_data: marketing ? "granted" : "denied",
+      ad_personalization: marketing ? "granted" : "denied",
+    });
+
+    if (!measurement && !marketing) return; // nothing to load (or consent withdrawn)
+
     const w = window as Window & { __norr3TagsLoaded?: boolean };
     if (w.__norr3TagsLoaded) return;
     w.__norr3TagsLoaded = true;
-
-    window.gtag?.("consent", "update", {
-      ad_storage: "granted",
-      ad_user_data: "granted",
-      ad_personalization: "granted",
-      analytics_storage: "granted",
-    });
 
     const script = document.createElement("script");
     script.async = true;
@@ -75,7 +85,7 @@ export function Analytics({ ga4, gtm }: { ga4: string; gtm?: string }) {
       window.gtag?.("config", measurementId);
     }
     document.head.appendChild(script);
-  }, [consent, containerId, measurementId]);
+  }, [categories, containerId, measurementId, measurement, marketing]);
 
   // mailto: / tel: clicks anywhere on the site.
   useEffect(() => {
