@@ -189,7 +189,11 @@ In analytics.google.com → Admin:
 
 ### Step 6 — Launch day (15 min, right after DNS points to the new site)
 
-1. CMS → Settings → *Google Tag Manager container ID* = `GTM-WGKJ9MK`.
+1. CMS → Settings → *Google Tag Manager container ID* = `GTM-WGKJ9MK` —
+   **already set (2026-09-17)**; the same container the old site used, so every
+   tag, trigger and conversion label migrates with it. GA4
+   (`G-R71FDQ7VS1`) is set too and is only used if the GTM field is ever
+   cleared.
 2. GTM → **Submit → Publish** the "New site 2026" workspace. Version name:
    "norr3.fi relaunch".
 3. On the live site, accept cookies and send one test form. In GA4 →
@@ -210,3 +214,27 @@ requires this. It is a copy change on the privacy page in the CMS.
   events there and list them in the table above.
 - GTM and GA4 IDs come from CMS Settings (`gtm_container_id`,
   `ga4_measurement_id`). When a GTM ID is set, the GA4 field is ignored.
+
+## Verified on the preview — 2026-09-17
+
+Checked end-to-end on `http://localhost:3847` with a real headless Chromium
+(cookie consent set both ways), after wiring the CMS settings:
+
+- **Consent = accepted**: the page requests
+  `googletagmanager.com/gtm.js?id=GTM-WGKJ9MK`, the container then loads
+  `gtag/js?id=G-R71FDQ7VS1`, and a GA4 `page_view` hit reaches
+  `google.com/ccm/collect` with `gcs=G111` (consent granted). `dataLayer`
+  order: `consent default (denied)` → `consent update (granted)` → `gtm.js` →
+  `gtm.dom` → `gtm.load`. No console errors.
+- **Consent = declined**: **zero** requests to any Google domain; `dataLayer`
+  holds only the denied default. This is the "basic" consent mode the privacy
+  policy promises — nothing loads before consent.
+- **Search Console**: the `google-site-verification` meta tag
+  (`XOXV8IH-…`) is present in the SSR HTML of both locales; the token lives in
+  CMS Settings → *Google Search Console verification*. `/sitemap.xml` serves
+  200 with FI/EN `hreflang` alternates, and `/robots.txt` advertises it **only
+  on the production host** (`Host: norr3.fi`) — staging/preview hosts get
+  `Disallow: /` so nothing is indexed before the cutover.
+- **Still to do with Geir** (needs the live domain): publish the GTM workspace
+  and run one GTM Preview session on `norr3.fi`, then confirm GA4 Realtime,
+  Ads/LinkedIn/Meta diagnostics, and verify the Search Console property.
