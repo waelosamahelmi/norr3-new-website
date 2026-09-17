@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="92.125"
+   height="92.125"
+   viewBox="0 0 92.125001 92.125002"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="Helsingin Sanomat.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.5846999"
+     inkscape:cx="90.043659"
+     inkscape:cy="54.326722"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1137"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Taso 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-960.23716)">
+    <g
+       id="g184"
+       transform="matrix(0.0125,0,0,-0.0125,0,1052.3622)">
+      <path
+         d="m 4614,4476 c 157,-211 522,-343 671,-434 271,-165 298,-188 391,-317 224,-311 200,-1135 -306,-1424 -183,-100 -356,-133 -539,-133 l -562,0 c -128,0 -203,55 -211,133 -21,180 -8,280 16,423 14,84 40,134 195,72 241,-96 412,-174 628,-222 143,-32 383,-22 488,187 100,200 41,397 -154,497 -495,250 -728,389 -884,545 -162,156 -232,297 -210,647 11,178 238,751 861,751 l 581,0 c 83,4 161,-46 161,-141 0,-156 0,-185 -17,-302 -16,-106 -61,-122 -228,-67 -178,61 -651,396 -892,139 -67,-71 -76,-238 11,-354 M 3737,2654 c 61,-374 145,-486 -90,-486 l -455,0 c -157,0 -168,151 -129,213 135,212 213,682 213,844 0,156 -26,362 -218,362 -158,0 -681,0 -751,0 -201,-11 -251,-206 -257,-284 -22,-162 -22,-475 168,-895 55,-128 123,-240 -34,-240 l -492,0 c -257,0 -251,582 -184,816 196,727 408,716 486,1431 11,101 0,313 -117,554 -39,78 -56,229 67,232 l 457,0 c 16,0 156,5 100,-154 -60,-170 -201,-514 -134,-715 22,-79 94,-174 264,-166 l 479,0 c 86,6 178,9 229,166 22,78 -51,396 -179,715 -34,78 -34,157 73,157 l 431,0 c 140,0 112,-241 112,-397 0,-330 -123,-1638 -39,-2153 M 7370,7370 0,7370 0,0 l 7370,0 0,7370 z"
+         style="fill:#001f57;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path186"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+</svg>

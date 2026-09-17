@@ -12,6 +12,7 @@ import { StaggerGrid } from "@/components/StaggerGrid";
 import { SectionHeader } from "@/components/SectionHeader";
 import { LogoStrip } from "@/components/marquee/LogoStrip";
 import { HighlightsBand } from "@/components/marquee/HighlightsBand";
+import { MediaPartnersStrip } from "@/components/marquee/MediaPartnersStrip";
 import { ServiceCard } from "@/components/cards/ServiceCard";
 import { CaseCard } from "@/components/cards/CaseCard";
 import { BlogCard } from "@/components/cards/BlogCard";
@@ -366,6 +367,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         cta={dict.common.contactUs}
         tone="lavender"
       />
+
+      {/* Media, platform and technology partners — the old site carried this
+          logo line under its closing CTA, and it is what Antti means by the
+          "partners banner" (TikTok was added here 2026-09-17). */}
+      <MediaPartnersStrip />
     </>
   );
 }
