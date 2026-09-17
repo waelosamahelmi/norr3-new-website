@@ -74,7 +74,7 @@ const fi = {
   },
   nav: {
     services: "Palvelut",
-    engine: "Engine",
+    engine: "Marketing Engine",
     cases: "Caset",
     insights: "Insights",
     contact: "Yhteystiedot",
@@ -1043,7 +1043,7 @@ const en: Dictionary = {
   },
   nav: {
     services: "Services",
-    engine: "Engine",
+    engine: "Marketing Engine",
     cases: "Cases",
     insights: "Insights",
     contact: "Contact",
