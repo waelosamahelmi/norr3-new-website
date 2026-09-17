@@ -84,7 +84,7 @@ const content = [
   {
     area: "E-E-A-T ja brändi",
     sdm: "Tekijäsivut (24 kirjoittajaa), referenssit (38), \"Vuoden toimisto\" -maine, Avainlukuja-numerot. Asiakaskokemukset + tulokset mainittu, mutta ei selkeitä lukuja case-sivuilla julkisivulla.",
-    us: "Senioritiimi, lähes kaikki partnereita — aito erottuvuus. Numerot (NPS 83, 800+ verkosto, liikevaihto) esillä. Todelliset case-numerot case-sivuilla (\"+298\", \"800+\").",
+    us: "Senioritiimi, lähes kaikki partnereita — aito erottuvuus. Numerot (NPS 78, 800+ verkosto, liikevaihto) esillä. Todelliset case-numerot case-sivuilla (\"+298\", \"800+\").",
     verdict: "split",
     fix: "Voima: meidän case-sivut ovat numerojohtoisia. Puute: ei tekijäsivuja blogeille (E-E-A-T-signaali).",
   },

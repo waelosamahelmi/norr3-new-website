@@ -704,8 +704,8 @@ const fi = {
       pill: "TIETOSUOJA",
       heading: "Tietosuojaseloste",
       intro:
-        "Tämä seloste kertoo, mitä henkilötietoja käsittelemme norr3.fi-sivustolla ja asiakastyössämme, miksi käsittelemme niitä ja mitä oikeuksia sinulla on. Käsittelemme henkilötietoja EU:n yleisen tietosuoja-asetuksen (GDPR) ja Suomen tietosuojalain mukaisesti.",
-      updated: "14.8.2026",
+        "Tämä seloste kertoo, mitä henkilötietoja käsittelemme norr3.fi-sivustolla, markkinointikanavissamme ja asiakastyössämme, miksi käsittelemme niitä ja mitä oikeuksia sinulla on. Käsittelemme henkilötietoja EU:n yleisen tietosuoja-asetuksen (GDPR) ja Suomen tietosuojalain mukaisesti. Seloste kattaa myös markkinointikanavista ja sähköpostiohjelmista kerättävät tiedot.",
+      updated: "17.9.2026",
       sections: [
         {
           title: "Rekisterinpitäjä",
@@ -720,20 +720,27 @@ const fi = {
             "Yhteydenottolomakkeen tiedot: nimi, sähköpostiosoite, yritys ja viestin sisältö.",
             "Asiakas- ja yhteyshenkilötiedot: nimi, rooli, työsähköposti ja -puhelinnumero sekä toimeksiantoon liittyvä viestintä.",
             "Tekniset tiedot: IP-osoite, selain- ja laitetiedot, sivuston käyttöä koskevat tapahtumat sekä evästeillä kerätty analytiikkatieto.",
+            "Markkinointikanavien tiedot: sosiaalisen median ja hakukonemainonnan kanavista (esim. Meta, LinkedIn, TikTok ja Google) saatavat yhteydenotot, kampanjatapahtumat ja niiden kautta tulleet liidit.",
+            "Sähköpostiohjelmien tiedot: uutiskirjeiden ja sähköpostikampanjoiden vastaanottajatiedot sekä avaus- ja klikkaustapahtumat.",
           ],
         },
         {
           title: "Käsittelyn tarkoitus ja peruste",
           body: [
             "Käsittelemme tietoja yhteydenottoihin vastaamiseen, asiakassuhteen hoitamiseen, palveluidemme toimittamiseen ja kehittämiseen sekä viestintään ja markkinointiin.",
+            "Keräämme sivuston, markkinointikanavien ja sähköpostiohjelmien tiedot yhteen asiakasrekisteriin (CRM), jotta markkinointi, analytiikka ja myynti näkevät saman asiakaskuvan.",
             "Käsittelyn oikeusperusteina ovat sopimus tai sen valmistelu, oikeutettu etu (asiakas- ja sidosryhmäviestintä sekä sivuston kehittäminen), lakisääteiset velvoitteet sekä suostumus silloin, kun kyse on ei-välttämättömistä evästeistä.",
           ],
         },
         {
-          title: "Evästeet",
+          title: "Evästeet ja seuranta",
+          anchor: "evasteet",
           body: [
-            "Sivusto käyttää välttämättömiä evästeitä toimintansa varmistamiseen sekä analytiikkaevästeitä sivuston käytön ymmärtämiseen. Ei-välttämättömät evästeet asetetaan vain suostumuksellasi.",
-            "Voit muuttaa tai peruuttaa suostumuksesi milloin tahansa selaimesi asetuksista tai tyhjentämällä sivuston tallentaman valinnan.",
+            "Käytämme sivustolla evästeitä ja vastaavia tekniikoita. Välttämättömät evästeet pitävät sivuston toiminnassa (esimerkiksi kielivalinta ja evästesuostumus), eikä niitä voi kytkeä pois.",
+            "Analytiikkaevästeet auttavat meitä ymmärtämään, miten sivustoa käytetään. Käytämme Google Tag Manageria ja Google Analytics 4:ää (evästeet _ga ja _gid).",
+            "Markkinointievästeitä käytetään vain suostumuksellasi mainonnan kohdentamiseen ja mittaamiseen. Käytössä voivat olla esimerkiksi LinkedIn Insight Tag, Meta-pikseli ja Adformin seurantapikseli sen mukaan, mitä kanavia asiakastyössä käytetään.",
+            "Ei-välttämättömät evästeet asetetaan vain, kun hyväksyt ne evästeilmoituksessa. Voit muuttaa tai peruuttaa suostumuksesi milloin tahansa sivuston alaosassa olevasta Evästeasetukset-painikkeesta tai tyhjentämällä selaimesi evästeet.",
+            "Evästeiden käytöstä ja tietojen käsittelystä voit kysyä lisää osoitteesta info(at)norr3.fi.",
           ],
         },
         {
@@ -954,10 +961,11 @@ const fi = {
   },
   cookies: {
     title: "Evästeet",
-    body: "Käytämme evästeitä parantaaksemme käyttökokemustasi ja analysoidaksemme sivuston liikennettä.",
+    body: "Käytämme evästeitä sivuston toimintaan ja analytiikkaan. Keräämme tietoja myös markkinointikanavistamme ja sähköpostiohjelmista yhteiseen asiakasrekisteriin (CRM) markkinointia, analytiikkaa ja myyntiä varten.",
     accept: "Hyväksy",
     decline: "Hylkää",
-    privacyLink: "Lue tietosuojaselosteemme",
+    privacyLink: "Tietosuojaseloste ja evästeet",
+    settings: "Evästeasetukset",
   },
 };
 
@@ -1660,8 +1668,8 @@ const en: Dictionary = {
       pill: "PRIVACY",
       heading: "Privacy Policy",
       intro:
-        "This policy explains what personal data we process on norr3.fi and in our client work, why we process it, and what rights you have. We process personal data in accordance with the EU General Data Protection Regulation (GDPR) and the Finnish Data Protection Act.",
-      updated: "14 August 2026",
+        "This policy explains what personal data we process on norr3.fi, in our marketing channels and in our client work, why we process it, and what rights you have. We process personal data in accordance with the EU General Data Protection Regulation (GDPR) and the Finnish Data Protection Act. The policy also covers data collected from marketing channels and email programs.",
+      updated: "17 September 2026",
       sections: [
         {
           title: "Controller",
@@ -1676,20 +1684,27 @@ const en: Dictionary = {
             "Contact form data: name, email address, company and the content of your message.",
             "Client and contact person data: name, role, work email and phone number, and correspondence relating to an engagement.",
             "Technical data: IP address, browser and device information, site usage events, and analytics data collected via cookies.",
+            "Marketing channel data: enquiries, campaign events and leads coming from social media and search advertising channels (for example Meta, LinkedIn, TikTok and Google).",
+            "Email program data: recipient details for newsletters and email campaigns, plus open and click events.",
           ],
         },
         {
           title: "Purpose and legal basis",
           body: [
             "We process data to respond to enquiries, manage client relationships, deliver and develop our services, and for communication and marketing.",
+            "We gather data from the site, marketing channels and email programs into one customer register (CRM) so that marketing, insight and sales share the same view of the customer.",
             "The legal bases are a contract or its preparation, legitimate interest (client and stakeholder communication, and improving the site), statutory obligations, and consent where non-essential cookies are concerned.",
           ],
         },
         {
-          title: "Cookies",
+          title: "Cookies and tracking",
+          anchor: "cookies",
           body: [
-            "The site uses essential cookies to function and analytics cookies to understand how the site is used. Non-essential cookies are only set with your consent.",
-            "You can change or withdraw your consent at any time in your browser settings or by clearing the choice stored by the site.",
+            "We use cookies and similar technologies on the site. Necessary cookies keep the site running (for example your language choice and cookie consent), and they cannot be switched off.",
+            "Analytics cookies help us understand how the site is used. We use Google Tag Manager and Google Analytics 4 (the _ga and _gid cookies).",
+            "Marketing cookies are used only with your consent to target and measure advertising. Depending on the channels we use in client work, these can include the LinkedIn Insight Tag, the Meta pixel and the Adform tracking pixel.",
+            "Non-essential cookies are set only when you accept them in the cookie notice. You can change or withdraw your consent at any time via the Cookie settings button in the site footer or by clearing your browser cookies.",
+            "For more about cookies and how we process data, contact info(at)norr3.fi.",
           ],
         },
         {
@@ -1910,10 +1925,11 @@ const en: Dictionary = {
   },
   cookies: {
     title: "Cookies",
-    body: "We use cookies to improve your experience and analyze site traffic.",
+    body: "We use cookies for the site to work and to analyze traffic. We also collect data from our marketing channels and email programs into a shared customer register (CRM) for marketing, insight and sales purposes.",
     accept: "Accept",
     decline: "Decline",
-    privacyLink: "Read our privacy policy",
+    privacyLink: "Privacy policy and cookies",
+    settings: "Cookie settings",
   },
 };
 

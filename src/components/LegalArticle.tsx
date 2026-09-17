@@ -3,7 +3,7 @@ import { Container, HeroPill } from "./Container";
 import { Reveal } from "./Reveal";
 import { Icon } from "./Icon";
 
-export type LegalSection = { title: string; body: string[] };
+export type LegalSection = { title: string; body: string[]; anchor?: string };
 
 /**
  * Shared layout for the two legal pages (privacy, terms).
@@ -82,7 +82,7 @@ export function LegalArticle({
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <a
-                    href={`#${anchor(i)}`}
+                    href={`#${section.anchor ?? anchor(i)}`}
                     className="rounded-sm text-ink/70 transition-colors hover:text-purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-white/70 dark:hover:text-light-purple dark:focus-visible:outline-light-purple"
                   >
                     {section.title}
@@ -100,7 +100,7 @@ export function LegalArticle({
                 className="border-t border-black/10 py-9 first:border-t-0 first:pt-0 dark:border-white/10"
               >
                 <h2
-                  id={anchor(i)}
+                  id={section.anchor ?? anchor(i)}
                   className="scroll-mt-28 text-2xl font-medium tracking-tight text-ink lg:text-h4 dark:text-white"
                 >
                   <span className="mr-3 font-medium tabular-nums text-purple dark:text-light-purple">

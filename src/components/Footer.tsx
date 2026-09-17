@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/i18n/config";
 import { linkTo } from "@/lib/links";
+import { CookieSettingsButton } from "@/components/CookieSettingsButton";
 
 
 export function Footer({
@@ -152,6 +153,7 @@ export function Footer({
           >
             {dict.footer.terms}
           </Link>
+          <CookieSettingsButton label={dict.cookies.settings} />
         </div>
       </div>
     </footer>
