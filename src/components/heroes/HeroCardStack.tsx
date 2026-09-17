@@ -188,7 +188,8 @@ export function HeroCardStack({
                 <div className={`relative w-full overflow-hidden rounded-card ${imageRatio}`}>
                   <MediaAsset
                     src={card.image}
-                    loading={isFocus ? "eager" : "lazy"}
+                    loading="eager"
+                    fetchPriority={isFocus ? "high" : undefined}
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>

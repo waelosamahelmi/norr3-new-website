@@ -383,7 +383,7 @@ export function Nav({
           <ThemeToggle label={dict.common.toggleTheme} />
           <Link
             href={otherPath}
-            className={`rounded-sm text-sm font-medium tracking-wide text-ink/50 transition-colors hover:text-ink dark:text-white/50 dark:hover:text-white ${focusRing}`}
+            className={`rounded-sm text-sm font-medium tracking-wide text-ink/60 transition-colors hover:text-ink dark:text-white/60 dark:hover:text-white ${focusRing}`}
           >
             {other.toUpperCase()}
           </Link>

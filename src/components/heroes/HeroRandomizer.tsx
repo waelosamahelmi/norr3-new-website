@@ -51,7 +51,13 @@ export function HeroRandomizer({
   logoStrip: React.ReactNode;
   heroes: CmsHero[];
 }) {
-  const [hero, setHero] = useState<CmsHero | null | "pending">("pending");
+  // When the CMS has a single eligible hero there is nothing to randomise, so
+  // render it immediately: that puts the hero — and its LCP image — into the
+  // SSR HTML instead of leaving a placeholder until hydration.
+  const eligible = heroes.filter((candidate) => candidate.enabled && candidate.weight > 0);
+  const [hero, setHero] = useState<CmsHero | null | "pending">(() =>
+    eligible.length === 1 ? eligible[0] : "pending"
+  );
 
   useEffect(() => {
     const chosen = pickHero(heroes, Math.random());

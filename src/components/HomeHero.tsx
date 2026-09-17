@@ -314,7 +314,12 @@ export function HomeHero({
                       <MediaAsset
                         src={card.src}
                         alt={altText(index)}
-                        loading={index === 1 ? "eager" : "lazy"}
+                        // Every card in the deck is above the fold and the LCP
+                        // element is whichever card is largest at that moment —
+                        // so all three load eagerly and the front one is hinted
+                        // high priority (Lighthouse flagged a lazy LCP).
+                        loading="eager"
+                        fetchPriority={slotIndex === 0 ? "high" : undefined}
                         className="absolute inset-0 h-full w-full object-cover"
                       />
                       <span className="absolute inset-0 bg-gradient-to-b from-violet/15 to-ink/50" />

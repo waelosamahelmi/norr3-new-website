@@ -55,6 +55,11 @@ export function MediaAsset({
   height,
   /** Image-only; a video decodes on its own schedule. */
   decoding,
+  /**
+   * Image-only hint for above-the-fold art (the hero deck). Left undefined,
+   * the browser decides — which it does well for everything but the LCP card.
+   */
+  fetchPriority,
   ref,
 }: {
   src: string;
@@ -67,6 +72,7 @@ export function MediaAsset({
   width?: number;
   height?: number;
   decoding?: "async" | "sync" | "auto";
+  fetchPriority?: "high" | "low" | "auto";
   /** For callers that animate the element directly, such as ParallaxImage. */
   ref?: React.Ref<HTMLElement>;
 }) {
@@ -77,6 +83,7 @@ export function MediaAsset({
         src={src}
         alt={alt}
         loading={loading}
+        fetchPriority={fetchPriority}
         draggable={draggable}
         className={className}
         style={style}

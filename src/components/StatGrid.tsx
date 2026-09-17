@@ -31,7 +31,7 @@ export function StatGrid({
   return (
     <div>
       {label && (
-        <p className="mb-5 text-xs font-medium uppercase tracking-[0.14em] text-ink/50 dark:text-white/50">
+        <p className="mb-5 text-xs font-medium uppercase tracking-[0.14em] text-ink/60 dark:text-white/60">
           {label}
         </p>
       )}
