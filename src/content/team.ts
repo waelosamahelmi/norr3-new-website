@@ -47,44 +47,44 @@ const bio = houseBio;
  */
 const draftBios: Record<string, { fi: string; en: string }> = {
   "maria-malila": {
-    fi: "Maria johtaa asiakkuuksia ja tiimiä. Hän pitää huolen, että kampanjat etenevät suunnitelmasta tuloksiin ja että asiakas tietää koko ajan, missä mennään. Rauhallinen tekijä, joka tarttuu ongelmiin ennen kuin ne kasvavat.",
-    en: "Maria leads client accounts and the team. She makes sure campaigns move from plan to results and the client always knows where things stand. A calm operator who tackles problems before they grow.",
+    fi: "Marialla on yli 20 vuoden kokemus markkinoinnista sekä asiakkaan että toimiston puolelta — se tuo kaupallista näkökulmaa projekteihin.\n\nHän on johtanut tiimejä, kampanjoita ja asiakkuuksia muun muassa Hartwallilla ja Eezyllä. NØRR3:lla Maria vastaa ihmisistä, kampanjoista ja asiakasprojekteista.",
+    en: "Maria has 20+ years in marketing on both the client and agency side — commercial perspective that benefits every project.\n\nShe has led teams, campaigns and client accounts at Hartwall, Eezy, TBWA\\PHS and TEQUILA, among others. At NØRR3 Maria looks after people, campaigns and client projects.",
   },
   "elina-rossi": {
     fi: "Elinalla on pitkä kokemus projektien johtamisesta ja mediasuunnittelusta. Hän rakentaa kampanjakokonaisuuksia, joissa luova ja media pelaavat yhteen — ja huolehtii, että työ valmistuu ajallaan ja sovitusti.",
     en: "Elina has long experience in project management and media planning. She builds campaign entities where creative and media work together — and makes sure the work is delivered on time and as agreed.",
   },
   "anna-liina-harrivaara": {
-    fi: "Anna-Liina on performance- ja hakukonemarkkinoinnin tekijä. Hän johtaa asiakkuuksia ja hakee tuloksia datalla: mittaa, optimoi ja kertoo suoraan, mikä kannattaa ja mikä ei.",
-    en: "Anna-Liina works in performance and search marketing. She leads client accounts and drives results with data: measuring, optimizing, and saying straight out what pays off and what does not.",
+    fi: "Allulla on 16 vuoden kokemus tuloksellisesta digimainonnasta B2B- ja B2C-puolelta, erityisesti autoilun, travelin, retailin ja financen aloilta.\n\nHän on vahvimmillaan Googlen kanavissa ja parhaimmillaan pienen paineen alla. NØRR3:lla Allu suunnittelee, operoi ja optimoi mainontaa.",
+    en: "Allu has 16 years of results-driven digital advertising across B2B and B2C, with special expertise in automotive, travel, retail and finance.\n\nShe is at her strongest in Google's channels and thrives under clear goals and a little pressure. At NØRR3 Allu plans, runs and optimizes campaigns.",
   },
   "maija-etokari": {
-    fi: "Maija suunnittelee ja operoi monikanavaisia kampanjoita laidasta laitaan. Hän on tarkka luvuista ja pitää huolen, että jokainen euro tekee työtä — myös silloin, kun aikataulu on tiukka.",
-    en: "Maija plans and runs multi-channel campaigns across the board. She is precise with numbers and makes sure every euro does its job — even when the schedule is tight.",
+    fi: "Maijalla on 13 vuoden monipuolinen digimarkkinoinnin osaaminen: hakusanamainonta, ohjelmallinen ostaminen, some, sähköpostimarkkinointi ja automaatio, sisältömarkkinointi sekä SEO ja analytiikka.\n\nNØRR3:lla Maija keskittyy digimainonnan suunnitteluun, operointiin ja optimointiin.",
+    en: "Maija brings 13 years of versatile digital marketing know-how: search, programmatic buying, social, email and automation, content marketing, SEO and analytics.\n\nAt NØRR3 Maija focuses on digital media planning, operations and optimization.",
   },
   "dina-barbis": {
-    fi: "Dina on mediasuunnittelun ammattilainen, joka rakentaa kampanjoille jaot ja budjetit tutkitun datan pohjalta. Hän haastaa totutut oletukset ja perustelee valinnat asiakkaalle selkeästi.",
-    en: "Dina is a media planning professional who builds campaign splits and budgets on researched data. She challenges familiar assumptions and explains the choices clearly to the client.",
+    fi: "Dina vastaa monikanavaisesta mediasuunnittelusta ja yhteistyöstä suorien medioiden kanssa: ulkomainonta, printti, Total-tv, radio ja suorat digikampanjat.\n\n10+ vuotta mainonnan suunnittelusta ja operoinnista lähes kaikissa kanavissa. Kohderyhmäanalyysi on hänen ydinosaamistaan.",
+    en: "Dina leads multichannel media planning and direct-media partnerships: out-of-home, print, Total TV, radio and direct digital campaigns.\n\n10+ years of advertising planning and operations across nearly every digital and offline channel. Audience behaviour analysis is her core skill.",
   },
   "marika-salovaara": {
-    fi: "Marika johtaa asiakkuuksia ja tiimiä. Hän varmistaa, että asiakkaan tavoitteet kirkastuvat tekemiseksi ja että tiimi pysyy arjessa kartalla — suoraan, selkeästi ja ilman turhaa säätämistä.",
-    en: "Marika leads client accounts and the team. She makes sure client goals turn into action and the team stays on track in daily work — directly, clearly, and without unnecessary fuss.",
+    fi: "Marikalla on yli 10 vuoden kokemus markkinoinnin suunnittelusta ja johtamisesta sekä vahvat vuorovaikutustaidot.\n\nHän hallinnoi sujuvasti useita kokonaisuuksia ja on työskennellyt laajasti B2C- ja B2B-asiakkaiden sekä FMCG-brändien parissa. NØRR3:lla Marika johtaa tiimiä ja asiakasprojekteja.",
+    en: "Marika has 10+ years in marketing planning and leadership, with strong interpersonal skills.\n\nShe juggles several entities at once and has worked widely with B2C and B2B clients and several FMCG brands. At NØRR3 Marika leads a team and client projects.",
   },
   "aino-lehtinen": {
-    fi: "Aino aloitti talossa mediaharjoittelijana ja on kasvanut monipuoliseksi kampanjatekijäksi. Hän hoitaa kampanjoiden operointia ja optimointia päivittäin ja oppii talon omista työkaluista jatkuvasti uutta.",
-    en: "Aino started with us as a media trainee and has grown into a versatile campaign specialist. She handles campaign operations and optimization daily and keeps learning more from our in-house tools.",
+    fi: "Ainolla on kokemusta markkinoinnin monipuolisista tehtävistä ja mediatoimistomaailmasta erityisesti somen puolelta: sisällönsuunnittelusta ja kampanjahallinnasta.\n\nHänen vahvimmat kanavansa ovat Meta, TikTok ja Snapchat. NØRR3:lla Aino keskittyy kanavien optimointiin, operointiin ja raportointiin.",
+    en: "Aino already has versatile marketing and agency experience, especially in social media: from content planning to campaign management.\n\nHer strongest channels are Meta, TikTok and Snapchat. At NØRR3 Aino focuses on media channel optimization, operations and reporting.",
   },
   "janne-savela": {
-    fi: "Janne on monipuolinen kampanjatekijä, jolla on vahva ote mediaoperaatiosta. Hän suunnittelee, optimoi ja raportoi — ja pitää huolen, että tekeminen näkyy myös asiakkaan luvuissa.",
-    en: "Janne is a versatile campaign professional with a strong grip on media operations. He plans, optimizes and reports — making sure the work shows up in the client's numbers too.",
+    fi: "Jannella on 9 vuoden kokemus mediatoimistoista: digitaalisia kampanjoita, ohjelmallista ostamista ja displayta — myös esihenkilöroolista.\n\nHänen portfolioonsa mahtuu pörssiyrityksiä ja kansainvälisiä autovalmistajia. NØRR3:lla Janne suunnittelee ja toteuttaa ohjelmallisia kampanjoita.",
+    en: "Janne has nine years in media agencies: digital campaigns, programmatic buying and direct display — including a team-lead role.\n\nHis portfolio spans listed companies, charities and international car makers. At NØRR3 Janne plans and runs programmatic and display campaigns.",
   },
   "teppo-lipsanen": {
-    fi: "Teppo yhdistää projektijohtamisen ja data-analytiikan. Hän rakentaa mittarit, joiden varassa kampanjoita johdetaan, ja varmistaa, että raportit kertovat saman tarinan kuin todelliset tulokset.",
-    en: "Teppo combines project management and data analytics. He builds the measurement that campaign steering relies on and makes sure reports tell the same story as real results.",
+    fi: "Teppo on analyyttinen ongelmanratkaisija, jonka keskiössä ovat aina olleet luvut ja niistä johdetut tiedot.\n\nHän on tehnyt kampanja-, brändi- ja hakuosuustutkimuksia sekä rakentanut teknisiä seurantoja ja dashboardeja. NØRR3:lla Teppo vastaa datasta, mittauksista ja projektien johtamisesta.",
+    en: "Teppo is an analytical problem-solver whose focus has always been numbers and the insight drawn from them.\n\nHe has run campaign, brand and search-share studies and built technical tracking and dashboards. At NØRR3 Teppo is responsible for data, measurement and project management.",
   },
   "michael-oshea": {
-    fi: "Michael on kansainvälisten asiakkuuksien kampanjatekijä, joka suunnittelee ja operoi mediakokonaisuuksia sujuvasti englanniksi. Hän pitää osapuolet samassa pöydässä ja tekemisen liikkeessä.",
-    en: "Michael is a campaign specialist for international accounts, planning and running media entities fluently in English. He keeps everyone at the same table and the work moving.",
+    fi: "Michael on analyyttinen ongelmanratkaisija, jolla on 5+ vuoden kokemus mediatoimistoista ja suomalaisista brändeistä.\n\nHänen erikoisosaamistaan ovat ohjelmallinen ostaminen, konversio-optimointi, digital audio ja ohjelmallinen ulkomainonta. NØRR3:lla Michael vastaa dynaamisista ratkaisuista.",
+    en: "Michael is an analytical problem-solver with 5+ years in media agencies and well-known Finnish brands across industries.\n\nHis specialities are programmatic buying, conversion optimization, digital audio and programmatic OOH. At NØRR3 Michael works on dynamic solutions and performance marketing.",
   },
   "karoliina-makela": {
     fi: "Karoliina vastaa talouden suunnittelusta ja seurannasta. Hän pitää huolen, että luvut ovat ajan tasalla ja että sekä tiimillä että asiakkailla on luotettava kuva taloudesta.",
