@@ -25,6 +25,28 @@ const CODED_ROUTES = [
 ];
 
 /**
+ * Route → CMS page slug. A few core routes are named differently in the CMS
+ * (which uses canonical English slugs) than in the public Finnish URLs.
+ */
+const PAGE_SLUG: Record<string, string> = {
+  "": "home",
+  caset: "cases",
+  meista: "about",
+  "toihin-meille": "careers",
+  tiimi: "team",
+  tietosuojaseloste: "privacy",
+  kayttoehdot: "terms",
+};
+
+const cmsPageSlug = (route: string) => PAGE_SLUG[route] ?? route;
+
+/** Undefined status = page not managed in the CMS → keep it (fail open). */
+const pageIsLive = (content: { pageStatus: Record<string, string> }, route: string) => {
+  const status = content.pageStatus[cmsPageSlug(route)];
+  return status === undefined || status === "published";
+};
+
+/**
  * The sitemap is derived from the CMS rather than hand-listed.
  *
  * The slug lists here used to be maintained by hand and had already drifted —
@@ -57,7 +79,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...CODED_ROUTES.filter((route) => {
-      const robots = content.pageSeo[route === "" ? "home" : route]?.robots ?? "index, follow";
+      if (!pageIsLive(content, route)) return false;
+      const robots = content.pageSeo[cmsPageSlug(route)]?.robots ?? "index, follow";
       return !robots.includes("noindex");
     }).flatMap((route) =>
       entry(route, {
@@ -81,7 +104,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ).flatMap((m) => entry(`tiimi/${m.slug}`, { priority: 0.5, lastModified: validDate(m.updatedAt) })),
     ...social.posts.flatMap((p) => entry(`feed/${p.slug}`, { priority: 0.4, lastModified: validDate(p.updatedAt) })),
     // Service landing pages — the keyword-optimised sub-pages under /palvelut.
-    ...content.servicePages.flatMap((page) => entry(page.slug, { priority: 0.7 })),
+    ...content.servicePages
+      .filter((page) => pageIsLive(content, page.slug))
+      .flatMap((page) => entry(page.slug, { priority: 0.7 })),
     // Pages composed in the CMS page editor. `status` is "published" for
     // public pages; anything else (drafts, retired pages like the old
     // media-insights landing) stays out of the sitemap.

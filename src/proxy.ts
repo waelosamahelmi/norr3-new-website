@@ -6,27 +6,78 @@ import type { NextRequest } from "next/server";
  * middleware reads them with a short in-memory TTL so a redirect added in the
  * CMS takes effect without a website rebuild.
  */
-let redirectsCache: { at: number; map: Map<string, { to: string; status: number }> } | null = null;
-const REDIRECTS_TTL = 60_000;
+type SiteBundle = {
+  at: number;
+  redirects: Map<string, { to: string; status: number }>;
+  pageStatus: Record<string, string>;
+};
 
-async function redirectsMap(): Promise<Map<string, { to: string; status: number }>> {
-  if (redirectsCache && Date.now() - redirectsCache.at < REDIRECTS_TTL) return redirectsCache.map;
-  const map = new Map<string, { to: string; status: number }>();
+let siteCache: SiteBundle | null = null;
+const SITE_CACHE_TTL = 60_000;
+
+/**
+ * One cached fetch of the CMS public bundle gives us both the redirect map and
+ * the publish status of every page, so a page unpublished in the CMS takes
+ * effect without a website rebuild.
+ */
+async function siteBundle(): Promise<SiteBundle> {
+  if (siteCache && Date.now() - siteCache.at < SITE_CACHE_TTL) return siteCache;
+  const redirects = new Map<string, { to: string; status: number }>();
+  let pageStatus: Record<string, string> = {};
   try {
     const res = await fetch("http://127.0.0.1:3848/api/public/site", {
       signal: AbortSignal.timeout(3000),
     });
     if (res.ok) {
-      const data = (await res.json()) as { redirects?: { from: string; to: string; status: number }[] };
+      const data = (await res.json()) as {
+        redirects?: { from: string; to: string; status: number }[];
+        pageStatus?: Record<string, string>;
+      };
       for (const r of data.redirects ?? []) {
-        if (r.from && r.to) map.set(r.from, { to: r.to, status: Number(r.status) || 301 });
+        if (r.from && r.to) redirects.set(r.from, { to: r.to, status: Number(r.status) || 301 });
       }
+      pageStatus = data.pageStatus ?? {};
     }
   } catch {
-    /* CMS unreachable — fall back to the cached map or no redirects. */
+    /* CMS unreachable — keep the previous bundle if we have one. */
+    if (siteCache) return siteCache;
   }
-  redirectsCache = { at: Date.now(), map };
-  return map;
+  siteCache = { at: Date.now(), redirects, pageStatus };
+  return siteCache;
+}
+
+/** Public path → CMS page slug (their names differ for a few core routes). */
+const PAGE_SLUG_ALIASES: Record<string, string> = {
+  caset: "cases",
+  cases: "cases",
+  tiimi: "team",
+  team: "team",
+  meista: "about",
+  about: "about",
+  "toihin-meille": "careers",
+  careers: "careers",
+  tietosuojaseloste: "privacy",
+  privacy: "privacy",
+  kayttoehdot: "terms",
+  terms: "terms",
+};
+
+function pageSlugForPath(pathname: string): string | null {
+  const path = pathname.replace(/^\/en(?=\/|$)/, "").replace(/^\/+|\/+$/g, "");
+  if (!path) return "home";
+  // Member profiles, the social feed and the CMS preview are not coded pages.
+  if (path.startsWith("feed/") || path.startsWith("tiimi/") || path.startsWith("cms-preview")) return null;
+  return PAGE_SLUG_ALIASES[path] ?? path;
+}
+
+/** Draft previews (CMS session or per-item preview cookies) bypass the gate. */
+function isPreviewRequest(request: NextRequest): boolean {
+  const { searchParams } = request.nextUrl;
+  if (searchParams.has("preview") || searchParams.has("password")) return true;
+  for (const cookie of request.cookies.getAll()) {
+    if (cookie.name === "norr3-cms-session" || cookie.name.startsWith("norr3-draft-")) return true;
+  }
+  return false;
 }
 
 /**
@@ -46,8 +97,8 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // CMS-managed redirects first.
-  const redirects = await redirectsMap();
-  const match = redirects.get(pathname);
+  const bundle = await siteBundle();
+  const match = bundle.redirects.get(pathname);
   if (match) {
     const url = request.nextUrl.clone();
     url.pathname = match.to;
@@ -59,6 +110,18 @@ export async function proxy(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = pathname.replace(/^\/fi(?=\/|$)/, "") || "/";
     return NextResponse.redirect(url, 301);
+  }
+
+  // CMS publish control: a page switched to draft in the CMS 404s on the live
+  // site even though its route is code-rendered. Previews bypass the gate.
+  const slug = pageSlugForPath(pathname);
+  if (slug && bundle.pageStatus[slug] && bundle.pageStatus[slug] !== "published" && !isPreviewRequest(request)) {
+    const isEn = pathname === "/en" || pathname.startsWith("/en/");
+    const url = request.nextUrl.clone();
+    url.pathname = isEn ? "/en/__unpublished" : "/fi/__unpublished";
+    const headers = new Headers(request.headers);
+    headers.set("x-norr3-locale", isEn ? "en" : "fi");
+    return NextResponse.rewrite(url, { request: { headers } });
   }
 
   // English already carries its prefix — but the English URLs keep their

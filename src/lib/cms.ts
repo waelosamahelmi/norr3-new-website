@@ -189,6 +189,11 @@ export type SiteContent = {
   imageSlots: Record<string, { src: string; alt: Record<Locale, string>; caption: Record<Locale, string> }>;
   /** SEO the CMS owns for the hand-built routes, keyed by slug ("home" for /). */
   pageSeo: Record<string, { title: Record<Locale, string>; description: Record<Locale, string>; ogImage: string; robots: string; canonical: string }>;
+  /**
+   * Publish state per CMS page slug. The proxy 404s drafts, and the nav and
+   * sitemap skip links whose page is not published.
+   */
+  pageStatus: Record<string, string>;
   /** CMS-managed redirects, applied by the middleware. */
   redirects: { from: string; to: string; status: number }[];
   /** Third-party wiring (GA4, Search Console) owned by the CMS Settings screen. */
@@ -279,6 +284,7 @@ function fallbackContent(error?: string): SiteContent {
     datasets: {},
     imageSlots: {},
     pageSeo: {},
+    pageStatus: {},
     redirects: [],
     integrations: { ga4: "", gtm: "", gsc: "", sitemap: "https://norr3.fi/sitemap.xml" },
     code: { css: "", head: "", bodyEnd: "" },
@@ -358,6 +364,7 @@ type RawBundle = {
   datasets?: Record<string, { fi: unknown; en: unknown }>;
   imageSlots?: SiteContent["imageSlots"];
   pageSeo?: SiteContent["pageSeo"];
+  pageStatus?: Record<string, string>;
   redirects?: unknown[];
   integrations?: Partial<SiteContent["integrations"]>;
   code?: { css?: string; head?: string; bodyEnd?: string };
@@ -389,8 +396,43 @@ export async function getSiteContent(): Promise<SiteContent> {
   }
 }
 
+/**
+ * CMS menu hrefs use CMS slugs (/cases, /about) while the public Finnish
+ * routes are /caset, /meista, … — map either form to the page slug the CMS
+ * tracks, so unpublished pages can be filtered out of the nav.
+ */
+function cmsPageSlugForHref(href: string): string | null {
+  const path = href
+    .split("#")[0]
+    .split("?")[0]
+    .replace(/^\/en(?=\/|$)/, "")
+    .replace(/^\/+|\/+$/g, "");
+  if (!path) return "home";
+  const aliases: Record<string, string> = {
+    caset: "cases",
+    cases: "cases",
+    tiimi: "team",
+    team: "team",
+    meista: "about",
+    about: "about",
+    "toihin-meille": "careers",
+    careers: "careers",
+    tietosuojaseloste: "privacy",
+    privacy: "privacy",
+    kayttoehdot: "terms",
+    terms: "terms",
+  };
+  return aliases[path] ?? path;
+}
+
 function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
   const dictionary = raw.dictionary as Record<Locale, unknown> | undefined;
+  const pageStatus = (raw.pageStatus ?? {}) as Record<string, string>;
+  const pageIsLive = (href: string) => {
+    const slug = cmsPageSlugForHref(href);
+    const status = slug ? pageStatus[slug] : undefined;
+    return status === undefined || status === "published";
+  };
   return {
     source: "cms",
     generatedAt: raw.generatedAt ?? new Date().toISOString(),
@@ -429,9 +471,15 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     channels: arrOr(raw.channels, fallback.channels) as Channel[],
     mediaGroups: arrOr(raw.mediaGroups, fallback.mediaGroups) as SiteContent["mediaGroups"],
     nav: {
-      header: nonEmpty(raw.nav?.header, fallback.nav.header) as CmsNavItem[],
-      footerJoin: nonEmpty(raw.nav?.footerJoin, fallback.nav.footerJoin) as CmsNavItem[],
-      footerLegal: nonEmpty(raw.nav?.footerLegal, fallback.nav.footerLegal) as CmsNavItem[],
+      header: (nonEmpty(raw.nav?.header, fallback.nav.header) as CmsNavItem[]).filter((item) =>
+        pageIsLive(item.href)
+      ),
+      footerJoin: (nonEmpty(raw.nav?.footerJoin, fallback.nav.footerJoin) as CmsNavItem[]).filter(
+        (item) => pageIsLive(item.href)
+      ),
+      footerLegal: (nonEmpty(raw.nav?.footerLegal, fallback.nav.footerLegal) as CmsNavItem[]).filter(
+        (item) => pageIsLive(item.href)
+      ),
     },
     ctas: nonEmpty(raw.ctas, fallback.ctas) as CmsCta[],
     announcement: (raw.announcement as CmsAnnouncement) ?? null,
@@ -441,6 +489,7 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     datasets: raw.datasets ?? {},
     imageSlots: raw.imageSlots ?? {},
     pageSeo: raw.pageSeo ?? {},
+    pageStatus,
     redirects: (raw.redirects ?? []) as SiteContent["redirects"],
     integrations: (raw.integrations ?? fallback.integrations) as SiteContent["integrations"],
     code: {
