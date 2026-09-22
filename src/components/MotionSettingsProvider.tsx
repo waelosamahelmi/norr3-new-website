@@ -46,7 +46,9 @@ export function useRevealProps(overrides?: { distance?: number; duration?: numbe
   return {
     initial: { opacity: 0, y: distance },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: `-${reveal.margin}px` },
+    // Vertical inset only — a symmetric margin would clip the left/right
+    // viewport edges and small elements near them could never reveal on phones.
+    viewport: { once: true, margin: `0px 0px -${reveal.margin}px 0px` },
     transition: { duration, delay: overrides?.delay ?? 0, ease: [0.16, 1, 0.3, 1] as const },
   };
 }

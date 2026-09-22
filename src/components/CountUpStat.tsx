@@ -22,7 +22,11 @@ export function CountUpStat({
   grouping?: boolean;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  // Trigger on the vertical inset only. A symmetric margin also clips the
+  // left/right viewport edges, so on phones a number sitting in the left ~80px
+  // of the screen (card badges, first grid column) never intersects and stays
+  // at 0 forever. Horizontal clipping is never wanted here.
+  const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
   const prefersReduced = useReducedMotion();
   const [display, setDisplay] = useState(0);
 

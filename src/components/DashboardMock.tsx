@@ -130,7 +130,7 @@ export function DashboardMock({
                     <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ width: `${c.pct}%` }}
-                      viewport={{ once: true, margin: "-40px" }}
+                      viewport={{ once: true, margin: "0px 0px -40px 0px" }}
                       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                       className="h-full rounded-full bg-purple"
                     />
@@ -162,7 +162,7 @@ export function DashboardMock({
                     key={i}
                     initial={{ height: 0 }}
                     whileInView={{ height: `${h}%` }}
-                    viewport={{ once: true, margin: "-40px" }}
+                    viewport={{ once: true, margin: "0px 0px -40px 0px" }}
                     transition={{ duration: 0.6, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
                     // Latest day highlighted — the eye lands on "now", not on the tallest bar.
                     className={`flex-1 rounded-t-sm ${i === bars.length - 1 ? "bg-yellow" : "bg-purple"}`}

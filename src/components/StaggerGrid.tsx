@@ -35,7 +35,9 @@ export function StaggerGrid({
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: `-${reveal.margin}px` }}
+      // Vertical inset only (see MotionSettingsProvider): symmetric margins
+      // clip the viewport's left/right edges on phones.
+      viewport={{ once: true, margin: `0px 0px -${reveal.margin}px 0px` }}
       transition={{ staggerChildren: stagger ?? reveal.stagger }}
       className={className}
     >

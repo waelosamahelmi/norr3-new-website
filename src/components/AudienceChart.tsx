@@ -42,14 +42,14 @@ export function AudienceChart({
               <motion.div
                 initial={{ height: 0 }}
                 whileInView={{ height: `${c.men}%` }}
-                viewport={{ once: true, margin: "-60px" }}
+                viewport={{ once: true, margin: "0px 0px -60px 0px" }}
                 transition={{ duration: 0.7, delay: i * 0.03, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full max-w-3 bg-purple"
               />
               <motion.div
                 initial={{ height: 0 }}
                 whileInView={{ height: `${c.women}%` }}
-                viewport={{ once: true, margin: "-60px" }}
+                viewport={{ once: true, margin: "0px 0px -60px 0px" }}
                 transition={{ duration: 0.7, delay: i * 0.03 + 0.05, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full max-w-3 bg-light-purple"
               />
