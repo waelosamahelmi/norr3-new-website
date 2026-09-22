@@ -102,7 +102,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/tiimi">)
           <HeroPill>{t.pill}</HeroPill>
         </Reveal>
         <Reveal delay={0.05}>
-          <h1 className="mt-6 max-w-5xl text-[8vw] font-medium leading-[1.02] tracking-tight text-ink lg:text-[5.5rem] dark:text-white">
+          <h1 className="mt-6 max-w-5xl text-[min(8vw,6.25rem)] font-medium leading-[1.02] tracking-tight text-ink dark:text-white">
             {t.heroHeadline}
           </h1>
         </Reveal>

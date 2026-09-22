@@ -257,8 +257,10 @@ export function Nav({
         {/* Figma nav: plain links, purple dot before the active page. Items
             with children open a hover panel that jumps straight to the
             relevant section — the nav is now a map of the site, not just its
-            top level. */}
-        <nav className="hidden items-center gap-8 lg:flex">
+            top level. Shown from xl: the full bar (logo + links + theme /
+            language + both CTAs) needs ~1131px, so at lg it overflowed the
+            viewport and cut the last CTA off. */}
+        <nav className="hidden items-center gap-8 xl:flex">
           {items.map((item) => {
             const hasChildren = item.children.length > 0;
             const active = isActive(item.href);
@@ -392,14 +394,14 @@ export function Nav({
               primary accent (§8) instead. */}
           <Link
             href={linkTo(locale, "/engine")}
-            className={`hidden rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-purple lg:inline-flex dark:bg-purple dark:text-white dark:hover:bg-violet ${focusRing}`}
+            className={`hidden rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-purple xl:inline-flex dark:bg-purple dark:text-white dark:hover:bg-violet ${focusRing}`}
           >
             {engineCta}
           </Link>
           {/* Secondary CTA — Brief us (Antti's header CTA) */}
           <Link
             href={linkTo(locale, "/brief")}
-            className={`hidden rounded-full border border-ink/30 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white lg:inline-flex dark:border-white/30 dark:text-white dark:hover:bg-white dark:hover:text-ink ${focusRing}`}
+            className={`hidden rounded-full border border-ink/30 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white xl:inline-flex dark:border-white/30 dark:text-white dark:hover:bg-white dark:hover:text-ink ${focusRing}`}
           >
             {briefCta}
           </Link>
@@ -407,7 +409,7 @@ export function Nav({
             aria-label={dict.common.menu}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className={`flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-full lg:hidden ${focusRing}`}
+            className={`flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-full xl:hidden ${focusRing}`}
           >
             <span className={`h-[1.5px] w-5 bg-ink transition-transform dark:bg-white ${open ? "translate-y-[3.5px] rotate-45" : ""}`} />
             <span className={`h-[1.5px] w-5 bg-ink transition-transform dark:bg-white ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`} />
@@ -422,7 +424,7 @@ export function Nav({
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="flex max-h-[calc(100svh-8rem)] flex-col gap-1 overflow-y-auto overscroll-contain border-t border-black/5 px-6 pb-8 pt-4 lg:hidden dark:border-white/10"
+            className="flex max-h-[calc(100svh-8rem)] flex-col gap-1 overflow-y-auto overscroll-contain border-t border-black/5 px-6 pb-8 pt-4 xl:hidden dark:border-white/10"
           >
             {items.map((item) => (
               <div key={item.key}>

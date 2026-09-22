@@ -81,7 +81,7 @@ export default async function InsightsPage({ params }: PageProps<"/[locale]/insi
             accent={dict.insights.heroAccent}
             accents={dict.insights.heroAccentWords}
             stack
-            className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
+            className="mt-6 text-[min(9vw,7.5rem)] leading-none"
           />
         </Reveal>
         <Reveal delay={0.15} className="mt-6 flex flex-col items-start gap-6">

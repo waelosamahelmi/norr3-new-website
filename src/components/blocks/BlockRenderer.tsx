@@ -217,7 +217,7 @@ function BlockSwitch({
               </Reveal>
             )}
             <Reveal delay={0.05}>
-              <h1 className="mt-6 text-[10vw] font-medium leading-[0.95] tracking-tight text-ink lg:text-[6.5rem] dark:text-white">
+              <h1 className="mt-6 text-[min(10vw,7.5rem)] font-medium leading-[0.95] tracking-tight text-ink dark:text-white">
                 {t("heading")}
               </h1>
             </Reveal>

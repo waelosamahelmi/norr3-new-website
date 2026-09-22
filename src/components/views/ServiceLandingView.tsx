@@ -37,7 +37,7 @@ export async function ServiceLandingView({ page, locale }: { page: ServicePage; 
         <SplitHeadline
           left={t.heroLeft}
           accent={t.heroAccent}
-          className="mt-6 text-[8vw] leading-none lg:text-[5.5rem]"
+          className="mt-6 text-[min(8vw,6.25rem)] leading-none"
         />
         <Reveal delay={0.1} className="mt-8 flex flex-col items-start gap-6">
           <p className="max-w-xl text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">{t.intro}</p>
@@ -66,6 +66,15 @@ export async function ServiceLandingView({ page, locale }: { page: ServicePage; 
                   <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink/70 dark:text-white/70">{section.body}</p>
                 </Reveal>
               ))}
+              {/* Source references — small, unnumbered footnote under the last
+                  section (never a numbered chapter). Empty = nothing renders. */}
+              {t.sources?.trim() ? (
+                <Reveal delay={0.1}>
+                  <p className="max-w-xl whitespace-pre-line text-[11px] leading-relaxed text-ink/45 dark:text-white/45">
+                    {t.sources}
+                  </p>
+                </Reveal>
+              ) : null}
             </div>
 
             {/* Photo + checklist column — sticky, never taller than the viewport */}

@@ -7,10 +7,12 @@ import { CountUpStat } from "@/components/CountUpStat";
 import type { Locale } from "@/i18n/config";
 
 /**
- * The five Engine apps as an interactive showcase: an app rail on the left,
- * a live "product window" on the right that swaps to a working mini-demo of
- * the selected app. Auto-advances every 7s; pauses while hovered/focused.
- * The window is dark per the brand's product-UI reference (§8).
+ * The Engine apps as an interactive showcase: an app rail on the left, a live
+ * "product window" on the right that swaps to a working mini-demo of the
+ * selected app. The list comes from the CMS (engine.apps.items) and falls back
+ * to the built-in five; items flagged `upcoming` show a "Tulossa!" badge and a
+ * teaser panel instead of a demo. Auto-advances every 7s; pauses while
+ * hovered/focused. The window is dark per the brand's product-UI reference (§8).
  */
 
 type AppKey = "kampanjat" | "dashboard" | "luova" | "insights" | "integrations";
@@ -118,24 +120,71 @@ const D = {
   },
 };
 
-export function EngineAppsShowcase({ locale }: { locale: Locale }) {
+/** One CMS app item (engine.apps.items) — `upcoming` marks "Tulossa!". */
+type EngineAppItem = {
+  icon: string;
+  title: string;
+  body: string;
+  upcoming?: boolean;
+};
+
+/** One row in the app rail — a built-in default app or a CMS item. */
+type RailApp = {
+  id: string;
+  icon: string;
+  title: string;
+  body: string;
+  upcoming?: boolean;
+  demo?: AppKey;
+};
+
+/** Which mini-demo an app shows, matched on its Material icon. Apps without a
+ *  demo (or flagged `upcoming`) get a teaser panel instead. */
+const DEMO_BY_ICON: Record<string, AppKey> = {
+  campaign: "kampanjat",
+  space_dashboard: "dashboard",
+  auto_awesome: "luova",
+  insights: "insights",
+  hub: "integrations",
+};
+
+function railApps(apps: EngineAppItem[] | undefined, locale: Locale): RailApp[] {
+  if (!apps?.length) {
+    return APPS.map((a) => ({ id: a.key, icon: a.icon, title: a[locale].title, body: a[locale].body, demo: a.key }));
+  }
+  return apps.map((a, i) => ({
+    id: `${a.icon}-${i}`,
+    icon: a.icon,
+    title: a.title,
+    body: a.body,
+    upcoming: Boolean(a.upcoming),
+    demo: DEMO_BY_ICON[a.icon],
+  }));
+}
+
+export function EngineAppsShowcase({ locale, apps }: { locale: Locale; apps?: EngineAppItem[] }) {
   const t = D[locale];
-  const [active, setActive] = useState<AppKey>("kampanjat");
+  const items = useMemo(() => railApps(apps, locale), [apps, locale]);
+  const [active, setActive] = useState(() => items[0].id);
   const [paused, setPaused] = useState(false);
   const reduce = useReducedMotion();
-  const activeIndex = useMemo(() => APPS.findIndex((a) => a.key === active), [active]);
+  const activeIndex = useMemo(() => Math.max(0, items.findIndex((a) => a.id === active)), [active, items]);
+  const current = items[activeIndex];
 
   // Auto-advance, pausing on hover/focus.
   useEffect(() => {
-    if (paused || reduce) return;
+    if (paused || reduce || items.length < 2) return;
     const id = window.setInterval(() => {
-      setActive(APPS[(APPS.findIndex((a) => a.key === active) + 1) % APPS.length].key);
+      setActive((prev) => {
+        const i = items.findIndex((a) => a.id === prev);
+        return items[(i + 1) % items.length].id;
+      });
     }, 7000);
     return () => window.clearInterval(id);
-  }, [active, paused, reduce]);
+  }, [active, paused, reduce, items]);
 
-  const select = (key: AppKey) => {
-    setActive(key);
+  const select = (id: string) => {
+    setActive(id);
     setPaused(true);
   };
 
@@ -149,14 +198,14 @@ export function EngineAppsShowcase({ locale }: { locale: Locale }) {
     >
       {/* App rail */}
       <div role="tablist" aria-label="Engine apps" className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-3 lg:overflow-visible">
-        {APPS.map((app, i) => {
-          const on = app.key === active;
+        {items.map((app, i) => {
+          const on = app.id === active;
           return (
             <button
-              key={app.key}
+              key={app.id}
               role="tab"
               aria-selected={on}
-              onClick={() => select(app.key)}
+              onClick={() => select(app.id)}
               className={`group relative flex min-w-[220px] shrink-0 items-center gap-4 rounded-card p-4 text-left transition-colors lg:min-w-0 lg:w-full ${
                 on
                   ? "bg-purple text-white dark:bg-purple"
@@ -171,9 +220,9 @@ export function EngineAppsShowcase({ locale }: { locale: Locale }) {
                 <Icon name={app.icon} style={{ fontSize: "26px" }} />
               </span>
               <span className="min-w-0">
-                <span className="block truncate text-[15px] font-medium">{app[locale].title}</span>
+                <span className="block truncate text-[15px] font-medium">{app.title}</span>
                 <span className={`mt-0.5 block truncate text-[12px] ${on ? "text-white/70" : "text-ink/55 dark:text-white/55"}`}>
-                  {app[locale].body.split("—")[0]}
+                  {app.body.split("—")[0]}
                 </span>
               </span>
               {/* progress bar while this app is showing (auto-cycle cue) */}
@@ -186,9 +235,15 @@ export function EngineAppsShowcase({ locale }: { locale: Locale }) {
                   transition={{ duration: 7, ease: "linear" }}
                 />
               )}
-              <span aria-hidden className={`ml-auto hidden text-[10px] font-medium tabular-nums lg:block ${on ? "text-white/60" : "text-ink/30 dark:text-white/30"}`}>
-                0{i + 1}
-              </span>
+              {app.upcoming ? (
+                <span className={`ml-auto shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium text-ink ${on ? "bg-yellow" : "bg-yellow/80"}`}>
+                  {locale === "fi" ? "Tulossa!" : "Coming soon!"}
+                </span>
+              ) : (
+                <span aria-hidden className={`ml-auto hidden text-[10px] font-medium tabular-nums lg:block ${on ? "text-white/60" : "text-ink/30 dark:text-white/30"}`}>
+                  0{i + 1}
+                </span>
+              )}
             </button>
           );
         })}
@@ -202,16 +257,23 @@ export function EngineAppsShowcase({ locale }: { locale: Locale }) {
           <span className="h-2.5 w-2.5 rounded-full bg-yellow/80" />
           <span className="h-2.5 w-2.5 rounded-full bg-accent-green/80" />
           <span className="ml-3 flex items-center gap-1.5 truncate text-[11px] text-white/45">
-            <Icon name={APPS[activeIndex].icon} className="text-[13px] text-purple" />
-            norr3.fi/engine / {APPS[activeIndex][locale].title.toLowerCase()}
+            <Icon name={current.icon} className="text-[13px] text-purple" />
+            norr3.fi/engine / {current.title.toLowerCase()}
           </span>
-          <span className="ml-auto inline-flex items-center gap-1.5 text-[10px] text-white/40">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-green opacity-60" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent-green" />
+          {current.upcoming ? (
+            <span className="ml-auto inline-flex items-center gap-1.5 text-[10px] text-white/40">
+              <Icon name="schedule" className="text-[13px] text-yellow" />
+              {locale === "fi" ? "tulossa" : "coming soon"}
             </span>
-            live
-          </span>
+          ) : (
+            <span className="ml-auto inline-flex items-center gap-1.5 text-[10px] text-white/40">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-green opacity-60" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent-green" />
+              </span>
+              live
+            </span>
+          )}
         </div>
 
         <AnimatePresence mode="wait">
@@ -223,14 +285,39 @@ export function EngineAppsShowcase({ locale }: { locale: Locale }) {
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="p-6 sm:p-8"
           >
-            {active === "kampanjat" && <KampanjatDemo locale={locale} />}
-            {active === "dashboard" && <DashboardDemo locale={locale} />}
-            {active === "luova" && <LuovaDemo locale={locale} />}
-            {active === "insights" && <InsightsDemo locale={locale} />}
-            {active === "integrations" && <IntegrationsDemo locale={locale} />}
+            {current.upcoming || !current.demo ? (
+              <AppTeaser app={current} locale={locale} />
+            ) : (
+              <>
+                {current.demo === "kampanjat" && <KampanjatDemo locale={locale} />}
+                {current.demo === "dashboard" && <DashboardDemo locale={locale} />}
+                {current.demo === "luova" && <LuovaDemo locale={locale} />}
+                {current.demo === "insights" && <InsightsDemo locale={locale} />}
+                {current.demo === "integrations" && <IntegrationsDemo locale={locale} />}
+              </>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
+    </div>
+  );
+}
+
+/* ─── teaser: apps without a live demo (or flagged "Tulossa!") ──────────── */
+
+function AppTeaser({ app, locale }: { app: RailApp; locale: Locale }) {
+  return (
+    <div className="flex h-full min-h-[320px] flex-col items-start justify-center gap-5">
+      <span className="flex h-16 w-16 items-center justify-center rounded-[8px] bg-yellow text-ink">
+        <Icon name={app.icon} style={{ fontSize: "34px" }} />
+      </span>
+      {app.upcoming && (
+        <span className="rounded-full bg-yellow px-3 py-1 text-[11px] font-medium text-ink">
+          {locale === "fi" ? "Tulossa!" : "Coming soon!"}
+        </span>
+      )}
+      <h3 className="text-2xl font-medium">{app.title}</h3>
+      <p className="max-w-md text-sm leading-relaxed text-white/60">{app.body}</p>
     </div>
   );
 }

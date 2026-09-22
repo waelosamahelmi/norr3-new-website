@@ -1547,3 +1547,13 @@ Error: listen EADDRINUSE: address already in use :::3847
 - Network:       http://194.31.55.65:3847
 ✓ Ready in 224ms
 ✓ Running next.config.ts took 52ms
+▲ Next.js 16.3.0
+- Local:         http://localhost:3847
+- Network:       http://194.31.55.65:3847
+✓ Ready in 228ms
+✓ Running next.config.ts took 43ms
+▲ Next.js 16.3.0
+- Local:         http://localhost:3847
+- Network:       http://194.31.55.65:3847
+✓ Ready in 185ms
+✓ Running next.config.ts took 48ms

@@ -39,7 +39,7 @@ export default async function NotFound() {
         <SplitHeadline
           left={n.left}
           accent={n.accent}
-          className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
+          className="mt-6 text-[min(9vw,7.5rem)] leading-none"
         />
         <Reveal delay={0.15} className="mt-10 flex flex-col items-start gap-8">
           <p className="max-w-md text-[15px] leading-relaxed text-ink/80 lg:text-base dark:text-white/80">

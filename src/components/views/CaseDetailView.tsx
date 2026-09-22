@@ -96,7 +96,7 @@ export async function CaseDetailView({
               </span>
             </Reveal>
             <Reveal delay={0.05}>
-              <h1 className="mt-6 text-[13vw] font-medium leading-[0.92] tracking-tight text-white lg:text-[7rem]">
+              <h1 className="mt-6 text-[min(13vw,8rem)] font-medium leading-[0.92] tracking-tight text-white">
                 {study.client}
               </h1>
             </Reveal>

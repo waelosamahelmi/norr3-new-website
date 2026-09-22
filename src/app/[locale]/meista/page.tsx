@@ -82,7 +82,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/meista"
         <SplitHeadline
           left={a.heroLeft}
           accent={a.heroAccent}
-          className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
+          className="mt-6 text-[min(9vw,7.5rem)] leading-none"
         />
       </Container>
       <Container className="pb-24 pt-12 lg:pb-32">

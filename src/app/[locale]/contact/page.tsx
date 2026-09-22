@@ -105,7 +105,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
             <HeroPill onLight>{dict.contact.pill}</HeroPill>
           </Reveal>
           <Reveal delay={0.05} className="mt-5">
-            <h1 className="text-[8vw] font-medium leading-[0.95] tracking-tight text-ink lg:text-[4.5rem]">
+            <h1 className="text-[min(8vw,5.25rem)] font-medium leading-[0.95] tracking-tight text-ink">
               {dict.contact.heading}
             </h1>
           </Reveal>

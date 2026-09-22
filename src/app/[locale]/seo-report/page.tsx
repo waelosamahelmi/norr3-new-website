@@ -394,7 +394,7 @@ export default async function SeoReportPage({ params }: PageProps<"/[locale]/seo
         <HeroPill>SDM vs NØRR3</HeroPill>
       </Reveal>
       <Reveal delay={0.05}>
-        <h1 className="mt-6 max-w-4xl text-[9vw] font-medium leading-[0.95] tracking-tight text-ink lg:text-[5rem] dark:text-white">
+        <h1 className="mt-6 max-w-4xl text-[min(9vw,5.75rem)] font-medium leading-[0.95] tracking-tight text-ink dark:text-white">
           Kilpailija-analyysi
         </h1>
       </Reveal>

@@ -65,7 +65,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
           left={e.heroLeft}
           accent={e.heroAccent}
           accents={e.heroAccentWords}
-          className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
+          className="mt-6 text-[min(9vw,7.5rem)] leading-none"
         />
         <div className="mt-12 grid items-center gap-10 lg:mt-16 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-16">
           <Reveal className="flex flex-col items-start gap-6">
@@ -99,7 +99,7 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         <Container>
           <SectionHeader heading={e.apps.heading} body={e.apps.body} />
           <div className="mt-12 lg:mt-14">
-            <EngineAppsShowcase locale={locale} />
+            <EngineAppsShowcase locale={locale} apps={e.apps.items} />
           </div>
         </Container>
       </section>

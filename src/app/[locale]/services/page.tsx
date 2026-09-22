@@ -78,7 +78,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           accent={s.heroAccent}
           accents={s.heroAccentWords}
           stack
-          className="mt-6 text-[9vw] leading-none lg:text-[6.5rem]"
+          className="mt-6 text-[min(9vw,7.5rem)] leading-none"
         />
       </Container>
       <div className="mt-10 lg:mt-12">

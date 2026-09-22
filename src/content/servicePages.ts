@@ -14,6 +14,8 @@ export type ServicePage = {
     intro: string;
     sections: { heading: string; body: string }[];
     bullets: string[];
+    /** Source references, one per line. Empty = nothing renders. */
+    sources?: string;
   };
   en: {
     title: string;
@@ -24,6 +26,8 @@ export type ServicePage = {
     intro: string;
     sections: { heading: string; body: string }[];
     bullets: string[];
+    /** Source references, one per line. Empty = nothing renders. */
+    sources?: string;
   };
 };
 

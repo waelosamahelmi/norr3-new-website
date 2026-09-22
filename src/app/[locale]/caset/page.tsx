@@ -105,7 +105,7 @@ export default async function CasesPage({ params }: PageProps<"/[locale]/caset">
         <SplitHeadline
           left={c.heroLeft}
           accent={c.heroAccent}
-          className="mt-6 text-[9vw] leading-none lg:text-[5.5rem]"
+          className="mt-6 text-[min(9vw,6.25rem)] leading-none"
         />
         {/* Photo collage strip — real case photography, one tile per case, with
             the client named on the tile so the strip is legible, not abstract. */}
