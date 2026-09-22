@@ -1213,7 +1213,7 @@ const en: Dictionary = {
     linkedin: "LinkedIn",
     email: "Email",
     highlights: "Highlights",
-    inNumbers: "NORR3 In Numbers",
+    inNumbers: "NØRR3 In Numbers",
   },
   home: {
     heroLeft: "A New Way to",
@@ -1521,7 +1521,7 @@ const en: Dictionary = {
       ],
     },
     stats: {
-      heading: "NORR3 In Numbers",
+      heading: "NØRR3 In Numbers",
       items: [
         { value: 20, label: "Employees" },
         { value: 800, suffix: "+", label: "Talents in our network worldwide" },

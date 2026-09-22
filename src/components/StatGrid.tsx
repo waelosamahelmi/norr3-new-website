@@ -12,7 +12,7 @@ export type Stat = {
 };
 
 /**
- * "NORR3 In Numbers" — huge figures over hairline top borders with small
+ * "NØRR3 In Numbers" — huge figures over hairline top borders with small
  * captions, in a 2-column grid. Numbers count up on scroll into view.
  */
 export function StatGrid({

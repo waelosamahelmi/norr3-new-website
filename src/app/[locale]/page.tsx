@@ -77,8 +77,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
     "home.join",
     "/images/brand/team-energy.webp",
     locale === "fi"
-      ? "NØRR3:n tiimi juhlii kädet ilmassa studion NORR3-kirjainten alla"
-      : "The NØRR3 team celebrating with arms raised under the studio's NORR3 letters"
+      ? "NØRR3:n tiimi juhlii kädet ilmassa studion NØRR3-kirjainten alla"
+      : "The NØRR3 team celebrating with arms raised under the studio's NØRR3 letters"
   );
   const teamPhoto = slot(
     "home.team",
@@ -112,7 +112,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         "@type": "Organization",
         "@id": "https://norr3.fi/#organization",
         name: "NØRR3",
-        alternateName: "NORR3 Oy",
+        legalName: "NORR3 Oy",
         url: "https://norr3.fi",
         logo: "https://norr3.fi/wp-content/uploads/2025/02/Logo-01.png",
         description: dict.meta.description,
