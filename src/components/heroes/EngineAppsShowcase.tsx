@@ -74,9 +74,9 @@ const D = {
       { label: "Konversiot", value: 847, suffix: "" },
     ],
     campaigns: [
-      { name: "Helsinki — Premium", pct: 78, channels: ["TV", "DOOH", "Meta"] },
-      { name: "Espoo — Uudiskohteet", pct: 52, channels: ["Meta", "Display"] },
-      { name: "Vantaa — Avajaistapahtuma", pct: 91, channels: ["DOOH", "Radio", "Story"] },
+      { name: "Helsinki · Premium", pct: 78, channels: ["TV", "DOOH", "Meta"] },
+      { name: "Espoo · Uudiskohteet", pct: 52, channels: ["Meta", "Display"] },
+      { name: "Vantaa · Avajaistapahtuma", pct: 91, channels: ["DOOH", "Radio", "Story"] },
     ],
     channels: [
       { name: "Instagram", reach: 84 },
@@ -104,9 +104,9 @@ const D = {
       { label: "Conversions", value: 847, suffix: "" },
     ],
     campaigns: [
-      { name: "Helsinki — Premium", pct: 78, channels: ["TV", "DOOH", "Meta"] },
-      { name: "Espoo — New homes", pct: 52, channels: ["Meta", "Display"] },
-      { name: "Vantaa — Open house", pct: 91, channels: ["DOOH", "Radio", "Story"] },
+      { name: "Helsinki · Premium", pct: 78, channels: ["TV", "DOOH", "Meta"] },
+      { name: "Espoo · New homes", pct: 52, channels: ["Meta", "Display"] },
+      { name: "Vantaa · Open house", pct: 91, channels: ["DOOH", "Radio", "Story"] },
     ],
     channels: [
       { name: "Instagram", reach: 84 },

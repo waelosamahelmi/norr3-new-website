@@ -572,7 +572,7 @@ const fi = {
     },
     application: {
       heading: "Avoin hakemus",
-      body: "Etkö löytänyt sopivaa paikkaa? Jätä avoin hakemus — kerro kuka olet ja minkälaista työtä etsit.",
+      body: "Etkö löytänyt sopivaa paikkaa? Jätä avoin hakemus ja kerro kuka olet ja minkälaista työtä etsit.",
       cta: "Jätä avoin hakemus",
       name: "Nimi",
       email: "Sähköposti",
@@ -582,9 +582,9 @@ const fi = {
       portfolio: "LinkedIn tai portfolio (valinnainen)",
       portfolioPlaceholder: "https://",
       cv: "CV (valinnainen)",
-      cvHint: "PDF, DOC tai DOCX — enintään 10 Mt",
+      cvHint: "PDF, DOC tai DOCX, enintään 10 Mt",
       submit: "Lähetä hakemus",
-      success: "Kiitos hakemuksestasi — luemme sen ja palaamme asiaan.",
+      success: "Kiitos hakemuksestasi. Luemme sen ja palaamme asiaan.",
     },
   },
   merch: {
@@ -1562,7 +1562,7 @@ const en: Dictionary = {
     },
     application: {
       heading: "Open application",
-      body: "Didn't find the right role? Leave an open application — tell us who you are and what kind of work you're looking for.",
+      body: "Didn't find the right role? Leave an open application and tell us who you are and what kind of work you're looking for.",
       cta: "Leave an open application",
       name: "Name",
       email: "Email",
@@ -1572,9 +1572,9 @@ const en: Dictionary = {
       portfolio: "LinkedIn or portfolio (optional)",
       portfolioPlaceholder: "https://",
       cv: "CV (optional)",
-      cvHint: "PDF, DOC or DOCX — max 10 MB",
+      cvHint: "PDF, DOC or DOCX, max 10 MB",
       submit: "Send application",
-      success: "Thanks for your application — we'll read it and get back to you.",
+      success: "Thanks for your application. We'll read it and get back to you.",
     },
   },
   merch: {
