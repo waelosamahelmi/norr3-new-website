@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { submitToCms } from "@/lib/cms";
 
 /**
  * Password check for the draft case preview.
@@ -43,6 +42,13 @@ export async function POST(req: NextRequest) {
       { cache: "no-store", signal: AbortSignal.timeout(8000) }
     );
     if (!res.ok) {
+      // A case that is already live is public: the CMS answers "Case is already
+      // public" and no password can unlock it. Send the visitor to the real page
+      // instead of claiming the password was wrong.
+      const detail = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (res.status === 400 && /already public/i.test(detail?.error ?? "")) {
+        return redirectTo(locale === "en" ? `/en/${slug}` : `/${slug}`, 303);
+      }
       return redirectTo(`${back}?pw=wrong`, 302);
     }
   } catch {
