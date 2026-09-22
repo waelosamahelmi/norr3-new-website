@@ -269,9 +269,9 @@ const fi = {
   },
   services: {
     pill: "SERVICES",
-    heroLeft: "Our services include",
-    heroAccent: "Insights",
-    heroAccentWords: ["Insights", "Strategies", "Data", "Measurement", "AI", "Dashboards", "Workshops", "Media activation", "Performance marketing", "Tools"],
+    heroLeft: "Palvelumme kattavat",
+    heroAccent: "Insightit",
+    heroAccentWords: ["Insightit", "Strategiat", "Datan", "Mittauksen", "Tekoälyn", "Dashboardit", "Työpajat", "Mediaaktivoinnin", "Performance-markkinoinnin", "Työkalut"],
     heroBody:
       "Määrittelemme miten ja mitkä mediat kuljettavat oikeat viestit perille oikeaan aikaan ja oikealle yleisölle vaikuttavasti, jotta kohderyhmän ajattelussa tai käytöksessä saadaan aikaan haluttu muutos.",
     heroServicesCta: "Palvelumme",
@@ -342,9 +342,9 @@ const fi = {
   },
   engine: {
     pill: "ENGINE",
-    heroLeft: "One Platform to",
-    heroAccent: "Deliver",
-    heroAccentWords: ["Deliver", "Automate", "Optimise", "Scale"],
+    heroLeft: "Yksi alusta, joka",
+    heroAccent: "Toimittaa",
+    heroAccentWords: ["Toimittaa", "Automatisoi", "Optimoi", "Skaalaa"],
     heroBody:
       "NØRR3 Marketing Engine on työkaluperhe, joka automatisoi markkinoinnin — ja tekee mediasta kasvun moottorin.",
     family: {
@@ -486,7 +486,7 @@ const fi = {
       heading: "Avoimet työpaikat",
       body: "Uskomme vahvasti itsenäiseen ja kokeilevaan kulttuuriin, mutta myös yhdessä tekemisen voimaan. Kannustamme rohkeasti haastamaan omaa tekemistä ja oppimaan toisiltamme. Tässä toimistossa kehittyy Suomen strategisimmaksi median moniosaajaksi.",
       apply: "Hae paikkaa",
-      candor: "Luemme jokaisen hakemuksen käsin — ja vastaamme aina.",
+      candor: "Luemme jokaisen hakemuksen käsin ja vastaamme aina.",
     },
   },
   about: {
@@ -553,7 +553,7 @@ const fi = {
       heading: "Avoimet paikat",
       body: "Etsimme ihmisiä, jotka haluavat tehdä mediasta liiketoiminnan moottorin. Jos oikeaa paikkaa ei ole vielä auki, kerro silti itsestäsi — hyvälle tekijälle löytyy paikka.",
       apply: "Hae paikkaa",
-      candor: "Luemme jokaisen hakemuksen käsin — ja vastaamme aina.",
+      candor: "Luemme jokaisen hakemuksen käsin ja vastaamme aina.",
     },
     culture: {
       heading: "Arvomme",
@@ -640,9 +640,9 @@ const fi = {
   },
   insights: {
     pill: "INSIGHTS",
-    heroLeft: "Our thoughts about.",
-    heroAccent: "AI",
-    heroAccentWords: ["AI", "Programmatic", "DCO", "Marketing", "Media", "Feeds", "Tools", "Search", "Trends"],
+    heroLeft: "Ajatuksia",
+    heroAccent: "Mediasta",
+    heroAccentWords: ["Mediasta", "Tekoälystä", "Ohjelmallisesta mediasta", "DCO:sta", "Markkinoinnista", "Feedeistä", "Työkaluista", "Hausta", "Trendeistä"],
     heading: "Blogi",
     body: "Ajatuksia mediasta, datasta ja kasvusta — ilman turhaa jargonia.",
     minRead: "min lukuaika",
