@@ -26,7 +26,7 @@ Concretely, the site must:
 **Values:** Yhteistyö (Collaboration) · Ilo (Joy) · Ketteryys (Agility) · Tasapaino (Balance)
 **Slogan (approved, matches the corrected TOV hero copy — see §3):** *"Uusi tapa kasvaa."* / **"A new way to grow."**
 
-Do not use the other slogan candidates from the strategy deck ("Attitude. Technology. Talent.", "Data. Media. Kasvu. NORR3.", etc.) as the primary hero line — they're positioning language for internal/pitch use. "A new way to grow" is the one that was actually run through tone-of-voice correction and approved for the site hero.
+Do not use the other slogan candidates from the strategy deck ("Attitude. Technology. Talent.", "Data. Media. Kasvu. NØRR3.", etc.) as the primary hero line — they're positioning language for internal/pitch use. "A new way to grow" is the one that was actually run through tone-of-voice correction and approved for the site hero.
 
 ---
 
@@ -70,7 +70,7 @@ These are load-bearing. A generic "we're an innovative agency" paragraph anywher
 - Candor line for the hiring-process section: *"We read every application by hand... we always reply."*
 
 **Footer**
-- Tagline slot: "NORR3 — Making Media a Growth Engine" (existing tagline) — decide with the user whether this is replaced by "A new way to grow." for consistency with the new hero; recommend replacing it, since running two different taglines on one site undercuts the "knowledge speaks, wisdom listens" precision principle.
+- Tagline slot: "NØRR3 — Making Media a Growth Engine" (existing tagline) — decide with the user whether this is replaced by "A new way to grow." for consistency with the new hero; recommend replacing it, since running two different taglines on one site undercuts the "knowledge speaks, wisdom listens" precision principle.
 
 **Chatbot widget**
 - Persona "Mira": *"Moi! Mira tästä — tarvitsetko apua?"* — this is the one place on the site where tone can be casual/emoji-friendly, per §2.6 above.

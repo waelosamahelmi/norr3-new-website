@@ -29,9 +29,9 @@ All under `public/images/`. Dims exact (for CLS-safe wrappers). Homepage already
 | `brand/engine-workflow.webp` | 1600×1066 | N43 | Engine — product/workflow band | A NØRR3 specialist working in the Marketing Engine on a laptop |
 | `brand/contact-portrait.webp` | 1200×800 | N25 | Contact — human photo beside form | A friendly NØRR3 colleague ready to help, in the Helsinki studio |
 | `cases/flow-festival.webp` | 1600×1066 | N36 | Case — Flow Festival | The NØRR3 team celebrating on the studio lounge sofa |
-| `cases/terveystalo.webp` | 1600×1066 | N8 | Case — Terveystalo | The full NØRR3 team gathered around the studio's NORR3 letters |
+| `cases/terveystalo.webp` | 1600×1066 | N8 | Case — Terveystalo | The full NØRR3 team gathered around the studio's NØRR3 letters |
 | `cases/kokkola.webp` | 1600×1066 | N33 | Case — Kokkola | A relaxed NØRR3 colleague with the office dog on the studio sofa |
-| `cases/st1.webp` | 1600×1066 | N10 | Case — ST1 | The NØRR3 team posing with the giant NORR3 letters in the studio |
+| `cases/st1.webp` | 1600×1066 | N10 | Case — ST1 | The NØRR3 team posing with the giant NØRR3 letters in the studio |
 
 **Case-photo note:** the shoot has no real client-campaign imagery, so case cards/detail heroes lead with authentic NØRR3 studio photography (candids that read as "the team behind this work") rather than misleading stock. This is an honest, on-brand step up from picsum; real client photography remains a future round. Each case gets a *distinct* candid so the grid isn't repetitive.
 

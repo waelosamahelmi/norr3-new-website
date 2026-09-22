@@ -24,7 +24,7 @@ All under `public/images/`. Dimensions are exact (use for CLS‑safe `width`/`he
 | `space-lounge.webp` | 2000×1333 | N40 | Values interstitial (full‑bleed parallax) | The NØRR3 studio lounge in Helsinki — open, bright and relaxed | NØRR3:n studiolounge Helsingissä — avoin, valoisa ja rento |
 | `engine-team.webp` | 1500×1000 | N31 | Marketing Engine companion card | NØRR3 specialists collaborating around a laptop | NØRR3:n asiantuntijat työskentelevät yhdessä läppärin ääressä |
 | `team-couch.webp` | 1400×933 | N35 | About — "Our Team" card | The NØRR3 team laughing together on the studio sofa | NØRR3:n tiimi nauramassa yhdessä studion sohvalla |
-| `team-energy.webp` | 1600×1066 | N9 | About — "Join Us" card | The NØRR3 team celebrating with arms raised under the studio's NORR3 letters | NØRR3:n tiimi juhlii kädet ilmassa studion NORR3‑kirjainten alla |
+| `team-energy.webp` | 1600×1066 | N9 | About — "Join Us" card | The NØRR3 team celebrating with arms raised under the studio's NØRR3 letters | NØRR3:n tiimi juhlii kädet ilmassa studion NØRR3‑kirjainten alla |
 | `award.webp` | 1400×933 | N37 | About — "Agency of the Year" card | The NØRR3 team with an industry award in the studio lounge | NØRR3:n tiimi alan palkinnon kanssa studion loungessa |
 | `space-arch.webp` | 1500×1000 | N39 | Blog — "Tre Kronor" card | NØRR3's loft studio with its signature arched windows | NØRR3:n loft‑studio ja sen tunnusomaiset kaari‑ikkunat |
 | `data-desk.webp` | 1400×933 | N28 | Blog — "Media mix 2026" card | NØRR3 analysts at their desks with campaign dashboards | NØRR3:n analyytikot työpöytiensä ääressä kampanjadashboardien parissa |
@@ -92,7 +92,7 @@ For each of the 17 members, change **only** the `photo` field from the `randomus
 **`src/app/[locale]/layout.tsx` `generateMetadata`:** add `alternates: { canonical: `/${locale}`, languages: { "fi-FI": "/fi", "en-US": "/en" } }`, and `openGraph.locale` (`fi_FI`/`en_US`) + `openGraph.url = `https://norr3.fi/${locale}``. Reuse dict title/description.
 
 **JSON‑LD (homepage `page.tsx`):** inject `<script type="application/ld+json">` with `@graph` of:
-- `Organization` — name `"NØRR3"`, alternateName `"NORR3 Oy"`, url `https://norr3.fi`, `logo https://norr3.fi/wp-content/uploads/2025/02/Logo-01.png`, description (dict.meta.description), `foundingDate "2019"`, `address` (PostalAddress: Pursimiehenkatu 26 C, 00150 Helsinki, FI), `email "info@norr3.fi"`, `telephone "+358 46 8100 118"`. Do **not** fabricate social URLs (omit `sameAs`).
+- `Organization` — name `"NØRR3"`, legalName `"NORR3 Oy"`, url `https://norr3.fi`, `logo https://norr3.fi/wp-content/uploads/2025/02/Logo-01.png`, description (dict.meta.description), `foundingDate "2019"`, `address` (PostalAddress: Pursimiehenkatu 26 C, 00150 Helsinki, FI), `email "info@norr3.fi"`, `telephone "+358 46 8100 118"`. Do **not** fabricate social URLs (omit `sameAs`).
 - `WebSite` — url, name `"NØRR3"`, description, `inLanguage: ["fi","en"]`.
 
 **Alt text:** hero collage photos, interstitial, engine photo, about photos → localized descriptive alt from §1 (pass from `page.tsx`/props since those components need locale‑aware strings). `BlogCard` → `alt={content.title}` when a photo exists. `TeamMarquee` → `alt={member.name}` on the first (visible) copy, `alt=""` on the aria‑hidden duplicate. `CaseCard` already uses client name.

@@ -7,3 +7,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+## Brand spelling
+
+Always write the brand as **NØRR3** (with the stylised Ø) — in copy, metadata, alt text, structured data, comments and docs. Never `Norr3`, `NORR3` or `NØRR3 Oy`.
+
+The only exception is the legal name: **NORR3 Oy** (plain O) — never `Norr3 Oy` and never `NØRR3 Oy`.
