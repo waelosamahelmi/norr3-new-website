@@ -43,6 +43,7 @@ export function DoohCreative({
   headline = 0,
   background = "/images/brand/award.webp",
   showCta = false,
+  tagline = "With us, marketing hits home and sinks in.",
   className = "",
 }: {
   /** CSS aspect-ratio for the creative's frame. */
@@ -53,6 +54,8 @@ export function DoohCreative({
   background?: string;
   /** Show the yellow norr3.fi CTA chip under the headline (Display). */
   showCta?: boolean;
+  /** Localised tagline under the chip marquee (dictionary: engine.simulator.doohTagline). */
+  tagline?: string;
   className?: string;
 }) {
   const reduced = useReducedMotion();
@@ -124,7 +127,7 @@ export function DoohCreative({
 
       {/* 5. Tagline */}
       <p className="relative z-20 px-[5.5%] pb-[4.5%] pt-[2.5%] text-[3.4cqw] leading-snug text-white/85">
-        With us, marketing hits home and sinks in.
+        {tagline}
       </p>
     </div>
   );

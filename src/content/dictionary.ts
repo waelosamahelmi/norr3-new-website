@@ -361,6 +361,13 @@ const fi = {
         { icon: "insights", title: "Media Insights", body: "Yleisö- ja mediankäyttödata suunnittelun pohjaksi — päätökset datalla, ei mutulla." },
         { icon: "hub", title: "Integraatiot", body: "Data layer yhdistää tuote-, varasto- ja CRM-datan kampanjoihisi." },
       ],
+      upcomingBadge: "Tulossa!",
+      upcomingWindow: "tulossa",
+      demoCampaigns: [
+        { name: "Helsinki · Premium", pct: 78, channels: ["TV", "DOOH", "Meta"] },
+        { name: "Espoo · Uudiskohteet", pct: 52, channels: ["Meta", "Display"] },
+        { name: "Vantaa · Avajaistapahtuma", pct: 91, channels: ["DOOH", "Radio", "Story"] },
+      ],
     },
     licensing: {
       heading: "Lisensoi vain mitä tarvitset",
@@ -431,6 +438,7 @@ const fi = {
       note: "Havainnollistava laskelma NØRR3:n mediadatan tyypillisistä suhteista — ei takuu tietylle kampanjalle.",
       creativesLabel: "Enginen automaatio",
       creativesBody: "Engine tuottaa mainosluovat eri muodoissa ja kokoissa automaattisesti yhdestä master-suunnittelusta — Meta, Display ja DOOH mukaan lukien.",
+      doohTagline: "Kanssamme markkinointi osuu ja uppoaa.",
     },
   },
   team: {
@@ -1351,6 +1359,13 @@ const en: Dictionary = {
         { icon: "insights", title: "Media Insights", body: "Audience and media-usage data as the planning foundation — data over guesswork." },
         { icon: "hub", title: "Integrations", body: "A data layer connecting product, inventory and CRM data to your campaigns." },
       ],
+      upcomingBadge: "Coming soon!",
+      upcomingWindow: "coming soon",
+      demoCampaigns: [
+        { name: "Helsinki · Premium", pct: 78, channels: ["TV", "DOOH", "Meta"] },
+        { name: "Espoo · New homes", pct: 52, channels: ["Meta", "Display"] },
+        { name: "Vantaa · Open house", pct: 91, channels: ["DOOH", "Radio", "Story"] },
+      ],
     },
     licensing: {
       heading: "Licence only what you need",
@@ -1421,6 +1436,7 @@ const en: Dictionary = {
       note: "An illustrative model based on typical ratios in NØRR3's media data — not a guarantee for any specific campaign.",
       creativesLabel: "Engine automation",
       creativesBody: "Engine generates ad creatives in multiple formats and sizes automatically from one master design — including Meta, Display and DOOH.",
+      doohTagline: "With us, marketing hits home and sinks in.",
     },
   },
   team: {

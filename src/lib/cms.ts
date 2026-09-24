@@ -152,6 +152,25 @@ export type CmsMediaInsight = {
   bigNumber: string;
   text: Record<Locale, string>;
   source: Record<Locale, string>;
+  /** Where the box renders: `"ticker" | "rail" | "both"` (default "ticker"). */
+  placement: string;
+};
+
+/**
+ * A right-rail support card for the service pages, composed in the CMS
+ * (approved + visible rows only). `type` picks the card's icon and list
+ * treatment; `items` is the optional checklist/step list; `position` orders
+ * cards of the same group.
+ */
+export type CmsRailItem = {
+  id: number;
+  url: string;
+  type: "decision_card" | "key_number" | "campaign_lesson" | "table" | "good_to_know" | "process";
+  title: Record<Locale, string>;
+  body: Record<Locale, string>;
+  items: Record<Locale, string[]>;
+  source: Record<Locale, string>;
+  position: number;
 };
 
 export type CmsPageSummary = {
@@ -183,6 +202,8 @@ export type SiteContent = {
   heroes: CmsHero[];
   /** Media Insights data boxes (huomiopallo), keyed by the page url they belong to. */
   mediaInsights: CmsMediaInsight[];
+  /** Right-rail support cards for the service pages; approved+visible rows only. */
+  railItems: CmsRailItem[];
   /** Widget datasets — chart channels, dashboard figures, company stats, brief channels. */
   datasets: Record<string, { fi: unknown; en: unknown }>;
   /** Named section-image slots on the hand-built pages, keyed by slot. */
@@ -281,6 +302,7 @@ function fallbackContent(error?: string): SiteContent {
     // what the site shipped before heroes became editable.
     heroes: [],
     mediaInsights: [],
+    railItems: [],
     datasets: {},
     imageSlots: {},
     pageSeo: {},
@@ -361,6 +383,7 @@ type RawBundle = {
   pages?: unknown[];
   heroes?: unknown[];
   mediaInsights?: unknown[];
+  railItems?: unknown[];
   datasets?: Record<string, { fi: unknown; en: unknown }>;
   imageSlots?: SiteContent["imageSlots"];
   pageSeo?: SiteContent["pageSeo"];
@@ -485,7 +508,13 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     announcement: (raw.announcement as CmsAnnouncement) ?? null,
     pages: (raw.pages ?? []) as CmsPageSummary[],
     heroes: (raw.heroes ?? []) as CmsHero[],
-    mediaInsights: (raw.mediaInsights ?? []) as CmsMediaInsight[],
+    // Normalize `placement` so a bundle from a CMS that predates the field
+    // (no key at all) behaves exactly like today: everything goes to the ticker.
+    mediaInsights: ((raw.mediaInsights ?? []) as CmsMediaInsight[]).map((insight) => ({
+      ...insight,
+      placement: insight.placement === "rail" || insight.placement === "both" ? insight.placement : "ticker",
+    })),
+    railItems: Array.isArray(raw.railItems) ? (raw.railItems as CmsRailItem[]) : [],
     datasets: raw.datasets ?? {},
     imageSlots: raw.imageSlots ?? {},
     pageSeo: raw.pageSeo ?? {},

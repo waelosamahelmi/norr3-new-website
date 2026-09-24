@@ -99,7 +99,15 @@ export default async function EnginePage({ params }: PageProps<"/[locale]/engine
         <Container>
           <SectionHeader heading={e.apps.heading} body={e.apps.body} />
           <div className="mt-12 lg:mt-14">
-            <EngineAppsShowcase locale={locale} apps={e.apps.items} />
+            <EngineAppsShowcase
+              locale={locale}
+              apps={e.apps.items}
+              labels={{
+                upcomingBadge: e.apps.upcomingBadge,
+                upcomingWindow: e.apps.upcomingWindow,
+                demoCampaigns: e.apps.demoCampaigns,
+              }}
+            />
           </div>
         </Container>
       </section>

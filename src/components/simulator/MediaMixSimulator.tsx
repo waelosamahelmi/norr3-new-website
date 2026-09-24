@@ -409,6 +409,7 @@ export function MediaMixSimulator({
               aspect={CREATIVE_FORMATS[formatIndex].ratio}
               headline={formatIndex % 2}
               showCta={CREATIVE_FORMATS[formatIndex].cta}
+              tagline={labels.doohTagline}
               className="mx-auto max-h-[420px] w-auto"
               key={CREATIVE_FORMATS[formatIndex].id}
             />

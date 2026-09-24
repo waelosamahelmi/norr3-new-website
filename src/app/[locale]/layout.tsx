@@ -170,8 +170,9 @@ export default async function LocaleLayout({
             {children}
           </main>
           <Footer locale={locale} dict={dict} logo={content.brand.logo} />
-          {/* Always-visible sliding Media Insights strip. */}
-          <InsightsTicker insights={content.mediaInsights} locale={locale} />
+          {/* Always-visible sliding Media Insights strip — fetches its own
+              page-filtered items from /api/insights (see the component). */}
+          <InsightsTicker locale={locale} />
           <CookieConsent dict={dict.cookies} locale={locale} />
           {/* GA4, gated on cookie consent (see the component). */}
           <Analytics ga4={content.integrations.ga4} gtm={content.integrations.gtm} />

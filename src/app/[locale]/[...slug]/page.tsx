@@ -10,6 +10,7 @@ import { servicePageLocalised } from "@/content/servicePages";
 import { linkTo } from "@/lib/links";
 import { ogImage } from "@/lib/ogImage";
 import { pageSeo } from "@/lib/pageSeo";
+import { railEnabled } from "@/lib/rail";
 
 /**
  * Serves everything that lives at a short, root-level slug:
@@ -25,7 +26,10 @@ import { pageSeo } from "@/lib/pageSeo";
  * The section URLs (`/cases/st1`, `/insights/…`) 301 to these root slugs, so
  * there is exactly one canonical URL per piece of content.
  */
-type Params = { params: Promise<{ locale: string; slug: string[] }> };
+type Params = {
+  params: Promise<{ locale: string; slug: string[] }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
 
 /** Pre-render the content we know at build time; anything else renders on demand. */
 export async function generateStaticParams() {
@@ -162,7 +166,7 @@ export async function generateMetadata({ params }: Params) {
   };
 }
 
-export default async function RootSlugPage({ params }: Params) {
+export default async function RootSlugPage({ params, searchParams }: Params) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
 
@@ -183,9 +187,14 @@ export default async function RootSlugPage({ params }: Params) {
   }
 
   // Service landing pages can be nested (e.g. /mediasuunnittelu/radio).
+  // Awaiting searchParams + headers (rail flag) makes this route dynamic —
+  // deliberate, so the rail kill-switch works without a rebuild (see rail.ts).
+  const sp = await searchParams;
+  const railParam = typeof sp.rail === "string" ? sp.rail : null;
+  const rail = await railEnabled(railParam);
   const servicePage = (await getSiteContent()).servicePages.find((p) => p.slug === slug.join("/"));
   if (servicePage) {
-    return <ServiceLandingView page={servicePage} locale={locale} />;
+    return <ServiceLandingView page={servicePage} locale={locale} railEnabled={rail} />;
   }
 
   // A page composed in the CMS page editor.

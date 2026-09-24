@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Icon } from "@/components/Icon";
 import type { CmsMediaInsight } from "@/lib/cms";
@@ -9,9 +10,13 @@ import { insightText } from "@/content/mediaInsights";
 /**
  * A slim, always-visible strip pinned to the bottom of the viewport that lets
  * the page's Media Insights figures slide past (a marquee), replacing the old
- * in-page insight card sections. It reads the current path so each page shows
- * its own insights; pages with none fall back to the home set so the strip is
- * never empty.
+ * in-page insight card sections.
+ *
+ * The items come from `/api/insights?path=…`, which filters server-side (page
+ * boxes, home fallback, max six) so no page ships the full insight list in its
+ * payload. Results are cached per path in a ref, so client-side navigation
+ * back to a visited page doesn't refetch. The ticker is decorative: while
+ * loading, on error or when empty it renders nothing at all.
  */
 
 function normalize(path: string): string {
@@ -25,19 +30,39 @@ function nbspNumbers(value: string): string {
   return value.replace(/(\d) (?=\d)/g, "$1\u00A0");
 }
 
-export function InsightsTicker({
-  insights,
-  locale,
-}: {
-  insights: CmsMediaInsight[];
-  locale: Locale;
-}) {
+export function InsightsTicker({ locale }: { locale: Locale }) {
   const pathname = usePathname();
-  const here = normalize(pathname);
+  const cache = useRef(new Map<string, CmsMediaInsight[]>());
+  const [items, setItems] = useState<CmsMediaInsight[]>([]);
 
-  const forPage = insights.filter((i) => normalize(i.url) === here);
-  const fallback = insights.filter((i) => normalize(i.url) === "/");
-  const items = (forPage.length ? forPage : fallback).slice(0, 6);
+  useEffect(() => {
+    const key = normalize(pathname);
+    const cached = cache.current.get(key);
+    if (cached) {
+      setItems(cached);
+      return;
+    }
+    let cancelled = false;
+    // Hidden while loading — the ticker must never flash the previous page's
+    // figures. The route normalizes the path itself, so pass it raw.
+    setItems([]);
+    fetch(`/api/insights?path=${encodeURIComponent(pathname)}`)
+      .then((res) => (res.ok ? res.json() : { items: [] }))
+      .then((data: { items?: CmsMediaInsight[] }) => {
+        const next = Array.isArray(data?.items) ? data.items : [];
+        cache.current.set(key, next);
+        if (!cancelled) setItems(next);
+      })
+      .catch(() => {
+        // Fail silent — a decorative strip never surfaces an error.
+        cache.current.set(key, []);
+        if (!cancelled) setItems([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [pathname]);
+
   if (!items.length) return null;
 
   const row = (

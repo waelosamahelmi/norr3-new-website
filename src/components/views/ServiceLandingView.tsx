@@ -9,6 +9,8 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ContactBanner } from "@/components/ContactBanner";
 import { Icon } from "@/components/Icon";
+import { RailCards } from "@/components/RailCards";
+import { buildRail } from "@/lib/rail";
 import { servicePageLocalised, type ServicePage } from "@/content/servicePages";
 
 /**
@@ -22,11 +24,21 @@ const SHOW_SERVICE_HERO_IMAGES = false;
  * A keyword-optimised service landing page, rendered at a root slug
  * (`/hakukoneoptimointi`, `/mediasuunnittelu` …) via the [...slug] catch-all.
  */
-export async function ServiceLandingView({ page, locale }: { page: ServicePage; locale: Locale }) {
+export async function ServiceLandingView({ page, locale, railEnabled }: { page: ServicePage; locale: Locale; railEnabled: boolean }) {
   const dict = await getDictionary(locale);
   const content = await getSiteContent();
   const t = servicePageLocalised(page, locale);
   const related = content.servicePages.filter((p) => p.slug !== page.slug);
+  // Right-rail support cards (CMS rail items + rail-placed insights), capped
+  // at three by buildRail. Disabled or empty → the tree renders exactly as before.
+  const rail = railEnabled
+    ? buildRail({
+        path: `/${page.slug}`,
+        locale,
+        insights: content.mediaInsights ?? [],
+        items: content.railItems ?? [],
+      })
+    : [];
 
   return (
     <>
@@ -79,6 +91,7 @@ export async function ServiceLandingView({ page, locale }: { page: ServicePage; 
 
             {/* Photo + checklist column — sticky, never taller than the viewport */}
             <div className="space-y-6 lg:sticky lg:top-28 lg:self-start">
+              {railEnabled && rail.length > 0 ? <RailCards cards={rail} locale={locale} /> : null}
               {SHOW_SERVICE_HERO_IMAGES && page.image && (
                 <Reveal delay={0.05}>
                   <div className="overflow-hidden rounded-card ring-1 ring-black/5 dark:ring-white/10">

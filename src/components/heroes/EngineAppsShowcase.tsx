@@ -162,7 +162,21 @@ function railApps(apps: EngineAppItem[] | undefined, locale: Locale): RailApp[] 
   }));
 }
 
-export function EngineAppsShowcase({ locale, apps }: { locale: Locale; apps?: EngineAppItem[] }) {
+export function EngineAppsShowcase({
+  locale,
+  apps,
+  labels,
+}: {
+  locale: Locale;
+  apps?: EngineAppItem[];
+  /** Localised strings from the dictionary (engine.apps) — CMS-editable. The
+   *  built-in `D` fallbacks stay so the component works standalone. */
+  labels?: {
+    upcomingBadge?: string;
+    upcomingWindow?: string;
+    demoCampaigns?: { name: string; pct: number; channels: string[] }[];
+  };
+}) {
   const t = D[locale];
   const items = useMemo(() => railApps(apps, locale), [apps, locale]);
   const [active, setActive] = useState(() => items[0].id);
@@ -237,7 +251,7 @@ export function EngineAppsShowcase({ locale, apps }: { locale: Locale; apps?: En
               )}
               {app.upcoming ? (
                 <span className={`ml-auto shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium text-ink ${on ? "bg-yellow" : "bg-yellow/80"}`}>
-                  {locale === "fi" ? "Tulossa!" : "Coming soon!"}
+                  {labels?.upcomingBadge ?? (locale === "fi" ? "Tulossa!" : "Coming soon!")}
                 </span>
               ) : (
                 <span aria-hidden className={`ml-auto hidden text-[10px] font-medium tabular-nums lg:block ${on ? "text-white/60" : "text-ink/30 dark:text-white/30"}`}>
@@ -263,7 +277,7 @@ export function EngineAppsShowcase({ locale, apps }: { locale: Locale; apps?: En
           {current.upcoming ? (
             <span className="ml-auto inline-flex items-center gap-1.5 text-[10px] text-white/40">
               <Icon name="schedule" className="text-[13px] text-yellow" />
-              {locale === "fi" ? "tulossa" : "coming soon"}
+              {labels?.upcomingWindow ?? (locale === "fi" ? "tulossa" : "coming soon")}
             </span>
           ) : (
             <span className="ml-auto inline-flex items-center gap-1.5 text-[10px] text-white/40">
@@ -286,10 +300,10 @@ export function EngineAppsShowcase({ locale, apps }: { locale: Locale; apps?: En
             className="p-6 sm:p-8"
           >
             {current.upcoming || !current.demo ? (
-              <AppTeaser app={current} locale={locale} />
+              <AppTeaser app={current} locale={locale} labels={labels} />
             ) : (
               <>
-                {current.demo === "kampanjat" && <KampanjatDemo locale={locale} />}
+                {current.demo === "kampanjat" && <KampanjatDemo locale={locale} labels={labels} />}
                 {current.demo === "dashboard" && <DashboardDemo locale={locale} />}
                 {current.demo === "luova" && <LuovaDemo locale={locale} />}
                 {current.demo === "insights" && <InsightsDemo locale={locale} />}
@@ -305,7 +319,15 @@ export function EngineAppsShowcase({ locale, apps }: { locale: Locale; apps?: En
 
 /* ─── teaser: apps without a live demo (or flagged "Tulossa!") ──────────── */
 
-function AppTeaser({ app, locale }: { app: RailApp; locale: Locale }) {
+function AppTeaser({
+  app,
+  locale,
+  labels,
+}: {
+  app: RailApp;
+  locale: Locale;
+  labels?: { upcomingBadge?: string };
+}) {
   return (
     <div className="flex h-full min-h-[320px] flex-col items-start justify-center gap-5">
       <span className="flex h-16 w-16 items-center justify-center rounded-[8px] bg-yellow text-ink">
@@ -313,7 +335,7 @@ function AppTeaser({ app, locale }: { app: RailApp; locale: Locale }) {
       </span>
       {app.upcoming && (
         <span className="rounded-full bg-yellow px-3 py-1 text-[11px] font-medium text-ink">
-          {locale === "fi" ? "Tulossa!" : "Coming soon!"}
+          {labels?.upcomingBadge ?? (locale === "fi" ? "Tulossa!" : "Coming soon!")}
         </span>
       )}
       <h3 className="text-2xl font-medium">{app.title}</h3>
@@ -324,13 +346,20 @@ function AppTeaser({ app, locale }: { app: RailApp; locale: Locale }) {
 
 /* ─── demo 1: Kampanjat — animated campaign rows with channel chips ─────── */
 
-function KampanjatDemo({ locale }: { locale: Locale }) {
+function KampanjatDemo({
+  locale,
+  labels,
+}: {
+  locale: Locale;
+  labels?: { demoCampaigns?: { name: string; pct: number; channels: string[] }[] };
+}) {
   const t = D[locale];
+  const campaigns = labels?.demoCampaigns ?? t.campaigns;
   return (
     <div>
       <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-white/40">{t.active}</p>
       <div className="mt-4 space-y-5">
-        {t.campaigns.map((c, i) => (
+        {campaigns.map((c, i) => (
           <div key={c.name}>
             <div className="flex items-center justify-between gap-3">
               <p className="truncate text-[14px] text-white/85">{c.name}</p>
