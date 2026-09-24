@@ -2,7 +2,7 @@ import { Icon } from "@/components/Icon";
 import { MediaAsset } from "@/components/MediaAsset";
 import { Reveal } from "@/components/Reveal";
 import { insightSource, insightText } from "@/content/mediaInsights";
-import { mediaBoxShows, textBoxShows, type RailCard } from "@/lib/rail";
+import { mediaBoxImage, mediaBoxShows, textBoxShows, type RailCard } from "@/lib/rail";
 import type { CmsRailItem } from "@/lib/cms";
 import type { Locale } from "@/i18n/config";
 
@@ -88,7 +88,9 @@ function ItemCard({ item, locale }: { item: CmsRailItem; locale: Locale }) {
 
 /** The media box: topic label, the image (picture treatment or graph-on-white), caption. */
 function MediaBox({ item, locale }: { item: CmsRailItem; locale: Locale }) {
-  const image = (item.image ?? "").trim();
+  // On EN the row's own English media file wins when filled — resolved in
+  // `mediaBoxImage`, the same function the visibility gate uses.
+  const image = mediaBoxImage(item, locale);
   const topic = (item.mediaTopic?.[locale] ?? "").trim();
   const caption = (item.mediaCaption?.[locale] ?? "").trim();
   const title = (item.title?.[locale] ?? "").trim();

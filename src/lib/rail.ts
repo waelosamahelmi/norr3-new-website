@@ -49,22 +49,38 @@ const GROUP_A_TYPES = new Set(["decision_card", "process"]);
 const GROUP_B_TYPES = new Set(["campaign_lesson", "key_number", "table", "good_to_know"]);
 
 /**
+ * The image the media box shows in `locale`, trimmed ("" = nothing to show).
+ *
+ * On EN the row may carry its own English media file — `imageEn`, e.g. a
+ * graph whose Finnish words/decimals were redrawn in English. When filled it
+ * wins; otherwise — and always on FI — the shared `image` is used. Exported
+ * so the gate (`mediaBoxShows`) and the renderer (`RailCards.tsx` →
+ * `MediaBox`) resolve to exactly the same file.
+ */
+export function mediaBoxImage(item: CmsRailItem, locale: Locale): string {
+  const imageEn = (item.imageEn ?? "").trim();
+  if (locale === "en" && imageEn) return imageEn;
+  return (item.image ?? "").trim();
+}
+
+/**
  * Whether an item's media box shows in `locale`.
  *
- * The box needs its visibility flag and a non-empty image; on top of that the
- * locale gate never falls back to Finnish — when the FI topic/caption is
- * filled in but the active locale's is empty, the box is hidden in that
- * locale rather than showing a half-translated label. (`toRailItem` already
- * normalises an absent `mediaBoxVisible` — absent + image = visible, the
- * shape the seeded rows shipped in — so `?? true` here only covers
- * hand-built items that skipped parsing.)
+ * The box needs its visibility flag and a non-empty image — as resolved by
+ * `mediaBoxImage`, so on EN the row's own `imageEn` counts when filled; on
+ * top of that the locale gate never falls back to Finnish — when the FI
+ * topic/caption is filled in but the active locale's is empty, the box is
+ * hidden in that locale rather than showing a half-translated label.
+ * (`toRailItem` already normalises an absent `mediaBoxVisible` — absent +
+ * image = visible, the shape the seeded rows shipped in — so `?? true` here
+ * only covers hand-built items that skipped parsing.)
  *
  * Exported because the renderer (`RailCards.tsx` → `ItemCard`) must agree
  * with this filter down to the last condition.
  */
 export function mediaBoxShows(item: CmsRailItem, locale: Locale): boolean {
   if (!(item.mediaBoxVisible ?? true)) return false;
-  if (!(item.image ?? "").trim()) return false;
+  if (!mediaBoxImage(item, locale)) return false;
   const fiTopic = (item.mediaTopic?.fi ?? "").trim();
   if (fiTopic && !(item.mediaTopic?.[locale] ?? "").trim()) return false;
   const fiCaption = (item.mediaCaption?.fi ?? "").trim();

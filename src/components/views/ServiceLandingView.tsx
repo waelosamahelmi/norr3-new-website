@@ -1,6 +1,9 @@
+import { Fragment } from "react";
+import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
 import { getSiteContent } from "@/lib/cms";
 import { linkTo } from "@/lib/links";
+import { renderBodySegments } from "@/lib/richtext";
 import type { Locale } from "@/i18n/config";
 import { Container, HeroPill } from "@/components/Container";
 import { SplitHeadline } from "@/components/SplitHeadline";
@@ -19,6 +22,14 @@ import { servicePageLocalised, type ServicePage } from "@/content/servicePages";
  * show the `image` field again.
  */
 const SHOW_SERVICE_HERO_IMAGES = false;
+
+/**
+ * Inline links inside section body copy — the same treatment the site's
+ * rich-text prose gives them (`.article-prose a` in globals.css): purple,
+ * underlined at 35% strength, brightening on hover, light-purple in dark.
+ */
+const BODY_LINK_CLASS =
+  "text-purple underline decoration-purple/35 underline-offset-3 transition-colors hover:decoration-purple focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple dark:text-light-purple dark:decoration-light-purple/35 dark:hover:decoration-light-purple dark:focus-visible:outline-light-purple";
 
 /**
  * A keyword-optimised service landing page, rendered at a root slug
@@ -75,7 +86,22 @@ export async function ServiceLandingView({ page, locale, railEnabled }: { page: 
                   <h2 className="mt-2 text-2xl font-medium leading-tight tracking-tight text-ink lg:text-3xl dark:text-white">
                     {section.heading}
                   </h2>
-                  <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink/70 dark:text-white/70">{section.body}</p>
+                  {/* Body copy: `\n\n` becomes separate paragraphs and
+                      `[text](/path)` an internal Link — see src/lib/richtext.ts.
+                      A body using neither convention renders exactly as before. */}
+                  {renderBodySegments(section.body).map((paragraph, pi) => (
+                    <p key={pi} className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink/70 dark:text-white/70">
+                      {paragraph.map((segment, si) =>
+                        segment.href ? (
+                          <Link key={si} href={linkTo(locale, segment.href)} className={BODY_LINK_CLASS}>
+                            {segment.text}
+                          </Link>
+                        ) : (
+                          <Fragment key={si}>{segment.text}</Fragment>
+                        )
+                      )}
+                    </p>
+                  ))}
                 </Reveal>
               ))}
               {/* Source references — small, unnumbered footnote under the last

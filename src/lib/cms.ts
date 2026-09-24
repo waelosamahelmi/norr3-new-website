@@ -177,6 +177,12 @@ export type CmsRailItem = {
   position: number;
   /** Site-relative media path like `/images/services-gen/x.webp` (empty = no media box). */
   image?: string;
+  /**
+   * EN-specific media file — e.g. a graph whose Finnish words/decimals were
+   * redrawn in English. When empty, both locales render `image`. Normalised
+   * by `toRailItem`: absent → "".
+   */
+  imageEn?: string;
   /** Alt text for `image`, per locale. */
   imageAlt?: Record<Locale, string>;
   /**
@@ -499,6 +505,9 @@ type RawRailItem = Omit<
   CmsRailItem,
   "imageAlt" | "mediaBoxVisible" | "mediaKind" | "mediaTopic" | "mediaCaption" | "textBoxVisible"
 > & {
+  imageEn?: unknown;
+  /** Flat column shape older payloads may still carry (normalised like the localePair fields). */
+  image_en?: string;
   imageAlt?: unknown;
   image_alt_fi?: string;
   image_alt_en?: string;
@@ -555,6 +564,8 @@ function toFlags(raw: unknown): Record<string, boolean> {
 
 function toRailItem(row: RawRailItem): CmsRailItem {
   const {
+    imageEn,
+    image_en,
     imageAlt,
     image_alt_fi,
     image_alt_en,
@@ -574,6 +585,8 @@ function toRailItem(row: RawRailItem): CmsRailItem {
   const hasImage = typeof item.image === "string" && item.image.trim() !== "";
   return {
     ...item,
+    // EN-specific media file; tolerant like the rest of this parser: absent → "".
+    imageEn: typeof imageEn === "string" ? imageEn : typeof image_en === "string" ? image_en : "",
     imageAlt: localePair(imageAlt, image_alt_fi, image_alt_en),
     mediaBoxVisible: toFlag(mediaBoxVisible) ?? hasImage,
     mediaKind: mediaKind === "graph" ? "graph" : "picture",
