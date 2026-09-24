@@ -2,7 +2,7 @@ import { Icon } from "@/components/Icon";
 import { MediaAsset } from "@/components/MediaAsset";
 import { Reveal } from "@/components/Reveal";
 import { insightSource, insightText } from "@/content/mediaInsights";
-import type { RailCard } from "@/lib/rail";
+import { mediaBoxShows, textBoxShows, type RailCard } from "@/lib/rail";
 import type { CmsRailItem } from "@/lib/cms";
 import type { Locale } from "@/i18n/config";
 
@@ -64,19 +64,63 @@ function InsightCard({ card, locale }: { card: Extract<RailCard, { kind: "insigh
   );
 }
 
-/** A CMS-composed rail item: icon + title, optional picture, body paragraphs, list, source. */
+/**
+ * A CMS-composed rail item: up to two independent boxes — the media box (grey
+ * shell) on top, the text box (light-purple shell) below — with space-y-4
+ * between them when both show. buildRail already dropped items whose boxes
+ * are all hidden in the active locale, and the per-box gating is imported
+ * from there (`mediaBoxShows` / `textBoxShows`) so filter and render can't
+ * disagree. One box = one bare shell, exactly as before the two-box split.
+ */
 function ItemCard({ item, locale }: { item: CmsRailItem; locale: Locale }) {
+  const mediaBox = mediaBoxShows(item, locale) ? <MediaBox item={item} locale={locale} /> : null;
+  const textBox = textBoxShows(item, locale) ? <TextBox item={item} locale={locale} /> : null;
+  if (mediaBox && textBox) {
+    return (
+      <div className="space-y-4">
+        {mediaBox}
+        {textBox}
+      </div>
+    );
+  }
+  return mediaBox ?? textBox;
+}
+
+/** The media box: topic label, the image (picture treatment or graph-on-white), caption. */
+function MediaBox({ item, locale }: { item: CmsRailItem; locale: Locale }) {
+  const image = (item.image ?? "").trim();
+  const topic = (item.mediaTopic?.[locale] ?? "").trim();
+  const caption = (item.mediaCaption?.[locale] ?? "").trim();
+  const title = (item.title?.[locale] ?? "").trim();
+  // Alt chain: the stored per-locale alt wins, then the box's own copy.
+  const alt = (item.imageAlt?.[locale] ?? "").trim() || caption || topic || title || "";
+  return (
+    <div className={`${SHELL_CLASS} bg-grey`}>
+      {topic && <p className="mb-2.5 text-[12px] font-medium text-ink/70 dark:text-white/70">{topic}</p>}
+      <MediaAsset
+        src={image}
+        alt={alt}
+        width={800}
+        height={500}
+        loading="lazy"
+        className={`${
+          item.mediaKind === "graph"
+            ? "w-full rounded-[14px] bg-white p-3 object-contain"
+            : "aspect-[16/10] w-full rounded-[14px] object-cover"
+        } ${topic ? "mt-2.5" : ""}`}
+      />
+      {caption && <p className={`mt-2.5 ${SOURCE_CLASS}`}>{caption}</p>}
+    </div>
+  );
+}
+
+/** The text box: icon + title, body paragraphs, list (process = steps), source. */
+function TextBox({ item, locale }: { item: CmsRailItem; locale: Locale }) {
   const title = (item.title?.[locale] ?? "").trim();
   const body = (item.body?.[locale] ?? "").trim();
   const list = (item.items?.[locale] ?? []).map((entry) => (entry ?? "").trim()).filter(Boolean);
   const source = (item.source?.[locale] ?? "").trim();
   const paragraphs = body ? body.split(/\n\n+/).map((p) => p.trim()).filter(Boolean) : [];
-  // "Text-box + picture" card: the CMS media path (MediaAsset decides image vs
-  // video, as with every CMS-stored media path). Empty or absent renders the
-  // text-only card exactly as before — zero layout change.
-  const image = (item.image ?? "").trim();
-  const imageAlt =
-    (item.imageAlt?.[locale] ?? "").trim() || (item.imageAlt?.fi ?? "").trim() || title || "";
   return (
     <div className={`${SHELL_CLASS} bg-light-purple`}>
       {title && (
@@ -86,16 +130,6 @@ function ItemCard({ item, locale }: { item: CmsRailItem; locale: Locale }) {
           </span>
           <h3 className="text-[15px] font-medium text-ink dark:text-white">{title}</h3>
         </div>
-      )}
-      {image && (
-        <MediaAsset
-          src={image}
-          alt={imageAlt}
-          width={800}
-          height={500}
-          loading="lazy"
-          className={`aspect-[16/10] w-full rounded-[14px] object-cover ${title ? "mt-3" : ""}`}
-        />
       )}
       {paragraphs.map((paragraph, i) => (
         <p key={i} className={`${BODY_CLASS} ${i === 0 ? "mt-2.5" : "mt-2"}`}>

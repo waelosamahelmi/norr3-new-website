@@ -158,10 +158,13 @@ export type CmsMediaInsight = {
 
 /**
  * A right-rail support card for the service pages, composed in the CMS
- * (approved + visible rows only). `type` picks the card's icon and list
- * treatment; `items` is the optional checklist/step list; `position` orders
- * cards of the same group; `image` is the optional picture of a
- * "text-box + picture" card (empty/absent = the text-only card).
+ * (approved + visible rows only). One row renders as two independently
+ * toggleable boxes: a **media box** (`image` + `mediaTopic` label +
+ * `mediaCaption`, gated by `mediaBoxVisible`) and a **text box**
+ * (title/body/`items`/source, gated by `textBoxVisible`). `type` picks the
+ * text box's icon and list treatment; `position` orders cards of the same
+ * group. An item renders at all only when at least one of its boxes shows in
+ * the active locale — the gating rules live in `src/lib/rail.ts`.
  */
 export type CmsRailItem = {
   id: number;
@@ -172,10 +175,27 @@ export type CmsRailItem = {
   items: Record<Locale, string[]>;
   source: Record<Locale, string>;
   position: number;
-  /** Site-relative media path like `/images/services-gen/x.webp` (empty = no picture). */
+  /** Site-relative media path like `/images/services-gen/x.webp` (empty = no media box). */
   image?: string;
   /** Alt text for `image`, per locale. */
   imageAlt?: Record<Locale, string>;
+  /**
+   * Whether the media box shows. Normalised by `toRailItem`: an absent flag
+   * with a non-empty `image` becomes `true`, so rows seeded before the field
+   * existed keep rendering their picture.
+   */
+  mediaBoxVisible?: boolean;
+  /**
+   * How the media box renders `image`: `"picture"` (cover-cropped, the
+   * default) or `"graph"` (contained on white — charts read better that way).
+   */
+  mediaKind?: "picture" | "graph";
+  /** Small label above the image, per locale. */
+  mediaTopic?: Record<Locale, string>;
+  /** Caption below the image, per locale. */
+  mediaCaption?: Record<Locale, string>;
+  /** Whether the text box shows. Normalised by `toRailItem`: absent → `true`. */
+  textBoxVisible?: boolean;
 };
 
 export type CmsPageSummary = {
@@ -454,36 +474,87 @@ function cmsPageSlugForHref(href: string): string | null {
 }
 
 /**
- * One railItems row as the public bundle sends it. The picture's alt texts
- * arrive nested as `imageAlt: { fi, en }` — the same Locale-keyed shape
- * title/body/items/source already arrive in — but older payloads may still
- * carry flat `image_alt_fi` / `image_alt_en` columns. `toRailItem` accepts
- * both shapes and normalises to the nested `imageAlt` pair, so the renderer
- * only ever reads `imageAlt[locale]`.
+ * One railItems row as the public bundle sends it. The locale pairs
+ * (`imageAlt`, `mediaTopic`, `mediaCaption`) arrive nested as `{ fi, en }` —
+ * the same Locale-keyed shape title/body/items/source already arrive in — but
+ * older payloads may still carry flat `image_alt_fi` / `media_topic_fi` /
+ * `media_caption_fi`-style columns. `toRailItem` accepts both shapes and
+ * normalises to nested pairs, so the renderer only ever reads `pair[locale]`.
+ * The visibility flags arrive as SQLite integers, JSON booleans or strings
+ * and are normalised to booleans with back-compat defaults; `mediaKind`
+ * defaults to "picture".
  */
-type RawRailItem = Omit<CmsRailItem, "imageAlt"> & {
+type RawRailItem = Omit<
+  CmsRailItem,
+  "imageAlt" | "mediaBoxVisible" | "mediaKind" | "mediaTopic" | "mediaCaption" | "textBoxVisible"
+> & {
   imageAlt?: unknown;
   image_alt_fi?: string;
   image_alt_en?: string;
+  mediaBoxVisible?: unknown;
+  mediaKind?: unknown;
+  mediaTopic?: unknown;
+  media_topic_fi?: string;
+  media_topic_en?: string;
+  mediaCaption?: unknown;
+  media_caption_fi?: string;
+  media_caption_en?: string;
+  textBoxVisible?: unknown;
 };
 
+/**
+ * Normalise one locale pair: the nested `{ fi, en }` object wins, flat
+ * per-locale columns are the fallback for older payloads, anything else
+ * becomes an empty string.
+ */
+function localePair(nested: unknown, flatFi?: unknown, flatEn?: unknown): Record<Locale, string> {
+  const pair =
+    typeof nested === "object" && nested !== null ? (nested as Record<string, unknown>) : null;
+  const fi = pair ? pair.fi : flatFi;
+  const en = pair ? pair.en : flatEn;
+  return {
+    fi: typeof fi === "string" ? fi : "",
+    en: typeof en === "string" ? en : "",
+  };
+}
+
+/**
+ * Tolerant boolean for the visibility flags: `1` / `"1"` / `true` (and
+ * `"true"`) are on; an absent value returns `undefined` so the caller applies
+ * its own back-compat default; anything else is off.
+ */
+function toFlag(value: unknown): boolean | undefined {
+  if (value === undefined || value === null) return undefined;
+  return value === true || value === 1 || value === "1" || value === "true";
+}
+
 function toRailItem(row: RawRailItem): CmsRailItem {
-  const { imageAlt, image_alt_fi, image_alt_en, ...item } = row;
-  const nested =
-    typeof imageAlt === "object" && imageAlt !== null
-      ? (imageAlt as Record<string, unknown>)
-      : null;
+  const {
+    imageAlt,
+    image_alt_fi,
+    image_alt_en,
+    mediaBoxVisible,
+    mediaKind,
+    mediaTopic,
+    media_topic_fi,
+    media_topic_en,
+    mediaCaption,
+    media_caption_fi,
+    media_caption_en,
+    textBoxVisible,
+    ...item
+  } = row;
+  // Back-compat with the rows seeded before the two-box split: no explicit
+  // media flag + a picture present = the media box was showing, keep showing.
+  const hasImage = typeof item.image === "string" && item.image.trim() !== "";
   return {
     ...item,
-    imageAlt: nested
-      ? {
-          fi: typeof nested.fi === "string" ? nested.fi : "",
-          en: typeof nested.en === "string" ? nested.en : "",
-        }
-      : {
-          fi: typeof image_alt_fi === "string" ? image_alt_fi : "",
-          en: typeof image_alt_en === "string" ? image_alt_en : "",
-        },
+    imageAlt: localePair(imageAlt, image_alt_fi, image_alt_en),
+    mediaBoxVisible: toFlag(mediaBoxVisible) ?? hasImage,
+    mediaKind: mediaKind === "graph" ? "graph" : "picture",
+    mediaTopic: localePair(mediaTopic, media_topic_fi, media_topic_en),
+    mediaCaption: localePair(mediaCaption, media_caption_fi, media_caption_en),
+    textBoxVisible: toFlag(textBoxVisible) ?? true,
   };
 }
 

@@ -39,6 +39,43 @@ const GROUP_A_TYPES = new Set(["decision_card", "process"]);
 const GROUP_B_TYPES = new Set(["campaign_lesson", "key_number", "table", "good_to_know"]);
 
 /**
+ * Whether an item's media box shows in `locale`.
+ *
+ * The box needs its visibility flag and a non-empty image; on top of that the
+ * locale gate never falls back to Finnish — when the FI topic/caption is
+ * filled in but the active locale's is empty, the box is hidden in that
+ * locale rather than showing a half-translated label. (`toRailItem` already
+ * normalises an absent `mediaBoxVisible` — absent + image = visible, the
+ * shape the seeded rows shipped in — so `?? true` here only covers
+ * hand-built items that skipped parsing.)
+ *
+ * Exported because the renderer (`RailCards.tsx` → `ItemCard`) must agree
+ * with this filter down to the last condition.
+ */
+export function mediaBoxShows(item: CmsRailItem, locale: Locale): boolean {
+  if (!(item.mediaBoxVisible ?? true)) return false;
+  if (!(item.image ?? "").trim()) return false;
+  const fiTopic = (item.mediaTopic?.fi ?? "").trim();
+  if (fiTopic && !(item.mediaTopic?.[locale] ?? "").trim()) return false;
+  const fiCaption = (item.mediaCaption?.fi ?? "").trim();
+  if (fiCaption && !(item.mediaCaption?.[locale] ?? "").trim()) return false;
+  return true;
+}
+
+/**
+ * Whether an item's text box shows in `locale`: the flag on (absent → on)
+ * AND something to say — title, body or a non-empty list in that locale, so
+ * Finnish copy never leaks onto the EN page (or vice versa).
+ */
+export function textBoxShows(item: CmsRailItem, locale: Locale): boolean {
+  if (!(item.textBoxVisible ?? true)) return false;
+  const title = (item.title?.[locale] ?? "").trim();
+  const body = (item.body?.[locale] ?? "").trim();
+  const list = (item.items?.[locale] ?? []).some((entry) => entry?.trim());
+  return Boolean(title) || Boolean(body) || list;
+}
+
+/**
  * Pick the (at most three) cards the right rail shows on `path`.
  *
  * Pure — all data comes in through `opts`. Order: decision/process items
@@ -71,17 +108,14 @@ export function buildRail(opts: {
     .slice(0, 2)
     .map((insight) => ({ kind: "insight" as const, insight }));
 
-  // Items: rows for this page whose active locale has something to show —
-  // a card is hidden in a locale when title AND body AND list are all empty,
-  // so Finnish copy never leaks onto the EN page (or vice versa).
+  // Items: rows for this page with at least one box to show in the active
+  // locale — the media box (visible + image + locale-complete topic/caption)
+  // or the text box (visible + title/body/list in that locale). An item whose
+  // boxes are both hidden here is dropped before ordering, so the renderer
+  // never receives an empty card.
   const visibleItems = (opts.items ?? [])
     .filter((item) => normalizeInsightPath(item.url) === target)
-    .filter((item) => {
-      const title = (item.title?.[locale] ?? "").trim();
-      const body = (item.body?.[locale] ?? "").trim();
-      const list = (item.items?.[locale] ?? []).some((entry) => entry?.trim());
-      return Boolean(title) || Boolean(body) || list;
-    });
+    .filter((item) => mediaBoxShows(item, locale) || textBoxShows(item, locale));
 
   const byPositionThenId = (a: CmsRailItem, b: CmsRailItem) => a.position - b.position || a.id - b.id;
   const groupA = visibleItems.filter((item) => GROUP_A_TYPES.has(item.type)).sort(byPositionThenId);
