@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { isProductionHost } from "@/lib/host";
 import { normalizeInsightPath } from "@/content/mediaInsights";
-import type { CmsMediaInsight, CmsRailItem } from "@/lib/cms";
+import { getSiteContent, type CmsMediaInsight, type CmsRailItem } from "@/lib/cms";
 import type { Locale } from "@/i18n/config";
 
 /**
@@ -12,11 +12,17 @@ import type { Locale } from "@/i18n/config";
  */
 
 /**
- * Whether the right rail renders.
+ * Whether the right rail renders — a layered switch, first match wins:
  *
- * `RIGHT_RAIL_ENABLED` is the production kill-switch: flip it in `.env.local`
- * and restart — no deploy needed. `?rail=1` is a staging-only preview (ignored
- * on norr3.fi) so reviewers can see the rail before the flag is switched on.
+ *  1. `RIGHT_RAIL_ENABLED=true/1` in the env: the hard-wired master enable
+ *     (back-compat). It beats everything, including the CMS — flipping it
+ *     still means `.env.local` + restart.
+ *  2. the CMS flag `rail_enabled`: the everyday switch, flipped in the CMS
+ *     (Settings → flags, or the MCP `cms_flags` tool). It rides in on the
+ *     fetched bundle, so a flip takes effect within seconds — no rebuild,
+ *     no restart, no env edit. CMS unreachable → `flags` is `{}` → off.
+ *  3. `?rail=1` on a non-production host: a staging-only preview (ignored
+ *     on norr3.fi) so reviewers can see the rail before it is switched on.
  *
  * Reads `headers()`, which makes every route calling it render dynamically —
  * deliberate: the flag must take effect without a rebuild, and stale
@@ -25,8 +31,12 @@ import type { Locale } from "@/i18n/config";
 export async function railEnabled(railParam?: string | null): Promise<boolean> {
   // Read the host unconditionally so the dynamic render can't be skipped.
   const host = (await headers()).get("host");
-  const flag = (process.env.RIGHT_RAIL_ENABLED ?? "").trim().toLowerCase();
-  if (flag === "true" || flag === "1") return true;
+  const env = (process.env.RIGHT_RAIL_ENABLED ?? "").trim().toLowerCase();
+  if (env === "true" || env === "1") return true;
+  // The flag lives in the CMS bundle, so consult it (cached like every other
+  // getSiteContent read, and deduped with the page's own fetch).
+  const flags = (await getSiteContent()).flags;
+  if (flags.rail_enabled) return true;
   return railParam === "1" && !isProductionHost(host);
 }
 

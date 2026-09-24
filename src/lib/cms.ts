@@ -242,6 +242,14 @@ export type SiteContent = {
   pageStatus: Record<string, string>;
   /** CMS-managed redirects, applied by the middleware. */
   redirects: { from: string; to: string; status: number }[];
+  /**
+   * Runtime feature flags (e.g. `rail_enabled`), flipped in the CMS
+   * (Settings → flags, or the MCP `cms_flags` tool). Values are coerced to
+   * booleans — only `true` / `1` / `"1"` / `"true"` count as on. Empty when
+   * the CMS is unreachable, so every flag is off: a CMS outage can never
+   * switch a feature on, only keep one off.
+   */
+  flags: Record<string, boolean>;
   /** Third-party wiring (GA4, Search Console) owned by the CMS Settings screen. */
   /** gtm: Google Tag Manager container ID (GTM-XXXX). When set it carries every tag and ga4 is ignored. */
   integrations: { ga4: string; gtm?: string; gsc: string; sitemap: string };
@@ -333,6 +341,8 @@ function fallbackContent(error?: string): SiteContent {
     pageSeo: {},
     pageStatus: {},
     redirects: [],
+    // No CMS, no flags: every runtime switch stays off (the safe direction).
+    flags: {},
     integrations: { ga4: "", gtm: "", gsc: "", sitemap: "https://norr3.fi/sitemap.xml" },
     code: { css: "", head: "", bodyEnd: "" },
     theme: { root: {}, dark: {} },
@@ -414,6 +424,7 @@ type RawBundle = {
   pageSeo?: SiteContent["pageSeo"];
   pageStatus?: Record<string, string>;
   redirects?: unknown[];
+  flags?: Record<string, unknown>;
   integrations?: Partial<SiteContent["integrations"]>;
   code?: { css?: string; head?: string; bodyEnd?: string };
   theme?: { root?: Record<string, string>; dark?: Record<string, string> };
@@ -528,6 +539,20 @@ function toFlag(value: unknown): boolean | undefined {
   return value === true || value === 1 || value === "1" || value === "true";
 }
 
+/**
+ * Normalise the CMS `flags` record: every value passes through `toFlag`, so
+ * only `true` / `1` / `"1"` / `"true"` count as on and anything else is off.
+ * A missing or non-object field becomes `{}` — all flags off.
+ */
+function toFlags(raw: unknown): Record<string, boolean> {
+  if (typeof raw !== "object" || raw === null || Array.isArray(raw)) return {};
+  const out: Record<string, boolean> = {};
+  for (const [key, value] of Object.entries(raw as Record<string, unknown>)) {
+    out[key] = toFlag(value) ?? false;
+  }
+  return out;
+}
+
 function toRailItem(row: RawRailItem): CmsRailItem {
   const {
     imageAlt,
@@ -630,6 +655,7 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
     pageSeo: raw.pageSeo ?? {},
     pageStatus,
     redirects: (raw.redirects ?? []) as SiteContent["redirects"],
+    flags: toFlags(raw.flags),
     integrations: (raw.integrations ?? fallback.integrations) as SiteContent["integrations"],
     code: {
       css: raw.code?.css ?? "",
