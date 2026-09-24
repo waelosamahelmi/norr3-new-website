@@ -1,4 +1,5 @@
 import { Icon } from "@/components/Icon";
+import { MediaAsset } from "@/components/MediaAsset";
 import { Reveal } from "@/components/Reveal";
 import { insightSource, insightText } from "@/content/mediaInsights";
 import type { RailCard } from "@/lib/rail";
@@ -63,13 +64,19 @@ function InsightCard({ card, locale }: { card: Extract<RailCard, { kind: "insigh
   );
 }
 
-/** A CMS-composed rail item: icon + title, body paragraphs, list, source. */
+/** A CMS-composed rail item: icon + title, optional picture, body paragraphs, list, source. */
 function ItemCard({ item, locale }: { item: CmsRailItem; locale: Locale }) {
   const title = (item.title?.[locale] ?? "").trim();
   const body = (item.body?.[locale] ?? "").trim();
   const list = (item.items?.[locale] ?? []).map((entry) => (entry ?? "").trim()).filter(Boolean);
   const source = (item.source?.[locale] ?? "").trim();
   const paragraphs = body ? body.split(/\n\n+/).map((p) => p.trim()).filter(Boolean) : [];
+  // "Text-box + picture" card: the CMS media path (MediaAsset decides image vs
+  // video, as with every CMS-stored media path). Empty or absent renders the
+  // text-only card exactly as before — zero layout change.
+  const image = (item.image ?? "").trim();
+  const imageAlt =
+    (item.imageAlt?.[locale] ?? "").trim() || (item.imageAlt?.fi ?? "").trim() || title || "";
   return (
     <div className={`${SHELL_CLASS} bg-light-purple`}>
       {title && (
@@ -79,6 +86,16 @@ function ItemCard({ item, locale }: { item: CmsRailItem; locale: Locale }) {
           </span>
           <h3 className="text-[15px] font-medium text-ink dark:text-white">{title}</h3>
         </div>
+      )}
+      {image && (
+        <MediaAsset
+          src={image}
+          alt={imageAlt}
+          width={800}
+          height={500}
+          loading="lazy"
+          className={`aspect-[16/10] w-full rounded-[14px] object-cover ${title ? "mt-3" : ""}`}
+        />
       )}
       {paragraphs.map((paragraph, i) => (
         <p key={i} className={`${BODY_CLASS} ${i === 0 ? "mt-2.5" : "mt-2"}`}>

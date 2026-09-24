@@ -160,7 +160,8 @@ export type CmsMediaInsight = {
  * A right-rail support card for the service pages, composed in the CMS
  * (approved + visible rows only). `type` picks the card's icon and list
  * treatment; `items` is the optional checklist/step list; `position` orders
- * cards of the same group.
+ * cards of the same group; `image` is the optional picture of a
+ * "text-box + picture" card (empty/absent = the text-only card).
  */
 export type CmsRailItem = {
   id: number;
@@ -171,6 +172,10 @@ export type CmsRailItem = {
   items: Record<Locale, string[]>;
   source: Record<Locale, string>;
   position: number;
+  /** Site-relative media path like `/images/services-gen/x.webp` (empty = no picture). */
+  image?: string;
+  /** Alt text for `image`, per locale. */
+  imageAlt?: Record<Locale, string>;
 };
 
 export type CmsPageSummary = {
@@ -448,6 +453,40 @@ function cmsPageSlugForHref(href: string): string | null {
   return aliases[path] ?? path;
 }
 
+/**
+ * One railItems row as the public bundle sends it. The picture's alt texts
+ * arrive nested as `imageAlt: { fi, en }` — the same Locale-keyed shape
+ * title/body/items/source already arrive in — but older payloads may still
+ * carry flat `image_alt_fi` / `image_alt_en` columns. `toRailItem` accepts
+ * both shapes and normalises to the nested `imageAlt` pair, so the renderer
+ * only ever reads `imageAlt[locale]`.
+ */
+type RawRailItem = Omit<CmsRailItem, "imageAlt"> & {
+  imageAlt?: unknown;
+  image_alt_fi?: string;
+  image_alt_en?: string;
+};
+
+function toRailItem(row: RawRailItem): CmsRailItem {
+  const { imageAlt, image_alt_fi, image_alt_en, ...item } = row;
+  const nested =
+    typeof imageAlt === "object" && imageAlt !== null
+      ? (imageAlt as Record<string, unknown>)
+      : null;
+  return {
+    ...item,
+    imageAlt: nested
+      ? {
+          fi: typeof nested.fi === "string" ? nested.fi : "",
+          en: typeof nested.en === "string" ? nested.en : "",
+        }
+      : {
+          fi: typeof image_alt_fi === "string" ? image_alt_fi : "",
+          en: typeof image_alt_en === "string" ? image_alt_en : "",
+        },
+  };
+}
+
 function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
   const dictionary = raw.dictionary as Record<Locale, unknown> | undefined;
   const pageStatus = (raw.pageStatus ?? {}) as Record<string, string>;
@@ -514,7 +553,7 @@ function merge(raw: RawBundle, fallback: SiteContent): SiteContent {
       ...insight,
       placement: insight.placement === "rail" || insight.placement === "both" ? insight.placement : "ticker",
     })),
-    railItems: Array.isArray(raw.railItems) ? (raw.railItems as CmsRailItem[]) : [],
+    railItems: Array.isArray(raw.railItems) ? (raw.railItems as RawRailItem[]).map(toRailItem) : [],
     datasets: raw.datasets ?? {},
     imageSlots: raw.imageSlots ?? {},
     pageSeo: raw.pageSeo ?? {},
