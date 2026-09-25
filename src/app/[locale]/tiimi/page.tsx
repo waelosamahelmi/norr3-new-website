@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionary";
 import { pageSeo, robotsDirective } from "@/lib/pageSeo";
+import { JsonLd } from "@/components/JsonLd";
+import { ORGANIZATION_ID, personRef, absolute, homeCrumb, pageGraph, type Crumb } from "@/lib/jsonld";
 import { getSiteContent } from "@/lib/cms";
 import { imageSlot } from "@/content/imageSlots";
 import { companyStats, dataset } from "@/content/datasets";
@@ -37,7 +39,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/tiimi">)
     title: seo.title,
     description: seo.description,
     robots: robotsDirective(seo.robots),
-    alternates: { canonical: seo.canonical || linkTo(locale, "/tiimi"), languages: { "fi-FI": "/team", "en-US": "/en/team" } },
+    alternates: { canonical: seo.canonical || linkTo(locale, "/tiimi"), languages: { "fi-FI": "/tiimi", en: "/en/tiimi", "x-default": "/tiimi" } },
     openGraph: {
       type: "website" as const,
       siteName: "NØRR3",
@@ -88,8 +90,39 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/tiimi">)
         "NØRR3 team laughing together on the studio lounge sofa",
       ];
 
+  // Structured data: the same CMS-managed SEO the <head> uses, this page's
+  // WebPage node and its breadcrumb (Home › team).
+  const seo = await pageSeo("team", locale, {
+    title: dict.seo.team.title,
+    description: dict.seo.team.description,
+    image: ogImage("/images/brand/group.webp"),
+  });
+  const url = absolute(seo.canonical || linkTo(locale, "/tiimi"));
+  const crumbs: Crumb[] = [homeCrumb(locale), { name: dict.social.teamHeading }];
+  const jsonLd = pageGraph({
+    url,
+    locale,
+    name: seo.title,
+    description: seo.description,
+    image: seo.image,
+    type: "CollectionPage",
+    extra: {
+      about: { "@id": ORGANIZATION_ID },
+      // Every member by their profile's Person @id, so this list, the home
+      // page's Organization.employee and the profile pages all agree.
+      mainEntity: {
+        "@type": "ItemList",
+        "@id": `${url}#list`,
+        numberOfItems: team.length,
+        itemListElement: team.map((m, i) => ({ "@type": "ListItem", position: i + 1, item: personRef(m, locale) })),
+      },
+    },
+    crumbs,
+  });
+
   return (
     <>
+      <JsonLd data={jsonLd} />
       {/*
         Section rhythm shared with Home / Services / Engine / Cases: a run of
         base-background sections opens with `pt-24 lg:pt-32` and every member
@@ -119,7 +152,7 @@ export default async function TeamPage({ params }: PageProps<"/[locale]/tiimi">)
             <PillButton href={linkTo(locale, "/contact")}>{dict.common.contactUs}</PillButton>
             {/* The roles section is the second reason people open this page —
                 give it a route in from the fold instead of a long scroll. */}
-            <PillButton href={linkTo(locale, "/team#open-roles")} variant="secondary">
+            <PillButton href={linkTo(locale, "/tiimi#open-roles")} variant="secondary">
               {dict.common.openJobs}
             </PillButton>
             {/* Team Social: the same people, posting — profiles hang off the cards below. */}
