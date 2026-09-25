@@ -1,4 +1,4 @@
-import { normalizeInsightPath } from "@/content/mediaInsights";
+import { insightSource, normalizeInsightPath } from "@/content/mediaInsights";
 import { getSiteContent, type CmsMediaInsight, type CmsRailItem } from "@/lib/cms";
 import type { Locale } from "@/i18n/config";
 
@@ -139,10 +139,12 @@ export function buildRail(opts: {
     .filter((insight) => normalizeInsightPath(insight.url) === target)
     .sort((a, b) => a.priority - b.priority)
     // Locale gate — on EN, never fall back to Finnish: a row without English
-    // text or source is hidden rather than half-translated.
+    // text is hidden rather than half-translated. The source line counts when
+    // `insightSource` can say it in English (an editor's `source_en`, or the
+    // boilerplate Finnish line rendered in English — see mediaInsights.ts).
     .filter((insight) =>
       locale === "en"
-        ? Boolean(insight.text?.en?.trim()) && Boolean(insight.source?.en?.trim())
+        ? Boolean(insight.text?.en?.trim()) && Boolean(insightSource(insight, "en"))
         : Boolean(insight.text?.fi?.trim())
     )
     .slice(0, 2)
